@@ -1,0 +1,5 @@
+{
+	"symbol": "q:0",
+	"companyName": "ofss",
+	"price":1000	
+}

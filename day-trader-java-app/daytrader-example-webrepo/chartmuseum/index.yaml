@@ -1,0 +1,62 @@
+apiVersion: v1
+entries:
+  daytrader-accounts:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-12-26T12:27:29.133372021-05:00
+    description: A Helm chart for Kubernetes
+    digest: a1fb8e9339c7e520cb3962cd9931cbd550afad5073add56d40309db504a62601
+    name: daytrader-accounts
+    urls:
+    - https://github.com/jpmorganchase/daytrader-example-webrepo/tree/master/chartmuseum/daytrader-accounts-4.0.18.tgz
+    version: 4.0.18
+  daytrader-gateway:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-12-26T12:27:29.133554493-05:00
+    description: A Helm chart for Kubernetes
+    digest: c4f66ce86ed643c2830c42e5e721cb7090102ed63cf7fdf906a0bb3ff87165a0
+    name: daytrader-gateway
+    urls:
+    - https://github.com/jpmorganchase/daytrader-example-webrepo/tree/master/chartmuseum/daytrader-gateway-4.0.18.tgz
+    version: 4.0.18
+  daytrader-portfolios:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-12-26T12:27:29.13373301-05:00
+    description: A Helm chart for Kubernetes
+    digest: 994d3233d572860c44d4c974c15a6a797c1297d946b66a39984c0deeb82f48e7
+    name: daytrader-portfolios
+    urls:
+    - https://github.com/jpmorganchase/daytrader-example-webrepo/tree/master/chartmuseum/daytrader-portfolios-4.0.18.tgz
+    version: 4.0.18
+  daytrader-quotes:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-12-26T12:27:29.133916028-05:00
+    description: A Helm chart for Kubernetes
+    digest: e147330304174fd01b5513eba06383067ebdb903aef8e9f1a82127d2a0fca0fb
+    name: daytrader-quotes
+    urls:
+    - https://github.com/jpmorganchase/daytrader-example-webrepo/tree/master/chartmuseum/daytrader-quotes-4.0.18.tgz
+    version: 4.0.18
+  daytrader-web:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-12-26T12:27:29.134352374-05:00
+    description: A Helm chart for Kubernetes
+    digest: 026fafb93e062130293e870d71e6b33acfcc5f6dc52f9f34592ff9498c8735eb
+    name: daytrader-web
+    urls:
+    - https://github.com/jpmorganchase/daytrader-example-webrepo/tree/master/chartmuseum/daytrader-web-4.0.18.tgz
+    version: 4.0.18
+  - apiVersion: v1
+    appVersion: 4.0.18
+    created: 2018-12-26T12:27:29.13410329-05:00
+    description: The Web UI for the DayTrader application
+    digest: 0e26cbe8ece059b3422a0f85395e0d81076a8f2776555e3eb541c07b3bb37132
+    name: daytrader-web
+    urls:
+    - https://github.com/jpmorganchase/daytrader-example-webrepo/tree/master/chartmuseum/daytrader-web-1.tgz
+    version: "1"
+generated: 2018-12-26T12:27:29.133086461-05:00

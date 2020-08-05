@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.metadata.name }}
+  labels:
+    app: {{ .Values.metadata.name }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 443
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.metadata.name }}
+  sessionAffinity: None
+  type: ClusterIP 
+    
