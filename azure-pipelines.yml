@@ -22,22 +22,15 @@ steps:
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**/*.jar'
+    Contents: '**/*.war'
     TargetFolder: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
 
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'EnablementFeed'
-    
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)'
-    artifactName: WebA
 
