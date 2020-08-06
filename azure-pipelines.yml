@@ -12,11 +12,7 @@ pool:
   name: Azure Pipelines
   demands: maven
 
-steps:
-- task: Maven@3
-  displayName: 'Maven pom.xml'
-  inputs:
-    mavenPomFile: 'day-trader-java-app/pom.xml'
+
 
 - task: MavenAuthenticate@0
   inputs:
