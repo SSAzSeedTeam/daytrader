@@ -13,6 +13,7 @@ pool:
   demands: maven
 
 
+steps:
 
 - task: MavenAuthenticate@0
   inputs:
