@@ -91,4 +91,30 @@
 		</plugins>
 	</build>
 	
+	<repositories>
+	<repository>
+		<id>AlphaGX</id>
+			<url>https://pkgs.dev.azure.com/AlphaGX/_packaging/AlphaGX/maven/v1</url>
+		<releases>
+    	<enabled>true</enabled>
+  		</releases>
+  		<snapshots>
+    		<enabled>true</enabled>
+  		</snapshots>
+	</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+		<id>AlphaGX</id>
+			<url>https://pkgs.dev.azure.com/AlphaGX/_packaging/AlphaGX/maven/v1</url>
+		<releases>
+    	<enabled>true</enabled>
+  		</releases>
+  		<snapshots>
+    		<enabled>true</enabled>
+  		</snapshots>
+	</repository>
+	</distributionManagement>
+
 </project>
