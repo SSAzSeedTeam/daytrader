@@ -18,6 +18,10 @@ steps:
   inputs:
     mavenPomFile: 'day-trader-java-app/pom.xml'
 
+- task: MavenAuthenticate@0
+  inputs:
+    artifactsFeeds: 'AlphaGX'
+
 - task: Maven@3
   inputs:
     mavenPomFile: 'day-trader-java-app/pom.xml'
