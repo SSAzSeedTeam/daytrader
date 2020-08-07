@@ -50,4 +50,8 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
 
-
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Azure-Puneet'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
