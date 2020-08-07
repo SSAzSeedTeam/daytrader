@@ -22,7 +22,7 @@ steps:
 
 - task: MavenAuthenticate@0
   inputs:
-    artifactsFeeds: 'EnablementFeed'
+    artifactsFeeds: 'Daytrader'
 
 - task: Maven@3
   inputs:
