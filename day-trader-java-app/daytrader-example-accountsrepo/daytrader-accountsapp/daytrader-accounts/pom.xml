@@ -320,6 +320,8 @@
                                         <condition property="buildScript" value="start_server.bat" else="start_server.sh">
                                             <os family="windows"/>
                                         </condition>
+                                        <echo>run chmod in ${project.basedir}</echo>
+                                        <chmod file="${project.basedir}/env/external/springboot/bin/${buildScript}" perm="ugo+rx">
                                         <echo>Starting ${project.basedir}/env/external/springboot/bin/${buildScript}</echo>
                                         <exec executable="${project.basedir}/env/external/springboot/bin/${buildScript}" spawn="true">
                                         </exec>
