@@ -15,25 +15,25 @@ pool:
 
 steps:
 
-#- task: Maven@3
-#  displayName: 'Maven pom.xml'
-#  inputs:
-#    mavenPomFile: 'day-trader-java-app/pom.xml'
+- task: Maven@3
+  displayName: 'Maven pom.xml'
+  inputs:
+    mavenPomFile: 'day-trader-java-app/pom.xml'
 
 - task: MavenAuthenticate@0
   inputs:
     artifactsFeeds: 'daytrader2'
 
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'day-trader-java-app/pom.xml'
-    goals: 'deploy'
-    publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+#- task: Maven@3
+#  inputs:
+#    mavenPomFile: 'day-trader-java-app/pom.xml'
+#    goals: 'deploy'
+#    publishJUnitResults: false
+#    javaHomeOption: 'JDKVersion'
+#    mavenVersionOption: 'Default'
+#    mavenAuthenticateFeed: false
+#    effectivePomSkip: false
+#    sonarQubeRunAnalysis: false
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
