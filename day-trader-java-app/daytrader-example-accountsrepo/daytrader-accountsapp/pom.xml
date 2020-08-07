@@ -93,8 +93,8 @@
 	
 	<repositories>
 <repository>
-  <id>Daytrader</id>
-  <url>https://pkgs.dev.azure.com/AlphaGX/_packaging/Daytrader/maven/v1</url>
+  <id>daytrader1</id>
+  <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/daytrader1/maven/v1</url>
   <releases>
     <enabled>true</enabled>
   </releases>
@@ -106,8 +106,8 @@
 
 	<distributionManagement>
 <repository>
-  <id>Daytrader</id>
-  <url>https://pkgs.dev.azure.com/AlphaGX/_packaging/Daytrader/maven/v1</url>
+  <id>daytrader1</id>
+  <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/daytrader1/maven/v1</url>
   <releases>
     <enabled>true</enabled>
   </releases>
