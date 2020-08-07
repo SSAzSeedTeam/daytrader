@@ -55,5 +55,4 @@ steps:
     containerRegistry: 'Azure-Puneet'
     repository: 'Web'
     command: 'buildAndPush'
-    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
-    buildContext: '.'
+    Dockerfile: '**/Dockerfile'
