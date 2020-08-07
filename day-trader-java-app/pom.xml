@@ -97,9 +97,9 @@
 	</build>
 	
 	<repositories>
-	<repository>
-  <id>EnablementFeed</id>
-  <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/EnablementFeed/maven/v1</url>
+<repository>
+  <id>Daytrader</id>
+  <url>https://pkgs.dev.azure.com/AlphaGX/_packaging/Daytrader/maven/v1</url>
   <releases>
     <enabled>true</enabled>
   </releases>
@@ -110,9 +110,9 @@
 	</repositories>
 
 	<distributionManagement>
-		<repository>
-  <id>EnablementFeed</id>
-  <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/EnablementFeed/maven/v1</url>
+<repository>
+  <id>Daytrader</id>
+  <url>https://pkgs.dev.azure.com/AlphaGX/_packaging/Daytrader/maven/v1</url>
   <releases>
     <enabled>true</enabled>
   </releases>
