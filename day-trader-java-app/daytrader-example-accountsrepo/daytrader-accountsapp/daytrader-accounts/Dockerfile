@@ -11,8 +11,8 @@ MAINTAINER Donald Vines <donald_vines@hotmail.com>
 ##
 ##  1.  App/WAR Name & Version
 ARG APP_ARTIFACTID
-ARG WAR_ARTIFACTID
-ARG APP_VERSION
+ARG WAR_ARTIFACTID=daytrader-accounts
+ARG APP_VERSION=4.0.0
 ##  2.  Exposed Port
 ARG EXPOSE_PORT
 ##  3.  Database's URL
