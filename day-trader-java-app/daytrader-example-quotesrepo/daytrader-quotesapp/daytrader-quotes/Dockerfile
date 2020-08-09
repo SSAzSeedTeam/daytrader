@@ -11,13 +11,13 @@ MAINTAINER Donald Vines <donald_vines@hotmail.com>
 ##
 ##  1.  App/WAR Name & Version
 ARG APP_ARTIFACTID
-ARG WAR_ARTIFACTID
-ARG APP_VERSION
+ARG WAR_ARTIFACTID=daytrader-quotes
+ARG APP_VERSION=4.0.0
 ##  2.  Exposed Port
-ARG EXPOSE_PORT
+ARG EXPOSE_PORT=4443
 ##  3.  Database's URL
-ARG DATABASE_DRIVER
-ARG DATABASE_URL
+ARG DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+ARG DATABASE_URL=jdbc:derby:tradesdb;create=true
 ARG DATABASE_USERNAME
 ARG DATABASE_PASSWORD
 ##

@@ -43,11 +43,11 @@
 
 	<modules>
 		<module>daytrader-example-accountsrepo</module>
-		<!--
 		<module>daytrader-example-gatewayrepo</module>
 		<module>daytrader-example-portfoliosrepo</module>
 		<module>daytrader-example-quotesrepo</module>
 		<module>daytrader-example-webrepo</module>
+		<!--
 		-->
 
 	</modules>
