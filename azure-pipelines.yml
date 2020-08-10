@@ -51,8 +51,41 @@ steps:
   condition: succeededOrFailed()
 
 - task: Docker@2
+  displayName: 'daytrader-accounts'
   inputs:
     containerRegistry: 'Azure-Puneet'
-    repository: 'Web'
+    repository: 'daytrader-accounts'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-gateway'
+  inputs:
+    containerRegistry: 'Azure-Puneet'
+    repository: 'daytrader-gateway'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-portfolios'
+  inputs:
+    containerRegistry: 'Azure-Puneet'
+    repository: 'daytrader-portfolios'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-quotes'
+  inputs:
+    containerRegistry: 'Azure-Puneet'
+    repository: 'daytrader-quotes'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-web'
+  inputs:
+    containerRegistry: 'Azure-Puneet'
+    repository: 'daytrader-web'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
