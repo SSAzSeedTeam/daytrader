@@ -1,5 +1,0 @@
-{
-	"symbol": "s:0",
-	"companyName": "ofss",
-	"price":3000
-}

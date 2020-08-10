@@ -1,5 +1,0 @@
-{
-	"symbol": "q:1",
-	"companyName": "oracle",
-	"price":2000
-}

@@ -1,8 +1,0 @@
-curl --insecure -d "@quote_q0.txt"  -H "Content-Type: application/json" -X POST https://localhost:4443/quotes
-curl --insecure -d "@quote_q1.txt"  -H "Content-Type: application/json" -X POST https://localhost:4443/quotes
-curl --insecure -d "@quote_s0.txt"  -H "Content-Type: application/json" -X POST https://localhost:4443/quotes
-curl --insecure -d "@quote_s1.txt"  -H "Content-Type: application/json" -X POST https://localhost:4443/quotes
-
-
-curl --insecure -d "@portfolio_1.txt" -H "Content-Type: application/json" -X POST https://localhost:3443/portfolios/s/orders/?mode=0
-
