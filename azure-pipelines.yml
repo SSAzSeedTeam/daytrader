@@ -63,8 +63,10 @@ steps:
   inputs:
     containerRegistry: 'Azure-Puneet'
     repository: 'daytrader-gateway'
+    tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+
 
 - task: Docker@2
   displayName: 'daytrader-portfolios'
