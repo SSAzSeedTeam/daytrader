@@ -54,7 +54,7 @@ steps:
   displayName: 'daytrader-accounts'
   inputs:
     containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-accounts:15'
+    repository: 'daytrader-accounts'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
 
@@ -62,7 +62,7 @@ steps:
   displayName: 'daytrader-gateway'
   inputs:
     containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-gateway:15'
+    repository: 'daytrader-gateway'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
 
@@ -70,7 +70,7 @@ steps:
   displayName: 'daytrader-portfolios'
   inputs:
     containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-portfolios:15'
+    repository: 'daytrader-portfolios'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
 
@@ -78,7 +78,7 @@ steps:
   displayName: 'daytrader-quotes'
   inputs:
     containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-quotes:15'
+    repository: 'daytrader-quotes'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
 
@@ -86,6 +86,6 @@ steps:
   displayName: 'daytrader-web'
   inputs:
     containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-web:15'
+    repository: 'daytrader-web'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
