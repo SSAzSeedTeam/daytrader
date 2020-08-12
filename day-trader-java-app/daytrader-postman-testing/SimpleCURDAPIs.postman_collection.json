@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "8614c00d-1e79-40c4-874c-f3bd56418a1f",
+		"name": "SimpleCURDAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://reqres.in/api/users/2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5619f32c-d6d4-4275-ae59-6f51335631d0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Veryfy respose returned have details of id 2\", function ()\r",
+							" {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    if(jsonData.data.length == 1)  \r",
+							"      {\r",
+							"        pm.expect(jsonData.data.id).to.eql(2);\r",
+							"        pm.expect(jsonData.data.first_name).to.eql(\"Janet\");\r",
+							"        pm.expect(jsonData.data.email).to.eql(\"Weaver\");\r",
+							"    }\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "587f6cb9-623b-4e48-88df-e03c0a2068ae",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify response body have id\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+							"});\r",
+							"pm.test(\"Verify respones body have createdAt\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"createdAt\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sonali\",\r\n    \"job\": \"Tester\"\r\n}"
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users/218 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2802ac0-89d5-4096-a2c3-ddf5489f7643",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Verify response returned have updatedAt\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sonali\",\r\n    \"job\": \"Developer\"\r\n}"
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/218",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"218"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users/218",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09e8150b-ae68-4b6b-b68d-f11aaa202932",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Verify response returned have updatedAt\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sonali\",\r\n    \"job\": \"Support\"\r\n}"
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/218",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"218"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users/218 Copy 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2018981a-cd2a-430b-8053-d0bdccd370b1",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has No Content\", function () {\r",
+							"    pm.response.to.have.status(\"No Content\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify response is empty\", function () {\r",
+							"     pm.expect('').to.be.empty;\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/218",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"218"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users/23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09387627-2a92-463a-9da4-0bde1ac06938",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has Not Found\", function () {\r",
+							"    pm.response.to.have.status(\"Not Found\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify response is empty\", function () {\r",
+							"     pm.expect('').to.be.empty;\r",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/23",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"23"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
