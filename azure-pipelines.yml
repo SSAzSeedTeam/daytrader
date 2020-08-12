@@ -184,5 +184,5 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/Results/*.xml'
+    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/**.xml'
     mergeTestResults: true
