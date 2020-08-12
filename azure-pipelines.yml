@@ -95,3 +95,22 @@ steps:
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+
+- task: Kubernetes@1
+  displayName: 'daytrader-accounts-deployment-k8s'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'daytrader-cluster'
+    command: 'apply'
+    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml'
+    secretType: 'generic'
+
+- task: Kubernetes@1
+  displayName: 'daytrader-accounts-service-k8s'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'daytrader-cluster'
+    command: 'apply'
+    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml'
+    secretType: 'generic'
+
