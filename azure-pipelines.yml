@@ -103,6 +103,4 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'daytrader-cluster'
     command: 'apply'
-    arguments: |
-      -f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml
-      -f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml
+    arguments: -f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml -f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml
