@@ -180,3 +180,9 @@ steps:
   inputs:
     filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
     workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/Results/*.xml'
+    mergeTestResults: true
