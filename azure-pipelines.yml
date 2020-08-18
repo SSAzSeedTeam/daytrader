@@ -95,83 +95,95 @@ steps:
 #    tags: '15'
 #    command: 'buildAndPush'
 #    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-accounts-deployment-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-accounts-service-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-gateway-deployment-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/gateway/deployment.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-gateway-service-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/gateway/service.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-portfolios-deployment-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/portfolios/deployment.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-portfolios-service-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/portfolios/service.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-quotes-deployment-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/quotes/deployment.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-quotes-service-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/quotes/service.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-web-deployment-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/deployment.yaml'
+#
+#- task: Kubernetes@1
+#  displayName: 'daytrader-web-service-k8s'
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster'
+#    command: 'apply'
+#    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/service.yaml'
 
-- task: Kubernetes@1
-  displayName: 'daytrader-accounts-deployment-k8s'
+- task: Bash@3
   inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml'
+    filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
+    workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
+    failOnStderr: true
 
-- task: Kubernetes@1
-  displayName: 'daytrader-accounts-service-k8s'
+- task: PublishTestResults@2
   inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-gateway-deployment-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/gateway/deployment.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-gateway-service-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/gateway/service.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-portfolios-deployment-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/portfolios/deployment.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-portfolios-service-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/portfolios/service.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-quotes-deployment-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/quotes/deployment.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-quotes-service-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/quotes/service.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-web-deployment-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/deployment.yaml'
-
-- task: Kubernetes@1
-  displayName: 'daytrader-web-service-k8s'
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
-    command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/service.yaml'
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/**.xml'
+    mergeTestResults: true
