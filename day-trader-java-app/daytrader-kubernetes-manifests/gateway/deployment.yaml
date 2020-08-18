@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-gateway
-        image: vayalankatil/daytrader-gateway:4.0.18
+        image: tnshibu/daytrader-gateway:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 2443
