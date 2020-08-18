@@ -24,7 +24,7 @@ steps:
   displayName: 'daytrader-accounts'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'daytrader-accounts'
+    repository: 'puneetsinghgx/daytrader-accounts'
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
