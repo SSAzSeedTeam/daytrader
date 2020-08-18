@@ -38,7 +38,7 @@ keytool -genkeypair -alias server -dname cn=server -validity 10000 -keyalg RSA -
 
 rem generate a certificate for server signed by ca (root -> ca -> server)
 
-keytool -keystore keystore.jks -storepass password -certreq -alias server | keytool -keystore ca.jks -storepass password -gencert -alias ca -ext ku:c=dig,keyEnc -ext san=dns:localhost,dns:daytrader-accounts,dns:daytrader-gateway,dns:daytrader-portfolios,dns:daytrader-quotes,dns:daytrader-web -ext eku=sa,ca -rfc > server.pem
+keytool -keystore keystore.jks -storepass password -certreq -alias server | keytool -keystore ca.jks -storepass password -gencert -alias ca -ext ku:c=dig,keyEnc -ext san=dns:localhost,dns:daytrader-accounts,dns:daytrader-gateway,dns:daytrader-portfolios,dns:daytrader-quotes,dns:daytrader-web,dns:daytrader-app.xyz -ext eku=sa,ca -rfc > server.pem
 
 rem import server cert chain into keystore.jks
 
