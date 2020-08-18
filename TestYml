@@ -2,28 +2,55 @@
 # Build a Docker image 
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-- master
+pool:
+  vmImage: 'ubuntu-latest'
+  name: Azure Pipelines
+  demands: maven
 
-resources:
-- repo: self
 
-variables:
-  tag: '$(Build.BuildId)'
+steps:
+- task: Docker@2
+  displayName: 'daytrader-accounts'
+  inputs:
+    containerRegistry: 'docker-puneet'
+    repository: 'daytrader-accounts'
+    tags: '15'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
 
-stages:
-- stage: Build
-  displayName: Build image
-  jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
-        tags: |
-          $(tag)
+- task: Docker@2
+  displayName: 'daytrader-gateway'
+  inputs:
+    containerRegistry: 'docker-puneet'
+    repository: 'daytrader-gateway'
+    tags: '15'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+
+
+- task: Docker@2
+  displayName: 'daytrader-portfolios'
+  inputs:
+    containerRegistry: 'docker-puneet'
+    repository: 'daytrader-portfolios'
+    tags: '15'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-quotes'
+  inputs:
+    containerRegistry: 'docker-puneet'
+    repository: 'daytrader-quotes'
+    tags: '15'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-web'
+  inputs:
+    containerRegistry: 'docker-puneet'
+    repository: 'daytrader-web'
+    tags: '15'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
