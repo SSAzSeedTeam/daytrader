@@ -33,7 +33,6 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-accounts'
   inputs:
-    containerRegistry: 'docker-puneet'
     repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-accounts-1.0.0'
     command: 'buildAndPush'
@@ -42,7 +41,6 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-gateway'
   inputs:
-    containerRegistry: 'docker-puneet'
     repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-gateway-1.0.0'
     command: 'buildAndPush'
@@ -52,7 +50,6 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-portfolios'
   inputs:
-    containerRegistry: 'docker-puneet'
     repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-portfolios-1.0.0'
     command: 'buildAndPush'
@@ -61,7 +58,6 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-quotes'
   inputs:
-    containerRegistry: 'docker-puneet'
     repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-quotes-1.0.0'
     command: 'buildAndPush'
@@ -70,7 +66,6 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-web'
   inputs:
-    containerRegistry: 'docker-puneet'
     repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-web-1.0.0'
     command: 'buildAndPush'
