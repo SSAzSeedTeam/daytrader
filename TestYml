@@ -43,7 +43,7 @@ steps:
   displayName: 'daytrader-accounts'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-accounts'
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-accounts-1.0.0'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
@@ -52,7 +52,7 @@ steps:
   displayName: 'daytrader-gateway'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-gateway'
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-gateway-1.0.0'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
@@ -62,7 +62,7 @@ steps:
   displayName: 'daytrader-portfolios'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-portfolios'
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-portfolios-1.0.0'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
@@ -71,7 +71,7 @@ steps:
   displayName: 'daytrader-quotes'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-quotes'
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-quotes-1.0.0'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
@@ -80,7 +80,7 @@ steps:
   displayName: 'daytrader-web'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-web'
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
     tags: 'daytrader-web-1.0.0'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
