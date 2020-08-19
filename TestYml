@@ -28,15 +28,6 @@ steps:
     AWS_ACCESS_KEY_ID: AKIAYFEFS5PEER6ESJFC
     AWS_SECRET_ACCESS_KEY: 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
 
-- task: Docker@2
-  displayName: Build docker image
-  inputs:
-    repository: 560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc
-    command: buildAndPush
-    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
-    tags: 'daytrader-accounts-1.0.0'
-
-
 
 
 - task: Docker@2
