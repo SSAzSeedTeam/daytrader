@@ -13,4 +13,4 @@ spec:
   selector:
     app: daytrader-portfolios
   sessionAffinity: ClientIP
-  type: LoadBalancer 
+#  type: LoadBalancer 

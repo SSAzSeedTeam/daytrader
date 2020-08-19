@@ -13,4 +13,5 @@ spec:
   selector:
     app: daytrader-web
   sessionAffinity: ClientIP
-  type: LoadBalancer
+  type: NodePort
+#  type: LoadBalancer
