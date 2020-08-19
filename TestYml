@@ -20,48 +20,51 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
 
-- task: Docker@2
-  displayName: 'daytrader-accounts'
-  inputs:
-    containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-accounts'
-    tags: '15'
-    command: 'buildAndPush'
-    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
-
-- task: Docker@2
-  displayName: 'daytrader-gateway'
-  inputs:
-    containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-gateway'
-    tags: '15'
-    command: 'buildAndPush'
-    Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
 
 
-- task: Docker@2
-  displayName: 'daytrader-portfolios'
-  inputs:
-    containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-portfolios'
-    tags: '15'
-    command: 'buildAndPush'
-    Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
 
-- task: Docker@2
-  displayName: 'daytrader-quotes'
-  inputs:
-    containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-quotes'
-    tags: '15'
-    command: 'buildAndPush'
-    Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
-
-- task: Docker@2
-  displayName: 'daytrader-web'
-  inputs:
-    containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx/daytrader-web'
-    tags: '15'
-    command: 'buildAndPush'
-    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+#- task: Docker@2
+#  displayName: 'daytrader-accounts'
+#  inputs:
+#    containerRegistry: 'docker-puneet'
+#    repository: 'puneetsinghgx/daytrader-accounts'
+#    tags: '15'
+#    command: 'buildAndPush'
+#    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+#
+#- task: Docker@2
+#  displayName: 'daytrader-gateway'
+#  inputs:
+#    containerRegistry: 'docker-puneet'
+#    repository: 'puneetsinghgx/daytrader-gateway'
+#    tags: '15'
+#    command: 'buildAndPush'
+#    Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+#
+#
+#- task: Docker@2
+#  displayName: 'daytrader-portfolios'
+#  inputs:
+#    containerRegistry: 'docker-puneet'
+#    repository: 'puneetsinghgx/daytrader-portfolios'
+#    tags: '15'
+#    command: 'buildAndPush'
+#    Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+#
+#- task: Docker@2
+#  displayName: 'daytrader-quotes'
+#  inputs:
+#    containerRegistry: 'docker-puneet'
+#    repository: 'puneetsinghgx/daytrader-quotes'
+#    tags: '15'
+#    command: 'buildAndPush'
+#    Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+#
+#- task: Docker@2
+#  displayName: 'daytrader-web'
+#  inputs:
+#    containerRegistry: 'docker-puneet'
+#    repository: 'puneetsinghgx/daytrader-web'
+#    tags: '15'
+#    command: 'buildAndPush'
+#    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
