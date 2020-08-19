@@ -6,7 +6,8 @@ metadata:
 #    kubernetes.io/ingress.allow-http: "false"
 #    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-path: /
     nginx.ingress.kubernetes.io/secure-backends: "true"    
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
@@ -15,11 +16,23 @@ spec:
     - daytrader-app.xyz
     secretName: daytrader-tls-secret
   rules:
-    - host: daytrader-app.xyz
-      http: 
+#    - host: daytrader-app.xyz
+    - http: 
         paths:
         - path: /
           backend:
             serviceName: daytrader-web
+            servicePort: 443
+        - path: /quotes
+          backend:
+            serviceName: daytrader-quotes
+            servicePort: 443
+        - path: /accounts
+          backend:
+            serviceName: daytrader-accounts
+            servicePort: 443
+        - path: /portfolios
+          backend:
+            serviceName: daytrader-portfolios
             servicePort: 443
             
