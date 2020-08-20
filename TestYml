@@ -19,12 +19,7 @@ steps:
 #    effectivePomSkip: false
 #    sonarQubeRunAnalysis: false
 
-- task: AzureKeyVault@1
-  inputs:
-    azureSubscription: 'DayTrader'
-    KeyVaultName: 'daytrader-keyvault'
-    SecretsFilter: '*'
-    RunAsPreJob: false
+
 
 - script: |
     aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 560773393352.dkr.ecr.us-east-2.amazonaws.com
