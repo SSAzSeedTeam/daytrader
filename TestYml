@@ -9,15 +9,15 @@ pool:
 
 steps:
 
-#- task: Maven@3
-#  inputs:
-#    mavenPomFile: 'day-trader-java-app/pom.xml'
-#    publishJUnitResults: false
-#    javaHomeOption: 'JDKVersion'
-#    mavenVersionOption: 'Default'
-#    mavenAuthenticateFeed: false
-#    effectivePomSkip: false
-#    sonarQubeRunAnalysis: false
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'day-trader-java-app/pom.xml'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
 
 
 
