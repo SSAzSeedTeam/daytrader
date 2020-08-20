@@ -176,6 +176,12 @@ steps:
 #    command: 'apply'
 #    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/service.yaml'
 
+- task: AzureKeyVault@1
+  inputs:
+    azureSubscription: 'Free Trial (7275eafe-1fe0-47d0-89c5-93b73c43e649)'
+    KeyVaultName: 'daytrader-keyvault'
+    SecretsFilter: '*'
+    RunAsPreJob: false
 - task: Bash@3
   inputs:
     filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
