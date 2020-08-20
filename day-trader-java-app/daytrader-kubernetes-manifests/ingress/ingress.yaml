@@ -16,8 +16,8 @@ spec:
     - daytrader-app.xyz
     secretName: daytrader-tls-secret
   rules:
-#    - host: daytrader-app.xyz
-    - http: 
+    - host: daytrader-app.xyz
+      http: 
         paths:
         - path: /
           backend:
