@@ -178,7 +178,7 @@ steps:
 
 - task: AzureKeyVault@1
   inputs:
-    azureSubscription: 'Free Trial (7275eafe-1fe0-47d0-89c5-93b73c43e649)'
+    azureSubscription: 'DayTrader'
     KeyVaultName: 'daytrader-keyvault'
     SecretsFilter: '*'
     RunAsPreJob: false
