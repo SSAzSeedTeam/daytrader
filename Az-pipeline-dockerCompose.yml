@@ -85,10 +85,6 @@ steps:
       sudo make
       sudo make -i install
       sudo cp local/bin/openssl /usr/local/bin/
-      curl --version
-      sudo apt-get update && sudo apt-get install --only-upgrade libssl-dev
-      sudo apt-get update && sudo apt-get install --only-upgrade openssl
-      curl --version
       curl -k https://localhost:5443
 
 - task: DockerCompose@0
