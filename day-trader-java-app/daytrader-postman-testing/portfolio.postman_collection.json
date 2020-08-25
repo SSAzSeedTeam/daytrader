@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "403b7f9e-8615-47b2-985a-c82d70b3c7e0",
+		"name": "Portfolio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PotfoliosaccountBalance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b93c3414-bce6-47de-b856-270959bd1599",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"UserID\": \"123\",\r\n    \"FullName\": \"Balachandra123\",\r\n    \"Address\": \"bangalore\",\r\n    \"Email\": \"tbalachandra404@gmail.com\",\r\n    \"creditCard\": \"123-fake-ccnum-456\",\r\n    \"Password\": \"123\",\r\n    \"OpenBalance\":\"100\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{portfoliourl}}/{{uid}}",
+					"host": [
+						"{{portfoliourl}}"
+					],
+					"path": [
+						"{{uid}}"
+					]
+				},
+				"description": "PotfoliosOrdersusingID"
+			},
+			"response": []
+		},
+		{
+			"name": "portfoliosholding",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e09003c-54c8-43c9-8a94-c2552e3f8d78",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{portfoliourl}}/{{uid}}/holdings",
+					"host": [
+						"{{portfoliourl}}"
+					],
+					"path": [
+						"{{uid}}",
+						"holdings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "portfoliosorderspost",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8464650b-b351-4351-9b9d-178404e98c5b",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \r\n        \"orderType\": \"buy\",\r\n        \"orderStatus\": \"completed\",\r\n        \"openDate\": 1598347807946,\r\n        \"completionDate\": 1598348121183,\r\n        \"quantity\": 11.0,\r\n        \"price\": 19.00,\r\n        \"orderFee\": 24.95,\r\n        \"symbol\": \"s:4\",\r\n        \"accountID\": 200,\r\n        \"holdingID\": null,\r\n        \"open\": false,\r\n        \"sell\": false,\r\n        \"completed\": true,\r\n        \"buy\": true,\r\n        \"cancelled\": false\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{portfoliourl}}/{{uid}}/orders?mode=0",
+					"host": [
+						"{{portfoliourl}}"
+					],
+					"path": [
+						"{{uid}}",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "mode",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PotfoliosOrders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b93c3414-bce6-47de-b856-270959bd1599",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{portfoliourl}}/{{uid}}/orders",
+					"host": [
+						"{{portfoliourl}}"
+					],
+					"path": [
+						"{{uid}}",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "edfb0f96-d226-44b7-adbb-efe55065d7ea",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0c76a3cd-2e2c-4be1-83d0-2f83f53f42a2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "fcefa823-b013-4034-8685-556833aeecb8",
+			"key": "portfoliourl",
+			"value": "https://localhost:3443/portfolios"
+		},
+		{
+			"id": "31df74a5-87e4-4a0c-a7bd-39471fbab7ae",
+			"key": "uid",
+			"value": "1234"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
