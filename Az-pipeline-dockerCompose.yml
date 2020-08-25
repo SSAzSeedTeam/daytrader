@@ -73,7 +73,7 @@ steps:
     azureContainerRegistry: '{"loginServer":"daytrader.azurecr.io", "id" : "/subscriptions/7275eafe-1fe0-47d0-89c5-93b73c43e649/resourceGroups/DayTrader/providers/Microsoft.ContainerRegistry/registries/daytrader"}'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Run a Docker Compose command'
-    dockerComposeCommand: 'up -v'
+    dockerComposeCommand: 'up -d'
 
 - task: CmdLine@2
   inputs:
