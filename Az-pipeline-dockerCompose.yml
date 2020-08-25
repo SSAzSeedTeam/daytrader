@@ -77,4 +77,4 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: ''
+    script: 'curl https://localhost:5443'
