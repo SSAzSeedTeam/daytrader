@@ -76,7 +76,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'curl -k https://localhost:5443'
+    script: 'curl --sslv2 https://localhost:5443'
 
 - task: DockerCompose@0
   inputs:
