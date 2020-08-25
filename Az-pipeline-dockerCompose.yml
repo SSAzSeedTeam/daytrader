@@ -74,3 +74,7 @@ steps:
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'up'
+
+- task: CmdLine@2
+  inputs:
+    script: ''
