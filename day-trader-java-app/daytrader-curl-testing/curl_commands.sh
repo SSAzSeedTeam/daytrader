@@ -1,4 +1,12 @@
-
+wget https://openssl.org/source/openssl-1.0.2k.tar.gz
+tar -xvf openssl-1.0.2k.tar.gz
+cd openssl-1.0.2k/
+sudo ./config --prefix=`pwd`/local --openssldir=/usr/lib/ssl enable-ssl2 enable-ssl3 no-shared
+sudo make depend
+sudo make
+sudo make -i install
+sudo cp local/bin/openssl /usr/local/bin/
+curl -k https://localhost:5443
 ########################################################################
 #  RECREATE TABLES
 #-----------------
