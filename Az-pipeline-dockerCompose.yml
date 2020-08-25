@@ -86,10 +86,11 @@ steps:
       sudo make -i install
       sudo cp local/bin/openssl /usr/local/bin/
       curl -k https://localhost:5443
+      day-trader-java-app/daytrader-curl-testing/curl_commands.sh
 
-- task: Bash@3
-  inputs:
-    filePath: 'day-trader-java-app/daytrader-curl-testing/curl_commands.sh'
+#- task: Bash@3
+#  inputs:
+#    filePath: 'day-trader-java-app/daytrader-curl-testing/curl_commands.sh'
 
 - task: DockerCompose@0
   inputs:
