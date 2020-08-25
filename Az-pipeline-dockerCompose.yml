@@ -89,7 +89,7 @@ steps:
       sudo apt-get update && sudo apt-get install --only-upgrade libssl-dev
       sudo apt-get update && sudo apt-get install --only-upgrade openssl
       curl --version
-      curl --sslv3 https://localhost:5443
+      curl https://localhost:5443
 
 - task: DockerCompose@0
   inputs:
