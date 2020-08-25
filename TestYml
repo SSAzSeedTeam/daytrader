@@ -25,8 +25,8 @@ steps:
     aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 560773393352.dkr.ecr.us-east-2.amazonaws.com
   displayName: 'Login to AWS'
   env:
-    AWS_ACCESS_KEY_ID: AKIAYFEFS5PEER6ESJFC
-    AWS_SECRET_ACCESS_KEY: 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
+    AWS_ACCESS_KEY_ID: $(AWSAccessKeyID)
+    AWS_SECRET_ACCESS_KEY: $(AWSSecretAccessKey)
 
 
 

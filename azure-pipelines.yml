@@ -175,7 +175,6 @@ steps:
 #    kubernetesServiceEndpoint: 'daytrader-cluster'
 #    command: 'apply'
 #    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/service.yaml'
-
 - task: Bash@3
   inputs:
     filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
