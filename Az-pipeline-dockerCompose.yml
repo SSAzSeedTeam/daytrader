@@ -78,7 +78,7 @@ steps:
   inputs:
     script: |
       curl --version
-      sudo apt install curl
+      sudo apt-get install curl
       curl --version
       curl --sslv3 https://localhost:5443
 
