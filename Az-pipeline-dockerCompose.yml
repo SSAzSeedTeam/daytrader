@@ -76,7 +76,11 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'curl --sslv3 https://localhost:5443'
+    script: |
+      curl --version
+      sudo apt install curl
+      curl --version
+      curl --sslv3 https://localhost:5443
 
 - task: DockerCompose@0
   inputs:
