@@ -77,6 +77,14 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
+      wget https://openssl.org/source/openssl-1.0.2k.tar.gz
+      tar -xvf openssl-1.0.2k.tar.gz
+      cd openssl-1.0.2k/
+      ./config --prefix=`pwd`/local --openssldir=/usr/lib/ssl enable-ssl2 enable-ssl3 no-shared
+      make depend
+      make
+      make -i install
+      sudo cp local/bin/openssl /usr/local/bin/
       curl --version
       sudo apt-get update && sudo apt-get install --only-upgrade libssl-dev
       sudo apt-get update && sudo apt-get install --only-upgrade openssl
