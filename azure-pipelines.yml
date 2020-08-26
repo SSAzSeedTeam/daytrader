@@ -190,7 +190,7 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'daytrader-cluster'
     command: 'create'
-    arguments: 'secret tls daytrader-tls-secret --key privkey.pem --cert fullchain.pem'
+    arguments: 'secret tls daytrader-tls-secret --key $(privkey) --cert $(fullchain)'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
 
