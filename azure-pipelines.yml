@@ -175,6 +175,25 @@ steps:
 #    kubernetesServiceEndpoint: 'daytrader-cluster'
 #    command: 'apply'
 #    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/service.yaml'
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'daytrader-cluster'
+    command: 'apply'
+    arguments: 'apply -f day-trader-java-app/daytrader-kubernetes-manifests/ingress/ingress.yamll'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'daytrader-cluster'
+    command: 'create'
+    arguments: 'secret tls daytrader-tls-secret --key privkey.pem --cert fullchain.pem'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+
 - task: Bash@3
   inputs:
     filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
