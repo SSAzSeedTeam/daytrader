@@ -185,12 +185,20 @@ steps:
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
 
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'fullchain.pem'
+
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'privkey.pem'
+
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'daytrader-cluster'
     command: 'create'
-    arguments: 'secret tls daytrader-tls-secret --key $(privkey) --cert $(fullchain)'
+    arguments: 'secret tls daytrader-tls-secret --key privkey.pem --cert fullchain.pem'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
 
