@@ -75,7 +75,7 @@ steps:
     dockerComposeCommand: 'up -d'
 
 
-#- task: CmdLine@2
+# task: CmdLine@2
 #  inputs:
 #    script: |
 #      wget https://openssl.org/source/openssl-1.0.2k.tar.gz
@@ -92,6 +92,19 @@ steps:
 - task: Bash@3
   inputs:
     filePath: 'day-trader-java-app/daytrader-curl-testing/curl_commands.sh'
+
+- task: Bash@3
+  inputs:
+    filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
+    workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
+    failOnStderr: true
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/**.xml'
+    mergeTestResults: true
+
 
 - task: DockerCompose@0
   inputs:
