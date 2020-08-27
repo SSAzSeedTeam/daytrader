@@ -49,18 +49,18 @@ import org.springframework.context.annotation.Bean;
 
 @ServletComponentScan(basePackages={"org.apache.geronimo.daytrader.javaee6.web"})
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class TraderWebApplication extends SpringBootServletInitializer {
 	
 	// Updated by on 2018-02-22
 	//	- Each microservice has their own private database (datasource)
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+		return application.sources(TraderWebApplication.class);
 	}
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(TraderWebApplication.class, args);
 	}
 
 	@Bean
