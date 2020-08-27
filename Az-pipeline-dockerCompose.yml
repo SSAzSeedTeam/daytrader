@@ -94,12 +94,14 @@ steps:
 #    filePath: 'day-trader-java-app/daytrader-curl-testing/curl_commands.sh'
 
 - task: Bash@3
+  continueOnError: true
   inputs:
     filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
     workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
     failOnStderr: true
 
 - task: PublishTestResults@2
+  continueOnError: true
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/**.xml'
