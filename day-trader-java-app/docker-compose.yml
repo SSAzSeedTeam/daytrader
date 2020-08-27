@@ -34,7 +34,7 @@ services:
       - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-      - DAYTRADER_DATABASE_URL=jdbc:jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
       - DAYTRADER_DATABASE_USERNAME=dummy
       - DAYTRADER_DATABASE_PASSWORD=dummy      
 
@@ -66,7 +66,7 @@ services:
       - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-      - DAYTRADER_DATABASE_URL=jdbc:jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
       - DAYTRADER_DATABASE_USERNAME=dummy
       - DAYTRADER_DATABASE_PASSWORD=dummy      
   daytrader-quotes:
@@ -80,7 +80,7 @@ services:
       - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-      - DAYTRADER_DATABASE_URL=jdbc:jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
       - DAYTRADER_DATABASE_USERNAME=dummy
       - DAYTRADER_DATABASE_PASSWORD=dummy      
       

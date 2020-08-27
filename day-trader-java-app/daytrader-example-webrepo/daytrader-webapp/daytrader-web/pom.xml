@@ -260,7 +260,7 @@
 						<artifactId>spring-boot-maven-plugin</artifactId>				
 						<configuration>
 							<fork>true</fork>
-							<mainClass>org.apache.geronimo.daytrader.javaee6.web.Application</mainClass>
+							<mainClass>org.apache.geronimo.daytrader.javaee6.web.TraderWebApplication</mainClass>
 						</configuration>
 					</plugin>
 					<!-- Run the integration test and verify the results -->
