@@ -195,6 +195,10 @@ steps:
   inputs:
     secureFile: 'privkey.pem'
 
+- task: CmdLine@2
+  inputs:
+    script: 'cat $(privkey.secureFilePath) $(fullchain.secureFilePath)'
+
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
