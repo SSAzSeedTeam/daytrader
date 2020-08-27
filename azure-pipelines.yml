@@ -100,15 +100,16 @@ steps:
   displayName: 'daytrader-accounts-deployment-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml'
+    secretType: 'dockerRegistry'
 
 - task: Kubernetes@1
   displayName: 'daytrader-accounts-service-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml'
 
@@ -116,7 +117,7 @@ steps:
   displayName: 'daytrader-gateway-deployment-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/gateway/deployment.yaml'
 
@@ -124,7 +125,7 @@ steps:
   displayName: 'daytrader-gateway-service-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/gateway/service.yaml'
 
@@ -132,7 +133,7 @@ steps:
   displayName: 'daytrader-portfolios-deployment-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/portfolios/deployment.yaml'
 
@@ -140,7 +141,7 @@ steps:
   displayName: 'daytrader-portfolios-service-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/portfolios/service.yaml'
 
@@ -148,7 +149,7 @@ steps:
   displayName: 'daytrader-quotes-deployment-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/quotes/deployment.yaml'
 
@@ -156,7 +157,7 @@ steps:
   displayName: 'daytrader-quotes-service-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/quotes/service.yaml'
 
@@ -164,7 +165,7 @@ steps:
   displayName: 'daytrader-web-deployment-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/deployment.yaml'
 
@@ -172,18 +173,17 @@ steps:
   displayName: 'daytrader-web-service-k8s'
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/web/service.yaml'
 
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
     arguments: 'apply -f day-trader-java-app/daytrader-kubernetes-manifests/ingress/ingress.yaml'
     secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
 
 - task: DownloadSecureFile@1
   name: fullchain
@@ -198,11 +198,10 @@ steps:
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster'
+    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'create'
     arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
     secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
 
 #- task: Bash@3
 #  inputs:
