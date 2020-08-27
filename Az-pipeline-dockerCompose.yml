@@ -89,9 +89,9 @@ steps:
 #      curl -k https://localhost:5443
 #      day-trader-java-app/daytrader-curl-testing/curl_commands.sh
 
-- task: Bash@3
-  inputs:
-    filePath: 'day-trader-java-app/daytrader-curl-testing/curl_commands.sh'
+#- task: Bash@3
+# inputs:
+#    filePath: 'day-trader-java-app/daytrader-curl-testing/curl_commands.sh'
 
 - task: Bash@3
   inputs:
