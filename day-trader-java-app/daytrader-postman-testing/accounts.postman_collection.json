@@ -93,49 +93,8 @@
 				"description": "Account profiles using ID"
 			},
 			"response": []
-		},
-		{
-			"name": "AccountIDProfilesUpdation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "b93c3414-bce6-47de-b856-270959bd1599",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"userID\": \"1234\",\r\n    \"fullName\": \"Balachandra\",\r\n    \"address\": \"Bangalore\",\r\n    \"email\": \"tbalachandra404@gmail.com\",\r\n    \"creditCard\": \"123-fake-ccnum-456\",\r\n    \"password\": \"123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{accounts}}/{{uid}}/profiles",
-					"host": [
-						"{{accounts}}"
-					],
-					"path": [
-						"{{uid}}",
-						"profiles"
-					]
-				},
-				"description": "updating the details for Account profile"
-			},
-			"response": []
 		}
+
 	],
 	"event": [
 		{
@@ -168,7 +127,7 @@
 		{
 			"id": "a055267d-5e7a-4fc4-8ea7-a5d2d039d6c9",
 			"key": "uid",
-			"value": "1234"
+			"value": "uid:101"
 		}
 	],
 	"protocolProfileBehavior": {}

@@ -204,7 +204,7 @@
 		{
 			"id": "31df74a5-87e4-4a0c-a7bd-39471fbab7ae",
 			"key": "uid",
-			"value": "1234"
+			"value": "uid:101"
 		}
 	],
 	"protocolProfileBehavior": {}

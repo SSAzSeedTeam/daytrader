@@ -21,19 +21,19 @@ curl -k  -L -X POST "https://localhost:4443/admin/recreateDBTables"
 #  POPULATE TABLES
 #-----------------
 #Accounts
-curl -k -L -X POST "https://localhost:1443/admin/tradeBuildDB?limit=10&offset=0"
+curl -k -L -X POST "https://localhost:1443/admin/tradeBuildDB?limit=500&offset=0"
 curl -k -L -X POST "https://localhost:1443/admin/tradeBuildDB?limit=10&offset=10"
 curl -k -L -X POST "https://localhost:1443/admin/tradeBuildDB?limit=10&offset=20"
 curl -k -L -X POST "https://localhost:1443/admin/tradeBuildDB?limit=10&offset=30"
 
 #Portfolio
-curl -k  -L -X POST "https://localhost:3443/admin/tradeBuildDB?limit=10&offset=0"
+curl -k  -L -X POST "https://localhost:3443/admin/tradeBuildDB?limit=500&offset=0"
 curl -k  -L -X POST "https://localhost:3443/admin/tradeBuildDB?limit=10&offset=10"
 curl -k  -L -X POST "https://localhost:3443/admin/tradeBuildDB?limit=10&offset=20"
 curl -k  -L -X POST "https://localhost:3443/admin/tradeBuildDB?limit=10&offset=30"
 
 #Quotes
-curl -k  -L -X POST "https://localhost:4443/admin/tradeBuildDB?limit=10&offset=0"
+curl -k  -L -X POST "https://localhost:4443/admin/tradeBuildDB?limit=500&offset=0"
 curl -k  -L -X POST "https://localhost:4443/admin/tradeBuildDB?limit=10&offset=10"
 curl -k  -L -X POST "https://localhost:4443/admin/tradeBuildDB?limit=10&offset=20"
 curl -k  -L -X POST "https://localhost:4443/admin/tradeBuildDB?limit=10&offset=30"
