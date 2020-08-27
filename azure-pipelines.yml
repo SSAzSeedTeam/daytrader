@@ -182,7 +182,7 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
     command: 'apply'
-    arguments: 'apply -f day-trader-java-app/daytrader-kubernetes-manifests/ingress/ingress.yaml'
+    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/ingress/ingress.yaml'
     secretType: 'dockerRegistry'
 
 - task: DownloadSecureFile@1
