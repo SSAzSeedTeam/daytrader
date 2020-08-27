@@ -1,6 +1,6 @@
 
 #sleep for sometime to allow docker compose to start all servers....
-sleep 180
+sleep 90
 
 #put newman command shere
 #newman run AdvanceAPIs.postman_collection.json --reporters cli,junit --reporter-junit-export Results\jadvanceAPIResult.xml
