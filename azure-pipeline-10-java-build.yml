@@ -54,6 +54,6 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(build.artifactstagingdirectory)'
+    targetPath: '$(system.defaultworkingdirectory)'
     artifact: '10_JAVA'
     publishLocation: 'pipeline'
