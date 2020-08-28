@@ -12,7 +12,7 @@ steps:
     definition: '9'
     specificBuildWithTriggering: true
     buildVersionToDownload: 'latest'
-    targetPath: '$(system.defaultworkingdirectory)'
+    targetPath: '$(Pipeline.Workspace)'
 
 - task: Docker@2
   displayName: 'daytrader-accounts'
