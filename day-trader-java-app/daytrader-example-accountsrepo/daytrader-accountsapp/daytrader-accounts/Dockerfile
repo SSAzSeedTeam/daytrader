@@ -26,7 +26,8 @@ ARG DATABASE_PASSWORD
 ##  1. SSL Variables
 ENV DAYTRADER_KEYSTORE_FILENAME=/var/ssl/daytrader/keystore.jks
 ENV DAYTRADER_KEYSTORE_PASSWORD=password
-ENV DAYTRADER_TRUSTSTORE_LOCATION=/var/ssl/daytrader/truststore.jks
+#ENV DAYTRADER_TRUSTSTORE_LOCATION=/var/ssl/daytrader/truststore.jks
+ENV DAYTRADER_TRUSTSTORE_LOCATION=$(Pipeline.Workspace)/10_JAVA/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/target/daytrader-accounts-4.0.0/WEB-INF/classes/truststore.jks
 ENV DAYTRADER_TRUSTSTORE_PASSWORD=password
 ##  2.  Database Variables
 ENV DAYTRADER_DATABASE_DRIVER=${DATABASE_DRIVER}
