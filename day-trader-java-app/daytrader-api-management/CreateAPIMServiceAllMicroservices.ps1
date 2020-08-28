@@ -1,3 +1,6 @@
+Install-module Az -AllowClobber -Force
+Import-module Az
+
 $random = (New-Guid).ToString().Substring(0,8) 
 
 $subscriptionId = "7275eafe-1fe0-47d0-89c5-93b73c43e649" 
