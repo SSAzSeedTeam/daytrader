@@ -26,8 +26,8 @@ ARG DATABASE_PASSWORD
 ##  1. SSL Variables
 ENV DAYTRADER_KEYSTORE_FILENAME=/var/ssl/daytrader/keystore.jks
 ENV DAYTRADER_KEYSTORE_PASSWORD=password
-#ENV DAYTRADER_TRUSTSTORE_LOCATION=/var/ssl/daytrader/truststore.jks
-ENV DAYTRADER_TRUSTSTORE_LOCATION=$(Pipeline.Workspace)/10_JAVA/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/target/daytrader-accounts-4.0.0/WEB-INF/classes/truststore.jks
+ENV DAYTRADER_TRUSTSTORE_LOCATION=/var/ssl/daytrader/truststore.jks
+#ENV DAYTRADER_TRUSTSTORE_LOCATION=/10_JAVA/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/target/daytrader-accounts-4.0.0/WEB-INF/classes/truststore.jks
 ENV DAYTRADER_TRUSTSTORE_PASSWORD=password
 ##  2.  Database Variables
 ENV DAYTRADER_DATABASE_DRIVER=${DATABASE_DRIVER}
@@ -57,7 +57,8 @@ RUN touch $DAYTRADER_LOG_FILENAME
 RUN chmod 666 $DAYTRADER_LOG_FILENAME
 ##  3.  Create SSL Folder, Add Truststore, & Set Permissions
 RUN mkdir -p -m 0777 /var/ssl/daytrader
-ARG JKS_FILE=target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
+#ARG JKS_FILE=target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
+ARG JKS_FILE=10_JAVA/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
 ADD ${JKS_FILE} $DAYTRADER_TRUSTSTORE_LOCATION
 ##    Puneet-DockerbuildError
 RUN chmod 666 $DAYTRADER_TRUSTSTORE_LOCATION
