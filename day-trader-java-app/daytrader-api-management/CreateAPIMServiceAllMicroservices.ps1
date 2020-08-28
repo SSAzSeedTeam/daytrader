@@ -1,21 +1,22 @@
-#Install-module Az -AllowClobber -Force
-#Import-module Az
-#Connect-AzAccount
-
 $random = (New-Guid).ToString().Substring(0,8) 
 
-$subscriptionId = "7275eafe-1fe0-47d0-89c5-93b73c43e649" 
-$adminEmail = "puneetsingh.gx@outlook.com" 
+$subscriptionId = "4eda8ef1-7525-49f9-9b47-b88f1eb27512" 
+$adminEmail = "singhavi2020@outlook.com" 
 $location = "Central US" 
 $organisation = "OFSS"
 
-$apimServiceName = "apim-$random" 
-$resourceGroupName = "apim-rg-$random" 
+$apimServiceName = "alphagx-daytrader-apim-service" 
+$resourceGroupName = "alphagx-daytrader-apim-rg" 
+
 
 
 ## your mail id of azure account...
 Select-AzSubscription -SubscriptionId $subscriptionId 
-New-AzResourceGroup -Name $resourceGroupName -Location $location 
+Get-AzResourceGroup -Name $resourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+if ($notPresent)
+{
+ New-AzResourceGroup -Name $resourceGroupName -Location $location 
+}
 New-AzApiManagement -ResourceGroupName $resourceGroupName -Name $apimServiceName -Location $location -Organization $organisation -AdminEmail $adminEmail
 
 
@@ -46,7 +47,7 @@ $apimContext = New-AzApiManagementContext -ResourceGroupName $resourceGroupName 
 $apimUserGroupId = "alphagx-apim-user-group-Id"
 $apimUserGroupName = "alphagx-apim-user-group"
 Remove-AzApiManagementGroup -Context $apimContext -GroupId $apimUserGroupId
-New-AzApiManagementGroup -Context $apimContext -Description 'Create daytrader Api V4' -GroupId $apimUserGroupId -Name $apimUserGroupName
+New-AzApiManagementGroup -Context $apimContext -Description 'Create daytrader Apis' -GroupId $apimUserGroupId -Name $apimUserGroupName
 
 ## creating product..
 $productId = "daytrader-product-alphagx"
@@ -109,6 +110,29 @@ $apiPolicy = '<policies>
 
 Set-AzApiManagementPolicy -Context $apimContext -ApiId $apiId -Policy $apiPolicy
 
+## adding create quotes api..
+$apiOperationId = "post-quotes-api-id" 
+$apiOperationName = "Create Quotes"
+$apiOperationTemplateUrl = "/"
+$Request = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRequest
+$Request.Description = "Create Quotes Request"
+$RequestRepresentation = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRepresentation
+$RequestRepresentation.ContentType = 'application/json'
+$RequestRepresentation.Sample = '{
+  "change": 0,
+  "companyName": "string",
+  "high": 0,
+  "low": 0,
+  "open": 0,
+  "price": 0,
+  "symbol": "string",
+  "volume": 0
+}'
+$Request.Representations = @($requestRepresentation)
+$Response = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementResponse
+$Response.StatusCode = 204
+New-AzApiManagementOperation -Context $apimContext -ApiId $apiId -OperationId $apiOperationId -Name $apiOperationName -Method 'POST' -UrlTemplate $apiOperationTemplateUrl -Description "Use this operation to create new quotes" -Request $Request -Responses @($response)
+
 ## adding get all quote operation to the api..
 $apiOperationId = "quotes-operation-getall"
 $apiOperationName = "Get All Quotes"
@@ -128,6 +152,37 @@ $qid.Name = "qid"
 $qid.Description = "quotes identifire"
 $qid.Type = "string"
 New-AzApiManagementOperation -Context $apimContext -ApiId $apiId -OperationId $apiOperationId -Name $apiOperationName -Method GET -UrlTemplate $apiOperationTemplateUrl -Description $operationDescription -TemplateParameters @($qid)
+
+## adding post account api..
+$apiOperationId = "post-account-api-id" 
+$apiOperationName = "Create Account"
+$apiOperationTemplateUrl = "/"
+$Request = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRequest
+$Request.Description = "Create Account Request"
+$RequestRepresentation = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRepresentation
+$RequestRepresentation.ContentType = 'application/json'
+$RequestRepresentation.Sample = '{
+  "accountID": 0,
+  "balance": 0,
+  "loginCount": 0,
+  "logoutCount": 0,
+  "openBalance": 0,
+   "creationDate": "",
+  "profile": {
+    "address": "",
+    "creditCard": "",
+    "email": "singhavinash857@gmail.com",
+    "fullName": "Avinash Singh",
+    "password": "12345",
+    "userID": "1234"
+  },
+  "profileID": "singhavi"
+}'
+$Request.Representations = @($requestRepresentation)
+$Response = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementResponse
+$Response.StatusCode = 204
+New-AzApiManagementOperation -Context $apimContext -ApiId $apiIdAccount -OperationId $apiOperationId -Name $apiOperationName -Method 'POST' -UrlTemplate $apiOperationTemplateUrl -Description "Use this operation to create new or update existing resource" -Request $Request -Responses @($response)
+
 
 ## adding account profile by id operation to the api..
 $apiOperationId = "account-operation-get-profile"
@@ -151,6 +206,46 @@ $userId.Name = "userId"
 $userId.Description = "user identifire"
 $userId.Type = "string"
 New-AzApiManagementOperation -Context $apimContext -ApiId $apiIdAccount -OperationId $apiOperationId -Name $apiOperationName -Method GET -UrlTemplate $apiOperationTemplateUrl -Description $operationDescription -TemplateParameters @($userId)
+
+## adding post portfolio orders api..
+$apiOperationId = "post-portfolio-order-api-id" 
+$apiOperationName = "Process Order"
+$apiOperationTemplateUrl = "/{userid}/orders?mode={mode}"
+$userid = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementParameter
+$userid.Name = "userid"
+$userid.Description = "Resource identifier"
+$userid.Type = "string"
+$Query = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementParameter
+$Query.Name = "mode"
+$Query.Description = "Query string"
+$Query.Type = 'string'
+$Request = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRequest
+$Request.Description = "Create Account Request"
+$RequestRepresentation = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRepresentation
+$RequestRepresentation.ContentType = 'application/json'
+$RequestRepresentation.Sample = '{
+  "accountID": 0,
+  "buy": true,
+  "cancelled": true,
+  "completed": true,
+  "completionDate": "2020-08-27T06:53:41.584Z",
+  "holdingID": 0,
+  "open": true,
+  "openDate": "2020-08-27T06:53:41.584Z",
+  "orderFee": 0,
+  "orderID": 0,
+  "orderStatus": "string",
+  "orderType": "string",
+  "price": 0,
+  "quantity": 0,
+  "sell": true,
+  "symbol": "string"
+}'
+$Request.Representations = @($requestRepresentation)
+$Response = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementResponse
+$Response.StatusCode = 204
+New-AzApiManagementOperation -Context $apimContext -ApiId $apiIdPortfolio -OperationId $apiOperationId -Name $apiOperationName -Method 'POST' -UrlTemplate $apiOperationTemplateUrl -Description "Use this operation to create new or update existing resource" -TemplateParameters @($userid, $query) -Request $Request -Responses @($response)
+
 
 ## adding get portfolio by id operation to the api..
 $apiOperationId = "portfolio-operation-get"
@@ -184,6 +279,7 @@ $userId.Name = "userId"
 $userId.Description = "user identifire"
 $userId.Type = "string"
 New-AzApiManagementOperation -Context $apimContext -ApiId $apiIdPortfolio -OperationId $apiOperationId -Name $apiOperationName -Method GET -UrlTemplate $apiOperationTemplateUrl -Description $operationDescription -TemplateParameters @($userId)
+
 
 
 ## adding policies to product
