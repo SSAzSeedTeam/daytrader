@@ -5,10 +5,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
 - task: DownloadPipelineArtifact@2
   inputs:
-    artifact: JAVA_Drop
+    buildType: 'current'
+    artifactName: '10_JAVA'
+    targetPath: '$(Pipeline.Workspace)'
 
 - task: Docker@2
   displayName: 'daytrader-accounts'
