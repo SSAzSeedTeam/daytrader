@@ -48,7 +48,7 @@ steps:
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
+    artifactName: JAVA_Drop
   condition: succeededOrFailed()
 
-- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
-  artifact: WebApp
+
