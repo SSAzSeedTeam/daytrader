@@ -7,8 +7,10 @@ pool:
 steps:
 
 #WIP
-- task: PowerShell@2
+- task: AzurePowerShell@5
   inputs:
-    filePath: 'day-trader-java-app/daytrader-api-management/CreateAPIMServiceAllMicroservices.ps1'
-    failOnStderr: true
+    azureSubscription: 'Free Trial (7275eafe-1fe0-47d0-89c5-93b73c43e649)'
+    ScriptType: 'FilePath'
+    ScriptPath: 'day-trader-java-app/daytrader-api-management/CreateAPIMServiceAllMicroservices.ps1'
+    preferredAzurePowerShellVersion: '7.0'
     pwsh: true
