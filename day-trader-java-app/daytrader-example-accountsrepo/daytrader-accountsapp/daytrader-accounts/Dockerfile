@@ -57,8 +57,8 @@ RUN touch $DAYTRADER_LOG_FILENAME
 RUN chmod 666 $DAYTRADER_LOG_FILENAME
 ##  3.  Create SSL Folder, Add Truststore, & Set Permissions
 RUN mkdir -p -m 0777 /var/ssl/daytrader
-#ARG JKS_FILE=target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
-ARG JKS_FILE=10_JAVA/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
+ARG JKS_FILE=target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
+#ARG JKS_FILE=10_JAVA/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/target/${WAR_ARTIFACTID}-${APP_VERSION}/WEB-INF/classes/truststore.jks
 ADD ${JKS_FILE} $DAYTRADER_TRUSTSTORE_LOCATION
 ##    Puneet-DockerbuildError
 RUN chmod 666 $DAYTRADER_TRUSTSTORE_LOCATION
