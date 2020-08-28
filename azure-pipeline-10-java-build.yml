@@ -52,3 +52,8 @@ steps:
   condition: succeededOrFailed()
 
 
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(build.artifactstagingdirectory)'
+    artifact: '10_JAVA'
+    publishLocation: 'pipeline'
