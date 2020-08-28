@@ -1,5 +1,6 @@
-Install-module Az -AllowClobber -Force
-Import-module Az
+#Install-module Az -AllowClobber -Force
+#Import-module Az
+#Connect-AzAccount
 
 $random = (New-Guid).ToString().Substring(0,8) 
 
