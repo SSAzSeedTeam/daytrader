@@ -7,3 +7,8 @@ pool:
 steps:
 
 #WIP
+- task: PowerShell@2
+  inputs:
+    filePath: 'day-trader-java-app/daytrader-api-management/CreateAPIMServiceAllMicroservices.ps1'
+    failOnStderr: true
+    pwsh: true
