@@ -44,12 +44,12 @@ steps:
   condition: succeededOrFailed()
 
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-    artifactName: JAVA_Drop
-  condition: succeededOrFailed()
+#- task: PublishBuildArtifacts@1
+#  displayName: 'Publish Artifact: drop'
+#  inputs:
+#    PathtoPublish: '$(build.artifactstagingdirectory)'
+#    artifactName: JAVA_Drop
+#  condition: succeededOrFailed()
 
 
 - task: PublishPipelineArtifact@1
