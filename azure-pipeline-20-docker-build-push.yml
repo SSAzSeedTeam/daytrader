@@ -5,7 +5,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-steps:
 
 - task: DownloadPipelineArtifact@2
   inputs:
