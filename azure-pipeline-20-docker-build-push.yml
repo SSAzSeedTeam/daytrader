@@ -7,8 +7,11 @@ pool:
 steps:
 - task: DownloadPipelineArtifact@2
   inputs:
-    buildType: 'current'
-    artifactName: '10_JAVA'
+    buildType: 'specific'
+    project: '3d034576-aa51-4760-88fd-3fe8617a5399'
+    definition: '9'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'latest'
     targetPath: '$(Pipeline.Workspace)'
 
 - task: Docker@2
