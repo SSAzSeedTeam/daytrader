@@ -1,7 +1,7 @@
 $random = (New-Guid).ToString().Substring(0,8) 
 
-$subscriptionId = "4eda8ef1-7525-49f9-9b47-b88f1eb27512" 
-$adminEmail = "singhavi2020@outlook.com" 
+$subscriptionId = "7275eafe-1fe0-47d0-89c5-93b73c43e649" 
+$adminEmail = "puneetsingh.gx@outlook.com" 
 $location = "Central US" 
 $organisation = "OFSS"
 
