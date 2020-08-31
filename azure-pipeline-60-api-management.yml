@@ -9,7 +9,7 @@ steps:
 #WIP
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'Free Trial (7275eafe-1fe0-47d0-89c5-93b73c43e649)'
+    azureSubscription: 'apim-test-singhavi'
     ScriptType: 'FilePath'
     ScriptPath: 'day-trader-java-app/daytrader-api-management/CreateAPIMServiceAllMicroservices.ps1'
     azurePowerShellVersion: 'LatestVersion'
