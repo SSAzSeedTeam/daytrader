@@ -183,6 +183,30 @@ $Response = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceM
 $Response.StatusCode = 204
 New-AzApiManagementOperation -Context $apimContext -ApiId $apiIdAccount -OperationId $apiOperationId -Name $apiOperationName -Method 'POST' -UrlTemplate $apiOperationTemplateUrl -Description "Use this operation to create new or update existing resource" -Request $Request -Responses @($response)
 
+## updating account api..
+$apiOperationId = "update-account-api-id" 
+$apiOperationName = "Update Account By User Id"
+$apiOperationTemplateUrl = "/{userId}/profiles"
+$Request = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRequest
+$Request.Description = "Update Account By User Id Request"
+$userId = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementParameter
+$userId.Name = "userId"
+$userId.Description = "user identifire"
+$userId.Type = "string"
+$RequestRepresentation = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRepresentation
+$RequestRepresentation.ContentType = 'application/json'
+$RequestRepresentation.Sample = '{
+  "address": "string",
+  "creditCard": "string",
+  "email": "string",
+  "fullName": "string",
+  "password": "string",
+  "userID": "string"
+}'
+$Request.Representations = @($requestRepresentation)
+$Response = New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementResponse
+$Response.StatusCode = 204
+New-AzApiManagementOperation -Context $apimContext -ApiId $apiIdAccount -OperationId $apiOperationId -Name $apiOperationName -Method PUT -UrlTemplate $apiOperationTemplateUrl -Description $operationDescription -TemplateParameters @($userId)
 
 ## adding account profile by id operation to the api..
 $apiOperationId = "account-operation-get-profile"
