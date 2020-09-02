@@ -12,7 +12,7 @@ def exec_cmd(command):
     for line in p.stdout.readlines():
         print(line)
 
-def add(event, context):
+def sspoc_daytrader_kubernetes_deploy(event, context):
     print ("printing from ss-poc-lambda-2")
 
     exec_cmd('mkdir -v /tmp/code/')
