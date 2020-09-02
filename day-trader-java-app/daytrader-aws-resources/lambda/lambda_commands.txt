@@ -1,0 +1,107 @@
+
+#====================================================================================================
+# From : 
+# https://medium.com/@jacobsteeves/aws-lambda-from-the-command-line-7efab7f3ebd9
+#====================================================================================================
+
+#====================================================================================================
+# Create out nice little function (check file sspoc_main.py )
+
+#Zip it
+zip sspoc_main.zip sspoc_main.py
+#====================================================================================================
+# If required, create new user for Lambda ( create_new_lambda_user.txt )
+#====================================================================================================
+
+# Create our policy granting all the lambda functionality ( check sspoc_lambda_policy.json )
+
+#====================================================================================================
+# Grant this policy to our sspoc_lambda_user
+# Is this required for shibutrial user?
+
+#aws iam put-user-policy --profile shibutrial --user-name shibutrial --policy-name lambda_all --policy-document file://sspoc_lambda_policy.json
+
+#====================================================================================================
+
+#create a role. 
+#The role specifies what actions the function instance is capable of ( check assume_role.json )
+#--------------------------------------------------------
+aws iam create-role --profile shibutrial --role-name sspoc_basic_lambda_role --assume-role-policy-document file://assume_role.json
+
+
+# Note down the "ARN" e.g:
+"Arn": "arn:aws:iam::560773393352:role/sspoc_basic_lambda_role"
+
+#====================================================================================================
+#to enable logs in Cloud Watch
+aws iam --profile shibutrial attach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+#aws iam --profile shibutrial attach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRoleForLambda"
+
+aws iam --profile shibutrial attach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
+aws iam --profile shibutrial attach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+aws iam --profile shibutrial attach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/AWSLambdaFullAccess"
+aws iam --profile shibutrial attach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+
+
+???? sspoc_lambda_eks_policy ????
+
+
+#====================================================================================================
+
+#create lambda function 
+
+aws lambda create-function --profile shibutrial --function-name add --zip-file fileb://sspoc_main.zip --role "arn:aws:iam::560773393352:role/sspoc_basic_lambda_role" --handler sspoc_main.add --runtime python3.8 --layers "arn:aws:lambda:us-east-2:560773393352:layer:sspoc-kubctl-layer:1" --timeout 30
+#====================================================================================================
+
+#Create layers
+#1) create with zip file as below
+aws lambda publish-layer-version --profile shibutrial --layer-name sspoc_kubectl_layer --zip-file fileb://kubectl_layer.zip
+aws lambda publish-layer-version --profile shibutrial --layer-name sspoc_eksctl_layer  --zip-file fileb://eksctl_layer.zip
+
+#2) Upload to S3 bucket and then create as below
+aws lambda publish-layer-version --profile shibutrial --layer-name sspoc_kubectl_layer --content "S3Bucket=ss-poc-shibu,S3Key=kubectl_layer.zip"
+aws lambda publish-layer-version --profile shibutrial --layer-name sspoc_eksctl_layer  --content "S3Bucket=ss-poc-shibu,S3Key=eksctl_layer.zip"
+
+Note down Layer ARN
+arn:aws:lambda:us-east-2:560773393352:layer:sspoc_kubectl_layer:1
+arn:aws:lambda:us-east-2:560773393352:layer:sspoc_eksctl_layer:1
+
+
+#Add layers to function
+#Note:- all layers has to be added in a single command.
+aws lambda update-function-configuration --profile shibutrial --function-name add --layers arn:aws:lambda:us-east-2:560773393352:layer:sspoc_kubectl_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:sspoc_eksctl_layer:1
+
+#Add layers to lambda function
+
+
+
+#====================================================================================================
+
+#And now to invoke it
+
+#Create a request.json file to input your request data
+#Note: it is 'fileb' for binary file
+
+aws lambda invoke --profile shibutrial --invocation-type RequestResponse --function-name add --region us-east-2 --log-type Tail --payload fileb://request.json output.txt
+cat output.txt && echo
+
+#====================================================================================================
+#To access EKS from Lambda
+
+Follow instructions from 
+https://aws.amazon.com/premiumsupport/knowledge-center/eks-api-server-unauthorized-error/
+Check pdf "Resolve Unauthorized Server Error when Connecting to Amazon EKS API Server.pdf"  
+
+
+  
+aws sts get-caller-identity
+kubectl edit configmap aws-auth -n kube-system   (Edit lines as per pdf)
+aws eks update-kubeconfig --name ss-poc-cluster
+aws eks update-kubeconfig --name ss-poc-cluster --role-arn arn:aws:iam::560773393352:role/sspoc_basic_lambda_role
+#verify your edits are available...
+kubectl edit configmap aws-auth -n kube-system
+
+kubectl get pods
+kubectl get deployments
+kubectl delete deployment account-depl
+kubectl get deployments
