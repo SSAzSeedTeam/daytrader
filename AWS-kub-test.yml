@@ -9,6 +9,6 @@ steps:
   inputs:
     awsCredentials: 'S3-Upload'
     regionName: 'us-east-2'
-    bucketName: 's3://ss-poc-daytrader'
+    bucketName: 'ss-poc-daytrader'
     sourceFolder: 'day-trader-java-app/daytrader-kubernetes-manifests'
     globExpressions: '**'
