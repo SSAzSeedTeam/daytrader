@@ -32,3 +32,6 @@ steps:
     command: 'create'
     arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
     secretType: 'dockerRegistry'
+
+- task: Bash@3
+  inputs: ''
