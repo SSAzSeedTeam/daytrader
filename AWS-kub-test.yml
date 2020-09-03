@@ -9,6 +9,8 @@ steps:
   inputs:
     awsCredentials: 'S3-Upload'
     regionName: 'us-east-2'
-    bucketName: 'ss-poc-daytrader'
+    bucketName: 'ss-poc-daytrader-963852741'
     sourceFolder: 'day-trader-java-app/daytrader-kubernetes-manifests'
     globExpressions: '**'
+    filesAcl: 'bucket-owner-full-control'
+    createBucket: true
