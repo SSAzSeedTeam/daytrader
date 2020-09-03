@@ -1,0 +1,13 @@
+trigger:
+
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: S3Upload@1
+  inputs:
+    awsCredentials: 'S3-Upload'
+    bucketName: 's3://ss-poc-daytrader'
+    sourceFolder: 'day-trader-java-app/daytrader-kubernetes-manifests'
+    globExpressions: '**'
