@@ -24,7 +24,7 @@ steps:
   displayName: 'daytrader-accounts'
   inputs:
     containerRegistry: 'docker-puneet'
-    repository: 'puneetsinghgx / daytrader-web'
+    repository: 'puneetsinghgx / daytrader-accounts'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
     tags: '15'
@@ -32,8 +32,8 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-gateway'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-gateway'
+    containerRegistry: 'docker-puneet'
+    repository: 'puneetsinghgx / daytrader-gateway'
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
@@ -42,8 +42,8 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-portfolios'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-portfolios'
+    containerRegistry: 'docker-puneet'
+    repository: 'puneetsinghgx / daytrader-portfolios'
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
@@ -51,8 +51,8 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-quotes'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-quotes'
+    containerRegistry: 'docker-puneet'
+    repository: 'puneetsinghgx / daytrader-quotes'
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
@@ -60,8 +60,8 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-web'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-web'
+    containerRegistry: 'docker-puneet'
+    repository: 'puneetsinghgx / daytrader-web'
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
