@@ -1,0 +1,81 @@
+apiVersion: v1
+entries:
+  daytrader:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.070613Z
+    description: A Helm chart for DayTrader
+    digest: b8538c97dfa8534df18907a1bca8a2d559e442191414636afc1ef0d470459f81
+    name: daytrader
+    urls:
+    - daytrader-1.0.18.tgz
+    version: 1.0.18
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.069981Z
+    description: A Helm chart for DayTrader
+    digest: fe67b2e6a92c032ddbecbd618d0ec71c45441a506dcaac3bd3374b998fbd8c4c
+    name: daytrader
+    urls:
+    - daytrader-1.0.17.tgz
+    version: 1.0.17
+  daytrader-accounts:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.070844Z
+    description: A Helm chart for DayTrader Accounts
+    digest: 4ff2908908fae32a7bb7bd21e3b2579df8b7fa4f8e73753e3128af0fbc619af2
+    name: daytrader-accounts
+    urls:
+    - daytrader-accounts-1.0.17.tgz
+    version: 1.0.17
+  daytrader-gateway:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.071075Z
+    description: A Helm chart for DayTrader Gateway
+    digest: 6ea0bd2329c342c23f3c1c691c4d8b8568b91c05a3319822eefec42485f88515
+    name: daytrader-gateway
+    urls:
+    - daytrader-gateway-1.0.17.tgz
+    version: 1.0.17
+  daytrader-portfolios:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.071289Z
+    description: A Helm chart for DayTrader Portfolios
+    digest: 07686d3d53e547c1f74e4b7e1294d0fc3463b7f170de6df16ceec45fa74b126c
+    name: daytrader-portfolios
+    urls:
+    - daytrader-portfolios-1.0.17.tgz
+    version: 1.0.17
+  daytrader-quotes:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.071509Z
+    description: A Helm chart for DayTrader Quotes
+    digest: c6bc77cd380584150764420e5e8eb5b4fc7b07faa2ed06511d902a53873b0606
+    name: daytrader-quotes
+    urls:
+    - daytrader-quotes-1.0.17.tgz
+    version: 1.0.17
+  daytrader-web:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.072832Z
+    description: A Helm chart for DayTrader Web
+    digest: 2f9c763e49f8d050e2f3940ca20824df3f01e7e6ab2600e1f0e49f54ac1624e2
+    name: daytrader-web
+    urls:
+    - daytrader-web-1.0.18.tgz
+    version: 1.0.18
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-09T23:40:13.072555Z
+    description: A Helm chart for DayTrader Web
+    digest: 68c748c7d8aa326d9dd1b5f0c2928855ef466e1389e1f140fe6db9d80ea7d86e
+    name: daytrader-web
+    urls:
+    - daytrader-web-1.0.17.tgz
+    version: 1.0.17
+generated: 2019-01-09T23:40:13.068086Z

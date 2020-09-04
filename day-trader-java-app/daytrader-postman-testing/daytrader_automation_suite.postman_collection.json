@@ -1,0 +1,1954 @@
+{
+	"info": {
+		"_postman_id": "0b6f7d80-c0c8-4763-a537-0fa45010419a",
+		"name": "DayTraderAutomationSuite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Database Configurations",
+			"item": [
+				{
+					"name": "Account_Table_Recreate_request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ca03d0bc-095c-4222-8f55-939a0c2f66c8",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "70fafd5a-fd76-4110-bd6d-6f0720d55bd9",
+								"exec": [
+									"pm.test(\"Verify response is successful and status code for Accounts ReCreation Table is 201 or 202\", function () {\r",
+									"   pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Verify Status code name is 'Created'for Accounts ReCreation Table\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Verify response body has message 'true'for Accounts ReCreation Table\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{accountURL}}/admin/recreateDBTables",
+							"host": [
+								"{{accountURL}}"
+							],
+							"path": [
+								"admin",
+								"recreateDBTables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Portfolio_Table_ReCreation_request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5078f05-e1a3-4443-8216-1385ceb91a5f",
+								"exec": [
+									"pm.test(\"Verify response is successful and status code for 'Portfolio ReCreation Table' is 201 or 202\", function () {\r",
+									"   pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Verify Status code name is 'Created' for 'Portfolio ReCreation Table\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Verify response body has message 'true' for 'Portfolio ReCreation Table\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{portfolioURL}}/admin/recreateDBTables",
+							"host": [
+								"{{portfolioURL}}"
+							],
+							"path": [
+								"admin",
+								"recreateDBTables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Quotes_Table_ReCreation_Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2bd97612-57e1-4021-843f-79af08008fe2",
+								"exec": [
+									"pm.test(\"Verify response is successful and status code for 'Quotes ReCreation Table' is 201 or 202\", function () {\r",
+									"   pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Verify Status code name is 'Created' for 'Quotes ReCreation Table\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Verify response body has message 'true' for 'Quotes ReCreation Table\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{qoutesURL}}/admin/recreateDBTables",
+							"host": [
+								"{{qoutesURL}}"
+							],
+							"path": [
+								"admin",
+								"recreateDBTables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account_Data_Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "236fbcb4-1927-4633-b442-99a62f0c9820",
+								"exec": [
+									"pm.test(\"Verify response is successful and status code for 'Account Data' is 201 or 202\", function () {\r",
+									"   pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Verify Status code name is 'Created' for 'Account Data\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Verify response body has message 'true' for 'Account Data\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{accountURL}}/admin/tradeBuildDB?limit=500&offset=0",
+							"host": [
+								"{{accountURL}}"
+							],
+							"path": [
+								"admin",
+								"tradeBuildDB"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "500"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Portfolio_Data_Request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "71e2d122-665f-4d3e-9522-18d7ee58097d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4fe292f5-7e1a-4ae2-a882-e0659bee7ae7",
+								"exec": [
+									"pm.test(\"Verify response is successful and status code for 'Portfolio Data' is 201 or 202\", function () {\r",
+									"   pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Verify Status code name is 'Created' for 'Portfolio Data\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Verify response body has message 'true' for 'Portfolio Data\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{portfolioURL}}/admin/tradeBuildDB?limit=500&offset=0",
+							"host": [
+								"{{portfolioURL}}"
+							],
+							"path": [
+								"admin",
+								"tradeBuildDB"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "500"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Quotes_Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ceb25cb-41db-4604-bb76-ac98e1930194",
+								"exec": [
+									"pm.test(\"Verify response is successful and status code for 'Quotes Data' is 201 or 202\", function () {\r",
+									"   pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Verify Status code name is 'Created' for 'Quotes Data\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Verify response body has message 'true' for 'Quotes Data\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{qoutesURL}}/admin/tradeBuildDB?limit=500&offset=0",
+							"host": [
+								"{{qoutesURL}}"
+							],
+							"path": [
+								"admin",
+								"tradeBuildDB"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "500"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Qoutes Test Cases",
+			"item": [
+				{
+					"name": "Negative Scenarios",
+					"item": [
+						{
+							"name": "TC1_Negative_Create Symbol Quotes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ddbb5d6e-5460-4fd6-bf5b-e5923b570fb2",
+										"exec": [
+											"pm.test(\"Negative Scenario:Create Symbol Qoutes:Verify response status is 500 when sybol parameter is missing\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n    \"companyName\": \"S73 Incorporated\",\r\n    \"volume\": 32.0,\r\n    \"price\": 18.43,\r\n    \"low\": 19.00,\r\n    \"high\": 19.00,\r\n    \"open\": 19.00,\r\n    \"change\": -0.57\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{qoutesURL}} /quotes",
+									"host": [
+										"{{qoutesURL}} "
+									],
+									"path": [
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC2_Negative Scenario_Update Symbol Qoutes_Volume_Missing",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "56a88dee-726d-402a-9818-977c9025eca0",
+										"exec": [
+											"pm.test(\"Negative Scenario:Update Symbol Qoutes: Verify that response status code is 400 when volume and price parameters are missing in request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{qoutesURL}}/quotes/{{Symbol}}?",
+									"host": [
+										"{{qoutesURL}}"
+									],
+									"path": [
+										"quotes",
+										"{{Symbol}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC3_Negative Scenario: Get all qoutes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dbcf61b1-4a4f-41cd-939c-ab1e154a51d0",
+										"exec": [
+											"pm.test(\"Negative Scenario: Get all qoutes: Verify response status code is 400 when limit and offset is missing\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{qoutesURL}} /quotes",
+									"host": [
+										"{{qoutesURL}} "
+									],
+									"path": [
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Positive Scenarios",
+					"item": [
+						{
+							"name": "TC1_Create Symbol Quotes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "31d7e34a-60ef-4fe2-89c6-248d94fbd2ef",
+										"exec": [
+											"//Set and fetch the Environment variable \r",
+											"pm.test(\"Create Symbol Quotesn:Updating environment variable with request body parameter Symbol for validation\", function () {\r",
+											"//parsing request body json object\r",
+											"var data = JSON.parse(request.data);\r",
+											"//Updating env variables\r",
+											"pm.environment.set(\"Symbol\", data.symbol);\r",
+											"pm.environment.set(\"CompanyName\", data.companyName);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"var sym = pm.environment.get(\"Symbol\");\r",
+											"var Cname = pm.environment.get(\"CompanyName\");\r",
+											"\r",
+											"pm.test(\"Create Symbol Quotes: Verify response status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response status code name is 'Created'\", function () {\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has 8 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(8);\r",
+											"    });\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has symbol as \" + sym, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.symbol).to.eql(sym);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has companyName as \" + Cname, \" Incorporated\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.companyName).to.eql(Cname);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has volume = 0.0 \", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.volume).to.eql(0.0);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has price = 0.18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.price).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has low = 0.18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.low).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has high = 0.0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.high).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has change = 0.0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.change).to.eql(0.0);\r",
+											"});\r",
+											"pm.test(\"Create Symbol Quotes: Verify response body has open = 0.18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.open).to.eql(18.43);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"symbol\": \"S74\",\r\n    \"companyName\": \"S74 Incorporated\",\r\n    \"volume\": 32.0,\r\n    \"price\": 18.43,\r\n    \"low\": 19.00,\r\n    \"high\": 19.00,\r\n    \"open\": 19.00,\r\n    \"change\": -0.57\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{qoutesURL}} /quotes",
+									"host": [
+										"{{qoutesURL}} "
+									],
+									"path": [
+										"quotes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC2_Update Symbol Quotes Price and Volume",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0686bbce-daae-427a-b3e0-0a66873acc08",
+										"exec": [
+											"//Fetch the Symbol value from Environment and set it to variable sym and companyName\r",
+											"    var sym = pm.environment.get(\"Symbol\");\r",
+											"    var Cname = pm.environment.get(\"CompanyName\");\r",
+											"   \r",
+											"//Set the Environment variable for Volume, Price and Change\r",
+											"var data = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"Volume\", data.volume);\r",
+											"\r",
+											"var data = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"Price\", data.price);\r",
+											"\r",
+											"var data = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"Change\", data.change);\r",
+											"\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response status code name is 'OK'\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has 8 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(8);\r",
+											"    });\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has symbol as \"+ sym, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.symbol).to.eql(sym);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has companyName as \" + Cname, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.companyName).to.eql(Cname);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has volume = 20.0 \", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.volume).to.eql(1.0);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has price = 184.30\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.price).to.eql(184.30);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has low = 18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.low).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has high = 0.0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.high).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has change = 165.87\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.change).to.eql(165.87);\r",
+											"});\r",
+											"pm.test(\"Update Symbol Quotes Price and Volume: Verify response body has open = 18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.open).to.eql(18.43);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{qoutesURL}}/quotes/{{Symbol}}?price=10&volume=1",
+									"host": [
+										"{{qoutesURL}}"
+									],
+									"path": [
+										"quotes",
+										"{{Symbol}}"
+									],
+									"query": [
+										{
+											"key": "price",
+											"value": "10"
+										},
+										{
+											"key": "volume",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC3_Get All the Quotes by limit and offset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f4c5d854-d1b4-497a-8db2-acba944c26c2",
+										"exec": [
+											"pm.test(\"Get all the qoutes: Verify Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Get all the qoutes: Verify Status code name is OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{qoutesURL}} /quotes/?limit=10&offset=0",
+									"host": [
+										"{{qoutesURL}} "
+									],
+									"path": [
+										"quotes",
+										""
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC4_Get quotes by Symbol",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2b57c1c9-0f24-44f0-b5a6-062573da5c9b",
+										"exec": [
+											"//Fetch the Symbol, Volume, Price, Change values from Environment and set it to variables sym, vol,price,change respectively\r",
+											"\r",
+											"    var sym =  pm.environment.get(\"Symbol\");\r",
+											"    var vol = Number(pm.environment.get(\"Volume\"));\r",
+											"    var price = Number(pm.environment.get(\"Price\"));\r",
+											"    var change = Number(pm.environment.get(\"Change\"));\r",
+											"\r",
+											"pm.test(\"Get quotes by Symbol: Verify response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response status code name is 'OK'\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has 8 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(8);\r",
+											"    });\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has symbol as \"+ sym, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.symbol).to.eql(sym);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has companyName as \" + sym + \" Incorporated\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.companyName).to.eql(sym + \" Incorporated\");\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has volume = \"+ vol, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.volume).to.eql(vol);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has price = \"+ price, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.price).to.eql(price);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has low = 18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.low).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has high = 0.0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.high).to.eql(18.43);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has change = \"+ change, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.change).to.eql(change);\r",
+											"});\r",
+											"pm.test(\"Get quotes by Symbol: Verify response body has open = 18.43\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.open).to.eql(18.43);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{qoutesURL}} /quotes/{{Symbol}}",
+									"host": [
+										"{{qoutesURL}} "
+									],
+									"path": [
+										"quotes",
+										"{{Symbol}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Accounts Test Cases",
+			"item": [
+				{
+					"name": "Negative Scenarios",
+					"item": [
+						{
+							"name": "TC1_Negative Scenario_AccoutByID_UserDoesNotExist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3a15e17e-f92a-4507-80b5-cc3d981dbc61",
+										"exec": [
+											"pm.test(\"Negative Scenario_AccoutByID_UserDoesNotExist: Verify Account by UserID response status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"pm.test(\"Negative Scenario_AccoutByID_UserDoesNotExist: Verify Account by UserID response status code name is 'No Content'\", function () {\r",
+											"    pm.response.to.have.status(\"No Content\");\r",
+											"});\r",
+											"pm.test(\"Negative Scenario_AccoutByID_UserDoesNotExist: Verify Account by UserID response body is empty\", function () {\r",
+											"    var res = (_.isEmpty(responseBody));\r",
+											"    pm.expect(res).to.be.true\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountURL}}/accounts/121009",
+									"host": [
+										"{{accountURL}}"
+									],
+									"path": [
+										"accounts",
+										"121009"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC2_Negative Scenario: AccountProfileByID_UserDoesNotExist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3876c3fd-2e3c-4e88-ba3d-ec4923ce6b9b",
+										"exec": [
+											"pm.test(\"Negative Scenario: AccountProfileByID_UserDoesNotExist: Verify Account Profile by UserID response status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"pm.test(\"Negative Scenario: AccountProfileByID_UserDoesNotExist: Verify Account Profile by UserID response status code name is 'No Content'\", function () {\r",
+											"    pm.response.to.have.status(\"No Content\");\r",
+											"});\r",
+											"pm.test(\"Negative Scenario: AccountProfileByID_UserDoesNotExist: Verify Account Profile by UserID response body is empty\", function () {\r",
+											"    var res = (_.isEmpty(responseBody));\r",
+											"    pm.expect(res).to.be.true\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountURL}}/accounts/121009/profiles",
+									"host": [
+										"{{accountURL}}"
+									],
+									"path": [
+										"accounts",
+										"121009",
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Positive Scenarios",
+					"item": [
+						{
+							"name": "TC1_Create Account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "96faf462-8184-4417-8c21-0698c5eb017e",
+										"exec": [
+											"//Set and fetch the Environment variable \r",
+											"pm.test(\"Account Creation:Updating environment variable with request body parameter values for validation\", function () {\r",
+											"//parsing request body json object\r",
+											"var data = JSON.parse(request.data);\r",
+											"//Updating env variables\r",
+											"pm.environment.set(\"AccountID\", data.accountID);\r",
+											"pm.environment.set(\"Balance\", data.balance);\r",
+											"pm.environment.set(\"openBalance\", data.openBalance);\r",
+											"pm.environment.set(\"ProfileID\", data.profileID);\r",
+											"pm.environment.set(\"UserId\", data.profile.userID);\r",
+											"pm.environment.set(\"FullName\", data.profile.fullName);\r",
+											"pm.environment.set(\"Address\", data.profile.address);\r",
+											"pm.environment.set(\"Email\", data.profile.email);\r",
+											"pm.environment.set(\"CreditCard\", data.profile.creditCard);\t\r",
+											"pm.environment.set(\"Password\", data.profile.password);\r",
+											"pm.environment.set(\"Login\", data.loginCount);\r",
+											"pm.environment.set(\"Logout\", data.logoutCount);\r",
+											"pm.environment.set(\"Balance\", data.balance);\r",
+											"pm.environment.set(\"openBalance\", data.openBalance);\r",
+											"\r",
+											"\r",
+											"});\r",
+											"\r",
+											"\r",
+											"    var Pid = pm.environment.get(\"ProfileID\");\r",
+											"    var UserId = pm.environment.get(\"UserId\");\r",
+											"    var Fname = pm.environment.get(\"FullName\");\r",
+											"    var Add = pm.environment.get(\"Address\");\r",
+											"    var Email = pm.environment.get(\"Email\");\r",
+											"    var Ccard = pm.environment.get(\"CreditCard\");\r",
+											"    var Pass = pm.environment.get(\"Password\");\r",
+											"    var Bal = pm.environment.get(\"Balance\");\r",
+											"    var OpenBal = pm.environment.get(\"openBalance\");\r",
+											"    var login = pm.environment.get(\"Login\");\r",
+											"    var logout = pm.environment.get(\"Logout\");\r",
+											"\r",
+											"\r",
+											"pm.test(\"Account Creation: Verify respose status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify respose has status code name is 'Created'\", function () {\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response body has 9 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(9);\r",
+											"    });\r",
+											"    \r",
+											"    pm.test(\"Account Creation: Verify response body has 6 parameters\", function () {\r",
+											"       pm.expect(Object.keys(pm.response.json().profile).length).to.eql(6);\r",
+											"    });\r",
+											"\r",
+											"pm.test(\"Account Creation: Verify response has AccountID\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"accountID\");\r",
+											"});\r",
+											"pm.test(\"Account Creation: Updating generated AccountID given response body\", function () {\r",
+											"   var resBody = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"AccountID\", resBody.accountID);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Account Creation: Verify response has LoginCount as \"+ login, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.loginCount).to.eql(login);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Account Creation: Verify response has LogoutCount as \"+ logout, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.logoutCount).to.eql(logout);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has lastLogin\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"lastLogin\");\r",
+											"});\r",
+											"pm.test(\"Account Creation: Updating generated LastLogin given response body\", function () {\r",
+											"   var resBody = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"LastLogin\", resBody.lastLogin);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has creationDate\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"creationDate\");\r",
+											"});\r",
+											"pm.test(\"Account Creation: Updating generated creationDate given response body\", function () {\r",
+											"   var resBody = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"CreationDate\", resBody.creationDate);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has profileID as \"+ Pid, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profileID).to.eql(Pid);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has balance as \"+ Bal, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.balance).to.eql(Bal);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has Openbalance as \"+ OpenBal, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.openBalance).to.eql(OpenBal);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has Userid as \"+ UserId, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.userID).to.eql(UserId);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has fullName as \"+ Fname, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.fullName).to.eql(Fname);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has address as \"+ Add, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.address).to.eql(Add);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has email as \"+ Email, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.email).to.eql(Email);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has creditCard as \"+ Ccard, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.creditCard).to.eql(Ccard);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has password as \"+ Pass, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.password).to.eql(Pass);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"accountID\": 0,\r\n  \"balance\": 10000,\r\n  \"creationDate\": \"2020-09-02T07:31:40.613Z\",\r\n  \"lastLogin\": \"2020-09-02T07:31:40.613Z\",\r\n  \"loginCount\": 0,\r\n  \"logoutCount\": 0,\r\n  \"openBalance\": 10000,\r\n  \"profile\": {\r\n    \"address\": \"Bangalore\",\r\n    \"creditCard\": \"12345678978\",\r\n    \"email\": \"tbalachandra404@gmail.com\",\r\n    \"fullName\": \"Vinay\",\r\n    \"password\": \"1244\",\r\n    \"userID\": \"1182\"\r\n  },\r\n  \"profileID\": \"1182\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{accountURL}}/accounts",
+									"host": [
+										"{{accountURL}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC2_AccountProfileUpdate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3eab3fda-fa09-4e25-9206-15e7c9d8da94",
+										"exec": [
+											"\r",
+											"var data = JSON.parse(request.data);\r",
+											"var uid = String(data.userID);\r",
+											"var fName = data.fullName;\r",
+											"var add = data.address;\r",
+											"var email = data.email;\r",
+											"var ccard = data.creditCard;\r",
+											"var pass = data.password;\r",
+											"\r",
+											"pm.test(\"Account Profile Update: Verify respose status code is 201\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Account Profile Update: Verify respose has status code name is 'Created'\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Account Profile Update: Verify response body has 6 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(6);\r",
+											"    });\r",
+											"pm.test(\"Account Profile Update: Verify response has userId as \"+ uid, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.userID).to.eql(uid);\r",
+											"});\r",
+											"pm.test(\"Account Profile Update: Verify response has FullName as \"+ fName, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.fullName).to.eql(fName);\r",
+											"});\r",
+											"pm.test(\"Account Profile Update: Verify response has Address as \"+ add, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.address).to.eql(add);\r",
+											"});\r",
+											"pm.test(\"Account Profile Update: Verify response has Email as \"+ email, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.email).to.eql(email);\r",
+											"});\r",
+											"pm.test(\"Account Profile Update: Verify response has CreditCard as \"+ ccard, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.creditCard).to.eql(ccard);\r",
+											"});\r",
+											"pm.test(\"Account Profile Update: Verify response has Password as \"+ pass, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.password).to.eql(pass);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Account Profile Update: Updating the Account Profile values after patch validation\", function () {\r",
+											"   var resBody = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"UserId\", resBody.userID);\r",
+											"postman.setEnvironmentVariable(\"FullName\", resBody.fullName);\r",
+											"postman.setEnvironmentVariable(\"Address\", resBody.address);\r",
+											"postman.setEnvironmentVariable(\"Email\", resBody.email);\r",
+											"postman.setEnvironmentVariable(\"CreditCard\", resBody.creditCard);\r",
+											"postman.setEnvironmentVariable(\"Password\", resBody.password);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userID\": {{UserId}},\r\n    \"fullName\": \"Sonali Pasi\",\r\n    \"address\": \"Navi Mumbai\",\r\n    \"email\": \"sonali.pasi112@outlook.com\",\r\n    \"creditCard\": \"123-fake-ccnum-456\",\r\n    \"password\": \"Test\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{accountURL}}/accounts/{{UserId}}/profiles",
+									"host": [
+										"{{accountURL}}"
+									],
+									"path": [
+										"accounts",
+										"{{UserId}}",
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC3_ Account Profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dd4e87bf-4cd4-494d-b132-f51414f9a43b",
+										"exec": [
+											"\r",
+											"    var Pid = pm.environment.get(\"ProfileID\");\r",
+											"    var UserId = pm.environment.get(\"UserId\");\r",
+											"    var Fname = pm.environment.get(\"FullName\");\r",
+											"    var Add = pm.environment.get(\"Address\");\r",
+											"    var Email = pm.environment.get(\"Email\");\r",
+											"    var Ccard = pm.environment.get(\"CreditCard\");\r",
+											"    var Pass = pm.environment.get(\"Password\");\r",
+											"\r",
+											"\r",
+											"pm.test(\"Get Account Profile By UserId:Account Profile: Verify Account Profile  by UserID response has Status code: 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify Account Profile by UserID response has Status code name:\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify Account Profile by UserID response body has 6 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(6);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Get Account Profile By UserId: Verify response has Userid as \"+ UserId, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.userID).to.eql(UserId);\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify response has fullName as \"+ Fname, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.fullName).to.eql(Fname);\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify response has address as \"+ Add, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.address).to.eql(Add);\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify response has email as \"+ Email, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.email).to.eql(Email);\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify response has creditCard as \"+ Ccard, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.creditCard).to.eql(Ccard);\r",
+											"});\r",
+											"pm.test(\"Get Account Profile By UserId: Verify response has password as \"+ Pass, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.password).to.eql(Pass);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountURL}}/accounts/{{UserId}}/profiles",
+									"host": [
+										"{{accountURL}}"
+									],
+									"path": [
+										"accounts",
+										"{{UserId}}",
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC4_AccountById",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0c688070-1238-414c-94ed-4b35442b7851",
+										"exec": [
+											"    var Aid = Number(pm.environment.get(\"AccountID\"));\r",
+											"    var login = pm.environment.get(\"Login\");\r",
+											"    var logout = pm.environment.get(\"Logout\");\r",
+											"    var llogin = Number(pm.environment.get(\"LastLogin\"));\r",
+											"    var creationDate = Number(pm.environment.get(\"CreationDate\"));\r",
+											"    var pid = pm.environment.get(\"UserId\");\r",
+											"    var balance = pm.environment.get(\"Balance\");\r",
+											"    var Obalance = pm.environment.get(\"openBalance\");\r",
+											"\r",
+											"pm.test(\"Get Account By UserId: Verify Account by UserID response has Status code: 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Get Account By UserId: Verify Account by UserID response has Status code name:\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has AccountId as \" + Aid, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.accountID).to.eql(Aid);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has LoginCount as \"+ login, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.loginCount).to.eql(login);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Account Creation: Verify response has LogoutCount as \"+ logout, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.logoutCount).to.eql(logout);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has Lastlogin as \"+ llogin, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.lastLogin).to.eql(llogin);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has creationDate as\" + creationDate, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.creationDate).to.eql(creationDate);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has profileID as \"+ pid, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profileID).to.eql(pid);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has balance as \" + balance, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.balance).to.eql(balance);\r",
+											"});\r",
+											"pm.test(\"Account Creation: Verify response has Openbalance as \"+ Obalance, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.openBalance).to.eql(Obalance);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{accountURL}}/accounts/{{UserId}}",
+									"host": [
+										"{{accountURL}}"
+									],
+									"path": [
+										"accounts",
+										"{{UserId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Portfolios Test Cases",
+			"item": [
+				{
+					"name": "Negative Scenarios",
+					"item": [
+						{
+							"name": "Negative Scenario:Get Portfolio by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "40c76189-b71a-41cf-85be-283507053231",
+										"exec": [
+											"pm.test(\"Negative Scenario:Get Portfolio by Id: Verify that status code is 204 when user does not exist\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{portfolioURL}}/portfolios/8755444",
+									"host": [
+										"{{portfolioURL}}"
+									],
+									"path": [
+										"portfolios",
+										"8755444"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Positive Scenarios",
+					"item": [
+						{
+							"name": "TC1_Create Portfolio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a5ca1d1f-a680-4c65-a0b1-6a4bf1523a05",
+										"exec": [
+											"//Set and fetch the Environment variable \r",
+											"pm.test(\"Portfolio Creation:Updating environment variable with request body parameter values for validation\", function () {\r",
+											"//parsing request body json object\r",
+											"var data = JSON.parse(request.data);\r",
+											"//Updating env variables\r",
+											"pm.environment.set(\"AccountID\", data.accountID);\r",
+											"pm.environment.set(\"Balance\", data.balance);\r",
+											"pm.environment.set(\"openBalance\", data.openBalance);\r",
+											"pm.environment.set(\"ProfileID\", data.profileID);\r",
+											"pm.environment.set(\"UserId\", data.profile.userID);\r",
+											"pm.environment.set(\"FullName\", data.profile.fullName);\r",
+											"pm.environment.set(\"Address\", data.profile.address);\r",
+											"pm.environment.set(\"Email\", data.profile.email);\r",
+											"pm.environment.set(\"CreditCard\", data.profile.creditCard);\t\r",
+											"pm.environment.set(\"Password\", data.profile.password);\r",
+											"pm.environment.set(\"Login\", data.loginCount);\r",
+											"pm.environment.set(\"Logout\", data.logoutCount);\r",
+											"pm.environment.set(\"Balance\", data.balance);\r",
+											"pm.environment.set(\"openBalance\", data.openBalance);\r",
+											"});\r",
+											"\r",
+											"    var Aid = pm.environment.get(\"AccountID\");\r",
+											"    var Pid = pm.environment.get(\"ProfileID\");\r",
+											"    var UserId = pm.environment.get(\"UserId\");\r",
+											"    var Fname = pm.environment.get(\"FullName\");\r",
+											"    var Add = pm.environment.get(\"Address\");\r",
+											"    var Email = pm.environment.get(\"Email\");\r",
+											"    var Ccard = pm.environment.get(\"CreditCard\");\r",
+											"    var Pass = pm.environment.get(\"Password\");\r",
+											"    var Bal = pm.environment.get(\"Balance\");\r",
+											"    var OpenBal = pm.environment.get(\"openBalance\");\r",
+											"    var login = pm.environment.get(\"Login\");\r",
+											"    var logout = pm.environment.get(\"Logout\");\r",
+											"\r",
+											"\r",
+											"pm.test(\"Portfolio Creation: Verify respose status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify respose has status code name is 'Created'\", function () {\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response body has 9 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(9);\r",
+											"    });\r",
+											"    \r",
+											" pm.test(\"Portfolio Creation: Verify response body has 6 parameters\", function () {\r",
+											"       pm.expect(Object.keys(pm.response.json().profile).length).to.eql(6);\r",
+											"    });\r",
+											"\r",
+											"pm.test(\"Portfolio Creation: Verify response has AccountID\", function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.accountID).to.eql(Aid);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Portfolio Creation: Verify response has LoginCount as \"+ login, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.loginCount).to.eql(login);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Portfolio Creation: Verify response has LogoutCount as \"+ logout, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.logoutCount).to.eql(logout);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has lastLogin\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"lastLogin\");\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Updating generated LastLogin given response body\", function () {\r",
+											"   var resBody = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"LastLogin\", resBody.lastLogin);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has creationDate\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"creationDate\");\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Updating generated creationDate given response body\", function () {\r",
+											"   var resBody = JSON.parse(responseBody);\t\r",
+											"postman.setEnvironmentVariable(\"CreationDate\", resBody.creationDate);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has profileID as \"+ Pid, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profileID).to.eql(Pid);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has balance as \"+ Bal, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.balance).to.eql(Bal);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has Openbalance as \"+ OpenBal, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.openBalance).to.eql(OpenBal);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has Userid as \"+ UserId, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.userID).to.eql(UserId);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has fullName as \"+ Fname, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.fullName).to.eql(Fname);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has address as \"+ Add, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.address).to.eql(Add);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has email as \"+ Email, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.email).to.eql(Email);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has creditCard as \"+ Ccard, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.creditCard).to.eql(Ccard);\r",
+											"});\r",
+											"pm.test(\"Portfolio Creation: Verify response has password as \"+ Pass, function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profile.password).to.eql(Pass);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accountID\": 1019,\r\n    \"loginCount\": 0,\r\n    \"logoutCount\": 0,\r\n    \"lastLogin\": 1599031900613,\r\n    \"creationDate\": 1599031900613,\r\n    \"profileID\": \"1215\",\r\n    \"balance\": 0,\r\n    \"openBalance\": 0,\r\n    \"profile\": {\r\n        \"userID\": \"1215\",\r\n        \"fullName\": \"Balachandra\",\r\n        \"address\": \"Bangalore\",\r\n        \"email\": \"tbalachandra404@gmail.com\",\r\n        \"creditCard\": \"12345678978\",\r\n        \"password\": \"123\"\r\n    }\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{portfolioURL}}/portfolios",
+									"host": [
+										"{{portfolioURL}}"
+									],
+									"path": [
+										"portfolios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC2_Portfolio for Buy Orders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "63fdb46c-2b2a-43d2-aac6-a9a957d59c15",
+										"exec": [
+											"var data = JSON.parse(request.data);\r",
+											"pm.environment.set(\"holdingID\", data.holdingID);\r",
+											"var Otype = String(data.orderType);\r",
+											"var quant = data.quantity;\r",
+											"var Ofee = data.orderFee;\r",
+											"var sym = data.symbol;\r",
+											"var Aid = data.accountID;\r",
+											"var cancelled = data.cancelled;\r",
+											"var open = data.open;\r",
+											"var completed = data.completed;\r",
+											"var sell = data.sell;\r",
+											"var buy = data.buy;\r",
+											"\r",
+											"\r",
+											"pm.test(\"Portfolio: Buy orders: Verify respose status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify respose has status code name is 'Created'\", function () {\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response body has 16 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(16);\r",
+											"    });\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has orderID\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"orderID\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has orderType as \"+ Otype, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.orderType).to.eql(Otype);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has orderStatus as closed\", function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.orderStatus).to.eql(\"closed\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has openDate\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"openDate\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has completionDate\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"completionDate\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has quantity as \"+ quant , function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.quantity).to.eql(quant);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has price\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"price\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has orderFee as \"+ Ofee, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.orderFee).to.eql(Ofee);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has symbol as \"+ sym, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.symbol).to.eql(sym);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has accountID as \"+ Aid, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.accountID).to.eql(Aid);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has holdingID\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"holdingID\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has cancelled as \"+ cancelled, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.cancelled).to.eql(cancelled);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has buy as \"+ buy, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.buy).to.eql(buy);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has sell as\"  + sell, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.sell).to.eql(sell);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has completed as false\", function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.completed).to.eql(false);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Buy orders: Verify response has open as \"+ open, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.open).to.eql(open);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"orderType\": \"buy\",\r\n        \"orderStatus\": \"completed\",\r\n        \"openDate\": 1599024353,\r\n        \"completionDate\": 1599024353,\r\n        \"quantity\": 11.0,\r\n        \"price\": 19.00,\r\n        \"orderFee\": 24.95,\r\n        \"symbol\": \"s:4\",\r\n        \"accountID\": {{AccountID}},\r\n        \"holdingID\": 1865,\r\n        \"open\": false,\r\n        \"sell\": false,\r\n        \"completed\": true,\r\n        \"buy\": true,\r\n        \"cancelled\": false\r\n    }\r\n"
+								},
+								"url": {
+									"raw": "{{portfolioURL}} /portfolios/{{UserId}} /orders?mode=0",
+									"host": [
+										"{{portfolioURL}} "
+									],
+									"path": [
+										"portfolios",
+										"{{UserId}} ",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "mode",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC2.1_Portfolio_User_Order_Request _Sell",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dbadc578-21dd-426b-90a7-d1ea20640cbf",
+										"exec": [
+											"var data = JSON.parse(request.data);\r",
+											"var Otype = String(data.orderType);\r",
+											"var quant = data.quantity;\r",
+											"var Ofee = data.orderFee;\r",
+											"var sym = data.symbol;\r",
+											"var Aid = data.accountID;\r",
+											"var cancelled = data.cancelled;\r",
+											"var open = data.open;\r",
+											"var completed = data.completed;\r",
+											"var sell = data.sell;\r",
+											"var buy = data.buy;\r",
+											"\r",
+											"\r",
+											"pm.test(\"Portfolio: Sell orders: Verify respose status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify respose has status code name is 'Created'\", function () {\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response body has 16 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(16);\r",
+											"    });\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has orderID\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"orderID\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has orderType as \"+ Otype, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.orderType).to.eql(Otype);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has orderStatus as closed\", function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.orderStatus).to.eql(\"closed\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has openDate\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"openDate\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has completionDate\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"completionDate\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has quantity \" , function () {\r",
+											"   pm.expect(pm.response.text()).to.include(\"quantity\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has price\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"price\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has orderFee as \"+ Ofee, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.orderFee).to.eql(Ofee);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has symbol \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"symbol\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has accountID as \"+ Aid, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.accountID).to.eql(Aid);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has holdingID\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"holdingID\");\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has cancelled as \"+ cancelled, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.cancelled).to.eql(cancelled);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has buy as \"+ buy, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.buy).to.eql(buy);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has sell as\"  + sell, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.sell).to.eql(sell);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has completed as false\", function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.completed).to.eql(false);\r",
+											"});\r",
+											"pm.test(\"Portfolio: Sell orders: Verify response has open as \"+ open, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.open).to.eql(open);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"orderType\": \"sell\",\r\n        \"orderStatus\": \"completed\",\r\n        \"openDate\": 1599024353,\r\n        \"completionDate\": 1599024353,\r\n        \"quantity\": 11.0,\r\n        \"price\": 19.00,\r\n        \"orderFee\": 24.95,\r\n        \"symbol\": \"s:4\",\r\n        \"accountID\": {{AccountID}},\r\n        \"holdingID\": {{holdingID}},\r\n        \"open\": false,\r\n        \"sell\": true,\r\n        \"completed\": true,\r\n        \"buy\": false,\r\n        \"cancelled\": false\r\n    }\r\n"
+								},
+								"url": {
+									"raw": "{{portfolioURL}} /portfolios/{{UserId}} /orders?mode=0",
+									"host": [
+										"{{portfolioURL}} "
+									],
+									"path": [
+										"portfolios",
+										"{{UserId}} ",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "mode",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC3_Portfolio Order Status Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9d18eed8-a685-47bf-b291-b62528ff404a",
+										"exec": [
+											"pm.test(\"Portfolio Order Status Request: Verify response is successfull with Status code as 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Portfolio Order Status Request:Verify response is successfull with Status name as OK \", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{portfolioURL}}/portfolios/{{UserId}} /orders?status=closed",
+									"host": [
+										"{{portfolioURL}}"
+									],
+									"path": [
+										"portfolios",
+										"{{UserId}} ",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "closed"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC4_Portfolio_ById",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2ddb215d-5aac-45e1-8bc9-4e09dcf3f5a3",
+										"exec": [
+											"var profileID = pm.environment.get(\"ProfileID\");\r",
+											"var accountID = pm.environment.get(\"AccountID\");\r",
+											"\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response has Status code: 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response has Status code name OK:\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 9 parameters\", function () {\r",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(9);\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'accountID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"accountID\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'loginCount' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"loginCount\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'logoutCount' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"logoutCount\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'lastLogin' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"lastLogin\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'creationDate' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"creationDate\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'profileID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"profileID\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'balance' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"balance\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'openBalance' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"openBalance\");\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify Portfolio by UserID response body has 'profile' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"profile\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Portfolio By User Id: Verify response has accountID as \"+ accountID, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.accountID).to.eql(accountID);\r",
+											"});\r",
+											"pm.test(\"Portfolio By User Id: Verify response has accountID as \"+ profileID, function () {\r",
+											"   var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.profileID).to.eql(profileID);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{portfolioURL}}/portfolios/{{UserId}}",
+									"host": [
+										"{{portfolioURL}}"
+									],
+									"path": [
+										"portfolios",
+										"{{UserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC5_Get Portfolio Orders by UserID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e30e78b9-8871-4e37-b658-aaf8df421410",
+										"exec": [
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response has Status code: 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response has Status code name OK:\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'orderID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"orderID\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'orderType' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"orderType\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'orderStatus' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"orderStatus\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'openDate' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"openDate\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'completionDate' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"completionDate\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'quantity' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"quantity\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'price' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"price\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'orderFee' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"orderFee\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'symbol' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"symbol\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'accountID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"accountID\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'holdingID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"holdingID\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'cancelled' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"cancelled\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'buy' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"buy\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'sell' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"sell\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'completed' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"completed\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio Orders by UserId: Verify Portfolio by UserID response body has 'open' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"open\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{portfolioURL}}/portfolios/{{UserId}} /orders",
+									"host": [
+										"{{portfolioURL}}"
+									],
+									"path": [
+										"portfolios",
+										"{{UserId}} ",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TC6_Get Portfolio Holdings by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "246684a9-1db4-4ec4-bb99-9e3fa78cd653",
+										"exec": [
+											"pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response has Status code: 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response has Status code name OK:\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response body has 'holdingID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"holdingID\");\r",
+											"    });\r",
+											" pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response body has 'quantity' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"quantity\");\r",
+											"    });\r",
+											"pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response body has 'purchasePrice' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"purchasePrice\");\r",
+											"    });\r",
+											"pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response body has 'purchaseDate' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"purchaseDate\");\r",
+											"    });\r",
+											"pm.test(\"Get Portfolio holdings by UserId: Verify Portfolio by UserID response body has 'quoteID' parameter \", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"quoteID\");\r",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{portfolioURL}}/portfolios/{{UserId}} /holdings",
+									"host": [
+										"{{portfolioURL}}"
+									],
+									"path": [
+										"portfolios",
+										"{{UserId}} ",
+										"holdings"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

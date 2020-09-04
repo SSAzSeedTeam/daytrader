@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.metadata.name }}
+  labels:
+    app: {{ .Values.metadata.name }}
+  namespace: default
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.metadata.name }}
+    spec:
+      containers:
+      - name: {{ .Values.metadata.name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{.Values.service.targetPort}}
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            scheme: HTTPS
+            port: {{.Values.service.targetPort}}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            scheme: HTTPS
+            port: {{.Values.service.targetPort}}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 4
+        env:
+        - name: ACCOUNTS_SERVICE_ROUTE
+          value: https://daytrader-accounts
+        - name: GATEWAY_SERVICE_ROUTE
+          value: https://daytrader-gateway
+        - name: PORTFOLIOS_SERVICE_ROUTE
+          value: https://daytrader-portfolios
+        - name: QUOTES_SERVICE_ROUTE
+          value: https://daytrader-quotes
+        - name: GET_HOSTS_FROM
+          value: dns

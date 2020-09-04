@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: daytrader-gateway
+  name: daytrader-gateway
+  namespace: default
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 2443
+  selector:
+    app: daytrader-gateway
+  sessionAffinity: None
+  type: ClusterIP

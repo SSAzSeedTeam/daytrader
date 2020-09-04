@@ -1,0 +1,32 @@
+1.  To test the deployment connection:
+
+    export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-web.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+    echo 'Visit https://localhost:{{.Values.image.containerPort}}/health which should display {"status":"UP"}'
+    kubectl port-forward $POD_NAME {{.Values.image.containerPort}}:{{.Values.image.containerPort}}
+
+2.  To test the service connection:
+
+    echo 'Visit http://localhost:{{.Values.image.containerPort}}/api/v1/namespaces/default/services/https:{{ .Values.service.name }}:/proxy/health which should display {"status":"UP"}'
+    kubectl proxy --port={{.Values.image.containerPort}}
+    
+3.  To review the swagger documentation:
+
+    echo "Visit http://localhost:{{.Values.image.containerPort}}/api/v1/namespaces/default/services/https:{{ .Values.service.name }}:/proxy/swagger-ui.html to review the Swagger documentation"
+    kubectl proxy --port={{.Values.image.containerPort}}
+
+4.  To test the ingress connection:
+
+    export DOMAIN_NAME=$(kubectl get ingress --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-web.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].spec.rules[0].host}")
+    curl -k https://${DOMAIN_NAME}/health
+    
+    Note that you must configure DNS (or add an entry to /etc/hosts) to resolve your custom domain name to your ingress IP address
+
+5.  To test the load balancer connection:
+
+    export IP_ADDRESS=$(kubectl get ingress --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-web.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+    curl -k https://${IP_ADDRESS}/health
+        
+Note that it may take several seconds before the container, the service, and the ingress become available. Check their status via
+  kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-web.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+  kubectl get service --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-web.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+  kubectl get ingress --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-web.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"

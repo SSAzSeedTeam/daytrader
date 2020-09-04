@@ -1,0 +1,894 @@
+{
+	"info": {
+		"_postman_id": "79cfc449-3778-4858-bb13-4e8c78648a2b",
+		"name": "AdvanceAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Multi-parameter",
+			"item": [
+				{
+					"name": "Headers",
+					"item": [
+						{
+							"name": "https://postman-echo.com/response-headers?foo1=bar1&foo2=bar2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ba4f051c-13fc-45bd-b2aa-2cdc121fe8f2",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Verify response have returned parameters added in headers\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.foo1).to.eql(\"bar1\");\r",
+											"    pm.expect(jsonData.foo2).to.eql(\"bar2\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://postman-echo.com/response-headers?foo1=bar1&foo2=bar2",
+									"protocol": "https",
+									"host": [
+										"postman-echo",
+										"com"
+									],
+									"path": [
+										"response-headers"
+									],
+									"query": [
+										{
+											"key": "foo1",
+											"value": "bar1"
+										},
+										{
+											"key": "foo2",
+											"value": "bar2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "https://postman-echo.com/headers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a0c05c6a-3b7d-4eb1-886a-e528df20712b",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Content-Type is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify response have returned parameters added in headers\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.headers.header1).to.eql(\"Test1\");\r",
+											"    pm.expect(jsonData.headers.header2).to.eql(\"Test2\");\r",
+											"    pm.expect(jsonData.headers.header3).to.eql(\"Test3\");\r",
+											"    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Header1",
+										"value": "Test1",
+										"type": "text"
+									},
+									{
+										"key": "Header2",
+										"value": "Test2",
+										"type": "text"
+									},
+									{
+										"key": "Header3",
+										"value": "Test3",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://postman-echo.com/headers",
+									"protocol": "https",
+									"host": [
+										"postman-echo",
+										"com"
+									],
+									"path": [
+										"headers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "https://postman-echo.com/get?foo1=bar1&foo2=bar2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70c8b8d9-faa5-47b8-9cc4-88c3a479c637",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Verify response have returned parameters added in headers\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.args.foo1).to.eql(\"bar1\");\r",
+									"    pm.expect(jsonData.args.foo2).to.eql(\"bar2\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://postman-echo.com/get?foo1=bar1&foo2=bar2",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							],
+							"query": [
+								{
+									"key": "foo1",
+									"value": "bar1"
+								},
+								{
+									"key": "foo2",
+									"value": "bar2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Basic Auth",
+					"item": [
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "https://postman-echo.com/basic-auth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "85a2aaea-0b3d-4c38-8138-9e9bb8016c49",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Your test name\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.authenticated).to.eql(true);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "password",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "postman",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://postman-echo.com/basic-auth",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"basic-auth"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Failure",
+							"item": [
+								{
+									"name": "https://postman-echo.com/basic-auth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e55f8bd2-90c2-4a4c-b5bb-4f2159bbf62d",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name has Unauthorized\", function () {\r",
+													"    pm.response.to.have.status(\"Unauthorized\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Verify response returned Unauthorized\", function () {\r",
+													"    pm.response.to.have.body(\"Unauthorized\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "passwor",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "postman",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://postman-echo.com/basic-auth",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"basic-auth"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Digest Auth",
+					"item": [
+						{
+							"name": "Sucess",
+							"item": [
+								{
+									"name": "https://postman-echo.com/basic-auth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9b4d17e8-8dd8-4c7e-8744-980cd6dbb830",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Your test name\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.authenticated).to.eql(true);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "digest",
+											"digest": [
+												{
+													"key": "password",
+													"value": "password",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "postman",
+													"type": "string"
+												},
+												{
+													"key": "algorithm",
+													"value": "MD5",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://postman-echo.com/digest-auth",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"digest-auth"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Failure",
+							"item": [
+								{
+									"name": "https://postman-echo.com/basic-auth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a62614a1-120c-4b3c-8e76-950e0def443e",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name has Unauthorized\", function () {\r",
+													"    pm.response.to.have.status(\"Unauthorized\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Verify response returned Unauthorized\", function () {\r",
+													"    pm.response.to.have.body(\"Unauthorized\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "digest",
+											"digest": [
+												{
+													"key": "password",
+													"value": "passwor",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "postman",
+													"type": "string"
+												},
+												{
+													"key": "algorithm",
+													"value": "MD5",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://postman-echo.com/digest-auth",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"digest-auth"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "OAuth 1.0",
+					"item": [
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "https://postman-echo.com/oauth1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "71e9e046-bf2a-4b38-b48f-2c8e83aeedd5",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Verify response have status and message\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(\"pass\");\r",
+													"    pm.expect(jsonData.message).to.eql(\"OAuth-1.0a signature verification was successful\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "oauth1",
+											"oauth1": [
+												{
+													"key": "addEmptyParamsToSign",
+													"value": false,
+													"type": "boolean"
+												},
+												{
+													"key": "consumerSecret",
+													"value": "D+EdQ-gs$-%@2Nu7",
+													"type": "string"
+												},
+												{
+													"key": "consumerKey",
+													"value": "RKCGzna7bv9YD57c",
+													"type": "string"
+												},
+												{
+													"key": "signatureMethod",
+													"value": "HMAC-SHA1",
+													"type": "string"
+												},
+												{
+													"key": "version",
+													"value": "1.0",
+													"type": "string"
+												},
+												{
+													"key": "addParamsToHeader",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "code",
+													"value": "xWnkliVQJURqB2x1",
+													"type": "text"
+												},
+												{
+													"key": "grant_type",
+													"value": "authorization_code",
+													"type": "text"
+												},
+												{
+													"key": "redirect_uri",
+													"value": "https://www.getpostman.com/oauth2/callback\n",
+													"type": "text"
+												},
+												{
+													"key": "client_id",
+													"value": "abc123",
+													"type": "text"
+												},
+												{
+													"key": "client_secret",
+													"value": "\nssh-secret",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://postman-echo.com/oauth1",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"oauth1"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Failure",
+							"item": [
+								{
+									"name": "https://postman-echo.com/oauth1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3950b0e3-ce71-47e3-94ec-c3ac97fbe24c",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name has Unauthorized\", function () {\r",
+													"    pm.response.to.have.status(\"Unauthorized\");\r",
+													"});\r",
+													"pm.test(\"Verify response have status and message\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(\"fail\");\r",
+													"    pm.expect(jsonData.message).to.eql(\"Timestamp is missing or is not a number\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "oauth1",
+											"oauth1": [
+												{
+													"key": "consumerSecret",
+													"value": "",
+													"type": "string"
+												},
+												{
+													"key": "addEmptyParamsToSign",
+													"value": false,
+													"type": "boolean"
+												},
+												{
+													"key": "consumerKey",
+													"value": "RKCGzna7bv9YD57c",
+													"type": "string"
+												},
+												{
+													"key": "signatureMethod",
+													"value": "HMAC-SHA1",
+													"type": "string"
+												},
+												{
+													"key": "version",
+													"value": "1.0",
+													"type": "string"
+												},
+												{
+													"key": "addParamsToHeader",
+													"value": false,
+													"type": "boolean"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "code",
+													"value": "xWnkliVQJURqB2x1",
+													"type": "text"
+												},
+												{
+													"key": "grant_type",
+													"value": "authorization_code",
+													"type": "text"
+												},
+												{
+													"key": "redirect_uri",
+													"value": "https://www.getpostman.com/oauth2/callback\n",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "client_id",
+													"value": "abc123",
+													"type": "text"
+												},
+												{
+													"key": "client_secret",
+													"value": "\nssh-secret",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://postman-echo.com/oauth1",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"oauth1"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Hawk Auth",
+					"item": [
+						{
+							"name": "Success",
+							"item": [
+								{
+									"name": "https://postman-echo.com/auth/hawk",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "dfc8ccd4-1fd4-40ec-88ba-449f6818205f",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Verify response body have Hawk Authentication Successful\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.message).to.eql(\"Hawk Authentication Successful\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "hawk",
+											"hawk": [
+												{
+													"key": "authKey",
+													"value": "werxhqb98rpaxn39848xrunpaw3489ruxnpa98w4rxn",
+													"type": "string"
+												},
+												{
+													"key": "authId",
+													"value": "dh37fgj492je",
+													"type": "string"
+												},
+												{
+													"key": "algorithm",
+													"value": "sha256",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "access_token",
+													"value": "xyz1",
+													"type": "text"
+												},
+												{
+													"key": "id",
+													"value": "U1",
+													"type": "text"
+												},
+												{
+													"key": "server_secret",
+													"value": "zeppelin",
+													"type": "text"
+												},
+												{
+													"key": "admin",
+													"value": "true",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://postman-echo.com/auth/hawk",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"auth",
+												"hawk"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Failure",
+							"item": [
+								{
+									"name": "https://postman-echo.com/auth/hawk",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c2c5472f-43c0-4b61-b85c-f11431063555",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code name has Unauthorized\", function () {\r",
+													"    pm.response.to.have.status(\"Unauthorized\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Verify response body have status code , error and message for unauthorized\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.statusCode).to.eql(401);\r",
+													"    pm.expect(jsonData.error).to.eql(\"Unauthorized\");\r",
+													"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "hawk",
+											"hawk": [
+												{
+													"key": "authId",
+													"value": "",
+													"type": "string"
+												},
+												{
+													"key": "authKey",
+													"value": "werxhqb98rpaxn39848xrunpaw3489ruxnpa98w4rxn",
+													"type": "string"
+												},
+												{
+													"key": "algorithm",
+													"value": "sha256",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "access_token",
+													"value": "xyz1",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "id",
+													"value": "U1",
+													"type": "text"
+												},
+												{
+													"key": "server_secret",
+													"value": "zeppelin",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "admin",
+													"value": "true",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://postman-echo.com/auth/hawk",
+											"protocol": "https",
+											"host": [
+												"postman-echo",
+												"com"
+											],
+											"path": [
+												"auth",
+												"hawk"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

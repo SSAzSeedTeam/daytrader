@@ -1,0 +1,16 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: S3Upload@1
+  inputs:
+    awsCredentials: 'S3-Upload'
+    regionName: 'us-east-2'
+    bucketName: 'ss-poc-daytrader'
+    sourceFolder: 'day-trader-java-app/daytrader-kubernetes-manifests'
+    globExpressions: '**'
+    filesAcl: 'bucket-owner-full-control'
+    createBucket: true

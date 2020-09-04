@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: daytrader-accounts
+  name: daytrader-accounts
+  namespace: default
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 1443
+  selector:
+    app: daytrader-accounts
+  sessionAffinity: None
+  type: ClusterIP

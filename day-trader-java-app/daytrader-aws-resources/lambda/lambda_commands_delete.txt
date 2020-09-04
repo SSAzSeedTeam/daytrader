@@ -1,0 +1,15 @@
+
+#====================================================================================================
+
+#get list of role-policies
+aws iam list-attached-role-policies --profile shibutrial --role-name sspoc_basic_lambda_role --output text
+
+#then detach them
+aws iam --profile shibutrial detach-role-policy --role-name sspoc_basic_lambda_role --policy-arn "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+
+#delete role
+aws iam delete-role --profile shibutrial --role-name sspoc_basic_lambda_role
+
+#Delete lambda
+aws lambda delete-function --profile shibutrial --function-name add
+

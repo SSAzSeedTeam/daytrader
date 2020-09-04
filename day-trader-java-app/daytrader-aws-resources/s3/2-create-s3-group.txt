@@ -1,0 +1,12 @@
+#====================================================================================================
+# Create a new user to upload to S3 bucket
+#====================================================================================================
+# ----------------------------------------------------
+# Create a group
+aws iam --profile shibu_admin create-group --group-name alphagx_s3_access_group
+
+# ----------------------------------------------------
+# Create a policy and attach the policy to the group
+aws iam put-group-policy --profile shibu_admin --group-name alphagx_s3_access_group --policy-name sspoc_daytrader_s3_bucket_put_policy --policy-document file://sspoc_daytrader_s3_bucket_put_policy.json
+
+#====================================================================================================

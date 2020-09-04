@@ -1,0 +1,87 @@
+version: '3.4'
+
+services:
+  daytrader-web:
+    image: tnshibu/daytrader-web:1.0
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      
+    ports:
+      - "5443:5443"
+    restart: always
+
+    depends_on:
+      - daytrader-accounts
+      - daytrader-gateway
+      - daytrader-portfolios
+      - daytrader-quotes
+
+  daytrader-accounts:
+    image: tnshibu/daytrader-accounts:1.0
+    ports:
+      - "1443:1443"
+    restart: always
+    depends_on:
+      - daytrader-portfolios
+      - daytrader-quotes
+      
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy      
+
+  daytrader-gateway:
+    image: tnshibu/daytrader-gateway:1.0
+    ports:
+      - "2443:2443"
+    restart: always
+    depends_on:
+      - daytrader-accounts
+      - daytrader-portfolios
+      - daytrader-quotes
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+
+  daytrader-portfolios:
+    image: tnshibu/daytrader-portfolios:1.0
+    ports:
+      - "3443:3443"
+    restart: always
+    depends_on:
+       - daytrader-quotes
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy      
+  daytrader-quotes:
+    image: tnshibu/daytrader-quotes:1.0
+    ports:
+      - "4443:4443"
+    restart: always
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy      
+      
+  

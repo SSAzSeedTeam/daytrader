@@ -1,0 +1,23 @@
+#====================================================================================================
+# Create a new user to use for Lambda functions.
+# If you want to create the functions for the current user, then you can skip it
+# ----------------------------------------------------
+# Create a user group 'sspoc_lambda_group'
+aws iam create-group --group-name sspoc_lambda_group
+
+# Create a user 'sspoc_lambda_user'
+aws iam create-user --user-name sspoc_lambda_user
+
+# Add our user to the group
+aws iam add-user-to-group --user-name sspoc_lambda_user --group-name sspoc_lambda_group
+
+# Create a password for this user
+aws iam create-login-profile --user-name sspoc_lambda_user --password sspo.Nalla,pw
+
+# Create an CLI access key for this user
+aws iam create-access-key --user-name sspoc_lambda_user
+
+# Save the Secret and Access Key's some where safe
+# "AccessKeyId": "AOIKPI0WEHSOAPODIDMS",
+# "SecretAccessKey": "2ERvDkF5YyOiVmAoJSFNASOCMuaguFAviQ3+bQWo",
+

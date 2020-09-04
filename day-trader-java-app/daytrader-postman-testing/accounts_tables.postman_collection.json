@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "0a674ff4-29e7-4010-a9ec-882de73f4273",
+		"name": "ACC_RC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ACC_recreateDBTables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61373e7a-e0d6-4343-aece-d0ae21583cb4",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:1443/admin/recreateDBTables",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "1443",
+					"path": [
+						"admin",
+						"recreateDBTables"
+					]
+				},
+				"description": "https://localhost:1443/admin/recreateDBTables"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

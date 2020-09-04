@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-web
+  name: daytrader-web
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-web
+  template:
+    metadata:
+      labels:
+        app: daytrader-web
+    spec:
+      containers:
+      - name: daytrader-web
+        image: dhvines/daytrader-web:4.0.18
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5443
+          protocol: TCP
+        readinessProbe:  
+          httpGet:
+            path: /health
+            scheme: HTTPS
+            port: 5443
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+        livenessProbe:  
+          httpGet:
+            path: /health
+            scheme: HTTPS
+            port: 5443
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 4
+        env:
+        - name: ACCOUNTS_SERVICE_ROUTE
+          value: https://daytrader-accounts
+        - name: GATEWAY_SERVICE_ROUTE
+          value: https://daytrader-gateway
+        - name: PORTFOLIOS_SERVICE_ROUTE
+          value: https://daytrader-portfolios
+        - name: QUOTES_SERVICE_ROUTE
+          value: https://daytrader-quotes
+        - name: GET_HOSTS_FROM
+          value: dns

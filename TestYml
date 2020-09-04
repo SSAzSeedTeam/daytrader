@@ -1,0 +1,72 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+pool:
+  vmImage: 'ubuntu-latest'
+  name: Azure Pipelines
+  demands: maven
+
+steps:
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'day-trader-java-app/pom.xml'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+
+
+- script: |
+    aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 560773393352.dkr.ecr.us-east-2.amazonaws.com
+  displayName: 'Login to AWS'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWSAccessKeyID)
+    AWS_SECRET_ACCESS_KEY: $(AWSSecretAccessKey)
+
+
+
+- task: Docker@2
+  displayName: 'daytrader-accounts'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-accounts-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-gateway'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-gateway-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+
+
+- task: Docker@2
+  displayName: 'daytrader-portfolios'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-portfolios-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-quotes'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-quotes-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-web'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-web-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'

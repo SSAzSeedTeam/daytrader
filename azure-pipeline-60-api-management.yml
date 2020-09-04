@@ -1,0 +1,16 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+#WIP
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'apim-test-singhavi'
+    ScriptType: 'FilePath'
+    ScriptPath: 'day-trader-java-app/daytrader-api-management/CreateAPIMServiceAllMicroservices.ps1'
+    azurePowerShellVersion: 'LatestVersion'
+    pwsh: true
