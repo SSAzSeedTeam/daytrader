@@ -23,11 +23,11 @@ steps:
 - task: Docker@2
   displayName: 'daytrader-accounts'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-accounts'
-    tags: '15'
+    containerRegistry: 'docker-puneet'
+    repository: 'puneetsinghgx / daytrader-web'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+    tags: '15'
 
 - task: Docker@2
   displayName: 'daytrader-gateway'
