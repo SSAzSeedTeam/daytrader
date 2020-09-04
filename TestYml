@@ -8,7 +8,7 @@ pool:
   demands: maven
 
 steps:
-
+#build and push ecr docker
 - task: Maven@3
   inputs:
     mavenPomFile: 'day-trader-java-app/pom.xml'
