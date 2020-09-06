@@ -42,16 +42,15 @@ aws iam --profile shibu_admin attach-role-policy --role-name sspoc_daytrader_lam
 aws iam --profile shibu_admin attach-role-policy --role-name sspoc_daytrader_lambda_role --policy-arn "arn:aws:iam::aws:policy/AWSLambdaFullAccess"
 aws iam --profile shibu_admin attach-role-policy --role-name sspoc_daytrader_lambda_role --policy-arn "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 
-
-???? sspoc_lambda_eks_policy ????
-
-
 #====================================================================================================
 #delete lambda function , if already exists
-aws lambda delete-function --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy 
+#aws lambda delete-function --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy 
 
 #create lambda function 
 aws lambda create-function --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy --zip-file fileb://sspoc_daytrader_kubernetes_deploy.zip --role "arn:aws:iam::560773393352:role/sspoc_daytrader_lambda_role" --handler sspoc_daytrader_kubernetes_deploy.sspoc_daytrader_kubernetes_deploy --runtime python3.8 --timeout 30
+
+#update lambda function (if you have modified just the python code)
+#aws lambda update-function-code --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy --zip-file fileb://sspoc_daytrader_kubernetes_deploy.zip
 #====================================================================================================
 
 #Create layers in either of below two ways
@@ -81,6 +80,10 @@ aws lambda update-function-configuration --profile shibu_admin --function-name s
 
 aws lambda invoke --profile shibu_admin --invocation-type RequestResponse --function-name sspoc_daytrader_kubernetes_deploy --region us-east-2 --log-type Tail --payload fileb://request.json output.txt
 cat output.txt && echo
+
+#====================================================================================================
+#get details of lambda function
+#aws lambda --profile shibu_admin list-functions 
 
 #====================================================================================================
 #To access EKS from Lambda
