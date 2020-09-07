@@ -33,20 +33,15 @@ def sspoc_daytrader_kubernetes_deploy(event, context):
     #exec_cmd('ls -l /tmp/code/')
     #print ("File listing complete")
 
-    exec_cmd("/opt/aws --version ")
-    print ("awscli version complete")
+    #exec_cmd("/opt/aws --version ")
+    #print ("awscli version complete")
 
     #exec_cmd("/opt/aws eks update-kubeconfig --name ss-poc-cluster  --kubeconfig /tmp/code/kubeconfig --role-arn arn:aws:iam::560773393352:role/sspoc_daytrader_lambda_role") 
     exec_cmd("/opt/aws eks update-kubeconfig --name ss-poc-cluster  --kubeconfig /tmp/code/kubeconfig") 
-    #custerInfo = eksBoto.describe_cluster(name='ss-poc-cluster')
-    #print (custerInfo)
-    #kubeConfig_file = open("/tmp/code/kubeconfig", "w")
-    #kubeConfig_file.write(custerInfo)
-    #kubeConfig_file.close()
     
     print ("kubeconfig update complete")
-    print ("kubeconfig =")
-    exec_cmd("cat /tmp/code/kubeconfig")
+    #print ("kubeconfig =")
+    #exec_cmd("cat /tmp/code/kubeconfig")
 
     exec_cmd("/opt/kubectl/kubectl version --kubeconfig=/tmp/code/kubeconfig")
     print ("kubeconfig version complete")
