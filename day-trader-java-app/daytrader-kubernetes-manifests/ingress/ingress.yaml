@@ -13,11 +13,11 @@ metadata:
 spec:
   tls:
   - hosts:
-    - daytrader-app.xyz
+    #- a64e53e89e07d4041a4a970bde9b40e9-27456817.us-east-2.elb.amazonaws.com
     secretName: daytrader-tls-secret
   rules:
-    - host: daytrader-app.xyz
-      http: 
+    #- host: a64e53e89e07d4041a4a970bde9b40e9-27456817.us-east-2.elb.amazonaws.com
+    - http: 
         paths:
         - path: /
           backend:

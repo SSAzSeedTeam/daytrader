@@ -61,10 +61,11 @@ aws lambda update-function-code --profile shibu_admin --function-name sspoc_dayt
 
 #Create layers in either of below two ways
 #1) create with zip file as below
-aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_kubectl_layer --zip-file fileb://kubectl_layer.zip
-aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_awscli_layerv6  --zip-file fileb://awscli-lambda-layerv6.zip
-aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_eksctl_layer  --zip-file fileb://eksctl_layer.zip
+aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_kubectl_layer           --zip-file fileb://kubectl_layer.zip
+aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_awscli_layerv6          --zip-file fileb://awscli-lambda-layerv6.zip
+aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_eksctl_layer            --zip-file fileb://eksctl_layer.zip
 aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_iamauthenticator_layer  --zip-file fileb://aws-iam-authenticator-layer.zip
+aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_helm_layer              --zip-file fileb://helm_layer.zip
 
 #2) Upload to S3 bucket and then create as below
 aws lambda publish-layer-version --profile shibu_admin --layer-name daytrader_kubectl_layer           --content "S3Bucket=ss-poc-shibu,S3Key=kubectl_layer.zip"
@@ -77,6 +78,7 @@ arn:aws:lambda:us-east-2:560773393352:layer:daytrader_kubectl_layer:1
 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_awscli_layerv6:1
 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_eksctl_layer:1
 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_iamauthenticator_layer:1
+arn:aws:lambda:us-east-2:560773393352:layer:daytrader_helm_layer:1
 
 #====================================================================================================
 Set PATH values in envronment of lambda
@@ -84,8 +86,8 @@ Set PATH values in envronment of lambda
 
 #Add layers to lambda function
 #Note:- all layers has to be added in a single command.
-aws lambda update-function-configuration --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy --layers arn:aws:lambda:us-east-2:560773393352:layer:daytrader_kubectl_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_awscli_layerv6:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_iamauthenticator_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_eksctl_layer:1 
-aws lambda update-function-configuration --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy --layers arn:aws:lambda:us-east-2:560773393352:layer:daytrader_kubectl_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_awscli_layerv6:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_iamauthenticator_layer:1 
+aws lambda update-function-configuration --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy --layers arn:aws:lambda:us-east-2:560773393352:layer:daytrader_kubectl_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_awscli_layerv6:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_iamauthenticator_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_eksctl_layer:1  arn:aws:lambda:us-east-2:560773393352:layer:daytrader_helm_layer:1 
+aws lambda update-function-configuration --profile shibu_admin --function-name sspoc_daytrader_kubernetes_deploy --layers arn:aws:lambda:us-east-2:560773393352:layer:daytrader_kubectl_layer:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_awscli_layerv6:1 arn:aws:lambda:us-east-2:560773393352:layer:daytrader_helm_layer:1 
 
 #====================================================================================================
 #And now to invoke it

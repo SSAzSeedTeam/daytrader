@@ -24,6 +24,12 @@ aws apigatewayv2 --profile shibu_admin get-integrations --api-id ohxzpxhmzh
 "IntegrationId": "mfyhwo6",
 "IntegrationMethod": "POST",
 #====================================================================================================
+aws apigatewayv2 --profile shibu_admin get-routes --api-id  $apiid
+routeId=`aws apigatewayv2 --profile shibu_admin get-routes --api-id  $apiid --query "Items[].RouteId" --output text`
+echo $routeId
+#====================================================================================================
+aws apigatewayv2 --profile shibu_admin update-route --api-id  $apiid --route-id $routeId --route-key "GET /"
+#====================================================================================================
 #Update HTTP method to GET
 aws apigatewayv2 --profile shibu_admin update-integration --api-id ohxzpxhmzh --integration-id mfyhwo6 --integration-method GET
 #====================================================================================================
