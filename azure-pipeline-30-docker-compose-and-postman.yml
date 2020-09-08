@@ -6,15 +6,15 @@ pool:
 
 steps:
 
+
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Azure Container Registry'
-    azureSubscription: 'Free Trial (7275eafe-1fe0-47d0-89c5-93b73c43e649)'
-    azureContainerRegistry: '{"loginServer":"daytrader.azurecr.io", "id" : "/subscriptions/7275eafe-1fe0-47d0-89c5-93b73c43e649/resourceGroups/DayTrader/providers/Microsoft.ContainerRegistry/registries/daytrader"}'
+    azureSubscription: 'Free Trial(e8850995-7132-4e71-b8b6-83830937405c)'
+    azureContainerRegistry: '{"loginServer":"daytrader.azurecr.io", "id" : "/subscriptions/e8850995-7132-4e71-b8b6-83830937405c/resourceGroups/Daytrader/providers/Microsoft.ContainerRegistry/registries/daytrader"}'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'up -d'
-
 
 # task: CmdLine@2
 #  inputs:
