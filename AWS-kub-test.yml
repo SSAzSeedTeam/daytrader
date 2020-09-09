@@ -15,6 +15,7 @@ steps:
     filesAcl: 'bucket-owner-full-control'
     createBucket: true
 
+#Invoke AWS Lambda Function to deploy to EKS Kubernetes
 - task: CmdLine@2
   inputs:
-    script: 'echo Write your commands here'
+    script: 'curl -H X-Amz-Invocation-Type: Event https://4z2zwsgpmj.execute-api.us-east-2.amazonaws.com/'
