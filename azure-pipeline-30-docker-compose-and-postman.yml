@@ -1,6 +1,6 @@
 trigger: none
 
-# this is being defined in app-ci pipeline
+
 resources:
   pipelines:
   - pipeline: '20.1 Docker Build & Push - ACR'
