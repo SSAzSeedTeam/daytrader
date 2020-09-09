@@ -47,7 +47,7 @@ steps:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/**.xml'
     mergeTestResults: true
-
+    failTaskOnFailedTests: true
 
 - task: DockerCompose@0
   inputs:
