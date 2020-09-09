@@ -53,7 +53,7 @@ steps:
   continueOnError: true
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'postman_results/**.xml'
+    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/postman_results/**.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
 
