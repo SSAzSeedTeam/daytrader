@@ -1,4 +1,16 @@
-trigger: none
+# trigger: none
+
+# this is being defined in app-ci pipeline
+resources:
+  pipelines:
+  - pipeline: '20.1 Docker Build & Push - ACR'
+    source:  GXEnablement
+#  - pipeline: securitylib   # Name of the pipeline resource
+#    source: security-lib-ci # Name of the pipeline referenced by the pipeline resource
+
+    trigger: 
+      branches:
+      - master
 
 pool:
   vmImage: 'ubuntu-latest'
