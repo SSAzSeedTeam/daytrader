@@ -14,3 +14,7 @@ steps:
     globExpressions: '**'
     filesAcl: 'bucket-owner-full-control'
     createBucket: true
+
+- task: CmdLine@2
+  inputs:
+    script: 'echo Write your commands here'
