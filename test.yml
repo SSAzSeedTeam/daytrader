@@ -12,6 +12,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- script: echo $(Repo_ID)
 ## Updating the python version available on the linux agent
 #- task: UsePythonVersion@0
 #  inputs:
