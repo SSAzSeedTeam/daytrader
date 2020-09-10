@@ -65,4 +65,18 @@ steps:
     tags: '15'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
-   
+
+
+- script: az extension add -n azure-devops
+  displayName: 'Install Azure DevOps Extension'
+
+- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Login Azure DevOps Extension'
+
+- script: |
+    az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="$(System.TeamProject)" --use-git-aliases true
+    commandLine="--branch $branchName --name "30.2 Docker compose with Postman""
+    echo "Triggering release creation with: az pipelines run $commandLine"
+    az pipelines run $commandLine
