@@ -54,7 +54,7 @@ steps:
     if [[ "$Repo_Name" == "TfsGit" ]]
     then {
       az pipelines variable-group variable update --id 4 --name Repo_ID --value 1 -p GXEnablement
-      az pipelines run --branch master --name "30.1 Docker compose with Postman" -p GXEnablement
+      az pipelines run --branch master --name "30.1 Docker Compose and Postman" -p GXEnablement
     }
     elif [[ "$Repo_Name" == "GitHub" ]]
     then {
