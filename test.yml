@@ -4,7 +4,6 @@
 # https://aka.ms/yaml
 variables:
 - group: Repo_Env
-- name: Repo_ID
 
 trigger: none
 
