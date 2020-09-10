@@ -12,12 +12,9 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: |
-      echo ${AZURE_DEVOPS_CLI_PAT}
+    script: az --version
 #      az devops login
-  env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-  displayName: 'Login Azure DevOps Extension'
+
 
 - script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login --org https://dev.azure.com/AlphaGX/
   env:
