@@ -15,8 +15,8 @@ steps:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
   inputs:
     script: |
-      az devops login
       echo ${AZURE_DEVOPS_CLI_PAT}
+      az devops login
   displayName: 'Login Azure DevOps Extension'
 
 - task: AzureCLI@2
