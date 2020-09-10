@@ -58,5 +58,3 @@ steps:
   env:
     Repo_Name: $(Build.Repository.Provider)
   displayName: 'testing'
-
-- script: echo ${{ parameters.Repo_Var }}
