@@ -44,10 +44,7 @@ steps:
 #  displayName: 'Show build list and run'
 
 - script: |
-    echo ${Build.Repository.Provider}
-    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
-    az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
-    az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+    echo ${Repo_Name}
   env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-  displayName: 'Triggering next pipeline'
+    Repo_Name: $(Build.Repository.Provider)
+  displayName: 'testing'
