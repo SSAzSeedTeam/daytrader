@@ -54,10 +54,12 @@ steps:
     echo "sad"
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-      echo $(Repo_ID)
+      $(Repo_ID) = 1
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
-      echo "2"
+      $(Repo_ID) = 2
+    echo "asda"
+    echo $(Repo_ID)
     fi
   env:
     Repo_Name: $(Build.Repository.Provider)
