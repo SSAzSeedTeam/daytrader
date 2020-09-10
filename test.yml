@@ -16,7 +16,7 @@ steps:
 #      az devops login
 
 
-- script: echo $(PAT) | az devops login --org https://dev.azure.com/AlphaGX/
+- script: echo $(PAT) | az devops login --org https://dev.azure.com/AlphaGX/ --verbose --debug
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
 
