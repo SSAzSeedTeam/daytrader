@@ -49,7 +49,7 @@ steps:
 
 - script: |
     echo "asd"
-    echo "$(Repo_Name)"
+    echo "${Repo_Name}"
     echo "$(Repo_ID)"
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
