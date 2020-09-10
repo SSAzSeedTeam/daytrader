@@ -46,6 +46,25 @@ steps:
 ##    git pr list
 #  displayName: 'Show build list and run'
 #    if [ ${Repo_Name} -eq TfsGit ]
+- bash: |
+   curl -fL -XPUT -H "Authorization:Bearer $(System.AccessToken)" -H "Content-Type:application/json" \
+   -d '{
+     "id": "$(Group_ID)",
+     "type": "Vsts",
+     "name": "Repo_ID",
+     "variables": {
+       "Group_ID": {
+         "isSecret": false,
+         "value": "$(Group_ID)"
+       },
+       "Repo_ID": {
+         "isSecret": false,
+         "value": "1"
+       }
+     }
+   }' \
+   $(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_apis/distributedtask/variablegroups/$(Group_ID)?api-version=5.0-preview.1
+  displayName: 'Set variable in variable group to current foo'
 
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
