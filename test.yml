@@ -51,9 +51,9 @@ steps:
 - script: |
     i=10
     echo ${Repo_Name}
-    if [ $i -eq 10 ]
+    if [ ${Repo_Name} -eq TfsGit ]
     then
-    echo "Value of i is 10"
+    echo "TfsGit"
     fi
   env:
     Repo_Name: $(Build.Repository.Provider)
