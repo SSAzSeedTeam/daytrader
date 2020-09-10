@@ -28,17 +28,25 @@ steps:
 #
 #- script: az extension add -n azure-devops
 #  displayName: 'Install Azure DevOps Extension'
-
-- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
-  env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-  displayName: 'Login Azure DevOps Extension'
-
-- script: az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
-  displayName: 'Set default Azure DevOps organization and project'
+#
+#- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+#  env:
+#    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+#  displayName: 'Login Azure DevOps Extension'
+#
+#- script: az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
+#  displayName: 'Set default Azure DevOps organization and project'
+#
+#- script: |
+#    az pipelines build list
+#    az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+##    git pr list
+#  displayName: 'Show build list and run'
 
 - script: |
-    az pipelines build list
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
     az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
-#    git pr list
-  displayName: 'Show build list and run'
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Triggering next pipeline'
