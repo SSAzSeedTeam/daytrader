@@ -16,7 +16,7 @@ steps:
   inputs:
     script: |
       echo ${AZURE_DEVOPS_CLI_PAT}
-      az devops login
+#      az devops login
   displayName: 'Login Azure DevOps Extension'
 
 - task: AzureCLI@2
