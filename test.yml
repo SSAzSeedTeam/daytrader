@@ -2,6 +2,10 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
+parameters:
+- name: RepoVar # name of the parameter; required
+  type: number # data type of the parameter; required
+  default: 0
 
 trigger: none
 
@@ -43,8 +47,11 @@ steps:
 ##    git pr list
 #  displayName: 'Show build list and run'
 
+
 - script: |
-    echo ${Repo_Name}
+    echo ${Build.Repository.Provider}
+    if [[ "${Repo_Name}" == "TfsGit" ]]; then
+      ${{ parameters.Repo_Var }}=1
   env:
     Repo_Name: $(Build.Repository.Provider)
   displayName: 'testing'
