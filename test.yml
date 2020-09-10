@@ -23,7 +23,7 @@ steps:
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
 
-- script: $(System.AccessToken)
+- script: echo $(System.AccessToken)
 
 - task: AzureCLI@2
   inputs:
