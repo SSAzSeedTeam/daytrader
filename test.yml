@@ -8,5 +8,9 @@ trigger: none
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: az pipelines run --branch master --name "30.2 Docker compose with Postman"
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Free Trial(e8850995-7132-4e71-b8b6-83830937405c)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az pipelines run --branch master --name "30.2 Docker compose with Postman"'
