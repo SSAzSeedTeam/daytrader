@@ -55,8 +55,9 @@ steps:
     elif [[ "$Repo_Name" == "GitHub"]]
     then
     ${{ parameters.Repo_Var }} = 2
-    echo ${{ parameters.Repo_Var }}
     fi
   env:
     Repo_Name: $(Build.Repository.Provider)
   displayName: 'testing'
+
+- script: echo ${{ parameters.Repo_Var }}
