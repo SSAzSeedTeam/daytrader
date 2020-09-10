@@ -50,11 +50,11 @@ steps:
 - script: |
     echo "asd"
     echo "${Repo_Name}"
-    echo "${Repo_ID}"
+    echo $(Repo_ID)
     echo "sad"
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-      echo ${Repo_ID}
+      echo $(Repo_ID)
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
       echo "2"
