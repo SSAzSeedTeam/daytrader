@@ -56,6 +56,7 @@ steps:
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
       az pipelines variable-group variable update --id 4 --name Repo_ID --value 2 -p GXEnablement
+    fi
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
     Repo_Name: $(Build.Repository.Provider)
