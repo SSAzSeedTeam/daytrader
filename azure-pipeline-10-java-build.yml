@@ -57,3 +57,22 @@ steps:
     targetPath: '$(system.defaultworkingdirectory)'
     artifact: '10_JAVA'
     publishLocation: 'pipeline'
+
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
+    if [[ "$Repo_Name" == "TfsGit" ]]
+    then {
+      az pipelines variable-group variable update --id 4 --name Repo_ID --value 1 -p GXEnablement
+      az pipelines run --branch master --name "30.1 Docker Compose and Postman" -p GXEnablement
+    }
+    elif [[ "$Repo_Name" == "GitHub" ]]
+    then {
+    az pipelines variable-group variable update --id 4 --name Repo_ID --value 2 -p GXEnablement
+    az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+    }
+    fi
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+    Repo_Name: $(Build.Repository.Provider)
+  displayName: 'Triggering next pipeline'
