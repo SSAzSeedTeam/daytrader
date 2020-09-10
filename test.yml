@@ -11,15 +11,6 @@ pool:
 steps:
 
 
-- script: echo $(PAT) | az devops login --org https://dev.azure.com/AlphaGX/ --verbose --debug
-  env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-
-- script: echo $(System.AccessToken)
-
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Free Trial(e8850995-7132-4e71-b8b6-83830937405c)'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az pipelines run --branch master --name "30.2 Docker compose with Postman"'
+- script: |
+    echo $(PAT) | az devops login --org https://dev.azure.com/AlphaGX/
+    az pipelines run --branch master --name "30.2 Docker compose with Postman"
