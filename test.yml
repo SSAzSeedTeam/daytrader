@@ -19,7 +19,7 @@ steps:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
   displayName: 'Login Azure DevOps Extension'
 
-- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login --org https://dev.azure.com/AlphaGX/
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
 
