@@ -3,7 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 parameters:
-- name: RepoVar # name of the parameter; required
+- name: Repo_Var # name of the parameter; required
   type: number # data type of the parameter; required
   default: 0
 
