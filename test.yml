@@ -11,12 +11,12 @@ pool:
 steps:
 
 - task: CmdLine@2
-  env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
   inputs:
     script: |
       echo ${AZURE_DEVOPS_CLI_PAT}
 #      az devops login
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
   displayName: 'Login Azure DevOps Extension'
 
 - task: AzureCLI@2
