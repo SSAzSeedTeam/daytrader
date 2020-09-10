@@ -1,14 +1,6 @@
 trigger: none
 
 
-resources:
-  pipelines:
-  - pipeline: '20.1 Docker Build & Push - ACR'
-    source:  GXEnablement
-    trigger: 
-      branches:
-      - master
-
 pool:
   vmImage: 'ubuntu-latest'
 
