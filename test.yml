@@ -50,7 +50,7 @@ steps:
 - script: |
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-      $(Repo_ID)
+      echo $(Repo_ID)
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
       echo "2"
