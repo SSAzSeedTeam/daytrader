@@ -50,6 +50,10 @@ steps:
 
 - script: |
     echo ${Repo_Name}
+    if [ $i -eq 10 ]
+    then
+    echo "Value of i is 10"
+    fi
     if [[ "${Repo_Name}" == "TfsGit" ]]; then
       echo true
   env:
