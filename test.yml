@@ -51,7 +51,7 @@ steps:
 - script: |
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-    echo "TfsGit"
+    ${{ parameters.Repo_Var }}
     fi
   env:
     Repo_Name: $(Build.Repository.Provider)
