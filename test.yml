@@ -2,10 +2,9 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-parameters:
-- name: Repo_Var # name of the parameter; required
-  type: number # data type of the parameter; required
-  default: 0
+variables:
+- group: Repo_Env
+- name: Repo_ID
 
 trigger: none
 
@@ -51,10 +50,10 @@ steps:
 - script: |
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-      echo "1"
+      $(Repo_ID)
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
-      exho "2"
+      echo "2"
     fi
   env:
     Repo_Name: $(Build.Repository.Provider)
