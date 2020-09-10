@@ -10,11 +10,6 @@ pool:
 
 steps:
 
-- task: CmdLine@2
-  inputs:
-    script: az --version
-#      az devops login
-
 
 - script: echo $(PAT) | az devops login --org https://dev.azure.com/AlphaGX/ --verbose --debug
   env:
