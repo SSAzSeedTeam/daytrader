@@ -51,10 +51,10 @@ steps:
 - script: |
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-      ${{ parameters.Repo_Var }} = 1
+      echo "1"
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
-      ${{ parameters.Repo_Var }} = 2
+      exho "2"
     fi
   env:
     Repo_Name: $(Build.Repository.Provider)
