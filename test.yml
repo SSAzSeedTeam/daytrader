@@ -34,10 +34,11 @@ steps:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
   displayName: 'Login Azure DevOps Extension'
 
-- script: az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="Movie Search Web App" --use-git-aliases true
+- script: az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
   displayName: 'Set default Azure DevOps organization and project'
 
 - script: |
     az pipelines build list
+    az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
     git pr list
   displayName: 'Show build list and PRs'
