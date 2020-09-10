@@ -48,19 +48,15 @@ steps:
 #    if [ ${Repo_Name} -eq TfsGit ]
 
 - script: |
-    echo "asd"
-    echo "${Repo_Name}"
-    echo $(Repo_ID)
-    echo "sad"
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
     if [[ "$Repo_Name" == "TfsGit" ]]
     then
-      $(Repo_ID) = 1
+      az pipelines variable-group variable update --id 4 --name Repo_ID --value 1 -p GXEnablement
     elif [[ "$Repo_Name" == "GitHub" ]]
     then
-      $(Repo_ID) = 2
-    echo "asda"
-    echo $(Repo_ID)
-    fi
+      az pipelines variable-group variable update --id 4 --name Repo_ID --value 2 -p GXEnablement
   env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
     Repo_Name: $(Build.Repository.Provider)
-  displayName: 'testing'
+  displayName: 'Setting Variable'
