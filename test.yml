@@ -9,6 +9,12 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Login Azure DevOps Extension'
+
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Free Trial(e8850995-7132-4e71-b8b6-83830937405c)'
