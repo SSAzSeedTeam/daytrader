@@ -49,7 +49,7 @@ steps:
 
 
 - script: |
-    read -p "Enter value of i :" i
+    i=10
     echo ${Repo_Name}
     if [ $i -eq 10 ]
     then
