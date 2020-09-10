@@ -57,6 +57,7 @@ steps:
     elif [[ $(Repo_ID) == 2 ]]
     then
       az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+    fi
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
   displayName: 'Triggering next pipeline'
