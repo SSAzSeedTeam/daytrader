@@ -49,7 +49,7 @@ steps:
 
 
 - script: |
-    echo ${Build.Repository.Provider}
+    echo ${{Build.Repository.Provider}}
     if [[ "${Repo_Name}" == "TfsGit" ]]; then
       ${{ parameters.Repo_Var }}=1
   env:
