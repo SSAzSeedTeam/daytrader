@@ -1,5 +1,7 @@
-trigger:
-- master
+trigger: none
+
+variables:
+- group: Repo_Env
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -19,3 +21,20 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'curl -H X-Amz-Invocation-Type: Event https://4z2zwsgpmj.execute-api.us-east-2.amazonaws.com/'
+
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Recipe) == R1 ]]
+    then
+      echo "Recipe Finished"
+    elif [[ $(Recipe) == R2 ]]
+    then
+      az pipelines run --branch master --name "50 Domain Name SSL" -p GXEnablement
+    elif [[ $(Recipe) == R3 ]]
+    then
+      az pipelines run --branch master --name "50 Domain Name SSL" -p GXEnablement
+    fi
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Triggering next pipeline'
