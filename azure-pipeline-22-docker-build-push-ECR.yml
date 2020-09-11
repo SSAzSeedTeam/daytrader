@@ -5,6 +5,7 @@ trigger: none
 
 variables:
 - group: Repo_Env
+- group: AWS
 
 pool:
   vmImage: 'ubuntu-latest'
