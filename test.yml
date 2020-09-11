@@ -52,6 +52,7 @@ steps:
     echo "sad"
     echo ${Def_ID}
     if [[ "$Def_ID" == "22" ]]
+    then
       echo "works"
     fi
   env:
