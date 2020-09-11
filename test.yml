@@ -49,10 +49,10 @@ steps:
 
 
 - script: |
-    if [[ "$Def_ID" == "22" ]]
-      echo "works"
     echo "sad"
     echo ${Def_ID}
+    if [[ "$Def_ID" == "22" ]]
+      echo "works"
     fi
   env:
     Build_ID: $(Build.BuildId)
