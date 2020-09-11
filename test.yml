@@ -53,6 +53,7 @@ steps:
       echo "works"
     echo "sad"
     echo ${Def_ID}
+    fi
   env:
     Build_ID: $(Build.BuildId)
     Def_ID: $(system.definitionId)
