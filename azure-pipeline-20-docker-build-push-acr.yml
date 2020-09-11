@@ -70,11 +70,14 @@ steps:
 
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
-    az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
-    if [[ $(Repo_ID) == 1 ]]
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Recipe) == R1 ]]
     then
       az pipelines run --branch master --name "30.1 Docker Compose and Postman" -p GXEnablement
-    elif [[ $(Repo_ID) == 2 ]]
+    elif [[ $(Recipe) == R2 ]]
+    then
+      az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+    elif [[ $(Recipe) == R3 ]]
     then
       az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
     fi
