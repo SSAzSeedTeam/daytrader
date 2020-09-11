@@ -1,5 +1,7 @@
-trigger:
-- master
+trigger: none
+
+variables:
+- group: Repo_Env
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -67,16 +69,16 @@ steps:
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
 
 
-- script: az extension add -n azure-devops
-  displayName: 'Install Azure DevOps Extension'
-
-- script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Repo_ID) == 1 ]]
+    then
+      az pipelines run --branch master --name "30.1 Docker compose and Postman" -p GXEnablement
+    elif [[ $(Repo_ID) == 2 ]]
+    then
+      az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+    fi
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-  displayName: 'Login Azure DevOps Extension'
-
-- script: |
-    az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project="$(System.TeamProject)" --use-git-aliases true
-    commandLine="--branch $branchName --name "30.2 Docker compose with Postman""
-    echo "Triggering release creation with: az pipelines run $commandLine"
-    az pipelines run $commandLine
+  displayName: 'Triggering next pipeline'
