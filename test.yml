@@ -49,8 +49,8 @@ steps:
 
 
 - script: |
-    echo $(BuildId)
-    echo $(Def_ID)
+    echo ${BuildId}
+    echo ${Def_ID}
   env:
     Build_ID: $(Build.BuildId)
     Def_ID: $(system.definitionId)
