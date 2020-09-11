@@ -69,13 +69,13 @@ First Pipeline of chain
     }
     elif [[ "$Repo_Name" == "GitHub" ]]
     then {
-	az pipelines variable-group variable update --id 4 --name Recipe --value R2 -p GXEnablement
-    az pipelines run --branch master --name "20.2 Docker Build and Push - DockerHub" -p GXEnablement
+      az pipelines variable-group variable update --id 4 --name Recipe --value R2 -p GXEnablement
+      az pipelines run --branch master --name "20.2 Docker Build and Push - DockerHub" -p GXEnablement
     }
-	elif [[ "$Repo_Name" == "aws" ]]
+    elif [[ "$Repo_Name" == "aws" ]]
     then {
-	az pipelines variable-group variable update --id 4 --name Recipe --value R3 -p GXEnablement
-    az pipelines run --branch master --name "20.2 Docker Build and Push - DockerHub" -p GXEnablement
+      az pipelines variable-group variable update --id 4 --name Recipe --value R3 -p GXEnablement
+      az pipelines run --branch master --name "20.2 Docker Build and Push - DockerHub" -p GXEnablement
     }
     fi
   env:
