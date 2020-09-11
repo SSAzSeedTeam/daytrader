@@ -3,8 +3,10 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
-trigger:
-- master
+trigger: none
+
+variables:
+- group: Repo_Env
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -36,3 +38,20 @@ steps:
 - task: Bash@3
   inputs:
     filePath: 'abc.sh'
+
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Recipe) == R1 ]]
+    then
+      echo "bug"
+    elif [[ $(Recipe) == R2 ]]
+    then
+      az pipelines run --branch master --name "60 API-Management" -p GXEnablement
+    elif [[ $(Recipe) == R3 ]]
+    then
+      az pipelines run --branch master --name "60 API-Management" -p GXEnablement
+    fi
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Triggering next pipeline'
