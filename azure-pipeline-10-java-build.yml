@@ -58,7 +58,7 @@ steps:
     artifact: '10_JAVA'
     publishLocation: 'pipeline'
 
-First Pipeline of chain
+#First Pipeline of chain
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
     az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
