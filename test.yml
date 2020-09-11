@@ -49,7 +49,9 @@ steps:
 
 
 - script: |
-    $(BuildId)
+    echo $(BuildId)
+    echo $(Def_ID)
   env:
-    Build_ID: $(Build.BuildId	)
+    Build_ID: $(Build.BuildId)
+    Def_ID: $(system.definitionId)
   displayName: 'Triggering next pipeline'
