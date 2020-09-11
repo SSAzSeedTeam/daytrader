@@ -14,15 +14,20 @@ pool:
 
 steps:
 #build and push ecr docker
-- task: Maven@3
+- task: DownloadPipelineArtifact@2
   inputs:
-    mavenPomFile: 'day-trader-java-app/pom.xml'
-    publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+    buildType: 'specific'
+    project: '3d034576-aa51-4760-88fd-3fe8617a5399'
+    definition: '9'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Pipeline.Workspace)/10_JAVA'
+    Contents: '**'
+    TargetFolder: '$(system.defaultworkingdirectory)'
 
 
 
