@@ -50,6 +50,7 @@ steps:
 
 - script: |
     echo ${BuildId}
+    echo "sad"
     echo ${Def_ID}
   env:
     Build_ID: $(Build.BuildId)
