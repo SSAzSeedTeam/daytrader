@@ -58,17 +58,23 @@ steps:
     artifact: '10_JAVA'
     publishLocation: 'pipeline'
 
+First Pipeline of chain
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
-    az devops configure --defaults organization=https://dev.azure.com/{OrganizationName} project="GXEnablement" --use-git-aliases true
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
     if [[ "$Repo_Name" == "TfsGit" ]]
     then {
-      az pipelines variable-group variable update --id 4 --name Repo_ID --value 1 -p GXEnablement
+      az pipelines variable-group variable update --id 4 --name Recipe --value R1 -p GXEnablement
       az pipelines run --branch master --name "20.1 Docker Build & Push - ACR" -p GXEnablement
     }
     elif [[ "$Repo_Name" == "GitHub" ]]
     then {
-    az pipelines variable-group variable update --id 4 --name Repo_ID --value 2 -p GXEnablement
+	az pipelines variable-group variable update --id 4 --name Recipe --value R2 -p GXEnablement
+    az pipelines run --branch master --name "20.2 Docker Build and Push - DockerHub" -p GXEnablement
+    }
+	elif [[ "$Repo_Name" == "aws" ]]
+    then {
+	az pipelines variable-group variable update --id 4 --name Recipe --value R3 -p GXEnablement
     az pipelines run --branch master --name "20.2 Docker Build and Push - DockerHub" -p GXEnablement
     }
     fi
