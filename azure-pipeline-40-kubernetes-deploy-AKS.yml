@@ -1,5 +1,4 @@
-trigger:
-- master
+trigger: none
 
 variables:
 - group: Repo_Env
