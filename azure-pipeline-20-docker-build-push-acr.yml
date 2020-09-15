@@ -79,7 +79,7 @@ steps:
       az pipelines run --branch master --name "30.2 Docker compose and Postman" -p GXEnablement
     elif [[ $(Recipe) == R3 ]]
     then
-      az pipelines run --branch master --name "30.2 Docker compose with Postman" -p GXEnablement
+      az pipelines run --branch master --name "30.3 Docker compose and Postman" -p GXEnablement
     fi
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
