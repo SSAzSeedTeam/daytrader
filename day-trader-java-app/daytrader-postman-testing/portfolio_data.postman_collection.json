@@ -14,7 +14,7 @@
 						"id": "61373e7a-e0d6-4343-aece-d0ae21583cb4",
 						"exec": [
 							"pm.test(\"Successful POST request\", function () {\r",
-							"    pm.expect(pm.response.code).to.be.oneOf([206]);\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
 							"});"
 						],
 						"type": "text/javascript"
