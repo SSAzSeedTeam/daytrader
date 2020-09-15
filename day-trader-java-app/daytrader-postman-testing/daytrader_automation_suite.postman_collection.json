@@ -345,7 +345,7 @@
 										"id": "56a88dee-726d-402a-9818-977c9025eca0",
 										"exec": [
 											"pm.test(\"Negative Scenario:Update Symbol Qoutes: Verify that response status code is 400 when volume and price parameters are missing in request\", function () {\r",
-											"    pm.response.to.have.status(407);\r",
+											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -383,7 +383,7 @@
 										"id": "dbcf61b1-4a4f-41cd-939c-ab1e154a51d0",
 										"exec": [
 											"pm.test(\"Negative Scenario: Get all qoutes: Verify response status code is 400 when limit and offset is missing\", function () {\r",
-											"    pm.response.to.have.status(407);\r",
+											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -434,7 +434,7 @@
 											"var Cname = pm.environment.get(\"CompanyName\");\r",
 											"\r",
 											"pm.test(\"Create Symbol Quotes: Verify response status code is 201\", function () {\r",
-											"    pm.response.to.have.status(221);\r",
+											"    pm.response.to.have.status(201);\r",
 											"});\r",
 											"pm.test(\"Create Symbol Quotes: Verify response status code name is 'Created'\", function () {\r",
 											"    pm.response.to.have.status(\"Created\");\r",
