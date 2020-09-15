@@ -65,7 +65,7 @@ steps:
     if [[ "$Repo_Name" == "TfsGit" ]]
     then {
       az pipelines variable-group variable update --id 4 --name Recipe --value R1 -p GXEnablement
-      az pipelines run --branch master --name "20.1 Docker Build & Push - ACR" -p GXEnablement
+      az pipelines run --branch master --name "20.1 Docker Build and Push - ACR" -p GXEnablement
     }
     elif [[ "$Repo_Name" == "GitHub" ]]
     then {
