@@ -5,8 +5,8 @@ $adminEmail = "puneetsingh.gx1@outlook.com"
 $location = "Central US" 
 $organisation = "OFSS"
 
-$apimServiceName = "alphagx-daytrader-apim-service2" 
-$resourceGroupName = "alphagx-daytrader-apim-rg2" 
+$apimServiceName = "alphagx-daytrader-apim-service3" 
+$resourceGroupName = "alphagx-daytrader-apim-rg3" 
 
 
 
