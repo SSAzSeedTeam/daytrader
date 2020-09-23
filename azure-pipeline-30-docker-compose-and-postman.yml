@@ -43,6 +43,10 @@ steps:
     workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
     failOnStderr: true
 
+- task: CmdLine@2
+  inputs:
+    script: 'jmeter –n –t [Jmeter script location] –l [Jmeter report in csv location] –e –o [Jmeter HTML report location]'
+
 - task: PublishTestResults@2
   #continueOnError: true
   inputs:
