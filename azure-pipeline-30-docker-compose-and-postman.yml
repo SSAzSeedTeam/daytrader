@@ -43,9 +43,13 @@ steps:
     workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
     failOnStderr: true
 
-- script: |
-    sudo apt-get install jmeter
-    jmeter –n –t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx –l day-trader-java-app/daytrader-jmeter-testing/reports –e –o day-trader-java-app/daytrader-jmeter-testing/reports
+- task: JMeterInstaller@0
+  inputs:
+    jmeterVersion: '5.2.1'
+
+- task: CmdLine@2
+  inputs:
+    script: 'jmeter –n –t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx –l day-trader-java-app/daytrader-jmeter-testing/reports/report,csv –e –o day-trader-java-app/daytrader-jmeter-testing/reports/report'
 
 - task: PublishPipelineArtifact@1
   inputs:
