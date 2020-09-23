@@ -45,7 +45,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'jmeter –n –t day-trader-java-app/daytrader-jmeter-testing –l day-trader-java-app/daytrader-jmeter-testing/reports –e –o day-trader-java-app/daytrader-jmeter-testing/reports'
+    script: 'jmeter –n –t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx –l day-trader-java-app/daytrader-jmeter-testing/reports –e –o day-trader-java-app/daytrader-jmeter-testing/reports'
 
 - task: PublishPipelineArtifact@1
   inputs:
