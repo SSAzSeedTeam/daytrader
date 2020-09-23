@@ -1,0 +1,19 @@
+.app-footer-container {
+    border-top: 2px solid #cc3e3e;
+    background-color: #f1f3f4;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.app-footer-container .app-footer-content {
+    width: 100%;
+    max-width: 784px;
+    margin: auto;
+}
+
+.app-footer-content h4 {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+}

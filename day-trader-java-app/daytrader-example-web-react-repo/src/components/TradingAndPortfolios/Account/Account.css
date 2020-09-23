@@ -1,0 +1,107 @@
+.account-page-main-container .account-page-table-container {
+    max-width: 85%;
+    margin: 20px auto;
+    padding-bottom: 80px;
+}
+
+.account-page-main-container .account-page-table-container .account-page-table {
+    width: 100%;
+    border: 1px solid #f1f1f1;
+}
+
+.table-header td {
+    background-color: rgb(204, 204, 204);
+    color: #333;
+    padding: 6px 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.total-orders-td {
+    text-align: left !important;
+}
+.show-all-orders-td {
+    text-align: right !important;
+}
+
+.show-all-orders-td a {
+    text-decoration: none;
+    text-align: right;
+}
+
+.table-row td {
+    color: #333;
+    padding: 8px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.table-row td span {
+    padding-left: 15px;
+}
+
+.recent-orders-table {
+    border: 1px solid #f1f1f1;
+    margin: 20px 0;
+}
+
+.recent-orders-table tr th {
+    font-weight: 600;
+    font-size: 15px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.recent-orders-table tr th a {
+    color: navy;
+    text-decoration: none;
+}
+
+.recent-orders-table tr td {
+   text-align: center;
+}
+
+.recent-orders-table tr:nth-child(odd) td {
+    background-color: #f1f1f1;
+}
+.no-orders-row td {
+    padding: 10px;
+    font-size: 14px;
+}
+
+.account-update-table-row td {
+    padding: 10px;
+}
+
+.account-update-table-row td label {
+    margin-right: 10px;
+    min-width: 120px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.account-update-table-row td input {
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.account-update-table-row td button {
+    background-color: #cc3f3f;
+    color: #fff;
+    font-size: 14px;
+    border: 2px solid #cc3f3f;
+    border-radius: 5px;
+    width: 150px;
+    height: 35px;
+    font-family: 'Cabin', sans-serif;
+}
+.app-current-date-time-section{
+    text-align: right;
+    color:  #cc3f3f;
+}
+.update-message{
+    color:  #cc3f3f;
+}

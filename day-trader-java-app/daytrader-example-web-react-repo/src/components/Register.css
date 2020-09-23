@@ -1,0 +1,87 @@
+.app-register-container {
+    min-height: calc(100vh - 100px);
+}
+
+.app-register-container .ar-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 550px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin: auto;
+}
+
+.app-register-container .ar-content .ar-register-box {
+    background-color: #fafafa;
+    width: 100%;
+    padding: 15px 30px;
+    border-radius: 5px;
+    border: 2px solid #f1f1f1;
+    text-align: center;
+}
+
+.app-register-container .ar-content .ar-register-box .company-info {
+    font-size: 32px;
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+.app-register-container .ar-content .ar-register-box .company-info .colored-text {
+    color: #cc3f3f;;
+}
+
+.ar-register-box .form-container {
+    width: 85%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.ar-register-box .form-container .form-group {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.ar-register-box .form-container .form-group label {
+    display: inline-block;
+    text-align: right;
+    min-width: 175px;
+    margin: 0 0 5px;
+    font-size: 14px;
+    margin-right: 15px;
+}
+
+.ar-register-box .form-container .form-group label span {
+    color: #cc3f3f;
+    font-size: 14px;
+    padding-right: 3px;
+    font-weight: 600;
+}
+
+.ar-register-box .form-container .form-group input {
+    width: calc(100% - 190px);
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.ar-register-box .form-container .form-group .submit-button {
+    margin-top: 15px;
+    background-color: #cc3f3f;;
+    color: #fff;
+    font-size: 14px;
+    border: 2px solid #cc3f3f;;
+    border-radius: 5px;
+    width: 150px;
+    height: 35px;
+    font-family: 'Cabin', sans-serif;
+}
+
+
+.ar-register-box .form-container .form-group a {
+    color: #cc3f3f;;
+    text-decoration: none;
+}

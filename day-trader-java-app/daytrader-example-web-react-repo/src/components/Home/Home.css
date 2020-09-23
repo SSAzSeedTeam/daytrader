@@ -1,0 +1,50 @@
+.app-home-container {
+
+}
+
+.app-home-container .app-home-content {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 80%;
+    margin: auto;
+}
+
+.app-home-container .app-home-content h4 {
+    font-size: 24px;
+    margin-bottom: 0px;
+}
+
+.app-home-container .app-home-content p {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.app-home-container .app-home-content .overview-image {
+    text-align: center;
+}
+
+.terms-bullet-list li b {
+    color: #0000a0;
+}
+.terms-bullet-list li{
+    text-align: left;
+}
+
+.app-home-container .app-home-content .overview-image img {
+    max-height: 400px;
+}
+
+.app-home-container .app-home-content .mvc-info h4 {
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 5px;
+}
+
+.app-home-container .app-home-content .mvc-info .desc-info {
+    margin-top: 20px;
+}
+
+.app-home-container .app-home-content .mvc-info .desc-info h5 {
+    font-size: 18px;
+    margin: 0 0 5px;
+}

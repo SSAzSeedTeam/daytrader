@@ -1,0 +1,97 @@
+.quotes-content-container {
+    max-width: 85%;
+    margin: 20px auto;
+    padding-bottom: 60px;
+}
+
+.quotes-table {
+    border: 1px solid #f1f1f1;
+}
+
+.quotes-table .table-row th {
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.quotes-table .table-row th a {
+    color: navy;
+    text-decoration: none;
+}
+
+.quotes-table .table-row td {
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.quotes-table .table-row:nth-child(odd) td {
+    background-color: #f1f1f1;
+}
+
+.quotes-table .table-row td a {
+    color: navy;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.quote-form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.qfc-left-side {
+    font-size: 12px;
+}
+
+.qfc-right-side input {
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.qfc-right-side button {
+    background-color: #cc3f3f;
+    color: #fff;
+    font-size: 14px;
+    border: 2px solid #cc3f3f;
+    border-radius: 5px;
+    width: 80px;
+    height: 35px;
+    font-family: 'Cabin', sans-serif;
+    margin-left: 10px;
+}
+.app-current-date-time-section {
+    text-align: right;
+    color:  #cc3f3f;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.buy-shares-td input {
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    font-size: 14px;
+    width: 100px;
+}
+
+.buy-shares-td button {
+    background-color: #cc3f3f;
+    color: #fff;
+    font-size: 14px;
+    border: 2px solid #cc3f3f;
+    border-radius: 5px;
+    width: 60px;
+    height: 30px;
+    font-family: 'Cabin', sans-serif;
+    margin-left: 10px;
+}
