@@ -43,21 +43,6 @@ steps:
     workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
     failOnStderr: true
 
-- task: JMeterInstaller@0
-  inputs:
-    jmeterVersion: '5.3'
-
-- script: 'jmeter -version'
-
-- task: CmdLine@2
-  inputs:
-    script: 'jmeter –n –t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx –l day-trader-java-app/daytrader-jmeter-testing/reports/report,csv –e –o day-trader-java-app/daytrader-jmeter-testing/reports/report'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: 'day-trader-java-app/daytrader-jmeter-testing/reports'
-    artifact: 'jmeter-reports'
-    publishLocation: 'pipeline'
 
 - task: PublishTestResults@2
   #continueOnError: true
