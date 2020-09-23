@@ -18,9 +18,14 @@ steps:
     createBucket: true
 
 #Invoke AWS Lambda Function to deploy to EKS Kubernetes
+#- task: CmdLine@2
+#  inputs:
+#    script: 'curl -H X-Amz-Invocation-Type: Event https://4z2zwsgpmj.execute-api.us-east-2.amazonaws.com/'
+
 - task: CmdLine@2
   inputs:
     script: 'curl -H X-Amz-Invocation-Type: Event https://4z2zwsgpmj.execute-api.us-east-2.amazonaws.com/'
+    failOnStderr: true
 
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
