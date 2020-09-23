@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-web-react
+  name: daytrader-web-react
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-web-react
+  template:
+    metadata:
+      labels:
+        app: daytrader-web-react
+    spec:
+      containers:
+      - name: daytrader-web-react
+        image: harsh0610sinha/daytrader-web-react:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        readinessProbe:  
+          httpGet:
+            path: /health
+            scheme: HTTPS
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+        livenessProbe:  
+          httpGet:
+            path: /health
+            scheme: HTTPS
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 4
+        env:
+        - name: ACCOUNTS_SERVICE_ROUTE
+          value: https://daytrader-accounts
+        - name: GATEWAY_SERVICE_ROUTE
+          value: https://daytrader-gateway
+        - name: PORTFOLIOS_SERVICE_ROUTE
+          value: https://daytrader-portfolios
+        - name: QUOTES_SERVICE_ROUTE
+          value: https://daytrader-quotes
+        - name: GET_HOSTS_FROM
+          value: dns
