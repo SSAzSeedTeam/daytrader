@@ -81,6 +81,14 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
 
+- task: Docker@2
+  displayName: 'daytrader-web-react'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-web-react-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-web-react-repo/Dockerfile'
+
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
     az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
