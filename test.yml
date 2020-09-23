@@ -19,10 +19,10 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'jmeter -n -t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx -l day-trader-java-app/daytrader-jmeter-testing/reports/report,csv -e -o day-trader-java-app/daytrader-jmeter-testing/reports/report'
+    script: 'jmeter -n -t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx -l day-trader-java-app/daytrader-jmeter-testing/report.csv -e -o day-trader-java-app/daytrader-jmeter-testing/report'
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: 'day-trader-java-app/daytrader-jmeter-testing/reports'
+    targetPath: 'day-trader-java-app/daytrader-jmeter-testing'
     artifact: 'jmeter-reports'
     publishLocation: 'pipeline'
