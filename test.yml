@@ -19,7 +19,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'jmeter –-nongui –t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx –l day-trader-java-app/daytrader-jmeter-testing/reports/report,csv –e –o day-trader-java-app/daytrader-jmeter-testing/reports/report'
+    script: 'jmeter --nongui –t day-trader-java-app/daytrader-jmeter-testing/DayTraderApacheJmeterScripts.jmx –l day-trader-java-app/daytrader-jmeter-testing/reports/report,csv –e –o day-trader-java-app/daytrader-jmeter-testing/reports/report'
 
 - task: PublishPipelineArtifact@1
   inputs:
