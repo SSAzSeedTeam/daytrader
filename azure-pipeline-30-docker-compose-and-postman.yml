@@ -47,6 +47,12 @@ steps:
   inputs:
     script: 'jmeter –n –t day-trader-java-app/daytrader-jmeter-testing –l day-trader-java-app/daytrader-jmeter-testing/reports –e –o day-trader-java-app/daytrader-jmeter-testing/reports'
 
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'day-trader-java-app/daytrader-jmeter-testing/reports'
+    artifact: 'jmeter-reports'
+    publishLocation: 'pipeline'
+
 - task: PublishTestResults@2
   #continueOnError: true
   inputs:
