@@ -45,7 +45,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'jmeter –n –t [Jmeter script location] –l [Jmeter report in csv location] –e –o [Jmeter HTML report location]'
+    script: 'jmeter –n –t day-trader-java-app/daytrader-jmeter-testing –l day-trader-java-app/daytrader-jmeter-testing –e –o day-trader-java-app/daytrader-jmeter-testing'
 
 - task: PublishTestResults@2
   #continueOnError: true
