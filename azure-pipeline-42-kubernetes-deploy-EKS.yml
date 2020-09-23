@@ -25,7 +25,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'curl -H X-Amz-Invocation-Type: Event https://4z2zwsgpmj.execute-api.us-east-2.amazonaws.com/'
-    failOnStderr: true
+#    failOnStderr: true
 
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
