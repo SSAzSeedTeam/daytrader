@@ -17,29 +17,31 @@ spec:
     spec:
       containers:
       - name: daytrader-web-react
-        image: harsh0610sinha/daytrader-web-react:1.0
+        image: tnshibu/daytrader-web-react:1.0
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 3000
           protocol: TCP
         readinessProbe:  
           httpGet:
-            path: /health
-            scheme: HTTPS
-            port: 80
+            path: /
+            scheme: HTTP
+            port: 3000
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 10
         livenessProbe:  
           httpGet:
-            path: /health
-            scheme: HTTPS
-            port: 80
+            path: /
+            scheme: HTTP
+            port: 3000
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 10
           failureThreshold: 4
         env:
+        - name: CI
+          value: "true"
         - name: ACCOUNTS_SERVICE_ROUTE
           value: https://daytrader-accounts
         - name: GATEWAY_SERVICE_ROUTE
@@ -48,5 +50,12 @@ spec:
           value: https://daytrader-portfolios
         - name: QUOTES_SERVICE_ROUTE
           value: https://daytrader-quotes
-        - name: GET_HOSTS_FROM
-          value: dns
+#        - name: GET_HOSTS_FROM
+#          value: dns
+        - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
+          value: https://51.105.125.81:443
+        - name: DAYTRADER_GATEWAY_SERVICE
+          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
+          value: https://51.105.125.81:443
+          
