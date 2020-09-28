@@ -7,10 +7,15 @@ import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.blob.*;
 import java.io.File;
 
+import java.util.Base64;
+import java.util.UUID;
+import java.io.UnsupportedEncodingException;
+
 public class DayTraderReportGenerator {
   private static String DESTINATION_FOLDER = "D:/TEMP"; //default value
   private static SimpleDateFormat sdf_for_timestamp       = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-  private static String STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=daytraderreportstorage;AccountKey=zjKo0vAxBc6dR1i835v/W+++im4ALz1xxNNsJsN25L1FMGbQfdZPkFxYnoteqhDLhUPZXhYnUxHpwWWsfDr1+Q==;EndpointSuffix=core.windows.net";
+  private static String ENCODED = "RGVmYXVsdEVuZHBvaW50c1Byb3RvY29sPWh0dHBzO0FjY291bnROYW1lPWRheXRyYWRlcnJlcG9ydHN0b3JhZ2U7QWNjb3VudEtleT16aktvMHZBeEJjNmRSMWk4MzV2L1crKytpbTRBTHoxeHhOTnNKc04yNUwxRk1HYlFmZFpQa0Z4WW5vdGVxaERMaFVQWlhoWW5VeEhwd1dXc2ZEcjErUT09O0VuZHBvaW50U3VmZml4PWNvcmUud2luZG93cy5uZXQ=";
+  private static String STORAGE_CONNECTION_STRING = "";
   private static String STORAGE_CONTAINER_NAME = "daytradercontainer"; 
   /******************************************************************************************/
   public static void main(String[] args) throws Exception {
@@ -49,7 +54,10 @@ public class DayTraderReportGenerator {
     FileUtil.writeStringToNewFile( localFileName , fileData);
     
     
-    
+
+    byte[] base64decodedBytes = Base64.getDecoder().decode(ENCODED);
+    STORAGE_CONNECTION_STRING = new String(base64decodedBytes, "utf-8");
+
 	// Parse the connection string and create a blob client to interact with Blob storage
 	storageAccount = CloudStorageAccount.parse(STORAGE_CONNECTION_STRING);
 	blobClient = storageAccount.createCloudBlobClient();
