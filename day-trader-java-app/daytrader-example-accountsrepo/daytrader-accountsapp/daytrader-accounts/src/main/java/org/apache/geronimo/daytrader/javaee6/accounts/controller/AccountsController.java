@@ -18,6 +18,7 @@
 package org.apache.geronimo.daytrader.javaee6.accounts.controller;
 
 // DayTrader
+
 import org.apache.geronimo.daytrader.javaee6.accounts.service.AccountsService;
 import org.apache.geronimo.daytrader.javaee6.accounts.utils.Log;
 
@@ -187,6 +188,10 @@ public class AccountsController
 		try
 		{
 			accountData = accountsService.getAccountData(userId);
+	    	System.out.println("accountData ="+accountData );
+			double exchangeRate = accountsService.getExchangeRateData("INR");
+			accountData.setExchangeRate(exchangeRate);
+	    	System.out.println("accountData ="+accountData );
 			if (accountData != null) 
 			{
 	            Log.traceExit("AccountsController.getAccountData()");

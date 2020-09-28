@@ -29,6 +29,7 @@ public class AccountProfileDataBean implements java.io.Serializable {
     private String address;             /* address */
     private String email;               /* email */
     private String creditCard;          /* creditCard */
+    private double exchangeRate;
 // Moved unused field into the user aggregate; 
 //	private AccountDataBean account;
 
@@ -38,7 +39,8 @@ public class AccountProfileDataBean implements java.io.Serializable {
     public AccountProfileDataBean() {
     }
 
-    public AccountProfileDataBean(String userID,
+    public AccountProfileDataBean(
+    		String userID,
             String password,
             String fullName,
             String address,
@@ -50,6 +52,23 @@ public class AccountProfileDataBean implements java.io.Serializable {
         setAddress(address);
         setEmail(email);
         setCreditCard(creditCard);
+        setExchangeRate(100.0);
+    }
+    public AccountProfileDataBean(
+    		String userID,
+            String password,
+            String fullName,
+            String address,
+            String email,
+            String creditCard,
+            double exchangeRate) {
+        setUserID(userID);
+        setPassword(password);
+        setFullName(fullName);
+        setAddress(address);
+        setEmail(email);
+        setCreditCard(creditCard);
+        setExchangeRate(exchangeRate);
     }
 
     public static AccountProfileDataBean getRandomInstance() {
@@ -59,7 +78,8 @@ public class AccountProfileDataBean implements java.io.Serializable {
                 TradeConfig.rndFullName(),                      // fullname
                 TradeConfig.rndAddress(),                       // address
                 TradeConfig.rndEmail(TradeConfig.rndUserID()),  //email
-                TradeConfig.rndCreditCard()                     // creditCard
+                TradeConfig.rndCreditCard(),                    // creditCard
+                TradeConfig.rndExchangeRate()
         );
     }
 
@@ -135,6 +155,14 @@ public class AccountProfileDataBean implements java.io.Serializable {
         this.creditCard = creditCard;
     }
 
+	public double getExchangeRate() {
+		return exchangeRate;
+	}
+
+	public void setExchangeRate(double exchangeRate) {
+		this.exchangeRate = exchangeRate;
+	}
+
 // Moved unused field into the user aggregate;
 //    public AccountDataBean getAccount() {
 //        return account;
@@ -161,4 +189,5 @@ public class AccountProfileDataBean implements java.io.Serializable {
         if (this.userID != other.userID && (this.userID == null || !this.userID.equals(other.userID))) return false;
         return true;
     }
+
 }

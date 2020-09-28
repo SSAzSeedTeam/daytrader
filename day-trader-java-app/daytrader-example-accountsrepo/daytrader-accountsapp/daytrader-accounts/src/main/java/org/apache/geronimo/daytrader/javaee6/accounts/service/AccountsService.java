@@ -50,6 +50,10 @@ import org.apache.geronimo.daytrader.javaee6.core.direct.*;
 import org.apache.geronimo.daytrader.javaee6.utils.TradeConfig;
 
 import org.springframework.stereotype.Service;
+import org.symphonyoss.symphony.jcurl.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 /**
@@ -878,5 +882,40 @@ public class AccountsService
     public static void destroy() {
         return;
     }
+    public double getExchangeRateData(String currency) throws Exception 
+    {
+    	System.out.println("Entering AccountsService.getExchangeRateData()");
+   		String url = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
+   		url = url + "&currency="+currency;
+   		Log.debug("AccountsService.getExchangeRateData() - " + url);
+
+   		
+
+        JCurl jcurl = JCurl.builder()
+                        .method(JCurl.HttpMethod.GET)
+                        .insecure(true)
+//                        .data(jsonData.toString())
+                        .build();
+        //TODO  the url should come from ENVIRONMENT VARIABLE.
+        //TODO also fix the rest of the URL
+        java.net.HttpURLConnection connection = jcurl.connect(url);
+        
+        JCurl.Response response = jcurl.processResponse(connection);
+        //Print the output of the call
+        String responseString = response.getOutput(); 
+        System.out.println(responseString );       
+        Object obj = new JSONParser().parse(responseString);
+        
+        JSONObject jo = (JSONObject) obj;
+        //orderDataBean = new OrderDataBean();
+        
+        //String currency = (String) jo.get("currency");
+        double exchangeRate = (Double) jo.get("exchangeRate");
+    	System.out.println("exchangeRate    ="+exchangeRate );
+
+    	System.out.println("Exiting AccountsService.getExchangeRateData()");
+   		return exchangeRate;
+    }
+	
 
 }

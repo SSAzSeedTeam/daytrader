@@ -34,6 +34,7 @@ public class AccountDataBean implements Serializable {
     private Date lastLogin;                 /* lastLogin Date */
     private Date creationDate;              /* creationDate */
     private String profileID;               /* userID */
+    private double exchangeRate;
     
 // moved these fields from being persisted in the accounts database to the portfolios. 
 //           it the portfolios microservice that maniupates these values. for that reason, they 
@@ -109,6 +110,7 @@ public class AccountDataBean implements Serializable {
                 + "\n\t\t      balance:" + getBalance()
                 + "\n\t\t  openBalance:" + getOpenBalance()
                 + "\n\t\t    profileID:" + getProfileID()
+                + "\n\t\t  exchaneRate:" + getExchangeRate()
                 ;
     }
 
@@ -264,4 +266,12 @@ public class AccountDataBean implements Serializable {
         if (this.profileID != other.profileID && (this.profileID == null || !this.profileID.equals(other.profileID))) return false;
         return true;
     }
+
+	public double getExchangeRate() {
+		return exchangeRate;
+	}
+
+	public void setExchangeRate(double exchangeRate) {
+		this.exchangeRate = exchangeRate;
+	}
 }

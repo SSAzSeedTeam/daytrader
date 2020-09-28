@@ -169,6 +169,9 @@ public class TradeConfig {
     public static float rndFloat(int i) {
         return (new Float(random() * i)).floatValue();
     }
+    public static double rndExchangeRate() {
+        return 100.0;
+    }
     public static BigDecimal rndBigDecimal(float f) {
         return (new BigDecimal(random() * f)).setScale(
             2,
