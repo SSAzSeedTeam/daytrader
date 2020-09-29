@@ -20,7 +20,6 @@ jobs:
             kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
             command: 'apply'
             arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml'
-            secretType: 'dockerRegistry'
         
         - task: Kubernetes@1
           displayName: 'daytrader-accounts-service-k8s'
