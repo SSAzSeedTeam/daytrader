@@ -48,12 +48,11 @@
 
 
 
-- stage: Production
-  jobs:
-  - deployment: DeployProduction
-    environment: 'Production'
-    strategy:
-     runOnce:
-       deploy:
-         steps:
-          - script: echo Deploying to Production
+jobs:
+- deployment: DeployProduction
+  environment: 'Production'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: echo Deploying to Production
