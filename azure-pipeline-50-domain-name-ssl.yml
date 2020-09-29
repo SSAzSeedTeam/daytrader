@@ -35,9 +35,9 @@ steps:
     arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
     secretType: 'dockerRegistry'
 
-- task: Bash@3
-  inputs:
-    filePath: 'abc.sh'
+#- task: Bash@3
+#  inputs:
+#    filePath: 'abc.sh'
 
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
