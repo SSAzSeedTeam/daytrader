@@ -11,10 +11,10 @@ metadata:
     nginx.ingress.kubernetes.io/secure-backends: "true"    
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  tls:
-  - hosts:
-    #- a64e53e89e07d4041a4a970bde9b40e9-27456817.us-east-2.elb.amazonaws.com
-    secretName: daytrader-tls-secret
+  #tls:
+  #- hosts:
+  #  #- a64e53e89e07d4041a4a970bde9b40e9-27456817.us-east-2.elb.amazonaws.com
+  #  secretName: daytrader-tls-secret
   rules:
     #- host: a64e53e89e07d4041a4a970bde9b40e9-27456817.us-east-2.elb.amazonaws.com
     - http: 

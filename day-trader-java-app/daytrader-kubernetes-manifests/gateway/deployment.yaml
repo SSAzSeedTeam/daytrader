@@ -19,6 +19,14 @@ spec:
       - name: daytrader-gateway
         image: tnshibu/daytrader-gateway:1.0
         imagePullPolicy: Always
+        
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m                    
+        
+        
         ports:
         - containerPort: 2443
           protocol: TCP
