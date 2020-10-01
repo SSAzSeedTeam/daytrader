@@ -84,8 +84,10 @@ public class QuotesApplication extends SpringBootServletInitializer {
 				// Set Database Properties
 				quotesDataSource.setProperty("driverClassName", driverClassName);
 				quotesDataSource.setProperty("url", url);
-				//quotesDataSource.setProperty("username", username);
-				//quotesDataSource.setProperty("password", password);
+                if(username != null && !username.trim().equals("")) {
+                    quotesDataSource.setProperty("username", username);
+                    quotesDataSource.setProperty("password", password);
+                }
 				quotesDataSource.setProperty("maxActive", "100");
 				quotesDataSource.setProperty("maxIdle", "30");
 				quotesDataSource.setProperty("maxWait", "10000");

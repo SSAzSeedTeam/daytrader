@@ -526,8 +526,13 @@ public class AccountsService
             
             // Send the portfolios microservice the account data it needs to operate independent of 
             // accounts. Note that this data is read only by the accounts, but read-write by the portfolios. 
-            // Thus, we cache them in accounts, and store them persistently in portfolios. 
-            accountData = portfoliosService.register(accountData); 
+            // Thus, we cache them in accounts, and store them persistently in portfolios.
+            try {
+                accountData = portfoliosService.register(accountData); 
+            } catch(Exception e) {
+            	System.out.println("Ignoring below error****");
+            	e.printStackTrace();
+            }
             
             commit(conn);
 
@@ -609,9 +614,15 @@ public class AccountsService
         	accountData = getAccountDataFromResultSet(rs);
         	// ask the portfolios for the most recent balance so web app can display it
         	// changed this code to get the balance and open balance from the portfolio
-        	AccountDataBean portfolioData = portfoliosService.getAccountData(accountData.getProfileID());
-        	accountData.setBalance(portfolioData.getBalance());
-        	accountData.setOpenBalance(portfolioData.getOpenBalance());
+        	AccountDataBean portfolioData = null;
+        	try {
+            	portfolioData = portfoliosService.getAccountData(accountData.getProfileID());
+            	accountData.setBalance(portfolioData.getBalance());
+            	accountData.setOpenBalance(portfolioData.getOpenBalance());
+        	} catch(Exception e) {
+            	System.out.println("Ignoring below error****");
+        		e.printStackTrace();
+        	}
         }
         stmt.close();
         

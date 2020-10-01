@@ -778,11 +778,15 @@ public class PortfoliosService
         Integer accountID = accountData.getAccountID();
         BigDecimal balance =  accountData.getBalance();
         BigDecimal openBalance =  accountData.getOpenBalance();
+        int loginCount = 0;
+        int logoutCount = 0;
 
         stmt.setInt(1, accountID.intValue());
         stmt.setBigDecimal(2, openBalance);
         stmt.setBigDecimal(3, balance);
         stmt.setString(4, userID);
+        stmt.setInt(5, loginCount);
+        stmt.setInt(6, logoutCount);
         stmt.executeUpdate();
         stmt.close();
         
@@ -1359,8 +1363,8 @@ public class PortfoliosService
 	//		- Moved this SQL from the accounts into the portfolios where it is used (high cohesion)
     private static final String createAccountSQL =
             "insert into accountejb "
-                + "( accountid, openBalance, balance, profile_userid) "
-                + "VALUES (  ?  ,  ?  ,  ?  ,  ?  )";
+                + "( accountid, openBalance, balance, profile_userid, loginCount, logoutCount) "
+                + "VALUES (  ?  ,  ?  ,  ?  ,  ?  , ? , ?)";
     
     private static final String updateOrderStatusSQL =
         "update orderejb set " + "orderstatus = ?, completiondate = ? " + "where orderid = ?";

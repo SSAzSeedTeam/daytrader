@@ -197,6 +197,7 @@ public class GatewayController
 		try
 		{
 			accountData = gatewayService.getAccountData(userId);
+            System.out.println("accountData="+accountData);
 			if (accountData != null) 
 			{
 				Log.traceExit("GatewayController.getAccountData()");
