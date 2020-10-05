@@ -7,17 +7,16 @@ cd /ss-alphagx-repo-azure/GXEnablement/day-trader-java-app/daytrader-example-web
 
 docker images
 
-docker tag daytrader-accounts:1.0            tnshibu/daytrader-accounts:1.0
-docker tag daytrader-gateway:1.0             tnshibu/daytrader-gateway:1.0
-docker tag daytrader-portfolios:1.0          tnshibu/daytrader-portfolios:1.0
-docker tag daytrader-quotes:1.0              tnshibu/daytrader-quotes:1.0
-docker tag daytrader-web:1.0                 tnshibu/daytrader-web:1.0
+sudo docker tag daytrader-accounts:1.0            tnshibu/daytrader-accounts:1.5
+sudo docker tag daytrader-gateway:1.0             tnshibu/daytrader-gateway:1.5
+sudo docker tag daytrader-portfolios:1.0          tnshibu/daytrader-portfolios:1.5
+sudo docker tag daytrader-quotes:1.0              tnshibu/daytrader-quotes:1.5
+sudo docker tag daytrader-web:1.0                 tnshibu/daytrader-web:1.5
 
 
-docker push tnshibu/daytrader-accounts:1.0
-docker push tnshibu/daytrader-gateway:1.0
-docker push tnshibu/daytrader-portfolios:1.0
-docker push tnshibu/daytrader-quotes:1.0
-docker push tnshibu/daytrader-web:1.0
-
+sudo docker push tnshibu/daytrader-accounts:1.5
+sudo docker push tnshibu/daytrader-gateway:1.5
+sudo docker push tnshibu/daytrader-portfolios:1.5
+sudo docker push tnshibu/daytrader-quotes:1.5
+sudo docker push tnshibu/daytrader-web:1.5
 

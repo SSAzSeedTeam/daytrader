@@ -17,44 +17,44 @@ spec:
     spec:
       containers:
       - name: daytrader-gateway
-        image: tnshibu/daytrader-gateway:1.0
+        image: tnshibu/daytrader-gateway:1.5
         imagePullPolicy: Always
         
-        resources:
-          requests:
-            cpu: 250m
-          limits:
-            cpu: 500m                    
+#        resources:
+#          requests:
+#            cpu: 250m
+#          limits:
+#            cpu: 500m                    
         
         
         ports:
         - containerPort: 2443
           protocol: TCP
-        readinessProbe:  
-          httpGet:
-            path: /health
-            scheme: HTTPS
-            port: 2443
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          timeoutSeconds: 10
-        livenessProbe:  
-          httpGet:
-            path: /health
-            scheme: HTTPS
-            port: 2443
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          timeoutSeconds: 10
-          failureThreshold: 4
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 2443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 2443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
         env:
-        - name: ACCOUNTS_SERVICE_ROUTE
-          value: https://daytrader-accounts
-        - name: GATEWAY_SERVICE_ROUTE
-          value: https://daytrader-gateway
-        - name: PORTFOLIOS_SERVICE_ROUTE
-          value: https://daytrader-portfolios
-        - name: QUOTES_SERVICE_ROUTE
-          value: https://daytrader-quotes
+        - name: DAYTRADER_ACCOUNTS_SERVICE
+          value: http://daytrader-accounts
+        - name: DAYTRADER_GATEWAY_SERVICE
+          value: http://daytrader-gateway
+        - name: DAYTRADER_PORTFOLIOS_SERVICE
+          value: http://daytrader-portfolios
+        - name: DAYTRADER_QUOTES_SERVICE
+          value: http://daytrader-quotes
         - name: GET_HOSTS_FROM
           value: dns
