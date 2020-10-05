@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-portfolios
-        image: tnshibu/daytrader-portfolios:1.5
+        image: tnshibu/daytrader-portfolios:1.6
         imagePullPolicy: Always
         ports:
         - containerPort: 3443
@@ -50,3 +50,24 @@ spec:
           value: http://daytrader-quotes
         - name: GET_HOSTS_FROM
           value: dns
+#       DATABASE related config
+        - name: DAYTRADER_DATABASE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-config-map
+              key: DAYTRADER_DATABASE_DRIVER
+        - name: DAYTRADER_DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-config-map
+              key: DAYTRADER_DATABASE_URL
+        - name: DAYTRADER_DATABASE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-config-map
+              key: DAYTRADER_DATABASE_USERNAME
+        - name: DAYTRADER_DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-config-map
+              key: DAYTRADER_DATABASE_PASSWORD
