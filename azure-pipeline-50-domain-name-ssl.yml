@@ -27,17 +27,15 @@ steps:
   inputs:
     script: 'cat $(privkey.secureFilePath) $(fullchain.secureFilePath)'
 
-- task: Kubernetes@1
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
-    command: 'create'
-    arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
-    secretType: 'dockerRegistry'
+#- task: Kubernetes@1
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+#    command: 'create'
+#    arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
+#    secretType: 'dockerRegistry'
 
-- task: Bash@3
-  inputs:
-    filePath: 'abc.sh'
+
 
 - script: |
     echo ${AZURE_DEVOPS_CLI_PAT} | az devops login

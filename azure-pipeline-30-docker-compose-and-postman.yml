@@ -111,13 +111,13 @@ steps:
     az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
     if [[ $(Recipe) == R1 ]]
     then
-      az pipelines run --branch master --name "40.3 Kubernetes Deploy - EKS" -p GXEnablement
+      az pipelines run --branch master --name "35 Approval" -p GXEnablement
     elif [[ $(Recipe) == R2 ]]
     then
-      az pipelines run --branch master --name "40.1 Kubernetes Deploy - AKS" -p GXEnablement
+      az pipelines run --branch master --name "35 Approval" -p GXEnablement
     elif [[ $(Recipe) == R3 ]]
     then
-      az pipelines run --branch master --name "40.1 Kubernetes Deploy - AKS" -p GXEnablement
+      az pipelines run --branch master --name "35 Approval" -p GXEnablement
     fi
   env:
     AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)

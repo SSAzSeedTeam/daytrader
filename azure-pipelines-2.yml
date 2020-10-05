@@ -1,0 +1,34 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+variables:
+- group: Repo_Env
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- deployment: DeployProduction
+  environment: 'Production'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: |
+            echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+            az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+            if [[ $(Recipe) == R1 ]]
+            then
+              az pipelines run --branch master --name "40.3 Kubernetes Deploy - EKS" -p GXEnablement
+            elif [[ $(Recipe) == R2 ]]
+            then
+              az pipelines run --branch master --name "40.1 Kubernetes Deploy - AKS" -p GXEnablement
+            elif [[ $(Recipe) == R3 ]]
+            then
+              az pipelines run --branch master --name "40.1 Kubernetes Deploy - AKS" -p GXEnablement
+            fi
+          env:
+            AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+          displayName: 'Triggering next pipeline'
