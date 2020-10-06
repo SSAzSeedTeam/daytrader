@@ -13,6 +13,11 @@ stages:
       displayName: 'Java Build'
       inputs:
        mavenPomFile: 'day-trader-java-app/pom.xml'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(system.defaultworkingdirectory)'
+        artifact: 'Java_Build_Artifact'
+        publishLocation: 'pipeline'
 
 
 - stage: Docker_Build_and_Push
@@ -22,6 +27,21 @@ stages:
       vmImage: 'Ubuntu-latest'
     continueOnError: false
     steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'specific'
+        project: '3d034576-aa51-4760-88fd-3fe8617a5399'
+        definition: '9'
+        specificBuildWithTriggering: true
+        buildVersionToDownload: 'latest'
+        targetPath: '$(Pipeline.Workspace)'
+    
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Pipeline.Workspace)/10_JAVA'
+        Contents: '**'
+        TargetFolder: '$(system.defaultworkingdirectory)'
+    
     - task: Docker@2
       displayName: 'daytrader-accounts'
       inputs:
