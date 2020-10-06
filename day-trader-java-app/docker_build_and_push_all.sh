@@ -1,8 +1,8 @@
-cd /ss-alphagx-repo-azure/GXEnablement/day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/      ; ./docker-build.sh
-cd /ss-alphagx-repo-azure/GXEnablement/day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway          ; ./docker-build.sh
-cd /ss-alphagx-repo-azure/GXEnablement/day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios ; ./docker-build.sh
-cd /ss-alphagx-repo-azure/GXEnablement/day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes             ; ./docker-build.sh
-cd /ss-alphagx-repo-azure/GXEnablement/day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web                      ; ./docker-build.sh
+cd /projects/daytrader/day-trader-java-app/daytrader-accounts      ; chmod 755 *sh ; dos2unix *.sh ; sudo ./docker-build.sh
+cd /projects/daytrader/day-trader-java-app/daytrader-gateway       ; chmod 755 *sh ; dos2unix *.sh ; sudo ./docker-build.sh
+cd /projects/daytrader/day-trader-java-app/daytrader-portfolios    ; chmod 755 *sh ; dos2unix *.sh ; sudo ./docker-build.sh
+cd /projects/daytrader/day-trader-java-app/daytrader-quotes        ; chmod 755 *sh ; dos2unix *.sh ; sudo ./docker-build.sh
+cd /projects/daytrader/day-trader-java-app/daytrader-web           ; chmod 755 *sh ; dos2unix *.sh ; sudo ./docker-build.sh
 
 
 docker images
