@@ -178,13 +178,13 @@ steps:
     command: 'apply'
     arguments: '-f kubernetes-manifests/web/service.yaml'
 
-- task: Kubernetes@1
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
-    command: 'apply'
-    arguments: '-f kubernetes-manifests/ingress/ingress.yaml'
-    secretType: 'dockerRegistry'
+#- task: Kubernetes@1
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+#    command: 'apply'
+#    arguments: '-f kubernetes-manifests/ingress/ingress.yaml'
+#    secretType: 'dockerRegistry'
 
 
 #EKS Deploy
