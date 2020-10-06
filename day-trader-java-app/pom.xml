@@ -30,10 +30,10 @@
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.apache.geronimo.daytrader.javaee6.accounts</groupId>
-	<artifactId>daytrader-example</artifactId>
+	<groupId>com.ofss.daytrader</groupId>
+	<artifactId>daytrader-application</artifactId>
 	<packaging>pom</packaging>
-	<version>4.0.0</version>
+	<version>1.0</version>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,11 +42,15 @@
 	</properties>
 
 	<modules>
-		<module>daytrader-example-accountsrepo</module>
-		<module>daytrader-example-gatewayrepo</module>
-		<module>daytrader-example-portfoliosrepo</module>
-		<module>daytrader-example-quotesrepo</module>
-		<module>daytrader-example-webrepo</module>
+		<module>daytrader-accounts</module>
+		<module>daytrader-gateway</module>
+		<module>daytrader-portfolios</module>
+		<module>daytrader-quotes</module>
+		<module>daytrader-web</module>
+		<module>daytrader-entities</module>
+		<module>daytrader-utilities</module>
+		<module>daytrader-onprem-exchange-rate</module>
+		<module>daytrader-report-generator</module>
 		<!--
 		-->
 

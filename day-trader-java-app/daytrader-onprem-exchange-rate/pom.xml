@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ofss.daytrader.onprem</groupId>
-	<artifactId>exchange-rate</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>exchangerate</name>
+	<artifactId>daytrader-exchange-rate</artifactId>
+	<version>1.0</version>
+	<name>daytrader-exchange-rate</name>
 	<description>Exchange rate</description>
 
 	<properties>

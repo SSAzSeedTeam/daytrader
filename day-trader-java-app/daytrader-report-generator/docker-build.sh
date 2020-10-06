@@ -1,1 +1,1 @@
-docker build -t daytrader-report-generator:1.0 .
+docker build -t daytrader-report-generator:0 .

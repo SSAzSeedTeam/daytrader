@@ -9,8 +9,8 @@
 		<version>2.2.9.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ofss</groupId>
-	<artifactId>TradeQueueProcessor</artifactId>
+	<groupId>com.ofss.daytrader</groupId>
+	<artifactId>trade-queue-processor</artifactId>
 	<version>1.0</version>
 	<name>TradeQueueProcessor</name>
 	<description>Recieving Messages from Azure Servicebus Topic</description>
