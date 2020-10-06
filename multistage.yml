@@ -116,6 +116,15 @@ stages:
               TargetFolder: '$(system.defaultworkingdirectory)'
           #Deploy to AKS
           - task: Kubernetes@1
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              useConfigurationFile: true
+              configuration: 'kubernetes-manifests/accounts/deployment.yaml'
+              arguments: '-f kubernetes-manifests/accounts/deployment.yaml'
+              
+          - task: Kubernetes@1
             displayName: 'daytrader-accounts-deployment-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
