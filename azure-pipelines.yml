@@ -15,14 +15,14 @@ pool:
 steps:
 
 - task: Maven@3
-  displayName: 'Maven pom.xml'
+  displayName: 'Java Build'
   inputs:
     mavenPomFile: 'day-trader-java-app/pom.xml'
 
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'daytrader2'
 
+#- task: MavenAuthenticate@0
+#  inputs:
+#    artifactsFeeds: 'daytrader2'
 #- task: Maven@3
 #  inputs:
 #    mavenPomFile: 'day-trader-java-app/pom.xml'
@@ -33,67 +33,65 @@ steps:
 #    mavenAuthenticateFeed: false
 #    effectivePomSkip: false
 #    sonarQubeRunAnalysis: false
-
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**/*.war'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
-
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
+#- task: CopyFiles@2
+#  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+#  inputs:
+#    SourceFolder: '$(system.defaultworkingdirectory)'
+#    Contents: '**/*.war'
+#    TargetFolder: '$(build.artifactstagingdirectory)'
+#  condition: succeededOrFailed()
+#
+#
+#- task: PublishBuildArtifacts@1
+#  displayName: 'Publish Artifact: drop'
+#  inputs:
+#    PathtoPublish: '$(build.artifactstagingdirectory)'
+#  condition: succeededOrFailed()
 
 - task: Docker@2
   displayName: 'daytrader-accounts'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-accounts'
-    tags: '15'
+    containerRegistry: 'DockerHub'
+    repository: 'azseed / daytrader-accounts'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+    tags: '15'
 
 - task: Docker@2
   displayName: 'daytrader-gateway'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-gateway'
-    tags: '15'
+    containerRegistry: 'DockerHub'
+    repository: 'azseed / daytrader-gateway'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
-
+    tags: '15'
 
 - task: Docker@2
   displayName: 'daytrader-portfolios'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-portfolios'
-    tags: '15'
+    containerRegistry: 'DockerHub'
+    repository: 'azseed / daytrader-portfolios'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+    tags: '15'
 
 - task: Docker@2
   displayName: 'daytrader-quotes'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-quotes'
-    tags: '15'
+    containerRegistry: 'DockerHub'
+    repository: 'azseed / daytrader-quotes'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+    tags: '15'
 
 - task: Docker@2
   displayName: 'daytrader-web'
   inputs:
-    containerRegistry: 'Azure-Puneet'
-    repository: 'daytrader-web'
-    tags: '15'
+    containerRegistry: 'DockerHub'
+    repository: 'azseed / daytrader-web'
     command: 'buildAndPush'
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+    tags: '15'
 
 - task: Kubernetes@1
   displayName: 'daytrader-accounts-deployment-k8s'
