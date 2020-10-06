@@ -52,7 +52,7 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'azseed / daytrader-accounts'
         command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+        Dockerfile: 'day-trader-java-app/daytrader-accounts/Dockerfile'
         tags: '15'
     
     - task: Docker@2
@@ -61,7 +61,7 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'azseed / daytrader-gateway'
         command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+        Dockerfile: 'day-trader-java-app/daytrader-gateway/Dockerfile'
         tags: '15'
     
     - task: Docker@2
@@ -70,7 +70,7 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'azseed / daytrader-portfolios'
         command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+        Dockerfile: 'day-trader-java-app/daytrader-portfolios/Dockerfile'
         tags: '15'
     
     - task: Docker@2
@@ -79,7 +79,7 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'azseed / daytrader-quotes'
         command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+        Dockerfile: 'day-trader-java-app/daytrader-quotes/Dockerfile'
         tags: '15'
     
     - task: Docker@2
@@ -88,7 +88,25 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'azseed / daytrader-web'
         command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+        Dockerfile: 'day-trader-java-app/daytrader-web/Dockerfile'
+        tags: '15'
+    
+    - task: Docker@2
+      displayName: 'daytrader-report-generator'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-report-generator'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-report-generator/Dockerfile'
+        tags: '15'
+
+    - task: Docker@2
+      displayName: 'daytrader-onprem-exchange-rate'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-onprem-exchange-rate'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
         tags: '15'
 
 - stage: AKS_Deploy
