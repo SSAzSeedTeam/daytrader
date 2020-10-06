@@ -27,18 +27,22 @@ stages:
       vmImage: 'Ubuntu-latest'
     continueOnError: false
     steps:
+    #- task: DownloadPipelineArtifact@2
+    #  inputs:
+    #    buildType: 'specific'
+    #    project: '3d034576-aa51-4760-88fd-3fe8617a5399'
+    #    definition: '9'
+    #    specificBuildWithTriggering: true
+    #    buildVersionToDownload: 'latest'
+    #    targetPath: '$(Pipeline.Workspace)'
     - task: DownloadPipelineArtifact@2
       inputs:
-        buildType: 'specific'
-        project: '3d034576-aa51-4760-88fd-3fe8617a5399'
-        definition: '9'
-        specificBuildWithTriggering: true
-        buildVersionToDownload: 'latest'
+        buildType: 'current'
+        artifactName: 'Java_Build_Artifact'
         targetPath: '$(Pipeline.Workspace)'
-    
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(Pipeline.Workspace)/10_JAVA'
+        SourceFolder: '$(Pipeline.Workspace)/Java_Build_Artifact'
         Contents: '**'
         TargetFolder: '$(system.defaultworkingdirectory)'
     
