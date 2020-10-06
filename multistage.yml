@@ -104,6 +104,8 @@ stages:
       runOnce:
         deploy:
           steps:
+          - script: |
+              git clone https://github.com/SSAzSeedTeam/daytrader.git
           #Deploy to AKS
           - task: Kubernetes@1
             displayName: 'daytrader-accounts-deployment-k8s'
@@ -111,7 +113,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/accounts/deployment.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/accounts/deployment.yaml'
               secretType: 'dockerRegistry'
           
           - task: Kubernetes@1
@@ -120,7 +122,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/accounts/service.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/accounts/service.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-gateway-deployment-k8s'
@@ -128,7 +130,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/gateway/deployment.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/gateway/deployment.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-gateway-service-k8s'
@@ -136,7 +138,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/gateway/service.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/gateway/service.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-portfolios-deployment-k8s'
@@ -144,7 +146,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/portfolios/deployment.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/portfolios/deployment.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-portfolios-service-k8s'
@@ -152,7 +154,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/portfolios/service.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/portfolios/service.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-quotes-deployment-k8s'
@@ -160,7 +162,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/quotes/deployment.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/quotes/deployment.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-quotes-service-k8s'
@@ -168,7 +170,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/quotes/service.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/quotes/service.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-web-deployment-k8s'
@@ -176,7 +178,7 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/web/deployment.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/web/deployment.yaml'
           
           - task: Kubernetes@1
             displayName: 'daytrader-web-service-k8s'
@@ -184,12 +186,12 @@ stages:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
               command: 'apply'
-              arguments: '-f kubernetes-manifests/web/service.yaml'
+              arguments: '-f daytrader/kubernetes-manifests/web/service.yaml'
           
           #- task: Kubernetes@1
           #  inputs:
           #    connectionType: 'Kubernetes Service Connection'
           #    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
           #    command: 'apply'
-          #    arguments: '-f kubernetes-manifests/ingress/ingress.yaml'
+          #    arguments: '-f daytrader/kubernetes-manifests/ingress/ingress.yaml'
           #    secretType: 'dockerRegistry'
