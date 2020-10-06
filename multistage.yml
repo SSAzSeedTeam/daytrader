@@ -1,0 +1,171 @@
+trigger: none
+
+stages:
+– stage: JavaBuild
+  jobs:
+  – job: JavaBuild
+    pool:
+      vmImage: 'Ubuntu-latest'
+      demands: maven
+    continueOnError: false
+    steps:
+    - task: Maven@3
+      displayName: 'Java Build'
+      inputs:
+       mavenPomFile: 'day-trader-java-app/pom.xml'
+
+
+– stage: Docker_Build_and_Push
+  jobs:
+  – job: Docker_Build_and_Push
+    pool:
+      vmImage: 'Ubuntu-latest'
+    continueOnError: false
+    steps:
+    - task: Docker@2
+      displayName: 'daytrader-accounts'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-accounts'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+        tags: '15'
+    
+    - task: Docker@2
+      displayName: 'daytrader-gateway'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-gateway'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+        tags: '15'
+    
+    - task: Docker@2
+      displayName: 'daytrader-portfolios'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-portfolios'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+        tags: '15'
+    
+    - task: Docker@2
+      displayName: 'daytrader-quotes'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-quotes'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+        tags: '15'
+    
+    - task: Docker@2
+      displayName: 'daytrader-web'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+        tags: '15'
+
+-stage: AKS_Deploy
+  jobs:
+    # track deployments on the environment
+  - deployment: AKS_Deploy
+    displayName: AKS_Deploy
+    pool:
+      vmImage: 'Ubuntu-Latest'
+    # creates an environment if it doesn't exist
+    environment: 'AKS_Deploy'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          #Deploy to AKS
+          - task: Kubernetes@1
+            displayName: 'daytrader-accounts-deployment-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/accounts/deployment.yaml'
+              secretType: 'dockerRegistry'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-accounts-service-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/accounts/service.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-gateway-deployment-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/gateway/deployment.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-gateway-service-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/gateway/service.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-portfolios-deployment-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/portfolios/deployment.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-portfolios-service-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/portfolios/service.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-quotes-deployment-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/quotes/deployment.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-quotes-service-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/quotes/service.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-web-deployment-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/web/deployment.yaml'
+          
+          - task: Kubernetes@1
+            displayName: 'daytrader-web-service-k8s'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              command: 'apply'
+              arguments: '-f kubernetes-manifests/web/service.yaml'
+          
+          #- task: Kubernetes@1
+          #  inputs:
+          #    connectionType: 'Kubernetes Service Connection'
+          #    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+          #    command: 'apply'
+          #    arguments: '-f kubernetes-manifests/ingress/ingress.yaml'
+          #    secretType: 'dockerRegistry'
