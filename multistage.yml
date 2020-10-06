@@ -105,25 +105,8 @@ stages:
         deploy:
           steps:
           - script: |
-              git version
-              git lfs version
-              git init "/home/vsts/work/1/s"
-              git remote add origin https://github.com/SSAzSeedTeam/daytrader
-              git config gc.auto 0
-              git config --get-all http.https://github.com/SSAzSeedTeam/daytrader.extraheader
-              git config --get-all http.proxy
-              git config http.version HTTP/1.1
-              git -c http.extraheader="AUTHORIZATION: basic ***" fetch --force --tags --prune --progress --no-recurse-submodules origin
+              git clone https://github.com/SSAzSeedTeam/daytrader.git
           #Deploy to AKS
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
-              command: 'apply'
-              useConfigurationFile: true
-              configuration: 'kubernetes-manifests/accounts/deployment.yaml'
-              arguments: '-f kubernetes-manifests/accounts/deployment.yaml'
-              
           - task: Kubernetes@1
             displayName: 'daytrader-accounts-deployment-k8s'
             inputs:
