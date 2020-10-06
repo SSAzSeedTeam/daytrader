@@ -1,9 +1,9 @@
 trigger: none
 
 stages:
-– stage: JavaBuild
+- stage: JavaBuild
   jobs:
-  – job: JavaBuild
+  - job: JavaBuild
     pool:
       vmImage: 'Ubuntu-latest'
       demands: maven
@@ -15,9 +15,9 @@ stages:
        mavenPomFile: 'day-trader-java-app/pom.xml'
 
 
-– stage: Docker_Build_and_Push
+- stage: Docker_Build_and_Push
   jobs:
-  – job: Docker_Build_and_Push
+  - job: Docker_Build_and_Push
     pool:
       vmImage: 'Ubuntu-latest'
     continueOnError: false
@@ -67,7 +67,7 @@ stages:
         Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
         tags: '15'
 
--stage: AKS_Deploy
+- stage: AKS_Deploy
   jobs:
     # track deployments on the environment
   - deployment: AKS_Deploy
