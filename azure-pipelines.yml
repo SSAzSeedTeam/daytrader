@@ -13,7 +13,7 @@ pool:
 
 
 steps:
-
+#JAVA Build
 - task: Maven@3
   displayName: 'Java Build'
   inputs:
@@ -48,6 +48,8 @@ steps:
 #    PathtoPublish: '$(build.artifactstagingdirectory)'
 #  condition: succeededOrFailed()
 
+
+#Docker Build and Push to DockerHub
 - task: Docker@2
   displayName: 'daytrader-accounts'
   inputs:
@@ -93,6 +95,8 @@ steps:
     Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
     tags: '15'
 
+
+#Deploy to AKS
 - task: Kubernetes@1
   displayName: 'daytrader-accounts-deployment-k8s'
   inputs:
@@ -182,28 +186,32 @@ steps:
     arguments: '-f kubernetes-manifests/ingress/ingress.yaml'
     secretType: 'dockerRegistry'
 
-- task: DownloadSecureFile@1
-  name: fullchain
-  inputs:
-    secureFile: 'fullchain.pem'
 
-- task: DownloadSecureFile@1
-  name: privkey
-  inputs:
-    secureFile: 'privkey.pem'
+#EKS Deploy
+#- task: DownloadSecureFile@1
+#  name: fullchain
+#  inputs:
+#    secureFile: 'fullchain.pem'
+#
+#- task: DownloadSecureFile@1
+#  name: privkey
+#  inputs:
+#    secureFile: 'privkey.pem'
+#
+#- task: CmdLine@2
+#  inputs:
+#    script: 'cat $(privkey.secureFilePath) $(fullchain.secureFilePath)'
+#
+#- task: Kubernetes@1
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+#    command: 'create'
+#    arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
+#    secretType: 'dockerRegistry'
 
-- task: CmdLine@2
-  inputs:
-    script: 'cat $(privkey.secureFilePath) $(fullchain.secureFilePath)'
 
-- task: Kubernetes@1
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
-    command: 'create'
-    arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
-    secretType: 'dockerRegistry'
-
+#Testing
 #- task: Bash@3
 #  inputs:
 #    filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
