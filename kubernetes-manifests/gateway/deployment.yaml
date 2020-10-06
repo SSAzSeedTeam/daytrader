@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-gateway
+  name: daytrader-gateway
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-gateway
+  template:
+    metadata:
+      labels:
+        app: daytrader-gateway
+    spec:
+      containers:
+      - name: daytrader-gateway
+        image: tnshibu/daytrader-gateway:1.5
+        imagePullPolicy: Always
+        
+#        resources:
+#          requests:
+#            cpu: 250m
+#          limits:
+#            cpu: 500m                    
+        
+        
+        ports:
+        - containerPort: 2443
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 2443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 2443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
+        env:
+        - name: DAYTRADER_ACCOUNTS_SERVICE
+          value: http://daytrader-accounts
+        - name: DAYTRADER_GATEWAY_SERVICE
+          value: http://daytrader-gateway
+        - name: DAYTRADER_PORTFOLIOS_SERVICE
+          value: http://daytrader-portfolios
+        - name: DAYTRADER_QUOTES_SERVICE
+          value: http://daytrader-quotes
+        - name: GET_HOSTS_FROM
+          value: dns

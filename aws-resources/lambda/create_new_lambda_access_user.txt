@@ -1,0 +1,18 @@
+#====================================================================================================
+# Create a new user to use for Lambda functions.
+aws --profile shibu_admin  iam create-user --user-name sspoc_daytrader_lambda_user
+
+# Add our user to the group
+aws --profile shibu_admin  iam add-user-to-group --user-name sspoc_daytrader_lambda_user --group-name sspoc_daytrader_lambda_access_group
+aws --profile shibu_admin  iam add-user-to-group --user-name sspoc_daytrader_lambda_user --group-name alphagx_eks_deploy_access_group 
+ 
+###### Create a password for this user
+#####aws --profile shibu_admin  iam create-login-profile --user-name sspoc_daytrader_lambda_user --password XXXXXXXXXXX
+#####
+###### Create an CLI access key for this user
+#####aws --profile shibu_admin  iam create-access-key --user-name sspoc_daytrader_lambda_user
+#####
+###### Save the Secret and Access Key's some where safe
+###### "AccessKeyId": "AOIKPI0WEHSOAPODIDMS",
+###### "SecretAccessKey": "2ERvDkF5YyOiVmAoJSFNASOCMuaguFAviQ3+bQWo",
+

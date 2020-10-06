@@ -1,0 +1,10 @@
+#create a role. 
+#The role specifies what actions the function instance is capable of ( check assume_role.json )
+#--------------------------------------------------------
+aws iam create-role --profile shibu_admin --role-name sspoc_daytrader_eks_role --assume-role-policy-document file://assume_role.json
+
+aws iam --profile shibu_admin attach-role-policy --role-name sspoc_daytrader_eks_role --policy-arn "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+
+
+#Attach EKS related policy to the role
+aws iam --profile shibu_admin put-role-policy --role-name sspoc_daytrader_eks_role --policy-name sspoc_daytrader_eks_policy_all --policy-document file://sspoc_daytrader_eks_policy_all.json

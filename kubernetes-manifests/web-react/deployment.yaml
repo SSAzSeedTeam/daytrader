@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-web-react
+  name: daytrader-web-react
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-web-react
+  template:
+    metadata:
+      labels:
+        app: daytrader-web-react
+    spec:
+      containers:
+      - name: daytrader-web-react
+        image: tnshibu/daytrader-web-react:1.5
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 3000
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 3000
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
+        env:
+        - name: CI
+          value: "true"
+        - name: ACCOUNTS_SERVICE_ROUTE
+          value: http://daytrader-accounts
+        - name: GATEWAY_SERVICE_ROUTE
+          value: http://daytrader-gateway
+        - name: PORTFOLIOS_SERVICE_ROUTE
+          value: http://daytrader-portfolios
+        - name: QUOTES_SERVICE_ROUTE
+          value: http://daytrader-quotes
+#        - name: GET_HOSTS_FROM
+#          value: dns
+        - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
+          value: http://51.138.96.229
+        - name: DAYTRADER_GATEWAY_SERVICE
+          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
+          value: http://51.138.96.229
+          

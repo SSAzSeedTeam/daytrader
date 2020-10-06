@@ -1,0 +1,23 @@
+#====================================================================================================
+# Create a new user to upload to S3 bucket
+#====================================================================================================
+
+# ----------------------------------------------------
+# Create the user 
+aws iam --profile shibu_admin create-user --user-name alphagx_s3_user
+
+# Add our user to the group
+aws iam --profile shibu_admin add-user-to-group --user-name alphagx_s3_user --group-name alphagx_s3_access_group
+
+# Create a password for this user
+aws iam --profile shibu_admin create-login-profile --user-name alphagx_s3_user --password XXXXXXXXXXXXXXXX
+
+# Create an CLI access key for this user
+aws iam --profile shibu_admin create-access-key --user-name alphagx_s3_user
+
+# Save the Secret and Access Key's some where safe
+# "AccessKeyId": "AOIKPI0WEHSOAPDAIDMS",
+# "SecretAccessKey": "2ERvDkF5YyWiCmAoJSFNASOCMuaguFAviQ3+bQWo",
+
+# ----------------------------------------------------
+#====================================================================================================

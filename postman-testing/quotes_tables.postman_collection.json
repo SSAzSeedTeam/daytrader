@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "f9c340a3-bf9e-49ae-9d23-0cbb1ee97f90",
+		"name": "QUOTE_RC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "QUOTE_recreateDBTables",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8bfb53f3-5f64-47a7-9488-2a66f1aa4471",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:4443/admin/recreateDBTables",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "4443",
+					"path": [
+						"admin",
+						"recreateDBTables"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,18 @@
+kubectl delete configmap daytrader-accounts-config-map
+kubectl delete configmap daytrader-protfolios-config-map
+kubectl delete configmap daytrader-quotes-config-map
+
+
+#--------------------------------------------------------------------------------------------------
+# to run application on azure hosted mysql
+kubectl apply --validate=false -f D:\Projects\ss-alphagx-repo-azure\GXEnablement\day-trader-java-app\daytrader-kubernetes-manifests\accounts\config-map-accounts-mysql.yaml
+kubectl apply --validate=false -f D:\Projects\ss-alphagx-repo-azure\GXEnablement\day-trader-java-app\daytrader-kubernetes-manifests\portfolios\config-map-portfolios-mysql.yaml
+kubectl apply --validate=false -f D:\Projects\ss-alphagx-repo-azure\GXEnablement\day-trader-java-app\daytrader-kubernetes-manifests\quotes\config-map-quotes-mysql.yaml
+
+# to run application on derby
+#kubectl apply --validate=false -f D:\Projects\ss-alphagx-repo-azure\GXEnablement\day-trader-java-app\daytrader-kubernetes-manifests\accounts\config-map-accounts-derby.yaml
+#kubectl apply --validate=false -f D:\Projects\ss-alphagx-repo-azure\GXEnablement\day-trader-java-app\daytrader-kubernetes-manifests\portfolios\config-map-portfolios-derby.yaml
+#kubectl apply --validate=false -f D:\Projects\ss-alphagx-repo-azure\GXEnablement\day-trader-java-app\daytrader-kubernetes-manifests\quotes\config-map-quotes-derby.yaml
+
+#--------------------------------------------------------------------------------------------------
+

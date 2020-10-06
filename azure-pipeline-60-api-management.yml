@@ -1,0 +1,36 @@
+trigger: none
+
+variables:
+- group: Repo_Env
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+#WIP
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'Free Trial(e8850995-7132-4e71-b8b6-83830937405c)'
+    ScriptType: 'FilePath'
+    ScriptPath: 'api-management/CreateAPIMServiceAllMicroservices.ps1'
+    azurePowerShellVersion: 'LatestVersion'
+    pwsh: true
+
+
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Recipe) == R1 ]]
+    then
+      echo "Bug"
+    elif [[ $(Recipe) == R2 ]]
+    then
+      echo "Recipe Completed"
+    elif [[ $(Recipe) == R3 ]]
+    then
+      echo "Recipe Completed"
+    fi
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Triggering next pipeline'

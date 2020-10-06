@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "19f0b5c3-ae2d-4a4d-ac5e-600b3314d94f",
+		"name": "QUOTES_RC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "QUOTES_data_create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61373e7a-e0d6-4343-aece-d0ae21583cb4",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"protocol": "https",
+					"host": "localhost",
+					"port": "4443",
+					"path": "admin/tradeBuildDB?limit=500&offset=0"
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

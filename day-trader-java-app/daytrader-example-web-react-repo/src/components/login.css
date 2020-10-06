@@ -1,0 +1,84 @@
+.app-login-container {
+    height: calc(100vh - 100px);
+}
+
+.app-login-container .al-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-top: 100px;
+    width: 400px;
+    margin: auto;
+}
+
+.app-login-container .al-content .al-login-box {
+    background-color: #fafafa;
+    width: 100%;
+    padding: 30px;
+    border-radius: 5px;
+    border: 2px solid #f1f1f1;
+    text-align: center;
+}
+
+.app-login-container .al-content .al-login-box .company-info {
+    font-size: 32px;
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+.app-login-container .al-content .al-login-box .company-info .colored-text {
+    color: #cc3f3f;
+}
+
+.al-login-box .form-container {
+    width: 85%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.al-login-box .form-container .form-group {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.al-login-box .form-container .form-group label {
+    display: block;
+    text-align: left;
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.al-login-box .form-container .form-group input {
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.al-login-box .form-container .form-group .app-login-button {
+    margin-top: 15px;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 5px;
+    background-color: #cc3f3f;
+    border: none;
+    height: 35px;
+    width: 100px;
+    text-decoration: none;
+    outline: none;
+}
+.error-message{
+    color: #cc3f3f;
+    text-align: right;
+}
+
+.regitster-link-section {
+    font-size: 12px;
+}
+
+.regitster-link-section a {
+    color: #cc3f3f;
+}

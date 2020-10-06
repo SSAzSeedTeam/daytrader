@@ -1,0 +1,107 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+trigger: none
+
+variables:
+- group: Repo_Env
+- group: AWS
+
+pool:
+  vmImage: 'ubuntu-latest'
+  name: Azure Pipelines
+  demands: maven
+
+steps:
+#build and push ecr docker
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'specific'
+    project: '3d034576-aa51-4760-88fd-3fe8617a5399'
+    definition: '9'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Pipeline.Workspace)/10_JAVA'
+    Contents: '**'
+    TargetFolder: '$(system.defaultworkingdirectory)'
+
+
+
+- script: |
+    aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 560773393352.dkr.ecr.us-east-2.amazonaws.com
+  displayName: 'Login to AWS'
+  env:
+    AWS_ACCESS_KEY_ID: $(AWSAccessKeyID)
+    AWS_SECRET_ACCESS_KEY: $(AWSSecretAccessKey)
+
+
+
+- task: Docker@2
+  displayName: 'daytrader-accounts'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-accounts-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-accountsrepo/daytrader-accountsapp/daytrader-accounts/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-gateway'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-gateway-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-gatewayrepo/daytrader-gatewayapp/daytrader-gateway/Dockerfile'
+
+
+- task: Docker@2
+  displayName: 'daytrader-portfolios'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-portfolios-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-portfoliosrepo/daytrader-portfoliosapp/daytrader-portfolios/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-quotes'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-quotes-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-quotesrepo/daytrader-quotesapp/daytrader-quotes/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-web'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-web-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-webrepo/daytrader-webapp/daytrader-web/Dockerfile'
+
+- task: Docker@2
+  displayName: 'daytrader-web-react'
+  inputs:
+    repository: '560773393352.dkr.ecr.us-east-2.amazonaws.com/ss-cloud-poc'
+    tags: 'daytrader-web-react-1.0.0'
+    command: 'buildAndPush'
+    Dockerfile: 'day-trader-java-app/daytrader-example-web-react-repo/Dockerfile'
+
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Recipe) == R1 ]]
+    then
+      az pipelines run --branch master --name "30.1 Docker Compose and Postman" -p GXEnablement
+    elif [[ $(Recipe) == R2 ]]
+    then
+      az pipelines run --branch master --name "30.2 Docker compose and Postman" -p GXEnablement
+    elif [[ $(Recipe) == R3 ]]
+    then
+      az pipelines run --branch master --name "30.3 Docker compose and Postman" -p GXEnablement
+    fi
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Triggering next pipeline'

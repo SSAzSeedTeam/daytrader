@@ -1,0 +1,58 @@
+#====================================================================================================
+https://awscli.amazonaws.com/v2/documentation/api/latest/reference/apigatewayv2/index.html
+#====================================================================================================
+#Create API gateway for Lambda function
+
+aws apigatewayv2 --profile shibu_admin   create-api --name shibu_dddd --protocol-type HTTP     --target arn:aws:lambda:us-east-2:560773393352:function:sspoc_daytrader_kubernetes_deploy
+Output :
+{
+    "ApiEndpoint": "https://ohxzpxhmzh.execute-api.us-east-2.amazonaws.com",
+    "ApiId": "ohxzpxhmzh",
+    "ApiKeySelectionExpression": "$request.header.x-api-key",
+    "CreatedDate": "2020-09-04T08:32:06+00:00",
+    "Name": "shibu_dddd",
+    "ProtocolType": "HTTP",
+    "RouteSelectionExpression": "$request.method $request.path"
+}
+#Note down the "ApiEndpoint" and "ApiId"
+ApiId : ohxzpxhmzh
+ApiEndpoint": "https://ohxzpxhmzh.execute-api.us-east-2.amazonaws.com"
+
+#====================================================================================================
+aws apigatewayv2 --profile shibu_admin get-integrations --api-id ohxzpxhmzh
+#Note down Integration ID
+"IntegrationId": "mfyhwo6",
+"IntegrationMethod": "POST",
+#====================================================================================================
+aws apigatewayv2 --profile shibu_admin get-routes --api-id  $apiid
+routeId=`aws apigatewayv2 --profile shibu_admin get-routes --api-id  $apiid --query "Items[].RouteId" --output text`
+echo $routeId
+#====================================================================================================
+aws apigatewayv2 --profile shibu_admin update-route --api-id  $apiid --route-id $routeId --route-key "GET /"
+#====================================================================================================
+#Update HTTP method to GET
+aws apigatewayv2 --profile shibu_admin update-integration --api-id ohxzpxhmzh --integration-id mfyhwo6 --integration-method GET
+#====================================================================================================
+#Allow API gateway to invoke Lambda
+#replace api-id below (and also stage name $default)
+
+aws lambda add-permission \
+  --profile shibu_admin
+  --statement-id ab21abf9-c85b-54d8-9ae3-a7efa0538be2 \
+  --action lambda:InvokeFunction \
+  --function-name "arn:aws:lambda:us-east-2:560773393352:function:sspoc_daytrader_kubernetes_deploy" \
+  --principal apigateway.amazonaws.com \
+  --source-arn "arn:aws:execute-api:us-east-2:560773393352:ohxzpxhmzh/*/$default"
+  
+#above command in single line....
+aws lambda add-permission  --profile shibu_admin --statement-id ab21abf9-c85b-54d8-9ae3-a7efa0538be2   --action lambda:InvokeFunction   --function-name "arn:aws:lambda:us-east-2:560773393352:function:sspoc_daytrader_kubernetes_deploy"   --principal apigateway.amazonaws.com   --source-arn "arn:aws:execute-api:us-east-2:560773393352:ohxzpxhmzh/*/$default"
+output:
+{
+    "Statement": "{\"Sid\":\"ab21abf9-c85b-54d8-9ae3-a7efa0538be2\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"apigateway.amazonaws.com\"},\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:us-east-2:560773393352:function:sspoc_daytrader_kubernetes_deploy\",\"Condition\":{\"ArnLike\":{\"AWS:SourceArn\":\"arn:aws:execute-api:us-east-2:560773393352:ohxzpxhmzh/*/$default\"}}}"
+}
+#====================================================================================================
+#invoke from command line
+curl -H "X-Amz-Invocation-Type: Event" https://ohxzpxhmzh.execute-api.us-east-2.amazonaws.com/
+#====================================================================================================
+
+#====================================================================================================

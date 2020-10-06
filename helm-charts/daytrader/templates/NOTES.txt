@@ -1,0 +1,25 @@
+{{- $ingress := index .Values "daytrader-web" "ingress" -}}
+1.  Update the DNS record:
+
+    export IP_ADDRESS=$(kubectl get ingress --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name=daytrader-web,app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+    echo "Update the DNS record of {{ if $ingress.enabled }}{{- range $ingress.hosts }}{{ . }}{{- end }}{{- end }} to point to ${IP_ADDRESS}"
+
+    Note that it may take several seconds before the ingress is assigned an IP address. Check the status via
+      kubectl get ingress --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name=daytrader-web,app.kubernetes.io/instance={{ .Release.Name }}"
+    or watch it via
+      watch -n 1 kubectl get ingress --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name=daytrader-web,app.kubernetes.io/instance={{ .Release.Name }}"
+
+
+2.  To test the DayTrader application:
+
+    a.  Point your browser to {{ if $ingress.enabled }}{{- range $ingress.hosts }}http{{ if $ingress.tls }}s{{ end }}://{{ . }}{{ $ingress.path }}{{- end }}{{- end }}
+
+    b.  Under The Configuration Tab
+
+        -  Press(Re)-create DayTrader Database Tables and Indexes
+
+        -  Press (Re)-populate DayTrader Database
+
+        -  Press Test Daytrader Scenario
+
+    c.  Keep refreshing the browser until you are satisfied that DayTrader is working.

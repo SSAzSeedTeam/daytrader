@@ -1,0 +1,20 @@
+#====================================================================================================
+# Create a user group
+aws --profile shibu_admin  iam create-group --group-name sspoc_daytrader_lambda_access_group
+
+#====================================================================================================
+#attach EKS specific custom policy to the group
+aws iam put-group-policy 
+    --profile shibu_admin  
+    --group-name sspoc_daytrader_lambda_access_group 
+    --policy-name daytrader_eks_policy 
+    --policy-document file://sspoc_lambda_eks_policy.json
+
+aws iam put-group-policy --profile shibu_admin --group-name sspoc_daytrader_lambda_access_group --policy-name daytrader_eks_policy --policy-document file://sspoc_lambda_eks_policy.json
+
+
+#====================================================================================================
+
+#====================================================================================================
+
+#====================================================================================================

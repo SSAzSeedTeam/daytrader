@@ -1,0 +1,55 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger: none
+
+variables:
+- group: Repo_Env
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: DownloadSecureFile@1
+  name: fullchain
+  inputs:
+    secureFile: 'fullchain.pem'
+
+- task: DownloadSecureFile@1
+  name: privkey
+  inputs:
+    secureFile: 'privkey.pem'
+
+- task: CmdLine@2
+  inputs:
+    script: 'cat $(privkey.secureFilePath) $(fullchain.secureFilePath)'
+
+#- task: Kubernetes@1
+#  inputs:
+#    connectionType: 'Kubernetes Service Connection'
+#    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+#    command: 'create'
+#    arguments: 'secret tls daytrader-tls-secret --key $(privkey.secureFilePath) --cert $(fullchain.secureFilePath)'
+#    secretType: 'dockerRegistry'
+
+
+
+- script: |
+    echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
+    az devops configure --defaults organization=https://dev.azure.com/AlphaGX project="GXEnablement" --use-git-aliases true
+    if [[ $(Recipe) == R1 ]]
+    then
+      echo "bug"
+    elif [[ $(Recipe) == R2 ]]
+    then
+      az pipelines run --branch master --name "60 API-Management" -p GXEnablement
+    elif [[ $(Recipe) == R3 ]]
+    then
+      az pipelines run --branch master --name "60 API-Management" -p GXEnablement
+    fi
+  env:
+    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+  displayName: 'Triggering next pipeline'

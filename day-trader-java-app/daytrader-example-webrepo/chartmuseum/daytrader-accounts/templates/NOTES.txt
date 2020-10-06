@@ -1,0 +1,20 @@
+
+1.  To test the deployment connection:
+
+    a.  $ export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ .Values.metadata.name }}" -o jsonpath="{.items[0].metadata.name}")
+    b.  $ kubectl port-forward $POD_NAME {{.Values.service.targetPort}}:{{.Values.service.targetPort}}
+    c.  $ curl -k https://localhost:{{.Values.service.targetPort}}/health
+    
+    You should see {"status":"UP"}
+
+2.  To test the service connection:
+
+    a.  $ kubectl proxy --port={{.Values.service.targetPort}}
+    b.  $ curl -k http://localhost:{{.Values.service.targetPort}}/api/v1/namespaces/default/services/https:{{ .Values.metadata.name }}:/proxy/health
+    
+    You should see {"status":"UP"}
+    
+3.  To review the swagger documentation:
+
+    a.  $ kubectl proxy --port={{.Values.service.targetPort}}
+    b.  Point your browser to http://localhost:{{.Values.service.targetPort}}/api/v1/namespaces/default/services/https:{{ .Values.metadata.name }}:/proxy/swagger-ui.html

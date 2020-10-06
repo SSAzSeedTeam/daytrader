@@ -1,0 +1,18 @@
+1.  To test the deployment connection:
+
+    export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-gateway.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+    echo 'Visit https://localhost:{{.Values.image.containerPort}}/health which should display {"status":"UP"}'
+    kubectl port-forward $POD_NAME {{.Values.image.containerPort}}:{{.Values.image.containerPort}}
+
+2.  To test the service connection:
+
+    echo 'Visit http://localhost:{{.Values.image.containerPort}}/api/v1/namespaces/default/services/https:{{ .Values.service.name }}:/proxy/health which should display {"status":"UP"}'
+    kubectl proxy --port={{.Values.image.containerPort}}
+    
+3.  To review the swagger documentation:
+
+    echo "Visit http://localhost:{{.Values.image.containerPort}}/api/v1/namespaces/default/services/https:{{ .Values.service.name }}:/proxy/swagger-ui.html to review the Swagger documentation"
+    kubectl proxy --port={{.Values.image.containerPort}}
+
+Note that it can take several seconds before the container becomes available. Check the status via
+  kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "daytrader-gateway.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"

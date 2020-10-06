@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Kubernetes@1
+  displayName: 'daytrader-accounts-deployment-k8s'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'daytrader-cluster'
+    command: 'apply'
+    arguments: '-f kubernetes-manifests/accounts/deployment.yaml'
+
+- task: Kubernetes@1
+  displayName: 'daytrader-accounts-service-k8s'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'daytrader-cluster'
+    command: 'apply'
+    arguments: '-f kubernetes-manifests/accounts/service.yaml'

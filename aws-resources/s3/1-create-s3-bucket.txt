@@ -1,0 +1,1 @@
+aws s3 --profile shibu_admin mb s3://ss-poc-daytrader
