@@ -13,7 +13,7 @@ steps:
   inputs:
     azureSubscription: 'Free Trial(e8850995-7132-4e71-b8b6-83830937405c)'
     ScriptType: 'FilePath'
-    ScriptPath: 'day-trader-java-app/daytrader-api-management/CreateAPIMServiceAllMicroservices.ps1'
+    ScriptPath: 'api-management/CreateAPIMServiceAllMicroservices.ps1'
     azurePowerShellVersion: 'LatestVersion'
     pwsh: true
 

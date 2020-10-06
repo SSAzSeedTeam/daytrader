@@ -39,8 +39,8 @@ steps:
 - task: Bash@3
   continueOnError: true
   inputs:
-    filePath: 'day-trader-java-app/daytrader-postman-testing/test_all.sh'
-    workingDirectory: 'day-trader-java-app/daytrader-postman-testing/'
+    filePath: 'postman-testing/test_all.sh'
+    workingDirectory: 'postman-testing/'
     failOnStderr: true
 
 
@@ -48,7 +48,7 @@ steps:
   #continueOnError: true
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'day-trader-java-app/daytrader-postman-testing/postman_results/**.xml'
+    testResultsFiles: 'postman-testing/postman_results/**.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
 

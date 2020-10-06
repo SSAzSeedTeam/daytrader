@@ -16,7 +16,7 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'daytrader-cluster'
     command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/deployment.yaml'
+    arguments: '-f kubernetes-manifests/accounts/deployment.yaml'
 
 - task: Kubernetes@1
   displayName: 'daytrader-accounts-service-k8s'
@@ -24,4 +24,4 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'daytrader-cluster'
     command: 'apply'
-    arguments: '-f day-trader-java-app/daytrader-kubernetes-manifests/accounts/service.yaml'
+    arguments: '-f kubernetes-manifests/accounts/service.yaml'
