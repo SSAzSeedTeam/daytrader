@@ -1,4 +1,4 @@
-package org.apache.geronimo.daytrader.javaee6.utils;
+package com.ofss.daytrader.utils;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
