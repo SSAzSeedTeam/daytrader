@@ -104,6 +104,16 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'Java_Build_Artifact'
+              targetPath: '$(Pipeline.Workspace)'
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Pipeline.Workspace)'
+              Contents: '**'
+              TargetFolder: '$(system.defaultworkingdirectory)'
           #Deploy to AKS
           - task: Kubernetes@1
             displayName: 'daytrader-accounts-deployment-k8s'
