@@ -36,13 +36,21 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class PortfoliosApplication extends SpringBootServletInitializer {
 	
-// Added by on 2018-08-18 
-//  - Configure database environment 
-    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
-    private static String url = System.getenv("DAYTRADER_DATABASE_URL");
-    private static String username = System.getenv("DAYTRADER_DATABASE_USERNAME");
-    private static String password = System.getenv("DAYTRADER_DATABASE_PASSWORD");
+//  Configure database environment 
+//    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
+//    private static String url = System.getenv("DAYTRADER_DATABASE_URL");
+//    private static String username = System.getenv("DAYTRADER_DATABASE_USERNAME");
+//    private static String password = System.getenv("DAYTRADER_DATABASE_PASSWORD");
 
+	@Value("${DAYTRADER_DATABASE_DRIVER}")
+    private String driverClassName;
+	@Value("${DAYTRADER_DATABASE_URL}")
+    private String url;
+	@Value("${DAYTRADER_DATABASE_USERNAME}")
+    private String username;
+	@Value("${DAYTRADER_DATABASE_PASSWORD}")
+    private String password;
+    
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(PortfoliosApplication.class);

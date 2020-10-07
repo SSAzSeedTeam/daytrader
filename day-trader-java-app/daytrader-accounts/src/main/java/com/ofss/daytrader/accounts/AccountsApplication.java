@@ -34,12 +34,20 @@ import org.springframework.context.annotation.Bean;
 @ServletComponentScan(basePackages={"com.ofss.daytrader.accounts"})
 @SpringBootApplication
 public class AccountsApplication extends SpringBootServletInitializer {
-	
 //  Configure database environment 
-    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
-    private static String url = System.getenv("DAYTRADER_DATABASE_URL");
-    private static String username = System.getenv("DAYTRADER_DATABASE_USERNAME");
-    private static String password = System.getenv("DAYTRADER_DATABASE_PASSWORD");
+//    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
+//    private static String url = System.getenv("DAYTRADER_DATABASE_URL");
+//    private static String username = System.getenv("DAYTRADER_DATABASE_USERNAME");
+//    private static String password = System.getenv("DAYTRADER_DATABASE_PASSWORD");
+
+	@Value("${DAYTRADER_DATABASE_DRIVER}")
+    private String driverClassName;
+	@Value("${DAYTRADER_DATABASE_URL}")
+    private String url;
+	@Value("${DAYTRADER_DATABASE_USERNAME}")
+    private String username;
+	@Value("${DAYTRADER_DATABASE_PASSWORD}")
+    private String password;
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -69,6 +77,7 @@ public class AccountsApplication extends SpringBootServletInitializer {
 				//
 				// Accounts Data Source
 				//
+				System.out.println("driverClassName============"+driverClassName);
 				ContextResource accountsDataSource = new ContextResource();
 				accountsDataSource.setName("jdbc/AccountsDataSource");
 				accountsDataSource.setAuth("Container");
