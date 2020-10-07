@@ -81,8 +81,7 @@ public class AccountsService
 	
     private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
     
-    private static EntityManagerFactory entityManagerFactory =
-            Persistence.createEntityManagerFactory("");
+
 	
 	//	- Each microservice has their own private database (datasource)
     private static String dsName = TradeConfig.ACCOUNTS_DATASOURCE;
