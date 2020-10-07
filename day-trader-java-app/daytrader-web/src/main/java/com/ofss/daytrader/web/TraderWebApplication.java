@@ -40,11 +40,11 @@ import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
+/*import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 @ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
@@ -63,7 +63,7 @@ public class TraderWebApplication extends SpringBootServletInitializer {
 		SpringApplication.run(TraderWebApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public TomcatEmbeddedServletContainerFactory tomcatFactory() 
 	{	
 		TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory() 
@@ -94,7 +94,7 @@ public class TraderWebApplication extends SpringBootServletInitializer {
 		factory.setTomcatContextCustomizers(Arrays.asList(contextCustomizer));
 
 	    return factory;
-	}
+	}*/
 	
 }
 

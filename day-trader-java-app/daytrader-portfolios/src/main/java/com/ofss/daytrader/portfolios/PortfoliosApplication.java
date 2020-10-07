@@ -26,11 +26,11 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.builder.SpringApplicationBuilder;/*
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 @ServletComponentScan(basePackages={"com.ofss.daytrader.portfolios"})
@@ -61,7 +61,7 @@ public class PortfoliosApplication extends SpringBootServletInitializer {
 		SpringApplication.run(PortfoliosApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public TomcatEmbeddedServletContainerFactory tomcatFactory() 
 	{
 		TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory() 
@@ -98,6 +98,6 @@ public class PortfoliosApplication extends SpringBootServletInitializer {
 		};
 		
 		return factory;
-	}
+	}*/
 }
 

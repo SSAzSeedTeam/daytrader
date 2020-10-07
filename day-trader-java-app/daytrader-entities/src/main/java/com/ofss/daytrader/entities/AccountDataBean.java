@@ -25,14 +25,27 @@ import java.util.Date;
 
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="accountejb",
+	indexes = {@Index(name = "ACCOUNT_USERID", columnList = "profileID")})
 public class AccountDataBean implements Serializable {
 
+	@Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer accountID;              /* accountID */
     private int loginCount;                 /* loginCount */
     private int logoutCount;                /* logoutCount */
     private Date lastLogin;                 /* lastLogin Date */
     private Date creationDate;              /* creationDate */
+    @Column(name = "profile_userid")
     private String profileID;               /* userID */
     private double exchangeRate;
     
@@ -93,21 +106,21 @@ public class AccountDataBean implements Serializable {
     }
     
 //    // deleted unused constructor
-//    public AccountDataBean(int loginCount,
-//            int logoutCount,
-//            Date lastLogin,
-//            Date creationDate,
-//            BigDecimal balance,
-//            BigDecimal openBalance,
-//            String profileID) {
-//        setLoginCount(loginCount);
-//        setLogoutCount(logoutCount);
-//        setLastLogin(lastLogin);
-//        setCreationDate(creationDate);
-//        setBalance(balance);
-//        setOpenBalance(openBalance);
-//        setProfileID(profileID);
-//    }
+    public AccountDataBean(int loginCount,
+            int logoutCount,
+            Date lastLogin,
+            Date creationDate,
+            BigDecimal balance,
+            BigDecimal openBalance,
+            String profileID) {
+        setLoginCount(loginCount);
+        setLogoutCount(logoutCount);
+        setLastLogin(lastLogin);
+        setCreationDate(creationDate);
+        setBalance(balance);
+        setOpenBalance(openBalance);
+        setProfileID(profileID);
+    }
 
     // used for testing purposes
     public static AccountDataBean getRandomInstance() {

@@ -45,8 +45,12 @@ import java.sql.Timestamp;
 
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.core.direct.FinancialUtils;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ofss.daytrader.accounts.repository.AccountsProfileRepository;
+import com.ofss.daytrader.accounts.repository.AccountsRepository;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
@@ -73,6 +77,12 @@ public class PortfoliosService
     private static DataSource datasource = null;
 
     private static InitialContext context;
+    
+    @Autowired
+   	private AccountsRepository accountsRepository;
+   	
+   	@Autowired
+   	private AccountsProfileRepository accountsProfileRepository;
     
     //	- Enables portfolios microservice to consume accounts and quotes microservices
     private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
@@ -180,20 +190,26 @@ public class PortfoliosService
  	*/
      public AccountDataBean register(AccountDataBean accountData) throws Exception 
      {
-         Connection conn = null;
+        // Connection conn = null;
          try 
          {
-             conn = getConn();
-             register(conn,accountData);
-             commit(conn);
+        	 int loginCount = 0;
+             int logoutCount = 0;
+             accountData.setLoginCount(loginCount);
+             accountData.setLogoutCount(logoutCount);
+             
+         	accountData = accountsRepository.save(accountData);
+             //conn = getConn();
+             //register(conn,accountData);
+            // commit(conn);
          } catch (Exception e) 
          {
-             rollBack(conn, e);
+             //rollBack(conn, e);
              throw e;
          } 
          finally 
          {
-             releaseConn(conn);
+             //releaseConn(conn);
          }
          return accountData;
      }
@@ -773,23 +789,25 @@ public class PortfoliosService
     
     private AccountDataBean register(Connection conn, AccountDataBean accountData) throws Exception 
     {
-        PreparedStatement stmt = getStatement(conn, createAccountSQL);
+    	
+        //PreparedStatement stmt = getStatement(conn, createAccountSQL);
+    	
 
-        String userID = accountData.getProfileID();
+        /*String userID = accountData.getProfileID();
         Integer accountID = accountData.getAccountID();
         BigDecimal balance =  accountData.getBalance();
-        BigDecimal openBalance =  accountData.getOpenBalance();
-        int loginCount = 0;
-        int logoutCount = 0;
+        BigDecimal openBalance =  accountData.getOpenBalance();*/
+        /*int loginCount = 0;
+        int logoutCount = 0;*/
 
-        stmt.setInt(1, accountID.intValue());
+        /*stmt.setInt(1, accountID.intValue());
         stmt.setBigDecimal(2, openBalance);
         stmt.setBigDecimal(3, balance);
         stmt.setString(4, userID);
         stmt.setInt(5, loginCount);
         stmt.setInt(6, logoutCount);
         stmt.executeUpdate();
-        stmt.close();
+        stmt.close();*/
         
         return accountData;
     }
