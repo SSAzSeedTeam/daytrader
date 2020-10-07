@@ -13,6 +13,7 @@ stages:
       displayName: 'Java Build'
       inputs:
        mavenPomFile: 'day-trader-java-app/pom.xml'
+       publishJUnitResults: false
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(system.defaultworkingdirectory)'
