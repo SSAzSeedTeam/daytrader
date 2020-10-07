@@ -40,6 +40,7 @@ import com.ofss.daytrader.accounts.utils.Log;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.entities.AccountDataBean;
 import com.ofss.daytrader.entities.AccountProfileDataBean;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * API endpoints are documented using Swagger UI. 
@@ -73,6 +74,9 @@ import com.ofss.daytrader.entities.AccountProfileDataBean;
 public class AccountsController
 {
 	private static AccountsService accountsService = new AccountsService();
+
+    @Value("${EXCHANGE_RATE_ENABLE}")
+    private boolean exchangeRateEnable;
 
 	//
 	// Account Related Endpoints
@@ -185,8 +189,15 @@ public class AccountsController
 		{
 			accountData = accountsService.getAccountData(userId);
 	    	System.out.println("accountData ="+accountData );
-			double exchangeRate = accountsService.getExchangeRateData("INR");
-			accountData.setExchangeRate(exchangeRate);
+            Log.debug("exchangeRateEnable="+exchangeRateEnable);
+            if(exchangeRateEnable == true) {
+                double exchangeRate = accountsService.getExchangeRateData("INR");
+                if (accountData != null) {
+                    accountData.setExchangeRate(exchangeRate);
+                }
+            }
+
+
 	    	System.out.println("accountData ="+accountData );
 			if (accountData != null) 
 			{

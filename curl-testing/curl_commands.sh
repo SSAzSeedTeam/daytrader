@@ -13,9 +13,9 @@ curl -k https://localhost:5443
 #Accounts
 curl -k -L -X POST "https://localhost:1443/admin/recreateDBTables"
 #Portfolio
-curl -k  -L -X POST "https://localhost:3443/admin/recreateDBTables"
+curl -k -L -X POST "https://localhost:3443/admin/recreateDBTables"
 #Quotes
-curl -k  -L -X POST "https://localhost:4443/admin/recreateDBTables"
+curl -k -L -X POST "https://localhost:4443/admin/recreateDBTables"
 
 #=======================================================================
 #  POPULATE TABLES

@@ -54,6 +54,7 @@ import com.ofss.daytrader.utils.TradeConfig;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -78,6 +79,8 @@ public class AccountsService
     private static DataSource datasource = null;
 
     private static InitialContext context;
+    @Value("${EXCHANGE_RATE_ENABLE}")
+    private boolean exchangeRateEnable;
 
     /**
      * Zero arg constructor for AccountsService
@@ -896,6 +899,10 @@ public class AccountsService
     public double getExchangeRateData(String currency) throws Exception 
     {
     	System.out.println("Entering AccountsService.getExchangeRateData()");
+        Log.debug("exchangeRateEnable="+exchangeRateEnable);
+        if(exchangeRateEnable == false) {
+            return 0;
+        }
    		String url = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
    		url = url + "&currency="+currency;
    		Log.debug("AccountsService.getExchangeRateData() - " + url);
