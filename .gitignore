@@ -26,3 +26,5 @@ hs_err_pid*
 postman_results
 *.pyc
 x
+tradesdb
+target

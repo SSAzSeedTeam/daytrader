@@ -1,19 +1,19 @@
-cd daytrader-example-accountsrepo\daytrader-accountsapp\daytrader-accounts
+cd daytrader-accounts
 call .\env\external\springboot\bin\start_server.bat
 cd ..\..\..
 
-cd daytrader-example-gatewayrepo\daytrader-gatewayapp\daytrader-gateway
+cd daytrader-gateway
 call .\env\external\springboot\bin\start_server.bat
 cd ..\..\..
 
-cd daytrader-example-portfoliosrepo\daytrader-portfoliosapp\daytrader-portfolios
+cd daytrader-portfolios
 call .\env\external\springboot\bin\start_server.bat
 cd ..\..\..
 
-cd daytrader-example-quotesrepo\daytrader-quotesapp\daytrader-quotes
+cd daytrader-quotes
 call .\env\external\springboot\bin\start_server.bat
 cd ..\..\..
 
-cd daytrader-example-webrepo\daytrader-webapp\daytrader-web
+cd daytrader-web
 call .\env\external\springboot\bin\start_server.bat
 cd ..\..\..

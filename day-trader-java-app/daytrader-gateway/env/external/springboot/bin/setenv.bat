@@ -17,7 +17,7 @@ set DAYTRADER_TRUSTSTORE_PASSWORD=password
 
 @echo off
 echo "set maven variables"
-set DAYTRADER_APP_VERSION=4.0.0
+set DAYTRADER_APP_VERSION=1.0
 set DAYTRADER_APP_ARTIFACTID=daytrader-gatewayapp
 set DAYTRADER_WAR_ARTIFACTID=daytrader-gateway
 

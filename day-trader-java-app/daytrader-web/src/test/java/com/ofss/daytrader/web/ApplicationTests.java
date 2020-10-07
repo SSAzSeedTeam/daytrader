@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package org.apache.geronimo.daytrader.javaee6.web;
+package com.ofss.daytrader.web;
 
 import org.junit.Test;
 //import org.junit.runner.RunWith;
