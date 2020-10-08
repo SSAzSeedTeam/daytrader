@@ -29,6 +29,7 @@
     
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+		<JsonLayout complete="false"  compact="true" eventEol="true"></JsonLayout>
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
         <!--
