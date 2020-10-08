@@ -108,10 +108,10 @@ public class AccountsService
     {
     	if (offset == 0) resetTrade(true); // delete any rows from db before re-populating
         
-        //Connection conn = null;
+        Connection conn = null;
         try 
         {
-            //conn = getConn();
+            conn = getConn();
             
         	// Moved this code from the web tier into the microservice where it belongs
         	for (int i = 0; i < limit; i++) 
@@ -134,16 +134,16 @@ public class AccountsService
                 register(userID, "xxx", fullname, address, email, creditcard, initialBalance);
         	} // end-for
             
-           // commit(conn);
+            commit(conn);
         } 
         catch (Exception e) 
         {
-   			//rollBack(conn, e);
+   			rollBack(conn, e);
    			throw e;
         } 
         finally 
         {
-           // releaseConn(conn);
+            releaseConn(conn);
         }
         return true;
 
