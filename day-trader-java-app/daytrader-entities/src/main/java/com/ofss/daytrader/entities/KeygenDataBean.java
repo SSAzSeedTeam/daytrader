@@ -4,8 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="keygenejb")
+import org.springframework.stereotype.Component;
+
+@Component
 public class KeygenDataBean {
 
 	private Integer keyval;

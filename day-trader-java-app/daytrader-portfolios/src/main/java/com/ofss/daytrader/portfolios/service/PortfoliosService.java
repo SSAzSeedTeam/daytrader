@@ -49,8 +49,6 @@ import com.ofss.daytrader.core.direct.FinancialUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ofss.daytrader.accounts.repository.AccountsProfileRepository;
-import com.ofss.daytrader.accounts.repository.AccountsRepository;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
@@ -77,12 +75,6 @@ public class PortfoliosService
     private static DataSource datasource = null;
 
     private static InitialContext context;
-    
-    @Autowired
-   	private AccountsRepository accountsRepository;
-   	
-   	@Autowired
-   	private AccountsProfileRepository accountsProfileRepository;
     
     //	- Enables portfolios microservice to consume accounts and quotes microservices
     private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
@@ -190,7 +182,7 @@ public class PortfoliosService
  	*/
      public AccountDataBean register(AccountDataBean accountData) throws Exception 
      {
-        // Connection conn = null;
+        Connection conn = null;
          try 
          {
         	 int loginCount = 0;
@@ -198,13 +190,12 @@ public class PortfoliosService
              accountData.setLoginCount(loginCount);
              accountData.setLogoutCount(logoutCount);
              
-         	accountData = accountsRepository.save(accountData);
-             //conn = getConn();
-             //register(conn,accountData);
-            // commit(conn);
+             conn = getConn();
+             register(conn,accountData);
+             commit(conn);
          } catch (Exception e) 
          {
-             //rollBack(conn, e);
+             rollBack(conn, e);
              throw e;
          } 
          finally 

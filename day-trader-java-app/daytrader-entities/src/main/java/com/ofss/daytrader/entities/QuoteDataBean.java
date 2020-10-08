@@ -20,9 +20,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 
+import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
-
+@Component
 public class QuoteDataBean implements Serializable {
 
     /* Accessor methods for persistent fields */

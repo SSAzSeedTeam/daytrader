@@ -29,6 +29,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;/*
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -61,18 +63,17 @@ public class PortfoliosApplication extends SpringBootServletInitializer {
 		SpringApplication.run(PortfoliosApplication.class, args);
 	}
 
-	/*@Bean
-	public TomcatEmbeddedServletContainerFactory tomcatFactory() 
+	@Bean
+	public TomcatServletWebServerFactory tomcatFactory() 
 	{
-		TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory() 
+		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory() 
 		{
 			@Override
-			protected TomcatEmbeddedServletContainer getTomcatEmbeddedServletContainer(Tomcat tomcat) 
-			{
+			protected TomcatWebServer getTomcatWebServer(Tomcat tomcat) {
 				tomcat.enableNaming();
-				return super.getTomcatEmbeddedServletContainer(tomcat);
+				return super.getTomcatWebServer(tomcat);
 			}
-			
+
 			@Override
 			protected void postProcessContext(Context context) 
 			{
@@ -98,6 +99,6 @@ public class PortfoliosApplication extends SpringBootServletInitializer {
 		};
 		
 		return factory;
-	}*/
+	}
 }
 
