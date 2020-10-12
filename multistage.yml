@@ -36,11 +36,12 @@ stages:
     #    specificBuildWithTriggering: true
     #    buildVersionToDownload: 'latest'
     #    targetPath: '$(Pipeline.Workspace)'
+    - script: mkdir -p $(Pipeline.Workspace)/Java_Build_Artifact
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
         artifactName: 'Java_Build_Artifact'
-        targetPath: '$(Pipeline.Workspace)'
+        targetPath: '$(Pipeline.Workspace)/Java_Build_Artifact'
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Pipeline.Workspace)'
