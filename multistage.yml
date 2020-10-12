@@ -44,7 +44,7 @@ stages:
         targetPath: '$(Pipeline.Workspace)/Java_Build_Artifact'
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(Pipeline.Workspace)'
+        SourceFolder: '$(Pipeline.Workspace)/Java_Build_Artifact'
         Contents: '**'
         TargetFolder: '$(system.defaultworkingdirectory)'
     
