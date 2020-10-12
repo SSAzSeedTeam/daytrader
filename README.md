@@ -12,7 +12,7 @@ zookeeper-server-stop.bat ../../config/zookeeper.properties
 kafka-server-start.bat ../../config/server.properties
 
 
-4.	Run the docker-compose file in the root application by navigating to the root of the application
+4.	Run the docker-compose file in the root application by navigating to the root of the application note: You can also make daytrader application using commad line scripts
 5.	Build the project by navigating to the root of the application i.e mvn clean package
 6.	Execute the project  i.e mvn spring-boot:run  
 
