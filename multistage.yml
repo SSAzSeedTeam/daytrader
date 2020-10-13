@@ -1,5 +1,10 @@
 trigger: none
 
+variables:
+- name: docker_tag
+  value: 15 
+
+
 stages:
 - stage: JavaBuild
   jobs:
@@ -55,7 +60,7 @@ stages:
         repository: 'azseed / daytrader-accounts'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-accounts/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-gateway'
@@ -64,7 +69,7 @@ stages:
         repository: 'azseed / daytrader-gateway'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-gateway/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-portfolios'
@@ -73,7 +78,7 @@ stages:
         repository: 'azseed / daytrader-portfolios'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-portfolios/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-quotes'
@@ -82,7 +87,7 @@ stages:
         repository: 'azseed / daytrader-quotes'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-quotes/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-web'
@@ -91,7 +96,7 @@ stages:
         repository: 'azseed / daytrader-web'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-web/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-report-generator'
@@ -100,7 +105,7 @@ stages:
         repository: 'azseed / daytrader-report-generator'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-report-generator/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
       displayName: 'daytrader-onprem-exchange-rate'
@@ -109,7 +114,7 @@ stages:
         repository: 'azseed / daytrader-onprem-exchange-rate'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
       displayName: 'daytrader-trade-consumer'
@@ -118,7 +123,7 @@ stages:
         repository: 'azseed / daytrader-trade-consumer'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
       displayName: 'daytrader-trade-producer'
@@ -127,7 +132,7 @@ stages:
         repository: 'azseed / daytrader-trade-producer'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
       displayName: 'daytrader-web-react-npm'
@@ -136,7 +141,7 @@ stages:
         repository: 'azseed / daytrader-web-react-npm'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_npm_start'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
       displayName: 'daytrader-web-react-static'
@@ -145,7 +150,7 @@ stages:
         repository: 'azseed / daytrader-web-react-static'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_static_files'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
 - stage: AKS_Deploy
   jobs:
