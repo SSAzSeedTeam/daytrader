@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
-<<<<<<< HEAD
 @Entity
 @Table(name="holdingejb",
 	indexes = {@Index(name = "HOLDING_ACCOUNTID", columnList = "account_accountid")})
