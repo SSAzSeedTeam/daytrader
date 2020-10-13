@@ -1,0 +1,44 @@
+# Specific Confluent Cloud Configuration file.
+# This profile with inherit all properties from application.yml
+# But will override properties:
+# spring.kafka.bootstrap-servers and schema.registry.url (part of spring.kafka.properties)
+
+server:
+  port: 8086
+
+stockTick:
+  producer:
+    rateInMs: 1000
+
+spring:
+  application:
+    name: "trade-producer"
+  kafka:
+    bootstrap-servers: pkc-lgwgm.eastus2.azure.confluent.cloud:9092
+    #consumer.group-id: kafkaSchemaGroup
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      #io.stockgeeks.kafka.stock.ticker.producer.avro.ProducerSerializer
+    properties:
+      ssl.endpoint.identification.algorithm: https
+      sasl.mechanism: PLAIN
+      request.timeout.ms: 120000
+      security.protocol: SASL_SSL
+      retry.backoff.ms: 500
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="SQBFW4EG47FHFWSI" password="qzbQtcO+gN/IlsU4h7vJhwzb1waKAHJVdsxejVhnfL+4YQamXP09OU81LVm+b0i3";
+    
+      # Schema Registry specific settings
+  #    schema.registry.url: {registry url}
+  #    basic.auth.credentials.source: USER_INFO
+  #    schema.registry.basic.auth.user.info: KEY:SECRET
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
