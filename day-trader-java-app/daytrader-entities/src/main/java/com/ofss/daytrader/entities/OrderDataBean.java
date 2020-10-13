@@ -28,13 +28,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
 
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
 @SuppressWarnings("serial")
-@Component
 @Entity
 @Table(name="orderejb",
 	indexes = {@Index(name = "ORDER_ACCOUNTID", columnList = "account_accountid"),

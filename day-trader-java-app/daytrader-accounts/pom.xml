@@ -49,6 +49,7 @@
             <groupId>org.apache.geronimo.daytrader</groupId>
             <artifactId>daytrader-entities</artifactId>            
             <!-- <scope>compile</scope>   -->  
+            <scope>compile</scope>    
             <version>1.0</version>
         </dependency>
         
@@ -287,6 +288,19 @@
 </dependency> -->
     
 
+
+<!--       
+<dependency>
+    <groupId>org.glassfish.jersey.inject</groupId>
+    <artifactId>jersey-hk2</artifactId>
+</dependency>
+-->
+<dependency>
+    <groupId>org.glassfish.jersey.core</groupId>
+    <artifactId>jersey-common</artifactId>
+</dependency>
+        
+      
     </dependencies>
 
     <build>

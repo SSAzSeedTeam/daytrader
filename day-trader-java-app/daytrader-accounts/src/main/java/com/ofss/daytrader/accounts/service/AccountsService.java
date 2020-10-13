@@ -85,9 +85,11 @@ public class AccountsService
 	
     private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
     
+
     
     /*private static EntityManagerFactory entityManagerFactory =
             Persistence.createEntityManagerFactory("");*/
+
 	
 	//	- Each microservice has their own private database (datasource)
    // private static String dsName = TradeConfig.ACCOUNTS_DATASOURCE;
@@ -99,6 +101,7 @@ public class AccountsService
 	//@Value("${EXCHANGE_RATE_ENABLE}")
     private boolean exchangeRateEnable;
     
+
     @Autowired(required = true)
     AccountsRepository accountsRepository;
 	
@@ -112,6 +115,7 @@ public class AccountsService
 	SessionFactory sessionFactory;
 	Session session;
 	Transaction trans;*/
+
 
     /**
      * Zero arg constructor for AccountsService
@@ -206,6 +210,12 @@ public class AccountsService
 				stmt.close();*/
 				accountsProfileRepository.deleteAll();
 				keygenRepository.deleteAll();
+				stmt.close();
+				
+				stmt = getStatement(conn, "delete from accountprofileejb");
+				stmt.executeUpdate();
+				stmt.close();
+				
 				// Fixed pkey unique constraint violation
 				/*stmt = getStatement(conn, "delete from keygenejb");
 				stmt.executeUpdate();
@@ -238,6 +248,8 @@ public class AccountsService
    				// Count and delete random users (with id that start with "ru:%")
    				accountsProfileRepository.deleteAccountprofileByUser();
    				/*stmt = getStatement(conn, "delete from accountprofileejb where userid like 'ru:%'");
+   				
+   				stmt = getStatement(conn, "delete from accountprofileejb where userid like 'ru:%'");
    				stmt.executeUpdate();
    				stmt.close();*/
 
@@ -246,6 +258,8 @@ public class AccountsService
    				int newUserCount = accountsRepository.deleteAccountDataByUser();
    				runStatsData.setNewUserCount(newUserCount);
    				/*stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
+   			
+   				stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
    				int newUserCount = stmt.executeUpdate();
    				runStatsData.setNewUserCount(newUserCount);
    				stmt.close();*/
@@ -254,6 +268,8 @@ public class AccountsService
    				int tradeUserCount = accountsRepository.getTraderUserCount();
    				runStatsData.setTradeUserCount(tradeUserCount);
    				/*stmt =	getStatement(conn,
+   				
+   				stmt =	getStatement(conn,
    					"select count(accountid) as \"tradeUserCount\" from accountejb a where a.profile_userid like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
@@ -277,6 +293,8 @@ public class AccountsService
    				}
    				
    				/*stmt = getStatement(conn,
+   				
+   				stmt = getStatement(conn,
                     "select sum(loginCount) as \"sumLoginCount\", sum(logoutCount) as \"sumLogoutCount\" from accountejb a where  a.profile_userID like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
@@ -286,6 +304,7 @@ public class AccountsService
    				runStatsData.setSumLogoutCount(sumLogoutCount);
    				stmt.close();
    				rs.close();*/
+   				rs.close();
    				int logoutCount = 0;
    				int loginCount = 0;
    				// Update logoutcount and loginCount back to zero
@@ -441,6 +460,7 @@ public class AccountsService
         	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
         } catch (Exception e) {
         	//trans.rollback();
+        } catch (Exception e) {
            // rollBack(conn, e);
             throw e;
         } finally {
@@ -544,6 +564,7 @@ public class AccountsService
             accountData.setLastLogin(new Timestamp(System.currentTimeMillis()));
             accountsRepository.save(accountData);
             /*conn = getConn();
+        	
             PreparedStatement stmt = getStatement(conn, getAccountProfileSQL);
             stmt.setString(1, userID);
 
@@ -582,11 +603,9 @@ public class AccountsService
             stmt.close();
             commit(conn);*/
         } catch (Exception e) {
-        	//trans.rollback();
             //rollBack(conn, e);
             throw e;
         } finally {
-        	//session.close();
             //releaseConn(conn);
         }
         return accountData;
@@ -600,8 +619,6 @@ public class AccountsService
     public boolean logout(String userID) throws Exception 
     { 
     	boolean result = false;
-    	/*session=sessionFactory.openSession();
-        trans=session.beginTransaction();*/
         
         //Connection conn = null;       
         try {
@@ -617,11 +634,9 @@ public class AccountsService
             commit(conn);*/
             result = true;
         } catch (Exception e) {
-        	//trans.rollback();
             //rollBack(conn, e);
             throw e;
         } finally {
-        	//session.close();
             //releaseConn(conn);
         }
         return result;
@@ -637,12 +652,12 @@ public class AccountsService
     {  
         AccountDataBean accountData = null;
        // Connection conn = null;
-        /*session=sessionFactory.openSession();
-        trans=session.beginTransaction();*/
         try 
         {
             //conn = getConn();
             accountData = registerUser(userID, password, fullname, address, email, creditCard, openBalance);
+            conn = getConn();
+            accountData = register(conn,userID, password, fullname, address, email, creditCard, openBalance);
             
             // Send the portfolios microservice the account data it needs to operate independent of 
             // accounts. Note that this data is read only by the accounts, but read-write by the portfolios. 
@@ -659,13 +674,11 @@ public class AccountsService
         } 
         catch (Exception e) 
         {
-        	//trans.rollback();
    			//rollBack(conn, e);
    			throw e;
         } 
         finally 
         {
-        	//session.close();
             //releaseConn(conn);
         }
         return accountData;

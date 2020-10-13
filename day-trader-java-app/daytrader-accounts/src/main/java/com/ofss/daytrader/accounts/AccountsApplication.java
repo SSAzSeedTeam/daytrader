@@ -27,6 +27,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+<<<<<<< HEAD
+=======
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
+/*import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +53,45 @@ public class AccountsApplication /*extends SpringBootServletInitializer*/ {
 	public static void main(String[] args) throws Exception 
 	{	
 		SpringApplication.run(AccountsApplication.class, args);
+	}
+
+	@Bean
+	public TomcatServletWebServerFactory tomcatFactory() 
+	{
+		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory() 
+		{
+			@Override
+			protected TomcatWebServer getTomcatWebServer(Tomcat tomcat) {
+				tomcat.enableNaming();
+				return super.getTomcatWebServer(tomcat);
+			}
+
+			@Override
+			protected void postProcessContext(Context context) 
+			{
+				//
+				// Accounts Data Source
+				//
+				System.out.println("driverClassName============"+driverClassName);
+				ContextResource accountsDataSource = new ContextResource();
+				accountsDataSource.setName("jdbc/AccountsDataSource");
+				accountsDataSource.setAuth("Container");
+				accountsDataSource.setType(DataSource.class.getName());
+				// Set Database Properties
+				accountsDataSource.setProperty("driverClassName", driverClassName);
+				accountsDataSource.setProperty("url", url);
+                if(username != null && !username.trim().equals("")) {
+                    accountsDataSource.setProperty("username", username);
+                    accountsDataSource.setProperty("password", password);
+                }
+				accountsDataSource.setProperty("maxActive", "100");
+				accountsDataSource.setProperty("maxIdle", "30");
+				accountsDataSource.setProperty("maxWait", "10000");
+				context.getNamingResources().addResource(accountsDataSource);
+			}
+		};
+		
+	    return factory;
 	}
 	
 }

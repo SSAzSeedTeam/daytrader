@@ -48,9 +48,6 @@ import java.sql.Timestamp;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.core.direct.FinancialUtils;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -214,10 +211,7 @@ public class PortfoliosService
  	*/
      public AccountDataBean register(AccountDataBean accountData) throws Exception 
      {
-        // Connection conn = null;
-    	 
-    	 /*session=sessionFactory.openSession();
-         trans=session.beginTransaction();*/
+
          try 
          {
         	 int loginCount = 0;
@@ -231,13 +225,11 @@ public class PortfoliosService
             // commit(conn);
          } catch (Exception e) 
          {
-        	 //trans.rollback();
              //rollBack(conn, e);
              throw e;
          } 
          finally 
          {
-        	 //session.close();
              //releaseConn(conn);
          }
          return accountData;
