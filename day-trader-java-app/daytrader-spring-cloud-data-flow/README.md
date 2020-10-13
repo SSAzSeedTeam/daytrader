@@ -22,11 +22,11 @@ Spring Cloud Data Flow Example with Kafka-binder
 > java -jar spring-cloud-dataflow-shell-1.3.0.M1.jar
 
 ###### 8) Register all 3 microservices to Spring Cloud Data Flow Server using below commands
-> app register --name product-service --type source --uri maven://com.javatechie:product-service:jar:0.0.1-SNAPSHOT
+> app register --name product-service --type source --uri maven://com.ofss.daytrader:product-service:jar:0.0.1-SNAPSHOT
 
-> app register --name discount-service --type processor --uri maven://com.javatechie:discount-service:jar:0.0.1-SNAPSHOT
+> app register --name discount-service --type processor --uri maven://com.ofss.daytrader:discount-service:jar:0.0.1-SNAPSHOT
 
-> app register --name courier-service --type sink --uri maven://com.javatechie:courier-service:jar:0.0.1-SNAPSHOT
+> app register --name courier-service --type sink --uri maven://com.ofss.daytrader:courier-service:jar:0.0.1-SNAPSHOT
 
 ###### 9) Create Cloud Stream to connect between all microservices registered in spring cloud data flow server
 > create --name log-data --definition 'product-service | discount-service | courier-service'
