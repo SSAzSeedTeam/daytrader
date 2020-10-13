@@ -77,7 +77,6 @@ public class AccountsController
 	
 	@Autowired
 	AccountsService accountsService;
-	private static AccountsService accountsService = new AccountsService();
 
 	//
 	// Account Related Endpoints

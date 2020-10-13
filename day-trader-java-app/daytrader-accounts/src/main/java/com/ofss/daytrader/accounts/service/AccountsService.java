@@ -210,11 +210,11 @@ public class AccountsService
 				stmt.close();*/
 				accountsProfileRepository.deleteAll();
 				keygenRepository.deleteAll();
-				stmt.close();
+				/*stmt.close();
 				
 				stmt = getStatement(conn, "delete from accountprofileejb");
 				stmt.executeUpdate();
-				stmt.close();
+				stmt.close();*/
 				
 				// Fixed pkey unique constraint violation
 				/*stmt = getStatement(conn, "delete from keygenejb");
@@ -304,7 +304,6 @@ public class AccountsService
    				runStatsData.setSumLogoutCount(sumLogoutCount);
    				stmt.close();
    				rs.close();*/
-   				rs.close();
    				int logoutCount = 0;
    				int loginCount = 0;
    				// Update logoutcount and loginCount back to zero
@@ -458,13 +457,10 @@ public class AccountsService
             commit(conn);
 */
         	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
-        } catch (Exception e) {
-        	//trans.rollback();
-        } catch (Exception e) {
+        }catch (Exception e) {
            // rollBack(conn, e);
             throw e;
         } finally {
-        	//session.close();
             //releaseConn(conn);
         }
         return accountData;
@@ -656,8 +652,6 @@ public class AccountsService
         {
             //conn = getConn();
             accountData = registerUser(userID, password, fullname, address, email, creditCard, openBalance);
-            conn = getConn();
-            accountData = register(conn,userID, password, fullname, address, email, creditCard, openBalance);
             
             // Send the portfolios microservice the account data it needs to operate independent of 
             // accounts. Note that this data is read only by the accounts, but read-write by the portfolios. 
