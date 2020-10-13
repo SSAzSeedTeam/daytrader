@@ -1,13 +1,14 @@
-FROM node:10-alpine as build-step
 
-RUN mkdir /app
-WORKDIR /app
-COPY package.json /app
+FROM node:alpine
+ENV CI=true
+ENV REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway
+
+WORKDIR /usr/app
+
+
+COPY ./package.json ./
 RUN npm install
-COPY . /app
-RUN npm run build
+COPY ./ ./
 
-# Stage 2
 
-FROM nginx:1.17.1-alpine
-COPY --from=build-step /app/build /usr/share/nginx/html
+CMD ["npm", "start"]

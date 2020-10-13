@@ -10,6 +10,7 @@ import uparrow from '../../../assets/arrowup.gif';
 import moment from 'moment-timezone';
 import { TXN_FEE } from '../../../constants';
 import CompletedOrder from '../NewOrder/CompletedOrder';
+import {LOCAL_GATEWAY_URL} from '../../../constants';
 
 const mode = 0;
 class QuotesOrTradepage extends Component {
@@ -19,7 +20,7 @@ class QuotesOrTradepage extends Component {
       quotes: ['s:0', 's:1', 's:2', 's:3', 's:4'],
       quotesData: [],
       quotesinfo: {},
-      curTime : new Date().toLocaleString(),
+      curTime : new Date(),
     }
   }
 
@@ -27,9 +28,10 @@ class QuotesOrTradepage extends Component {
     const {quotes} = this.state
     let quotesData = [];
     let obj = {};
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     for(let i = 0; i < quotes.length; i += 1) {
       const symbol = quotes[i];
-      await axios.get(`https://localhost:4443/quotes/${symbol}`)
+      await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
       .then(res => {
         console.log('res', res)
         quotesData.push(res.data);
@@ -65,6 +67,7 @@ class QuotesOrTradepage extends Component {
   }
 
   handleBuyOrder = (symbol, i, price) => {
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const quantity = this.state[`symbol${i}`]
     const userID = localStorage.getItem('userId');
     const cDate = new Date();
@@ -87,7 +90,7 @@ class QuotesOrTradepage extends Component {
       symbol,
     }
     console.log('dataToSend', dataToSend);
-    axios.post(`https://localhost:3443/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
@@ -132,11 +135,11 @@ class QuotesOrTradepage extends Component {
                   <td><Link to='/Terms'>{symbol}</Link></td>
                   <td>{companyName}</td>
                   <td>{volume}</td>
-                  <td>${low.toFixed(2)} - ${high.toFixed(2)}</td>
-                  <td>${open.toFixed(2)}</td>
-                  <td>${price.toFixed(2)}</td>
-                  <td style={{color: gOrL >= 0 ? 'green' : 'red'}}>{(price - open).toFixed(2)}<img className='uparrow-image' src={gOrL >= 0 ? uparrow : downarrow} />
-                  ({gOrL.toFixed(2)}%)<img className='uparrow-image' src={gOrL >= 0 ? uparrow : downarrow} />
+                  <td>${low ? low.toFixed(2) : 0.0} - ${high ? high.toFixed(2) : 0.0}</td>
+                  <td>${open ? open.toFixed(2) : 0.0}</td>
+                  <td>${price ? price.toFixed(2) : 0.0}</td>
+                  <td style={{color: gOrL >= 0 ? 'green' : 'red'}}>{(price - open) ? (price - open).toFixed(2) : 0.0}<img className='uparrow-image' src={gOrL >= 0 ? uparrow : downarrow} />
+                  ({gOrL ? gOrL.toFixed(2) : 0.0}%)<img className='uparrow-image' src={gOrL >= 0 ? uparrow : downarrow} />
                   </td>
                   <td className='buy-shares-td'>
                     <input
