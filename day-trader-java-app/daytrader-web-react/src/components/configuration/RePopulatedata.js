@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from '../shared/Navbar/Navbar';
 import Footer from '../shared/Footer/Footer';
+import { LOCAL_GATEWAY_URL } from '../../constants';
 
 const quotesBuildlimit = 10;
 const TradeBuildlimit = 50;
@@ -19,10 +20,11 @@ class RePopulatePage extends Component {
   }
 
   async componentDidMount () {
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     let content = '';
     let contentTwo = ''
     for (let offset = 0; offset <= maxQuoutesLimit; offset += quotesBuildlimit) {
-      await axios.post(`https://localhost:2443/admin/quotesBuildDB?limit=${quotesBuildlimit}&offset=${offset}`).
+      await axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/admin/quotesBuildDB?limit=${quotesBuildlimit}&offset=${offset}`).
         then(res => {
           console.log('res', content)
           content += `....s${offset}`
@@ -36,10 +38,10 @@ class RePopulatePage extends Component {
         })
     }
     for (let offset = 0; offset < maxTradeLimit; offset += TradeBuildlimit) {
-      await axios.post(`https://localhost:2443/admin/tradeBuildDB?limit=${TradeBuildlimit}&offset=${offset}`).
+      await axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/admin/tradeBuildDB?limit=${TradeBuildlimit}&offset=${offset}`).
         then(async res => {
           console.log('res', res)
-          await axios.get(`https://localhost:3443/portfolios/uid:${offset}/holdings`).
+          await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/uid:${offset}/holdings`).
             then(res => {
               const holdings = res.data
               contentTwo += `Account# ${offset} User ID=${offset} has ${holdings.length} holdings`

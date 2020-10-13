@@ -4,7 +4,7 @@ import axios from 'axios'
 import './login.css'
 import Navbar from './shared/Navbar/Navbar'
 import Footer from './shared/Footer/Footer'
-import { ACCOUNTS_API_URL } from '../constants'
+import {LOCAL_GATEWAY_URL} from '../constants';
 
 class Login extends Component {
   constructor() {
@@ -27,8 +27,9 @@ class Login extends Component {
   handleLogin = (e) => {
     e.preventDefault()
     const { uid, passwd } = this.state
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     if (uid && passwd) {
-      axios.patch(`${ACCOUNTS_API_URL}/login/${uid}`, passwd, {
+      axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/login/${uid}`, passwd, {
           headers: {
           'Content-Type': 'text/plain',
         }}
