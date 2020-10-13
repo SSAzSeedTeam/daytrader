@@ -100,7 +100,7 @@ stages:
         repository: 'azseed / daytrader-report-generator'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-report-generator/Dockerfile'
-        tags: '15'
+        tags: '0'
 
     - task: Docker@2
       displayName: 'daytrader-onprem-exchange-rate'
@@ -109,5 +109,23 @@ stages:
         repository: 'azseed / daytrader-onprem-exchange-rate'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
-        tags: '15'
+        tags: '0'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-consumer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-consumer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
+        tags: '0'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-producer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-producer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
+        tags: '0'
 
