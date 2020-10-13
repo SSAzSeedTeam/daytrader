@@ -111,6 +111,42 @@ stages:
         Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
         tags: '15'
 
+    - task: Docker@2
+      displayName: 'daytrader-trade-consumer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-consumer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
+        tags: '15'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-producer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-producer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
+        tags: '15'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-react-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-react-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_npm_start'
+        tags: '15'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-react-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-react-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_static_files'
+        tags: '15'
+
 - stage: AKS_Deploy
   jobs:
     # track deployments on the environment
