@@ -20,13 +20,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
+@Entity
+@Table(name = "quoteejb")
 public class QuoteDataBean implements Serializable {
 
     /* Accessor methods for persistent fields */
-
+	@Id
     private String symbol;          /* symbol */
     private String companyName;     /* companyName */
     private double volume;          /* volume */

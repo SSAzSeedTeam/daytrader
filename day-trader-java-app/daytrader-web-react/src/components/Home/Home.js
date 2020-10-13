@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../shared/Navbar/Navbar'
-import overviewImage from '../../assets/DayTraderArchitecture.png'
+import overviewImage from '../../assets/tradeOverview.png'
 import './Home.css'
 import { Link } from 'react-router-dom'
 import Footer from '../shared/Footer/Footer'
@@ -18,7 +18,8 @@ const Home = () => {
           <img src={overviewImage} />
         </div>
         <div className='mvc-info'>
-          <h4>DayTrader Microservices Components</h4>
+          <h4>DayTrader J2EE Components</h4>
+          <h4>Model-View-Controller Architecture</h4>
           <div className='desc-info'>
             <h5>DayTrader</h5>
             <p>DayTrader is the Geronimo end-to-end benchmark and performance sample application. The new DayTrader benchmark has been re-designed and developed to cover Geronimo's significantly expanding programming model. This provides a real world workload driving Geronimo's implementation of J2EE 1.4 and Web Services including key Geronimo performance components and features.</p>

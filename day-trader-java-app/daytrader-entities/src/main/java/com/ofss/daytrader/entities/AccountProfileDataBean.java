@@ -16,13 +16,23 @@
  */
 package com.ofss.daytrader.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+//import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
+
+@Entity
+@Table(name="accountprofileejb")
 public class AccountProfileDataBean implements java.io.Serializable {
 
     /* Accessor methods for persistent fields */
 
+	@Id
     private String userID;              /* userID */
     private String passwd;              /* password */
     private String fullName;            /* fullName */

@@ -1,1 +1,1 @@
-java -jar target\daytrader-onprem-exchange-rate-1.0.war
+java -jar target\exchange-rate-0.0.1-SNAPSHOT.jar

@@ -28,21 +28,27 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
+/*import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 //
 // Defining Application class
 // @SpringBootApplication enables many defaults. It also enables @EnableWebMvc that activates web endpoints.
 //
-@ServletComponentScan(basePackages={"com.ofss.daytrader.quotes"})
+
 @SpringBootApplication
-public class QuotesApplication extends SpringBootServletInitializer {
+@EntityScan(basePackages={"com.ofss.daytrader.entities"})
+@EnableJpaRepositories(basePackages={"com.ofss.daytrader.quotes.repository"})
+public class QuotesApplication {
 	
 //  Configure database environment 
 //    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
@@ -50,61 +56,8 @@ public class QuotesApplication extends SpringBootServletInitializer {
 //    private static String username = System.getenv("DAYTRADER_DATABASE_USERNAME");
 //    private static String password = System.getenv("DAYTRADER_DATABASE_PASSWORD");
 
-	@Value("${DAYTRADER_DATABASE_DRIVER}")
-    private String driverClassName;
-	@Value("${DAYTRADER_DATABASE_URL}")
-    private String url;
-	@Value("${DAYTRADER_DATABASE_USERNAME}")
-    private String username;
-	@Value("${DAYTRADER_DATABASE_PASSWORD}")
-    private String password;
-	
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(QuotesApplication.class);
-	}
-
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(QuotesApplication.class, args);
-	}
-
-	@Bean
-	public TomcatEmbeddedServletContainerFactory tomcatFactory() 
-	{
-		TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory() 
-		{
-			@Override
-			protected TomcatEmbeddedServletContainer getTomcatEmbeddedServletContainer(Tomcat tomcat) 
-			{
-				tomcat.enableNaming();
-				return super.getTomcatEmbeddedServletContainer(tomcat);
-			}
-
-			@Override
-			protected void postProcessContext(Context context) 
-			{
-				//
-				// Quotes Data Source
-				//
-				ContextResource quotesDataSource = new ContextResource();
-				quotesDataSource.setName("jdbc/QuotesDataSource");
-				quotesDataSource.setAuth("Container");
-				quotesDataSource.setType(DataSource.class.getName());
-				// Set Database Properties
-				quotesDataSource.setProperty("driverClassName", driverClassName);
-				quotesDataSource.setProperty("url", url);
-                if(username != null && !username.trim().equals("")) {
-                    quotesDataSource.setProperty("username", username);
-                    quotesDataSource.setProperty("password", password);
-                }
-				quotesDataSource.setProperty("maxActive", "100");
-				quotesDataSource.setProperty("maxIdle", "30");
-				quotesDataSource.setProperty("maxWait", "10000");
-				context.getNamingResources().addResource(quotesDataSource);
-			}
-		};
-		
-	    return factory;
 	}
 }
 

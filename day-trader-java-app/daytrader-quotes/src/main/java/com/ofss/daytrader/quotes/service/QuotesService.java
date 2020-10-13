@@ -43,11 +43,14 @@ import javax.ws.rs.NotFoundException;
 import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.core.direct.FinancialUtils;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
+import com.ofss.daytrader.quotes.repository.QuotesRepository;
 import com.ofss.daytrader.quotes.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
@@ -62,7 +65,7 @@ import com.ofss.daytrader.utils.TradeConfig;
 public class QuotesService
 {
 	//	- Each microservice has their own private database (datasource)
-    private static String dsName = TradeConfig.QUOTES_DATASOURCE;
+    //private static String dsName = TradeConfig.QUOTES_DATASOURCE;
 
     //	-  @Resource annotation is not supported on static fields
     
@@ -71,6 +74,9 @@ public class QuotesService
     private static BigDecimal ZERO = new BigDecimal(0.0);
 
     private static InitialContext context;
+    
+    @Autowired
+    private QuotesRepository quotesRepository;
 
     /**
      * Zero arg constructor for QuotesService
@@ -91,10 +97,10 @@ public class QuotesService
 		int index = offset;
         if (index==0) resetTrade(true); // delete any rows from db prior to repopulating
      
-        Connection conn = null;
+        //Connection conn = null;
         try 
         {
-            conn = getConn();
+           // conn = getConn();
         	for (int i = 0; i < limit; i++) 
         	{
         	   String symbol = "s:" + index;
@@ -102,16 +108,16 @@ public class QuotesService
        	       createQuote(symbol, companyName, new java.math.BigDecimal(TradeConfig.rndPrice()));
        	       index++;
         	}
-            commit(conn);
+           // commit(conn);
         } 
         catch (Exception e) 
         {
-            rollBack(conn, e);            
+            //rollBack(conn, e);            
             throw e;
         } 
         finally 
         {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
     	return true;
     }
@@ -128,43 +134,46 @@ public class QuotesService
 		//         their own usage statistics
 			
         RunStatsDataBean runStatsData = new RunStatsDataBean();
-        Connection conn = null;
+        //Connection conn = null;
 
         if (deleteAll) 		
         {
         	// delete the rows and return
-            conn = getConn();
+            /*conn = getConn();
             PreparedStatement stmt = null;
-            
+            */
             try 
             {
-                stmt = getStatement(conn, "delete from quoteejb");
+            	quotesRepository.deleteAll();
+                /*stmt = getStatement(conn, "delete from quoteejb");
                 stmt.executeUpdate();
                 stmt.close();
-                commit(conn);
+                commit(conn);*/
             }
     		catch (Exception e) 
     		{
-    			rollBack(conn, e);
+    			//rollBack(conn, e);
     			throw e;
     		} 
     		finally 
     		{
-    		    releaseConn(conn);
+    		    //releaseConn(conn);
     		}
             return runStatsData;
         }
         else
         {
         	// calculate usage stats and return
-   			conn = getConn();
+   			/*conn = getConn();
    			PreparedStatement stmt = null;
-   			ResultSet rs = null;
+   			ResultSet rs = null;*/
    			
    			try 
    			{
    				// Count of trade stocks
-   				stmt =
+   				int tradeStockCount = quotesRepository.countSymbol();
+   				runStatsData.setTradeStockCount(tradeStockCount);
+   				/*stmt =
    					getStatement(conn,
    						"select count(symbol) as \"tradeStockCount\" from quoteejb a where a.symbol like 's:%'");
    				rs = stmt.executeQuery();
@@ -174,16 +183,16 @@ public class QuotesService
    				stmt.close();
    				rs.close();
 
-   				commit(conn);
+   				commit(conn);*/
    			} 
    			catch (Exception e) 
    			{
-   				rollBack(conn, e);
+   				//rollBack(conn, e);
    				throw e;
    			} 
    			finally 
    			{
-   				releaseConn(conn);
+   				//releaseConn(conn);
    			}
         }
         return runStatsData;
@@ -306,9 +315,15 @@ public class QuotesService
     	// the top gainers and losers in that exchange
 
         MarketSummaryDataBean marketSummaryData = null;
-        Connection conn = null;
-        try {          
-            conn = getConn();
+        //Connection conn = null;
+        try {    
+        	
+        	Collection<QuoteDataBean> topGainersData = new ArrayList<QuoteDataBean>(5);
+            Collection<QuoteDataBean> topLosersData = new ArrayList<QuoteDataBean>(5);
+            
+            topLosersData = quotesRepository.fetchQuotesBySymbol();
+            topGainersData = quotesRepository.fetchQuotesBySymbolDESC();
+     /*       conn = getConn();
             PreparedStatement stmt =
                 getStatement(conn, getTSIAQuotesOrderByChangeSQL, ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
@@ -325,8 +340,8 @@ public class QuotesService
                 topLosersData.add(quoteData);
             }
 
-            stmt.close();
-            stmt =
+            stmt.close();*/
+       /*     stmt =
                 getStatement(conn, "select * from quoteejb q where q.symbol like 's:1__' order by q.change1 DESC",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery();
@@ -337,7 +352,7 @@ public class QuotesService
                 topGainersData.add(quoteData);
             }
 
-            stmt.close();
+            stmt.close();*/
 
             BigDecimal TSIA = ZERO;
             BigDecimal openTSIA = ZERO;
@@ -345,24 +360,36 @@ public class QuotesService
 
             if ((topGainersData.size() > 0) || (topLosersData.size() > 0)) {
 
-                stmt = getStatement(conn, getTSIASQL);
+            	TSIA = quotesRepository.getTSIA();
+                /*stmt = getStatement(conn, getTSIASQL);
                 rs = stmt.executeQuery();
-
-                if (!rs.next())
+*/
+                if (TSIA.compareTo(new BigDecimal(0.0)) < 0)
                     throw new NotFoundException("Error with getTSIASQL -- no results");
-                else
+               /* else
                     TSIA = rs.getBigDecimal("TSIA");
                 stmt.close();
-
-                stmt = getStatement(conn, getOpenTSIASQL);
+*/
+                openTSIA = quotesRepository.getOpenTSIA();
+                if(openTSIA.compareTo(new BigDecimal(0.0)) < 0) {
+                	throw new NotFoundException("Error with getOpenTSIASQL -- no results");
+                }
+                    
+                /*stmt = getStatement(conn, getOpenTSIASQL);
                 rs = stmt.executeQuery();
 
                 if (!rs.next())
                     throw new NotFoundException("Error with getOpenTSIASQL -- no results");
                 else
                     openTSIA = rs.getBigDecimal("openTSIA");
-                stmt.close();
-
+                stmt.close();*/
+                
+                
+               volume = quotesRepository.getTSIATotalVolume();
+               if(volume < 0.0) {  
+            	   throw new NotFoundException("Error with getTSIATotalVolumeSQL -- no results");
+               }
+/*
                 stmt = getStatement(conn, getTSIATotalVolumeSQL);
                 rs = stmt.executeQuery();
 
@@ -370,17 +397,17 @@ public class QuotesService
                     throw new NotFoundException("Error with getTSIATotalVolumeSQL -- no results");
                 else
                     volume = rs.getDouble("totalVolume");
-                stmt.close();
+                stmt.close();*/
             }
-            commit(conn);
+            //commit(conn);
             marketSummaryData = new MarketSummaryDataBean(TSIA, openTSIA, volume, topGainersData, topLosersData);
 			}
 
         catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+            //releaseConn(conn);
         }
         return marketSummaryData;
 
@@ -392,16 +419,30 @@ public class QuotesService
     public QuoteDataBean createQuote(String symbol, String companyName, BigDecimal price) throws Exception {
 
         QuoteDataBean quoteData = null;
-        Connection conn = null;
+       // Connection conn = null;
         try {
-            conn = getConn();
+        	
+        	price = price.setScale(FinancialUtils.SCALE, FinancialUtils.ROUND);
+            double volume = 0.0, change = 0.0;
+            quoteData = new QuoteDataBean();
+            quoteData.setSymbol(symbol);
+            quoteData.setCompanyName(companyName);
+            quoteData.setPrice(price);
+            quoteData.setVolume(volume);
+            quoteData.setChange(change);
+            quoteData.setOpen(price);
+            quoteData.setHigh(price);
+            quoteData.setLow(price);
+            quoteData = quotesRepository.save(quoteData);
+            /*conn = getConn();
             quoteData = createQuote( conn, symbol, companyName, price );
-            commit(conn);
+            commit(conn);*/
+        	
         } catch (Exception e) {
-            rollBack(conn, e);            
+           // rollBack(conn, e);            
             throw e;
         } finally {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
         return quoteData;
     }
@@ -411,17 +452,18 @@ public class QuotesService
      */
     public QuoteDataBean getQuote(String symbol) throws Exception {
         QuoteDataBean quoteData = null;
-        Connection conn = null;
+        //Connection conn = null;
 
         try {
-            conn = getConn();
+        	quoteData = quotesRepository.findById(symbol).get();
+            /*conn = getConn();
             quoteData = getQuote(conn, symbol);
-            commit(conn);
+            commit(conn);*/
         } catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
         return quoteData;
     }
@@ -433,9 +475,11 @@ public class QuotesService
         Collection<QuoteDataBean> quotes = new ArrayList<QuoteDataBean>();
         QuoteDataBean quoteData = null;
 
-        Connection conn = null;
+       // Connection conn = null;
         try {
-            conn = getConn();
+        	
+        	quotes = quotesRepository.findAll();
+            /*conn = getConn();
 
             PreparedStatement stmt = getStatement(conn, getAllQuotesSQL);
 
@@ -447,12 +491,12 @@ public class QuotesService
             }
 
             stmt.close();
-            commit(conn);
+            commit(conn);*/
         } catch (Exception e) {
-            rollBack(conn, e);
+           // rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
 
         return quotes;
@@ -469,12 +513,12 @@ public class QuotesService
             return new QuoteDataBean();
 
         QuoteDataBean quoteData = null;
-        Connection conn = null;
+        //Connection conn = null;
 
         try {
-            conn = getConn();
+            //conn = getConn();
 
-            quoteData = getQuoteForUpdate(conn, symbol);
+            quoteData = getQuoteForUpdate(symbol);
             BigDecimal oldPrice = quoteData.getPrice();
             double newVolume = quoteData.getVolume() + sharesTraded;
 
@@ -486,16 +530,16 @@ public class QuotesService
 
             BigDecimal newPrice = changeFactor.multiply(oldPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-            updateQuotePriceVolume(conn, quoteData.getSymbol(), newPrice, newVolume);
-            quoteData = getQuote(conn, symbol);
+            updateQuotePriceVolume(quoteData.getSymbol(), newPrice, newVolume);
+            quoteData = getQuote(symbol);
 
-            commit(conn);
+            //commit(conn);
 
         } catch (Exception e) {
-            rollBack(conn, e);
+           // rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
         return quoteData;
     }
@@ -540,28 +584,33 @@ public class QuotesService
         return quoteData;
     }
 	
-    private QuoteDataBean getQuoteForUpdate(Connection conn, String symbol) throws Exception {
+    private QuoteDataBean getQuoteForUpdate(String symbol) throws Exception {
         QuoteDataBean quoteData = null;
-        PreparedStatement stmt = getStatement(conn, getQuoteForUpdateSQL);
+        
+        quoteData = quotesRepository.getQuoteForUpdate(symbol);
+        if(null==quoteData) {
+        	Log.debug("QuotesService:getQuoteForUpdate() -- quote not found for symbol: " + symbol);
+        }
+        /*PreparedStatement stmt = getStatement(conn, getQuoteForUpdateSQL);
         stmt.setString(1, symbol); // symbol
 
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs = stmt.executeQuery();*/
 
-        if (!rs.next())
+        /*if (!rs.next())
             Log.debug("QuotesService:getQuoteForUpdate() -- quote not found for symbol: " + symbol);
 
         else
             quoteData = getQuoteDataFromResultSet(rs);
 
         stmt.close();
-
+*/
         return quoteData;
     }
 
-    private void updateQuotePriceVolume(Connection conn, String symbol, BigDecimal newPrice, double newVolume)
+    private void updateQuotePriceVolume(String symbol, BigDecimal newPrice, double newVolume)
         throws Exception {
-
-        PreparedStatement stmt = getStatement(conn, updateQuotePriceVolumeSQL);
+    	quotesRepository.updateQuotePriceVolume(newPrice,newVolume,symbol);
+        /*PreparedStatement stmt = getStatement(conn, updateQuotePriceVolumeSQL);
 
         stmt.setBigDecimal(1, newPrice);
         stmt.setBigDecimal(2, newPrice);
@@ -569,7 +618,7 @@ public class QuotesService
         stmt.setString(4, symbol);
 
         stmt.executeUpdate();
-        stmt.close();
+        stmt.close();*/
     }
 
     private QuoteDataBean getQuoteDataFromResultSet(ResultSet rs) throws Exception {
@@ -656,7 +705,7 @@ public class QuotesService
      * Lookup the TradeData datasource
      */
     private void getDataSource() throws Exception {
-        datasource = (DataSource) context.lookup(dsName);
+       // datasource = (DataSource) context.lookup(dsName);
     }
 
     /*
@@ -667,7 +716,7 @@ public class QuotesService
     {
         if (datasource == null) getDataSource();
 
-        Connection conn = datasource.getConnection();
+        Connection conn = null;//datasource.getConnection();
         conn.setAutoCommit(false);
 
         return conn;
@@ -756,9 +805,9 @@ public class QuotesService
 
         try {
             context = new InitialContext();
-            datasource = (DataSource) context.lookup(dsName);
+           // datasource = (DataSource) context.lookup(dsName);
         } catch (Exception e) {
-        	Log.error("QuotesService:init() - error on JNDI lookup of " + dsName + "-- QuotesService will not work",e);
+        	//Log.error("QuotesService:init() - error on JNDI lookup of " + dsName + "-- QuotesService will not work",e);
             return;
         }
         TradeConfig.setPublishQuotePriceChange(false);
