@@ -20,10 +20,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
 @SuppressWarnings("serial")
+@Component
 public class OrderDataBean implements Serializable
 {
     private Integer orderID;            /* orderID */

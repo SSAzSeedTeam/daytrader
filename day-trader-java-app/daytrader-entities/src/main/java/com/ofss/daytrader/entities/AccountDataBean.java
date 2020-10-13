@@ -33,13 +33,12 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="accountejb",
-	indexes = {@Index(name = "ACCOUNT_USERID", columnList = "profileID")})
+import org.springframework.stereotype.Component;
+
+@Component
 public class AccountDataBean implements Serializable {
 
-	@Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+	
     private Integer accountID;              /* accountID */
     private int loginCount;                 /* loginCount */
     private int logoutCount;                /* logoutCount */

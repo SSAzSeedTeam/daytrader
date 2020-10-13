@@ -20,11 +20,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
-
-@Entity
-@Table(name="accountprofileejb")
+@Component
 public class AccountProfileDataBean implements java.io.Serializable {
 
     /* Accessor methods for persistent fields */

@@ -27,11 +27,12 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
-@Entity
-@Table(name="holdingejb",
-	indexes = {@Index(name = "HOLDING_ACCOUNTID", columnList = "accountID")})
+
+@Component
 public class HoldingDataBean implements Serializable {
 
     /* persistent/relationship fields */
