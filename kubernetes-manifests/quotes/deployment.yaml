@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-quotes
-        image: tnshibu/daytrader-quotes:1.6
+        image: azseed/daytrader-quotes:1.6
         imagePullPolicy: Always
         ports:
         - containerPort: 4443

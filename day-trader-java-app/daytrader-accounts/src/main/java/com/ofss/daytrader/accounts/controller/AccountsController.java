@@ -87,6 +87,11 @@ public class AccountsController
 			@RequestBody AccountDataBean accountData) 
 	{
 		Log.traceEnter("AccountsController.register(" + accountData.getProfileID() + ")");
+		Log.traceEnter("this is trace enter");
+		Log.debug("this is debug enter");
+		//Log.info("this is info enter");
+		//Log.warn("this is warn enter");
+		//Log.fatal("this is fatal enter");
 		
 		// Get the registration data
 		String userID = accountData.getProfileID();

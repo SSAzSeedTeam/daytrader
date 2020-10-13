@@ -47,7 +47,7 @@ import com.ofss.daytrader.core.beans.RunStatsDataBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.symphonyoss.symphony.jcurl.*;
+//import org.symphonyoss.symphony.jcurl.*;
 
 import com.ofss.daytrader.accounts.repository.AccountsProfileRepository;
 import com.ofss.daytrader.accounts.repository.AccountsRepository;
@@ -991,7 +991,8 @@ public class AccountsService
     public double getExchangeRateData(String currency) throws Exception 
     {
     	System.out.println("Entering AccountsService.getExchangeRateData()");
-        Log.debug("exchangeRateEnable="+exchangeRateEnable);
+  /*
+   * Log.debug("exchangeRateEnable="+exchangeRateEnable);
         if(exchangeRateEnable == false) {
             return 0;
         }
@@ -1025,6 +1026,8 @@ public class AccountsService
 
     	System.out.println("Exiting AccountsService.getExchangeRateData()");
    		return exchangeRate;
+*/
+return 0;	
     }
 	
 

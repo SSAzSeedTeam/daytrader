@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-accounts
-        image: tnshibu/daytrader-accounts:1.6
+        image: azseed/daytrader-accounts:1.6
         imagePullPolicy: Always
         ports:
         - containerPort: 1443

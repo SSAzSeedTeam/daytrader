@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: daytrader-report-generator
-            image: tnshibu/daytrader-report-generator:1.0
+            image: azseed/daytrader-report-generator:1.0
             imagePullPolicy: Always
 #            args:
 #            - /bin/sh
