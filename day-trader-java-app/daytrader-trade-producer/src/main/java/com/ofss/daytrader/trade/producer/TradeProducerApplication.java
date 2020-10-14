@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class TradeProducerApplication {
 
-	public static final String TOPIC_NAME = "daytrader_trade";
+	public static final String TOPIC_NAME = "daytrader_trade_topic";
 
 	public static void main(String[] args) {
 		SpringApplication.run(TradeProducerApplication.class, args);
