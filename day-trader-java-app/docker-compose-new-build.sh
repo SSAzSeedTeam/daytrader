@@ -5,6 +5,8 @@ cd daytrader-quotes                  ; sudo ./docker-build.sh ; cd ..
 cd daytrader-web                     ; sudo ./docker-build.sh ; cd ..
 cd daytrader-report-generator        ; sudo ./docker-build.sh ; cd ..
 cd daytrader-onprem-exchange-rate    ; sudo ./docker-build.sh ; cd ..
+cd daytrader-trade-consumer          ; sudo ./docker-build.sh ; cd ..
+cd daytrader-trade-producer          ; sudo ./docker-build.sh ; cd ..
 
 sudo docker images
 
