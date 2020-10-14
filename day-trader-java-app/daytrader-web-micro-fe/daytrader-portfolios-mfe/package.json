@@ -17,7 +17,7 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "SET PORT=3003&&react-scripts start",
     "build": "react-scripts build",
     "prod": "SET REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway&& npm start",
     "test": "react-scripts test",
