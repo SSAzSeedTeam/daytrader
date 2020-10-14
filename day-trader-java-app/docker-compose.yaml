@@ -101,3 +101,20 @@ services:
       - daytrader-gateway
       - daytrader-portfolios
       - daytrader-quotes
+      
+  daytrader-trade-consumer:
+    image: kakaushi/daytrader-trade-consumer:01
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      
+    ports:
+      - "8087:8087"
+    restart: always
+
+    depends_on:
+      - daytrader-gateway
+      - daytrader-trade-common
+      
+  daytrader-trade-common:
+    image: kakaushi/daytrader-trade-common:01
+    restart: always

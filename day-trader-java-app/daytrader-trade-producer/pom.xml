@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>com.ofss.daytrader.trade.common</groupId>
 			<artifactId>daytrader-trade-common</artifactId>
-			<version>${project.version}</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>

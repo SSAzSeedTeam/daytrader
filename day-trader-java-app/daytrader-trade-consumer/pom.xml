@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.ofss.daytrader.trade.common</groupId>
 			<artifactId>daytrader-trade-common</artifactId>
-			<version>${project.version}</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -57,7 +57,10 @@
 			<artifactId>kafka-avro-serializer</artifactId>
 			<version>${confluent.kafka.avro.serializer.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
