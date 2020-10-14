@@ -17,7 +17,8 @@ rem
 rem Launch the application
 rem
 echo "launch the application %DAYTRADER_WAR_ARTIFACTID%-%DAYTRADER_APP_VERSION%.war"
-start /MIN "%DAYTRADER_APP_ARTIFACTID%" java -Djavax.net.ssl.trustStore=%DAYTRADER_TRUSTSTORE_LOCATION% -Djavax.net.ssl.trustStorePassword=%DAYTRADER_TRUSTSTORE_PASSWORD% -jar "%CURRENT_DIRECTORY%\target\%DAYTRADER_WAR_ARTIFACTID%-%DAYTRADER_APP_VERSION%.war"
+rem start /MIN "%DAYTRADER_APP_ARTIFACTID%" java -Djavax.net.ssl.trustStore=%DAYTRADER_TRUSTSTORE_LOCATION% -Djavax.net.ssl.trustStorePassword=%DAYTRADER_TRUSTSTORE_PASSWORD% -jar "%CURRENT_DIRECTORY%\target\%DAYTRADER_WAR_ARTIFACTID%-%DAYTRADER_APP_VERSION%.war"
+java -Djavax.net.ssl.trustStore=%DAYTRADER_TRUSTSTORE_LOCATION% -Djavax.net.ssl.trustStorePassword=%DAYTRADER_TRUSTSTORE_PASSWORD% -jar "%CURRENT_DIRECTORY%\target\%DAYTRADER_WAR_ARTIFACTID%-%DAYTRADER_APP_VERSION%.war"
 
 @echo off
 echo "end of start_server.bat"

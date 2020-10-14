@@ -6,9 +6,8 @@ import axios from 'axios';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import './Account.css';
+import { ACCOUNTS_API_URL } from '../../../constants';
 import Loader from '../../Loader/Loader';
-import {LOCAL_GATEWAY_URL} from '../../../constants';
-
 
 class Accountpage extends Component {
   constructor() {
@@ -17,7 +16,7 @@ class Accountpage extends Component {
       accountsummary: {},
       userinfo: {},
       ordersummary: {},
-      curTime : new Date(),
+      curTime : new Date().toLocaleString(),
       updateFlag:false,
       showAllOrdersinfo:[],
       showLoader: true,
@@ -25,20 +24,19 @@ class Accountpage extends Component {
   }
 
   componentDidMount() {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userId = localStorage.getItem('userId')
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}`)
+    axios.get(`https://localhost:1443/accounts/${userId}`)
       .then(res => {
         console.log('res', res)
         this.setState({
-          accountsummary: res.data,
+          accountsummary: {...res.data},
         })
       })
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}/profiles`)
+    axios.get(`https://localhost:1443/accounts/${userId}/profiles`)
       .then(res => {
         console.log('res', res)
         this.setState({
-          userinfo: res.data,
+          userinfo: {...res.data},
           showLoader: false
         })
       })
@@ -56,7 +54,6 @@ class Accountpage extends Component {
   }
 
   handleUpdateProfile = () => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const {userinfo} = this.state
     const dataToSend = {
       address: userinfo.address,
@@ -67,7 +64,7 @@ class Accountpage extends Component {
       userID: userinfo.userID
     }
     const userId = localStorage.getItem('userId')
-    axios.put(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}/profiles`, dataToSend)
+    axios.put(`${ACCOUNTS_API_URL}/accounts/${userId}/profiles`, dataToSend)
       .then(res => {
         console.log('res', res);
         this.setState({
@@ -76,9 +73,8 @@ class Accountpage extends Component {
       })
   }
   showAllOrders=()=>{
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userId = localStorage.getItem('userId')
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/orders`)
+    axios.get(`https://localhost:2443/portfolios/${userId}/orders`)
     .then(res=>{
       console.log('res',res)
       this.setState({

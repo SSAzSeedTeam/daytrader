@@ -20,18 +20,33 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
-
+@Entity
+@Table(name="holdingejb",
+	indexes = {@Index(name = "HOLDING_ACCOUNTID", columnList = "account_accountid")})
 public class HoldingDataBean implements Serializable {
 
     /* persistent/relationship fields */
-
+	@Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer holdingID;              /* holdingID */
     private double quantity;                /* quantity */
     private BigDecimal purchasePrice;       /* purchasePrice */
     private Date purchaseDate;              /* purchaseDate */
     private String quoteID;                 /* Holding(*)  ---> Quote(1) */
+    @Column(name="account_accountid")
+    private Integer accountID;				/* Account id*/
     
 // moved unused field into the user aggregate 
 //    private AccountDataBean account;
@@ -142,6 +157,8 @@ public class HoldingDataBean implements Serializable {
     public void setQuoteID(String quoteID) {
         this.quoteID = quoteID;
     }
+    
+    
 
 // removed unused methods
 //    public AccountDataBean getAccount() {
@@ -167,7 +184,15 @@ public class HoldingDataBean implements Serializable {
 //        this.quote = quote;
 //    }
     
-    @Override
+    public Integer getAccountID() {
+		return accountID;
+	}
+
+	public void setAccountID(Integer accountID) {
+		this.accountID = accountID;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (this.holdingID != null ? this.holdingID.hashCode() : 0);

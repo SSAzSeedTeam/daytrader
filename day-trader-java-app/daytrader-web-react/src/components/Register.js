@@ -3,7 +3,7 @@ import axios from 'axios'
 import './Register.css'
 import Navbar from './shared/Navbar/Navbar'
 import Footer from './shared/Footer/Footer'
-import {LOCAL_GATEWAY_URL} from '../constants';
+import { ACCOUNTS_API_URL } from '../constants'
 
 class Registerpage extends Component {
   constructor () {
@@ -36,8 +36,7 @@ class Registerpage extends Component {
         showErrorMessage: true
       })
     } else {
-      const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-      axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts`, {
+      axios.post(`${ACCOUNTS_API_URL}/accounts`, {
         accountID: 0,
         balance: 0,
         creationDate: new Date(),

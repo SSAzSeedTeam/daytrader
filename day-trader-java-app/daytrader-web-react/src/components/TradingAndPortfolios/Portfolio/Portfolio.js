@@ -10,7 +10,6 @@ import downarrow from '../../../assets/arrowdown.gif';
 import uparrow from '../../../assets/arrowup.gif';
 import { TXN_FEE } from '../../../constants';
 import CompletedOrder from '../NewOrder/CompletedOrder';
-import {LOCAL_GATEWAY_URL} from '../../../constants';
 
 const trade = 'sell'
 const mode=0
@@ -21,23 +20,22 @@ class Portfoliopage extends Component {
       ordersinfo: {},
       holdingsinfo: [],
       quotes: {},
-      curTime : new Date(),
+      curTime : new Date().toLocaleString(),
       tableinfo:{},
     }
   }
 
   componentDidMount() {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`).
+    axios.get(`https://localhost:3443/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
         if (res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
+            await axios.get(`https://localhost:4443/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const {price} = res.data;
@@ -70,8 +68,7 @@ class Portfoliopage extends Component {
     }
     return sum;
   }
-  handleSellOrder = (holdingID, symbol, price, quantity) => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+  handleSellOrder = (holdingID, symbol, price, quantity) =>{
     const userID = localStorage.getItem('userId');
   //  const cDate = new Date();
     const dataToSend = {
@@ -93,7 +90,7 @@ class Portfoliopage extends Component {
       symbol,
     }
     console.log('dataToSend', dataToSend);
-    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`https://localhost:3443/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
@@ -145,12 +142,12 @@ class Portfoliopage extends Component {
                   <td>{holdingID}</td>
                   <td>{moment(purchaseDate).format('llll')}</td>
                   <td>{quoteID}</td>
-                  <td>{quantity ? quantity.toFixed(1) : 0.0}</td>
-                  <td>{purchasePrice ? purchasePrice.toFixed(2) : 0.0}</td>
-                  <td>{currentPrice ? currentPrice.toFixed(2) : 0.0}</td>
-                  <td>{purchasebasis ? purchasebasis.toFixed(2) : 0.0}</td>
-                  <td>{marketvalue ? marketvalue.toFixed(2) : 0.0}</td>
-                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss ? GainOrLoss.toFixed(2) : 0.0}<img className='uparrow-image' src={GainOrLoss > 0 ? uparrow : downarrow} /></td>
+                  <td>{quantity.toFixed(1)}</td>
+                  <td>{purchasePrice.toFixed(2)}</td>
+                  <td>{currentPrice.toFixed(2)}</td>
+                  <td>{purchasebasis.toFixed(2)}</td>
+                  <td>{marketvalue.toFixed(2)}</td>
+                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss.toFixed(2)}<img className='uparrow-image' src={GainOrLoss > 0 ? uparrow : downarrow} /></td>
                   <td onClick={() => this.handleSellOrder(holdingID, quoteID, currentPrice, quantity)}><Link>{trade}</Link></td>
                 </tr>
 

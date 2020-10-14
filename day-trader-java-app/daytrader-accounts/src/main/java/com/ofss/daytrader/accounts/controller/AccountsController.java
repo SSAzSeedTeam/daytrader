@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
 import javax.ws.rs.NotAuthorizedException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // Spring
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,6 @@ import com.ofss.daytrader.accounts.utils.Log;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.entities.AccountDataBean;
 import com.ofss.daytrader.entities.AccountProfileDataBean;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * API endpoints are documented using Swagger UI. 
@@ -73,10 +73,10 @@ import org.springframework.beans.factory.annotation.Value;
 @RestController
 public class AccountsController
 {
-	private static AccountsService accountsService = new AccountsService();
-
-    @Value("${EXCHANGE_RATE_ENABLE}")
-    private boolean exchangeRateEnable;
+	//private static AccountsService accountsService = new AccountsService();
+	
+	@Autowired
+	AccountsService accountsService;
 
 	//
 	// Account Related Endpoints
@@ -91,11 +91,6 @@ public class AccountsController
 			@RequestBody AccountDataBean accountData) 
 	{
 		Log.traceEnter("AccountsController.register(" + accountData.getProfileID() + ")");
-		Log.traceEnter("this is trace enter");
-		Log.debug("this is debug enter");
-		//Log.info("this is info enter");
-		//Log.warn("this is warn enter");
-		//Log.fatal("this is fatal enter");
 		
 		// Get the registration data
 		String userID = accountData.getProfileID();
@@ -194,15 +189,8 @@ public class AccountsController
 		{
 			accountData = accountsService.getAccountData(userId);
 	    	System.out.println("accountData ="+accountData );
-            Log.debug("exchangeRateEnable="+exchangeRateEnable);
-            if(exchangeRateEnable == true) {
-                double exchangeRate = accountsService.getExchangeRateData("INR");
-                if (accountData != null) {
-                    accountData.setExchangeRate(exchangeRate);
-                }
-            }
-
-
+			double exchangeRate = 0.0d;//accountsService.getExchangeRateData("INR");
+			accountData.setExchangeRate(exchangeRate);
 	    	System.out.println("accountData ="+accountData );
 			if (accountData != null) 
 			{
@@ -317,7 +305,7 @@ public class AccountsController
 		Boolean result = false;		
 		try
 		{
-			result = accountsService.recreateDBTables();
+			//result = accountsService.recreateDBTables();
 			Log.traceExit("AccountsController.recreateDBTables()");
 			return new ResponseEntity<Boolean>(result, getNoCacheHeaders(), HttpStatus.CREATED);
 		}

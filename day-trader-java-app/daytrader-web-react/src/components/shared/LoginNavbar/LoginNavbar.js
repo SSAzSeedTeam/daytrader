@@ -2,13 +2,12 @@ import React from 'react'
 import './LoginNavbar.css'
 import { NavLink, withRouter } from 'react-router-dom'
 import axios from 'axios'
-import {LOCAL_GATEWAY_URL} from '../../../constants';
+import { ACCOUNTS_API_URL } from '../../../constants'
 
 const LoginNavbar = (props) => {
   const userId = localStorage.getItem('userId');
   const handleLogOut = () => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/logout/${userId}`)
+    axios.patch(`${ACCOUNTS_API_URL}/logout/${userId}`)
       .then(res => {
         localStorage.removeItem('userId');
         props.history.push('/login');

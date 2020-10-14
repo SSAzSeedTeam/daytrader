@@ -25,6 +25,7 @@ import java.util.Collection;
 
 import javax.ws.rs.NotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // Spring
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,10 @@ import com.ofss.daytrader.quotes.utils.Log;
 @RestController
 public class QuotesController
 {
-	private static QuotesService quotesService = new QuotesService();
+	//private static QuotesService quotesService = new QuotesService();
+	
+	@Autowired
+	private QuotesService quotesService;
 
 	//
 	// Quotes Related Endpoints
