@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   daytrader-accounts:
-    image: tnshibu/daytrader-accounts:1.0
+    image: azseed/daytrader-accounts:1.0
     ports:
       - "1443:1443"
     restart: always
@@ -21,7 +21,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy      
 
   daytrader-gateway:
-    image: tnshibu/daytrader-gateway:1.0
+    image: azseed/daytrader-gateway:1.0
     ports:
       - "2443:2443"
     restart: always
@@ -36,7 +36,7 @@ services:
       - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
 
   daytrader-portfolios:
-    image: tnshibu/daytrader-portfolios:1.0
+    image: azseed/daytrader-portfolios:1.0
     ports:
       - "3443:3443"
     restart: always
@@ -52,7 +52,7 @@ services:
       - DAYTRADER_DATABASE_USERNAME=dummy
       - DAYTRADER_DATABASE_PASSWORD=dummy      
   daytrader-quotes:
-    image: tnshibu/daytrader-quotes:1.0
+    image: azseed/daytrader-quotes:1.0
     ports:
       - "4443:4443"
     restart: always
@@ -67,7 +67,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy      
       
   daytrader-web:
-    image: tnshibu/daytrader-web:1.0
+    image: azseed/daytrader-web:1.0
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
       - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
@@ -85,7 +85,7 @@ services:
       - daytrader-quotes
 
   daytrader-web-react:
-    image: vayalankatil/daytrader-web:1.1.0
+    image: azseed/daytrader-web-react:1.0
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
       - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
@@ -103,18 +103,27 @@ services:
       - daytrader-quotes
       
   daytrader-trade-consumer:
-    image: kakaushi/daytrader-trade-consumer:01
+    image: azseed/daytrader-trade-consumer:1.0
     environment:
       - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
       
     ports:
-      - "8087:8087"
+      - "7443:7443"
     restart: always
 
     depends_on:
       - daytrader-gateway
       - daytrader-trade-common
       
-  daytrader-trade-common:
-    image: kakaushi/daytrader-trade-common:01
+  daytrader-trade-producer:
+    image: azseed/daytrader-trade-producer:1.0
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      
+    ports:
+      - "8443:8086"
     restart: always
+
+    depends_on:
+      - daytrader-gateway
+      - daytrader-trade-common
