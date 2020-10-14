@@ -1,0 +1,14 @@
+Source code
+https://github.com/SSAzSeedTeam/daytrader/
+
+
+Docker images
+https://hub.docker.com/u/azseed
+
+Jira
+https://jira-uat.us.oracle.com/jira/secure/Dashboard.jspa
+
+
+Personal repos
+https://github.com/tnshibu/daytrader.git
+https://github.com/SudheeshKrishnan/datrader-kafka-buy-and-sell/
