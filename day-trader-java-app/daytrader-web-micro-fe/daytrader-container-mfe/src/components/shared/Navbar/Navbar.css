@@ -1,0 +1,37 @@
+.app-navbar-container {
+    background-color: #fff;
+    border-bottom: 2px solid #cc3e3e;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.app-navbar-container .an-contet {
+    padding: 6px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* width: 85%; */
+    margin: auto;
+}
+
+.app-navbar-container .an-contet .left-side img {
+    max-height: 40px;
+}
+
+.app-navbar-container .an-contet .left-side .company-info .colored-text {
+    color: #cc3f3f;;
+}
+
+.app-navbar-container .an-contet .right-side .nav-links a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 25px;
+}
+
+.app-navbar-container .an-contet .right-side .nav-links a.active-link {
+    color: #cc3f3f;
+}

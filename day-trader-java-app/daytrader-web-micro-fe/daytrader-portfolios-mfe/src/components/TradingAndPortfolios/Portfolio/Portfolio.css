@@ -1,0 +1,37 @@
+.portfolio-page-table-container {
+    max-width: 85%;
+    margin: 20px auto;
+    padding-bottom: 80px;
+}
+
+.portfolio-table {
+    border: 1px solid #f1f1f1;
+}
+
+.portfolio-table .table-row th {
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.portfolio-table .table-row th a {
+    color: navy;
+    text-decoration: none;
+}
+
+.portfolio-table .table-row td {
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.portfolio-table .table-row:nth-child(odd) td {
+    background-color: #f1f1f1;
+}
+
+.app-current-date-time-section{
+    text-align: right;
+    color:  #cc3f3f;
+}

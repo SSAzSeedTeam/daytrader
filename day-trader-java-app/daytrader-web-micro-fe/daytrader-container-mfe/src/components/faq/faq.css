@@ -1,0 +1,36 @@
+.faq-page-container .faq-content {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    width: 80%;
+    margin: auto;
+}
+
+.faq-page-container .faq-content h4 {
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
+.faq-page-container .faq-content p {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.faq-questions {
+    border-top: 1px solid #f1f1f1;
+}
+
+.faq-questions h4.blue-heading {
+    color: navy;
+}
+
+.faq-questions h5 {
+    font-size: 16px;
+    margin: 10px 0 0;
+}
+
+.faq-questions ul li,
+.faq-questions ol li {
+    font-size: 14px;
+    margin: 10px 0 0;
+    line-height: 24px;
+}

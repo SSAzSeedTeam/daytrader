@@ -1,0 +1,32 @@
+.app-navbar-container {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.app-navbar-container .an-contet {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-navbar-container .an-contet .left-side .company-info {
+    font-size: 32px;
+    margin: 0;
+}
+
+.app-navbar-container .an-contet .left-side .company-info .colored-text {
+    color: #bf3b3b;
+}
+
+.app-navbar-container .an-contet .right-side .nav-links a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 25px;
+}
