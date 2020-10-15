@@ -11,7 +11,7 @@
 	<groupId>com.ofss.daytrader.trade.common</groupId>
 	<artifactId>daytrader-trade-common</artifactId>
 	<version>1.0</version>
-	<name>trade-common</name>
+	<name>daytrader-trade-common</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
