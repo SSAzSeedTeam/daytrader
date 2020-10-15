@@ -34,10 +34,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @SpringBootApplication
 @EntityScan(basePackages={"com.ofss.daytrader.entities"})
 @EnableJpaRepositories(basePackages={"com.ofss.daytrader.accounts.repository"})
+@EnableHystrix
 public class AccountsApplication {
 //  Configure database environment 
 //    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");

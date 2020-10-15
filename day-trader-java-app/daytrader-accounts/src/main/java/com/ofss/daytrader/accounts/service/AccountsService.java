@@ -42,6 +42,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 
@@ -643,6 +644,7 @@ public class AccountsService
 	* @see TradeServices#register(String,String,String,String,String,String,BigDecimal)
 	*
 	*/
+    @HystrixCommand(fallbackMethod = "registerFallback")
     public AccountDataBean register(String userID, String password, String fullname, 
     		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
     {  
@@ -677,7 +679,21 @@ public class AccountsService
         }
         return accountData;
     }
- 	
+    // fallback method for register()
+    
+    public AccountDataBean registerFallback(String userID, String password, String fullname, 
+    		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
+    {
+    	System.out.println("in register fallback method before creating data bean");
+    	 BigDecimal balance = openBalance;
+         Timestamp creationDate = new Timestamp(System.currentTimeMillis());
+         
+    	AccountDataBean accountData = new AccountDataBean(007,0,0,creationDate,creationDate,balance,balance,userID);
+    	System.out.println("in register fallback method" + accountData);
+    	return accountData ;
+    
+    }
+    
 	// Private helper functions	
     
     /**
