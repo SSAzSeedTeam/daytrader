@@ -4,6 +4,7 @@
     position: fixed;
     width: 100%;
     z-index: 1000;
+    top: 0;
 }
 
 .app-navbar-container .an-contet {

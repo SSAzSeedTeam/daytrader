@@ -31,8 +31,8 @@ const LoginNavbar = (props) => {
         </div>
         <div className='aln-nav-links'>
           <NavLink activeClassName='active-link' exact to='/trading'>Home</NavLink>
-          <NavLink activeClassName='active-link' to='/Account'>Account</NavLink>
-          <NavLink activeClassName='active-link' to='/Portfolio'>Portfolio</NavLink>
+          <NavLink activeClassName='active-link' to='/trading/accounts'>Account</NavLink>
+          <NavLink activeClassName='active-link' to='/trading/portfolio'>Portfolio</NavLink>
           <NavLink activeClassName='active-link' to='/trading/quotes'>Quotes/Trade</NavLink>
           <a href="#" onClick={handleLogOut}>Logoff</a>
         </div>

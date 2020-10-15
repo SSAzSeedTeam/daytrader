@@ -1,25 +1,38 @@
 import React, { Component } from 'react'
+import LoginNavbar from '../shared/LoginNavbar/LoginNavbar';
 import axios from 'axios'
-import './NewOrder.css';
+import './new-order.css';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 const mode = 0;
+
+const status = 'closed'
 const userId = localStorage.getItem('userId')
 class NewOrderpage extends Component {
   constructor() {
     super();
     this.state = {
-      neworderinfo: [],
+      orderInfo: [],
     }
   }
+  componentDidMount() {
+    axios.patch(`https://localhost:3443/portfolios/${userId}/orders?status=${status}`)
+      .then(res => {
+        console.log('res ---<', res)
+        this.setState({
+          orderInfo: res.data
+        })
+      })
+  }
+
   render() {
     console.log('prsops', this.props)
-    const {location} = this.props
-    const {state} = location;
-    const {orderID, orderStatus, openDate, completionDate, orderFee, orderType, symbol, quantity} = state;
+    const {orderInfo} = this.state
+    const {orderID, symbol, quantity} = orderInfo && orderInfo.length ? orderInfo[0]: {orderID: 0, symbol: 's0', quantity: 1}
     return (
       <div>
         <div className='app-login-navbar-section'>
+          <LoginNavbar />
         </div>
         <div className='new-order-container'>
           <table className='new-order-table' width="100%" cellSpacing="0" cellPadding="0">
@@ -38,16 +51,21 @@ class NewOrderpage extends Component {
               <th>Symbol</th>
               <th>Quantity</th>
             </tr>
-            <tr className='table-row'>
-              <td>{orderID}</td>
-              <td>{orderStatus}</td>
-              <td>{moment(openDate).format('llll')}</td>
-              <td>{moment(completionDate).format('llll')}</td>
-              <td>{orderFee}</td>
-              <td>{orderType}</td>
-              <td>{symbol}</td>
-              <td>{quantity}</td>
-            </tr>
+            {orderInfo && orderInfo.map((q, i) => {
+              const { orderID, orderStatus, openDate, completionDate, orderFee, orderType, symbol, quantity } = q;
+              return (
+                <tr className='table-row'>
+                  <td>{orderID}</td>
+                  <td>{orderStatus}</td>
+                  <td>{moment(openDate).format('llll')}</td>
+                  <td>{moment(completionDate).format('llll')}</td>
+                  <td>{orderFee}</td>
+                  <td>{orderType}</td>
+                  <td>{symbol}</td>
+                  <td>{quantity}</td>
+                </tr>
+              )
+            })}
           </table>
         </div>
       </div>

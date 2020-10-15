@@ -3,7 +3,6 @@ import axios from 'axios'
 import './quotes.css';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
-import LoginNavbar from '../components/LoginNavbar/LoginNavbar';
 // import CompletedOrder from '../NewOrder/CompletedOrder';
 const TXN_FEE = 24.95;
 const mode = 0;
@@ -86,7 +85,7 @@ class Quotes extends React.Component {
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
-          this.props.history.push({pathname: '/NewOrder', state: res.data})
+          this.props.history.push({pathname: '/trading/new-order', state: res.data})
         }
       })
   }

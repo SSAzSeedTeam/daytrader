@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import './Portfolio.css';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
-import downarrow from '../../../assets/arrowdown.gif';
-import uparrow from '../../../assets/arrowup.gif';
-import { TXN_FEE } from '../../../constants';
-import {LOCAL_GATEWAY_URL} from '../../../constants';
-import CompletedOrder from '../NewOrder/CompletedOrder';
-
+import { TXN_FEE, LOCAL_GATEWAY_URL } from '../constants';
+import CompletedOrderPage from '../order/completed-order';
+import './portfolio.css';
 
 const trade = 'sell'
 const mode=0
-class Portfoliopage extends Component {
+class PortfolioPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,17 +21,17 @@ class Portfoliopage extends Component {
   }
 
   componentDidMount() {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`).
+    axios.get(`${LOCAL_GATEWAY_URL}/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
         if (res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
+            await axios.get(`${LOCAL_GATEWAY_URL}/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const {price} = res.data;
@@ -69,7 +65,7 @@ class Portfoliopage extends Component {
     return sum;
   }
   handleSellOrder = (holdingID, symbol, price, quantity) => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userID = localStorage.getItem('userId');
   //  const cDate = new Date();
     const dataToSend = {
@@ -91,11 +87,11 @@ class Portfoliopage extends Component {
       symbol,
     }
     console.log('dataToSend', dataToSend);
-    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${LOCAL_GATEWAY_URL}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
-          this.props.history.push({pathname: '/NewOrder', state: res.data})
+          this.props.history.push({pathname: '/trading/new-order', state: res.data})
         }
       })
   }
@@ -107,11 +103,10 @@ class Portfoliopage extends Component {
     const totalProfit = (SumOfMarketValue - SumOfPurchaseBasis).toFixed(2)
     return (
       <div className='portfolio-page-container'>
-
         <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
         </div>
-        <div><CompletedOrder /></div>
+        <div><CompletedOrderPage /></div>
         <div className='portfolio-page-table-container'>
           <table width="100%" cellSpacing="0" cellPadding="0" className='portfolio-table'>
             <tr className='table-header'>
@@ -145,7 +140,7 @@ class Portfoliopage extends Component {
                   <td>{currentPrice ? currentPrice.toFixed(2) : 0.0}</td>
                   <td>{purchasebasis ? purchasebasis.toFixed(2) : 0.0}</td>
                   <td>{marketvalue ? marketvalue.toFixed(2) : 0.0}</td>
-                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss ? GainOrLoss.toFixed(2) : 0.0}<img className='uparrow-image' src={GainOrLoss > 0 ? uparrow : downarrow} /></td>
+                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss ? GainOrLoss.toFixed(2) : 0.0}<span>{GainOrLoss >= 0 ? '+' : '-'}</span></td>
                   <td onClick={() => this.handleSellOrder(holdingID, quoteID, currentPrice, quantity)}><Link>{trade}</Link></td>
                 </tr>
 
@@ -162,15 +157,14 @@ class Portfoliopage extends Component {
               <td>${SumOfMarketValue}</td>
               <td colSpan="2" style={{color: totalProfit > 0 ? 'green' : 'red'}}>
                 ${totalProfit}
-                <img className='uparrow-image' src={totalProfit > 0 ? uparrow : downarrow} />
+                <span>{totalProfit >= 0 ? '+' : '-'}</span>
                 ({totalProfit > 0 ? '+' : '-'}{Math.ceil(totalProfit * 100 / SumOfPurchaseBasis).toFixed(2)}%)
               </td>
             </tr>
           </table>
         </div>
-     
       </div>
     )
   }
 }
-export default Portfoliopage
+export default PortfolioPage
