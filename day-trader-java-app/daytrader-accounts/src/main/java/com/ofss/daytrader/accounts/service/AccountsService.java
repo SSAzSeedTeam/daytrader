@@ -45,7 +45,7 @@ import javax.ws.rs.NotAuthorizedException;
 
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.symphonyoss.symphony.jcurl.*;
@@ -65,6 +65,7 @@ import org.hibernate.Transaction;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 
@@ -96,13 +97,13 @@ public class AccountsService
 	@Value("${EXCHANGE_RATE_ENABLE}")
     private boolean exchangeRateEnable;
     
-    @Autowired()
+    @Autowired
     AccountsRepository accountsRepository;
 	
-	@Autowired()
+	@Autowired
 	AccountsProfileRepository accountsProfileRepository;
 	
-	@Autowired()
+	@Autowired
 	KeygenRepository keygenRepository;
 
     /**

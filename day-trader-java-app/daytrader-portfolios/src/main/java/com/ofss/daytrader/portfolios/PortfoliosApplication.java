@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EntityScan(basePackages={"com.ofss.daytrader.entities"})
-@EnableJpaRepositories(basePackages={"com.ofss.daytrader.repository"})
+@EnableJpaRepositories(basePackages={"com.ofss.daytrader.portfolios.repository"})
 @EnableTransactionManagement
 public class PortfoliosApplication{
 	

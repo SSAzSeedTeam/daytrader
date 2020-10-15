@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EntityScan(basePackages={"com.ofss.daytrader.entities"})
-@EnableJpaRepositories(basePackages={"com.ofss.daytrader.repository"})
+@EnableJpaRepositories(basePackages={"com.ofss.daytrader.accounts.repository"})
 @EnableTransactionManagement
 public class AccountsApplication /*extends SpringBootServletInitializer*/ {
 //  Configure database environment 
