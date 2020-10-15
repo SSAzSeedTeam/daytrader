@@ -447,6 +447,8 @@ public class AccountsService
 	* @see TradeServices#getAccountData(String)
 	*
 	*/
+    //shibu
+    @HystrixCommand(fallbackMethod = "getAccountDataFallback")
     public AccountDataBean getAccountData(String profile_userid) throws Exception {
         AccountDataBean accountData = null;
        // Connection conn = null;
@@ -458,11 +460,15 @@ public class AccountsService
             commit(conn);
 */
         	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
+        	
         }catch (Exception e) {
            // rollBack(conn, e);
             throw e;
         } finally {
             //releaseConn(conn);
+        }
+        if(accountData == null) {
+        	throw new Exception("Testing fallback");
         }
         return accountData;
     }
@@ -781,35 +787,6 @@ public class AccountsService
     	 }
 		return accountData;
      }
-    
-    private AccountDataBean getAccountData(Connection conn, String userID) throws Exception {
-        PreparedStatement stmt = getStatement(conn, getAccountForUserSQL);
-        stmt.setString(1, userID);
-        ResultSet rs = stmt.executeQuery();
-        AccountDataBean accountData = null;
-        if (!rs.next())
-        {
-        	Log.debug("AccountsService:getAccountData() - cannot find account for user: " + userID);
-        }
-        else 
-        {
-        	accountData = getAccountDataFromResultSet(rs);
-        	// ask the portfolios for the most recent balance so web app can display it
-        	// changed this code to get the balance and open balance from the portfolio
-        	AccountDataBean portfolioData = null;
-        	try {
-            	portfolioData = portfoliosService.getAccountData(accountData.getProfileID());
-            	accountData.setBalance(portfolioData.getBalance());
-            	accountData.setOpenBalance(portfolioData.getOpenBalance());
-        	} catch(Exception e) {
-            	System.out.println("Ignoring below error****");
-        		e.printStackTrace();
-        	}
-        }
-        stmt.close();
-        
-        return accountData;
-    }
 
     private AccountProfileDataBean getAccountProfileData(Connection conn, String userID) throws Exception {
         PreparedStatement stmt = getStatement(conn, getAccountProfileSQL);
@@ -1114,5 +1091,13 @@ public class AccountsService
    		return exchangeRate;
     }
 	
+    public AccountDataBean getAccountDataFallBack(String userID) throws Exception {
+        AccountDataBean accountData = new AccountDataBean();
+    	accountData.setAccountID(1);
+    	accountData.setProfileID(userID);
+       	accountData.setBalance(new BigDecimal(-1));
+       	accountData.setOpenBalance(new BigDecimal(-1));
+        return accountData;
+    }
 
 }

@@ -358,5 +358,13 @@ public class AccountsController
 		return responseHeaders;
 	}
 	
+    public AccountDataBean getAccountDataFallBack(String userID) throws Exception {
+        AccountDataBean accountData = new AccountDataBean();
+    	accountData.setAccountID(1);
+    	accountData.setProfileID(userID);
+       	accountData.setBalance(new BigDecimal(-1));
+       	accountData.setOpenBalance(new BigDecimal(-1));
+        return accountData;
+    }
 }
 
