@@ -357,7 +357,7 @@ public class AccountsController
 		responseHeaders.set("Cache-Control", "no-cache");
 		return responseHeaders;
 	}
-	
+	/*
     public AccountDataBean getAccountDataFallBack(String userID) throws Exception {
         AccountDataBean accountData = new AccountDataBean();
     	accountData.setAccountID(1);
@@ -366,5 +366,6 @@ public class AccountsController
        	accountData.setOpenBalance(new BigDecimal(-1));
         return accountData;
     }
+    */
 }
 

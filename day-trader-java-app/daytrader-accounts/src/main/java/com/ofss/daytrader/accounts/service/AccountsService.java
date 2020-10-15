@@ -460,6 +460,7 @@ public class AccountsService
             commit(conn);
 */
         	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
+        	System.out.println("accountData in try block " + accountData);
         	
         }catch (Exception e) {
            // rollBack(conn, e);
@@ -468,6 +469,7 @@ public class AccountsService
             //releaseConn(conn);
         }
         if(accountData == null) {
+        	System.out.println("accountData" + accountData);
         	throw new Exception("Testing fallback");
         }
         return accountData;
@@ -667,7 +669,6 @@ public class AccountsService
             try {
                 accountData = portfoliosService.register(accountData); 
             } catch(Exception e) {
-            	System.out.println("Ignoring below error****");
             	e.printStackTrace();
             }
             
@@ -690,7 +691,7 @@ public class AccountsService
     public AccountDataBean registerFallback(String userID, String password, String fullname, 
     		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
     {
-    	System.out.println("in register fallback method before creating data bean");
+    	 System.out.println("in register fallback method before creating data bean");
     	 BigDecimal balance = openBalance;
          Timestamp creationDate = new Timestamp(System.currentTimeMillis());
          
@@ -1091,10 +1092,10 @@ public class AccountsService
    		return exchangeRate;
     }
 	
-    public AccountDataBean getAccountDataFallBack(String userID) throws Exception {
+    public AccountDataBean getAccountDataFallback(String profile_userid) throws Exception {
         AccountDataBean accountData = new AccountDataBean();
     	accountData.setAccountID(1);
-    	accountData.setProfileID(userID);
+    	accountData.setProfileID(profile_userid);
        	accountData.setBalance(new BigDecimal(-1));
        	accountData.setOpenBalance(new BigDecimal(-1));
         return accountData;
