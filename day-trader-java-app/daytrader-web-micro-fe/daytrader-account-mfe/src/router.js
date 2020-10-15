@@ -8,7 +8,7 @@ import Account from './components/TradingAndPortfolios/Account/Account'
 
 const AppRouter = () => {
   return (
-    <Router basename={process.env.REACT_APP_ROUTER_BASE || ''}>
+    <Router>
       <Switch>
         <Route path="/Account" component={Account} exact />
 
