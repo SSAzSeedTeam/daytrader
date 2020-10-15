@@ -51,6 +51,7 @@
 		<module>daytrader-utilities</module>
 		<module>daytrader-onprem-exchange-rate</module>
 		<module>daytrader-report-generator</module>
+		<module>daytrader-trade-common</module>
 		<module>daytrader-trade-consumer</module>
 		<module>daytrader-trade-producer</module>
 		<!--
