@@ -47,14 +47,21 @@ import com.ofss.daytrader.core.beans.RunStatsDataBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-//import org.symphonyoss.symphony.jcurl.*;
+import org.springframework.transaction.annotation.Transactional;
+import org.symphonyoss.symphony.jcurl.*;
 
+import com.ofss.daytrader.accounts.repository.AccountsProfileRepository;
+import com.ofss.daytrader.accounts.repository.AccountsRepository;
+import com.ofss.daytrader.accounts.repository.KeygenRepository;
 import com.ofss.daytrader.accounts.utils.Log;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
 import com.ofss.daytrader.utils.TradeConfig;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -67,6 +74,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 
 @Service
+@Transactional
 public class AccountsService
 {
 	
@@ -77,25 +85,31 @@ public class AccountsService
 	
 	
     private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
-    
-
 	
 	//	- Each microservice has their own private database (datasource)
-    private static String dsName = TradeConfig.ACCOUNTS_DATASOURCE;
+   // private static String dsName = TradeConfig.ACCOUNTS_DATASOURCE;
 
     //	-  @Resource annotation is not supported on static fields
     private static DataSource datasource = null;
 
     private static InitialContext context;
-	//@Value("${EXCHANGE_RATE_ENABLE}")
+	@Value("${EXCHANGE_RATE_ENABLE}")
     private boolean exchangeRateEnable;
     
+    @Autowired()
+    AccountsRepository accountsRepository;
+	
+	@Autowired()
+	AccountsProfileRepository accountsProfileRepository;
+	
+	@Autowired()
+	KeygenRepository keygenRepository;
 
     /**
      * Zero arg constructor for AccountsService
      */
     public AccountsService() {
-        if (initialized == false) init();
+        //if (initialized == false) init();
     }
     
 	/**
@@ -109,10 +123,10 @@ public class AccountsService
     {
     	if (offset == 0) resetTrade(true); // delete any rows from db before re-populating
         
-        Connection conn = null;
+        //Connection conn = null;
         try 
         {
-            conn = getConn();
+            //conn = getConn();
             
         	// Moved this code from the web tier into the microservice where it belongs
         	for (int i = 0; i < limit; i++) 
@@ -135,16 +149,16 @@ public class AccountsService
                 register(userID, "xxx", fullname, address, email, creditcard, initialBalance);
         	} // end-for
             
-            commit(conn);
+           // commit(conn);
         } 
         catch (Exception e) 
         {
-   			rollBack(conn, e);
+   			//rollBack(conn, e);
    			throw e;
         } 
         finally 
         {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
         return true;
 
@@ -155,6 +169,7 @@ public class AccountsService
   	* @see TradeServices#resetTrade(boolean)
   	*
   	*/
+    
    	public RunStatsDataBean resetTrade(boolean deleteAll) throws Exception 
    	{
   		//		-  Reset usage statistics for account microservices and only the accounts
@@ -162,77 +177,96 @@ public class AccountsService
         //    	   their own usage statistics
 
    		RunStatsDataBean runStatsData = new RunStatsDataBean();
-   		Connection conn = null;
+   		
+   		/*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
+   		//Connection conn = null;
    		
 		if (deleteAll) 
 		{   
 			// delete the rows and return
-   			conn = getConn();
-   			PreparedStatement stmt = null;
+   			//conn = getConn();
+   			//PreparedStatement stmt = null;
 			try 
 			{
-				stmt = getStatement(conn, "delete from accountejb");
+				/*stmt = getStatement(conn, "delete from accountejb");
 				stmt.executeUpdate();
-				stmt.close();
-				
-				stmt = getStatement(conn, "delete from accountprofileejb");
+				stmt.close();*/
+				accountsRepository.deleteAll();
+				/*stmt = getStatement(conn, "delete from accountprofileejb");
 				stmt.executeUpdate();
-				stmt.close();
-				
+				stmt.close();*/
+				accountsProfileRepository.deleteAll();
+				keygenRepository.deleteAll();
 				// Fixed pkey unique constraint violation
-				stmt = getStatement(conn, "delete from keygenejb");
+				/*stmt = getStatement(conn, "delete from keygenejb");
 				stmt.executeUpdate();
 				stmt.close();
-				commit(conn);
+				commit(conn);*/
 				// (Re-)initialize the key generator
-				KeySequenceDirect.initialize(getConn());
+				//KeySequenceDirect.initialize(getConn());
 			}	
 		    catch (Exception e) 
 		    {
-		   		rollBack(conn, e);
+		    	//trans.rollback();
+		   		//rollBack(conn, e);
 		   		throw e;
 		    } 
 		    finally 
 		    {
-		        releaseConn(conn);
+		    	//session.close();
+		        //releaseConn(conn);
 		    }
 			return runStatsData;
 		}
 		else
 		{
 			// calculate usage stats and return
-   			conn = getConn();
+   			/*conn = getConn();
    			PreparedStatement stmt = null;
-   			ResultSet rs = null;
+   			ResultSet rs = null;*/
    			try 
    			{
    				// Count and delete random users (with id that start with "ru:%")
-   				
-   				stmt = getStatement(conn, "delete from accountprofileejb where userid like 'ru:%'");
+   				accountsProfileRepository.deleteAccountprofileByUser();
+   				/*stmt = getStatement(conn, "delete from accountprofileejb where userid like 'ru:%'");
    				stmt.executeUpdate();
-   				stmt.close();
+   				stmt.close();*/
 
    				// Count and delete random users (with id that start with "ru:%")
    				// Moved this code into the accounts and portfolios microservices
-   			
-   				stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
+   				int newUserCount = accountsRepository.deleteAccountDataByUser();
+   				runStatsData.setNewUserCount(newUserCount);
+   				/*stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
    				int newUserCount = stmt.executeUpdate();
    				runStatsData.setNewUserCount(newUserCount);
-   				stmt.close();
+   				stmt.close();*/
 
    				// Count of trade users
-   				
-   				stmt =	getStatement(conn,
+   				int tradeUserCount = accountsRepository.getTraderUserCount();
+   				runStatsData.setTradeUserCount(tradeUserCount);
+   				/*stmt =	getStatement(conn,
    					"select count(accountid) as \"tradeUserCount\" from accountejb a where a.profile_userid like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
    				int tradeUserCount = rs.getInt("tradeUserCount");
    				runStatsData.setTradeUserCount(tradeUserCount);
-   				stmt.close();
+   				stmt.close();*/
 
    				// Count of trade users login, logout
+   				 
+   			 Map<String,Integer> sumCountMap = accountsRepository.fetchSumOfLoginLogoutCount();
+   				if(null!=sumCountMap) {
+   					System.out.println("map value---"+ sumCountMap.toString());
+   					int sumLoginCount = null == sumCountMap.get("sumLoginCount")?0:sumCountMap.get("sumLoginCount").intValue();
+   					runStatsData.setSumLoginCount(sumLoginCount);
+   						
+   					int sumLogoutCount = null == sumCountMap.get("sumLogoutCount")?0:sumCountMap.get("sumLogoutCount").intValue();
+   					runStatsData.setSumLogoutCount(sumLogoutCount);
+   					
+   				}
    				
-   				stmt = getStatement(conn,
+   				/*stmt = getStatement(conn,
                     "select sum(loginCount) as \"sumLoginCount\", sum(logoutCount) as \"sumLogoutCount\" from accountejb a where  a.profile_userID like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
@@ -241,25 +275,28 @@ public class AccountsService
    				runStatsData.setSumLoginCount(sumLoginCount);
    				runStatsData.setSumLogoutCount(sumLogoutCount);
    				stmt.close();
-   				rs.close();
+   				rs.close();*/
    				int logoutCount = 0;
    				int loginCount = 0;
    				// Update logoutcount and loginCount back to zero
-   				stmt = getStatement(conn, 
+   				accountsRepository.updateLoginLogoutCount(logoutCount, loginCount);
+   				/*stmt = getStatement(conn, 
    					"update accountejb set logoutCount=0,loginCount=0 where profile_userID like 'uid:%'");
    				stmt.executeUpdate();
-   				stmt.close();
+   				stmt.close();*/
 
-   				commit(conn);
+   				//commit(conn);
    			} 
    			catch (Exception e) 
    			{
-   				rollBack(conn, e);
+   				//trans.rollback();
+   				//rollBack(conn, e);
    				throw e;
    			} 
    			finally 
    			{
-   				releaseConn(conn);
+   				//session.close();
+   				//releaseConn(conn);
    			}
 
    			return runStatsData;
@@ -271,7 +308,7 @@ public class AccountsService
 	* @see TradeDBServices#recreateDBTables(Object[],PrintWriter)
 	*
 	*/
-    public boolean recreateDBTables() throws Exception 
+    /*public boolean recreateDBTables() throws Exception 
     {
         Object[] sqlBuffer = null;
         
@@ -375,24 +412,49 @@ public class AccountsService
 		KeySequenceDirect.initialize(getConn());
     	return true;
     }
-	
+*/	
    /**
 	*
 	* @see TradeServices#getAccountData(String)
 	*
 	*/
-    public AccountDataBean getAccountData(String userID) throws Exception {
+    public AccountDataBean getAccountData(String profile_userid) throws Exception {
         AccountDataBean accountData = null;
-        Connection conn = null;
+       // Connection conn = null;
+       /* session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         try {
-            conn = getConn();
+            /*conn = getConn();
             accountData = getAccountData(conn, userID);
             commit(conn);
+*/			
+        	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
+        	
+        	if (null==accountData)
+            {
+            	Log.debug("AccountsService:getAccountData() - cannot find account for user: " + profile_userid);
+            }
+            else 
+            {
+            	// ask the portfolios for the most recent balance so web app can display it
+            	// changed this code to get the balance and open balance from the portfolio
+            	AccountDataBean portfolioData = null;
+            	try {
+                	portfolioData = portfoliosService.getAccountData(accountData.getProfileID());
+                	accountData.setBalance(portfolioData.getBalance());
+                	accountData.setOpenBalance(portfolioData.getOpenBalance());
+            	} catch(Exception e) {
+                	System.out.println("Ignoring below error****");
+            		e.printStackTrace();
+            	}
+            }
         } catch (Exception e) {
+        	//trans.rollback();
            // rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+        	//session.close();
+            //releaseConn(conn);
         }
         return accountData;
     }
@@ -404,17 +466,22 @@ public class AccountsService
 	*/
     public AccountProfileDataBean getAccountProfileData(String userID) throws Exception {
         AccountProfileDataBean accountProfileData = null;
-        Connection conn = null;
+       // Connection conn = null;
+        /*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
 
         try {
-            conn = getConn();
-            accountProfileData = getAccountProfileData(conn, userID);
-            commit(conn);
+            //conn = getConn();
+            /*accountProfileData = getAccountProfileData(conn, userID);*/
+            //commit(conn);
+        	accountProfileData = accountsProfileRepository.findAccountProfileDataByuserID(userID);
         } catch (Exception e) {
-            rollBack(conn, e);
+        	//trans.rollback();
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+        	//session.close();
+            //releaseConn(conn);
         }
         return accountProfileData;
     }
@@ -426,19 +493,27 @@ public class AccountsService
 	*/
     public AccountProfileDataBean updateAccountProfile(AccountProfileDataBean profileData) throws Exception {
         AccountProfileDataBean accountProfileData = null;
-       Connection conn = null;
+       // Connection conn = null;
+        /*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
 
         try {
-            conn = getConn();
+            /*conn = getConn();
             updateAccountProfile(conn, profileData);
 
             accountProfileData = getAccountProfileData(conn, profileData.getUserID());
-            commit(conn);
+            commit(conn);*/
+        	
+        	accountsProfileRepository.save(profileData);
+
+            accountProfileData = accountsProfileRepository.findAccountProfileDataByuserID(profileData.getUserID());
         } catch (Exception e) {
-            rollBack(conn, e);
+        	//trans.rollback();
+            //rollBack(conn, e);
             throw e;
         } finally {
-           releaseConn(conn);
+        	//session.close();
+           // releaseConn(conn);
         }
         return accountProfileData;
     }
@@ -451,11 +526,37 @@ public class AccountsService
     public AccountDataBean login(String userID, String password) throws Exception {
     	// notes login only needs to return the userid as that is all that is used by web
         AccountDataBean accountData = null;
-        Connection conn = null;
+       // Connection conn = null;
+        /*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         try {
         	
-        	
-            conn = getConn();
+        	AccountProfileDataBean accountProfileData = accountsProfileRepository.findAccountProfileDataByuserID(userID);
+
+            if (null==accountProfileData) {
+                throw new NotAuthorizedException("Failure to find profile for user: " + userID);
+            }
+            String pw = accountProfileData.getPassword();
+            if ((pw == null) || (pw.equals(password) == false)) {
+                throw new NotAuthorizedException("Incorrect password: " +  password + " for user: " + userID);
+            }
+
+            /*Integer currLoginCount = accountData.getLoginCount();
+            Integer updatedLoginCount = currLoginCount + 1;*/
+            Timestamp lastLogin = new Timestamp(System.currentTimeMillis());
+            accountsRepository.loginUpdate(lastLogin,userID);
+            
+            accountData = accountsRepository.findAccountDataByprofileID(userID);
+            
+            if (null==accountData) {
+                throw new NotAuthorizedException("Failure to find account for user: " + userID);
+            }
+          
+            
+            /*accountData.setLoginCount(updatedLoginCount);
+            accountData.setLastLogin(new Timestamp(System.currentTimeMillis()));
+            accountsRepository.save(accountData);*/
+            /*conn = getConn();
             PreparedStatement stmt = getStatement(conn, getAccountProfileSQL);
             stmt.setString(1, userID);
 
@@ -492,12 +593,14 @@ public class AccountsService
             	accountData = getAccountDataFromResultSet(rs);
 
             stmt.close();
-            commit(conn);
+            commit(conn);*/
         } catch (Exception e) {
-            rollBack(conn, e);
+        	//trans.rollback();
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+        	//session.close();
+            //releaseConn(conn);
         }
         return accountData;
     }
@@ -510,22 +613,29 @@ public class AccountsService
     public boolean logout(String userID) throws Exception 
     { 
     	boolean result = false;
+    	/*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         
-        Connection conn = null;       
+        //Connection conn = null;       
         try {
-        	
-            conn = getConn();
-            PreparedStatement stmt = getStatement(conn, logoutSQL);
-            stmt.setString(1, userID);
+        	AccountDataBean accountData = accountsRepository.findAccountDataByprofileID(userID);
+        	int logoutCount = accountData.getLogoutCount();
+        	accountData.setLogoutCount(logoutCount + 1);
+        	accountsRepository.save(accountData);
+           // conn = getConn();
+           // PreparedStatement stmt = getStatement(conn, logoutSQL);
+            /*stmt.setString(1, userID);
             stmt.executeUpdate();
             stmt.close();
-            commit(conn);
+            commit(conn);*/
             result = true;
         } catch (Exception e) {
-            rollBack(conn, e);
+        	//trans.rollback();
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+        	//session.close();
+            //releaseConn(conn);
         }
         return result;
     }
@@ -539,11 +649,13 @@ public class AccountsService
     		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
     {  
         AccountDataBean accountData = null;
-        Connection conn = null;
+       // Connection conn = null;
+        /*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         try 
         {
-            conn = getConn();
-            accountData = register(conn,userID, password, fullname, address, email, creditCard, openBalance);
+            //conn = getConn();
+            accountData = registerUser(userID, password, fullname, address, email, creditCard, openBalance);
             
             // Send the portfolios microservice the account data it needs to operate independent of 
             // accounts. Note that this data is read only by the accounts, but read-write by the portfolios. 
@@ -560,11 +672,13 @@ public class AccountsService
         } 
         catch (Exception e) 
         {
+        	//trans.rollback();
    			//rollBack(conn, e);
    			throw e;
         } 
         finally 
         {
+        	//session.close();
             //releaseConn(conn);
         }
         return accountData;
@@ -577,12 +691,45 @@ public class AccountsService
  	* @see TradeServices#register(String,String,String,String,String,String,BigDecimal)
  	*
  	*/
-     private AccountDataBean register(Connection conn, String userID, String password, String fullname, 
+     private AccountDataBean registerUser(String userID, String password, String fullname, 
     		 String address, String email, String creditCard, BigDecimal openBalance) throws Exception {
-
-    	 // Created this method simply to clean up the public register()
     	 
-         PreparedStatement stmt = getStatement(conn, createAccountSQL);
+    	 AccountDataBean accountData = new AccountDataBean();
+    	 AccountProfileDataBean profileData = new AccountProfileDataBean(userID, password, fullname, address, email, creditCard);
+    	 // Created this method simply to clean up the public register()
+    	 try {
+    	 BigDecimal balance = openBalance;
+         Timestamp creationDate = new Timestamp(System.currentTimeMillis());
+         Timestamp lastLogin = creationDate;
+         int loginCount = 0;
+         int logoutCount = 0;
+         
+         //accountData.setAccountID(1);
+         accountData.setLoginCount(loginCount);
+         accountData.setLogoutCount(logoutCount);
+         accountData.setLastLogin(lastLogin);
+         accountData.setCreationDate(creationDate);
+         accountData.setBalance(balance);
+         accountData.setOpenBalance(openBalance);
+         accountData.setProfileID(userID);
+         //PreparedStatement stmt = getStatement(conn, createAccountSQL);
+         if(null==accountsRepository) {
+        	 System.out.println("Autowred not working");
+         }
+         accountData = accountsRepository.save(accountData);
+    	 
+    	
+    	 profileData.setUserID(userID);
+    	 profileData.setPassword(password);
+    	 profileData.setFullName(fullname);
+    	 profileData.setAddress(address);
+    	 profileData.setEmail(email);
+    	 profileData.setCreditCard(creditCard);
+    	 profileData = accountsProfileRepository.save(profileData);
+    	 
+    	 accountData.setProfile(profileData);
+    	 
+         /*PreparedStatement stmt = getStatement(conn, createAccountSQL);
          
          Integer accountID = KeySequenceDirect.getNextID("account");
          
@@ -617,8 +764,12 @@ public class AccountsService
          AccountDataBean accountData = new AccountDataBean(accountID, loginCount, logoutCount, lastLogin, creationDate, balance, openBalance, userID);          
          AccountProfileDataBean profileData = new AccountProfileDataBean(userID, password, fullname, address, email, creditCard);         
          accountData.setProfile(profileData);
-
-         return accountData;   
+*/
+         return accountData; 
+    	 }catch(Exception e) {
+    		 e.printStackTrace();
+    	 }
+		return accountData;
      }
     
     private AccountDataBean getAccountData(Connection conn, String userID) throws Exception {
@@ -717,7 +868,7 @@ public class AccountsService
     
     // Common database utilities
     
-    private String checkDBProductName() throws Exception 
+    /*private String checkDBProductName() throws Exception 
 	{
         Connection conn = null;
         String dbProductName = null;
@@ -734,7 +885,7 @@ public class AccountsService
             releaseConn(conn);
         }
         return dbProductName;
-    }
+    }*/
     
     private Object[] parseDDLToBuffer(InputStream ddlFile) throws Exception 
     {
@@ -788,15 +939,15 @@ public class AccountsService
     /*
      * Lookup the TradeData datasource
      */
-    private void getDataSource() throws Exception {
-        datasource = (DataSource) context.lookup(dsName);
-    }
+    /*private void getDataSource() throws Exception {
+       // datasource = (DataSource) context.lookup(dsName);
+    }*/
 
     /*
      * Allocate a new connection to the datasource
      */
 
-    private Connection getConn() throws Exception 
+    /*private Connection getConn() throws Exception 
     {
         if (datasource == null) getDataSource();
 
@@ -804,7 +955,7 @@ public class AccountsService
         conn.setAutoCommit(false);
 
         return conn;
-    }
+    }*/
 
     /*
      * Commit the provided connection if not null
@@ -891,7 +1042,7 @@ public class AccountsService
 
     private static boolean initialized = false;
 
-    public static synchronized void init() 
+    /*public static synchronized void init() 
     {
         if (initialized) return;
 
@@ -910,15 +1061,14 @@ public class AccountsService
         	Log.error("AccountsService:init() - error on trying to KeySequenceDirect.initialize()",sqle);
         }
     }
-
+*/
     public static void destroy() {
         return;
     }
     public double getExchangeRateData(String currency) throws Exception 
     {
     	System.out.println("Entering AccountsService.getExchangeRateData()");
-  /*
-   * Log.debug("exchangeRateEnable="+exchangeRateEnable);
+        Log.debug("exchangeRateEnable="+exchangeRateEnable);
         if(exchangeRateEnable == false) {
             return 0;
         }
@@ -952,8 +1102,6 @@ public class AccountsService
 
     	System.out.println("Exiting AccountsService.getExchangeRateData()");
    		return exchangeRate;
-*/
-return 0;	
     }
 	
 

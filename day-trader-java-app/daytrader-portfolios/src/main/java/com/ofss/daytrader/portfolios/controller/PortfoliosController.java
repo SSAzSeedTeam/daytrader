@@ -25,6 +25,7 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.NotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // Spring
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -74,7 +75,10 @@ import com.ofss.daytrader.portfolios.utils.Log;
 @RestController
 public class PortfoliosController 
 {
-	private static PortfoliosService portfoliosService = new PortfoliosService();
+	//private static PortfoliosService portfoliosService = new PortfoliosService();
+	
+	@Autowired
+	PortfoliosService portfoliosService;
 
 	/**
 	 * REST call to create the user's portfolio.

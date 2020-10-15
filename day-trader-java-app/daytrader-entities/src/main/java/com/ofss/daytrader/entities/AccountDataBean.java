@@ -32,13 +32,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name="accountejb",
+	indexes = {@Index(name = "ACCOUNT_USERID", columnList = "profile_userid")})
 public class AccountDataBean implements Serializable {
 
-	
+	@Id
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Integer accountID;              /* accountID */
     private int loginCount;                 /* loginCount */
     private int logoutCount;                /* logoutCount */
@@ -60,6 +64,8 @@ public class AccountDataBean implements Serializable {
 //    private Collection<OrderDataBean> orders;
 //    private Collection<HoldingDataBean> holdings;
     
+    //@JsonInclude()
+    @Transient
     private AccountProfileDataBean profile;
 
     public AccountDataBean() {

@@ -25,80 +25,29 @@ import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
-/*import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@ServletComponentScan(basePackages={"com.ofss.daytrader.accounts"})
 @SpringBootApplication
-public class AccountsApplication extends SpringBootServletInitializer {
+@EntityScan(basePackages={"com.ofss.daytrader.entities"})
+@EnableJpaRepositories(basePackages={"com.ofss.daytrader.repository"})
+@EnableTransactionManagement
+public class AccountsApplication /*extends SpringBootServletInitializer*/ {
 //  Configure database environment 
 //    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
 //    private static String url = System.getenv("DAYTRADER_DATABASE_URL");
 //    private static String username = System.getenv("DAYTRADER_DATABASE_USERNAME");
 //    private static String password = System.getenv("DAYTRADER_DATABASE_PASSWORD");
 
-	@Value("${DAYTRADER_DATABASE_DRIVER}")
-    private String driverClassName;
-	@Value("${DAYTRADER_DATABASE_URL}")
-    private String url;
-	@Value("${DAYTRADER_DATABASE_USERNAME}")
-    private String username;
-	@Value("${DAYTRADER_DATABASE_PASSWORD}")
-    private String password;
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(AccountsApplication.class);
-	}
-
 	public static void main(String[] args) throws Exception 
 	{	
 		SpringApplication.run(AccountsApplication.class, args);
-	}
-
-	@Bean
-	public TomcatServletWebServerFactory tomcatFactory() 
-	{
-		TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory() 
-		{
-			@Override
-			protected TomcatWebServer getTomcatWebServer(Tomcat tomcat) {
-				tomcat.enableNaming();
-				return super.getTomcatWebServer(tomcat);
-			}
-
-			@Override
-			protected void postProcessContext(Context context) 
-			{
-				//
-				// Accounts Data Source
-				//
-				System.out.println("driverClassName============"+driverClassName);
-				ContextResource accountsDataSource = new ContextResource();
-				accountsDataSource.setName("jdbc/AccountsDataSource");
-				accountsDataSource.setAuth("Container");
-				accountsDataSource.setType(DataSource.class.getName());
-				// Set Database Properties
-				accountsDataSource.setProperty("driverClassName", driverClassName);
-				accountsDataSource.setProperty("url", url);
-                if(username != null && !username.trim().equals("")) {
-                    accountsDataSource.setProperty("username", username);
-                    accountsDataSource.setProperty("password", password);
-                }
-				accountsDataSource.setProperty("maxActive", "100");
-				accountsDataSource.setProperty("maxIdle", "30");
-				accountsDataSource.setProperty("maxWait", "10000");
-				context.getNamingResources().addResource(accountsDataSource);
-			}
-		};
-		
-	    return factory;
 	}
 	
 }

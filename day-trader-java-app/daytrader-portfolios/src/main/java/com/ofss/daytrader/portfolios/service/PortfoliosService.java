@@ -25,9 +25,15 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 import javax.naming.InitialContext;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -47,11 +53,16 @@ import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.core.direct.FinancialUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
+import com.ofss.daytrader.portfolios.repository.AccountsRepository;
+import com.ofss.daytrader.portfolios.repository.HoldingRepository;
+import com.ofss.daytrader.portfolios.repository.KeygenRepository;
+import com.ofss.daytrader.portfolios.repository.OrderRepository;
 import com.ofss.daytrader.portfolios.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
@@ -66,15 +77,28 @@ import com.ofss.daytrader.utils.TradeConfig;
  */
 
 @Service
+@Transactional
 public class PortfoliosService
 {
 	//	- Each microservice has their own private database (datasource)
-    private static String dsName = TradeConfig.PORTFOLIOS_DATASOURCE;
+   // private static String dsName = TradeConfig.PORTFOLIOS_DATASOURCE;
 
     //	-  @Resource annotation is not supported on static fields
     private static DataSource datasource = null;
 
     private static InitialContext context;
+    
+    @Autowired
+   	private AccountsRepository accountsRepository;
+    
+    @Autowired
+    private HoldingRepository holdingRepository;
+    
+    @Autowired
+    private OrderRepository orderRepository;
+    
+    @Autowired
+	private KeygenRepository keygenRepository;
     
     //	- Enables portfolios microservice to consume accounts and quotes microservices
     private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
@@ -104,11 +128,11 @@ public class PortfoliosService
     	if (offset == 0) resetTrade(true); // delete any rows from db before repopiulating
 	
         int holdings = 0;
-        Connection conn = null;
+        //Connection conn = null;
         
         try 
         {
-            conn = getConn();
+            //conn = getConn();
         	for (int i = 0; i < limit; i++) 
         	{
         		int accountID = i + offset;
@@ -130,7 +154,7 @@ public class PortfoliosService
         		accountData.setBalance(initialBalance);
     		
         		// Register the user
-        		register(conn,accountData);
+        		register(accountData);
             
         		//Create the user's holdings
         		// 0-MAX_HOLDING (inclusive), avg holdings per user = (MAX-0)/2
@@ -150,19 +174,19 @@ public class PortfoliosService
         			quoteData.setPrice(new BigDecimal(TradeConfig.rndPrice()));
         			quoteData.setSymbol(orderData.getSymbol());
         			// Process the buy order for the given user
-        			buy(conn,accountData, orderData, quoteData, TradeConfig.SYNCH);
+        			buy(accountData, orderData, quoteData, TradeConfig.SYNCH);
         		} // end-for
         	} // end-for
-    		commit(conn);
+    		//commit(conn);
         } 
         catch (Exception e) 
         {
-            rollBack(conn, e);
+           // rollBack(conn, e);
             throw e;
         } 
         finally 
         {
-            releaseConn(conn);
+            //releaseConn(conn);
         }
     	return true;
     } 
@@ -182,7 +206,10 @@ public class PortfoliosService
  	*/
      public AccountDataBean register(AccountDataBean accountData) throws Exception 
      {
-        Connection conn = null;
+        // Connection conn = null;
+    	 
+    	 /*session=sessionFactory.openSession();
+         trans=session.beginTransaction();*/
          try 
          {
         	 int loginCount = 0;
@@ -190,16 +217,19 @@ public class PortfoliosService
              accountData.setLoginCount(loginCount);
              accountData.setLogoutCount(logoutCount);
              
-             conn = getConn();
-             register(conn,accountData);
-             commit(conn);
+         	accountData = accountsRepository.save(accountData);
+             //conn = getConn();
+             //register(conn,accountData);
+            // commit(conn);
          } catch (Exception e) 
          {
-             rollBack(conn, e);
+        	 //trans.rollback();
+             //rollBack(conn, e);
              throw e;
          } 
          finally 
          {
+        	 //session.close();
              //releaseConn(conn);
          }
          return accountData;
@@ -220,17 +250,13 @@ public class PortfoliosService
   	*/
      public AccountDataBean getAccountData(String userID) throws Exception {
          AccountDataBean accountData = null;
-         Connection conn = null;
          try {
-             conn = getConn();            
-             accountData = getAccountData(conn,userID);
-             commit(conn);
+        	 
+        	 accountData = accountsRepository.findAccountDataByprofileID(userID);
 
          } catch (Exception e) {
-             rollBack(conn, e);
              throw e;
          } finally {
-             releaseConn(conn);
          }
          return accountData;
      }
@@ -252,11 +278,15 @@ public class PortfoliosService
 		if (deleteAll) 
 		{   
 			// delete the rows and return
-   			conn = getConn();
-   			PreparedStatement stmt = null;
+   		/*	conn = getConn();
+   			PreparedStatement stmt = null;*/
 			try 
 			{
-				stmt = getStatement(conn, "delete from accountejb");
+				accountsRepository.deleteAll();
+				holdingRepository.deleteAll();
+				orderRepository.deleteAll();
+				keygenRepository.deleteAll();
+				/*stmt = getStatement(conn, "delete from accountejb");
 				stmt.executeUpdate();
 				stmt.close();
                 stmt = getStatement(conn, "delete from holdingejb");
@@ -272,63 +302,76 @@ public class PortfoliosService
 				commit(conn);
 				//
 				// (Re-)initialize the key generator
-				KeySequenceDirect.initialize(getConn());
+				KeySequenceDirect.initialize(getConn());*/
 			}	
 		    catch (Exception e) 
 		    {
-		   		rollBack(conn, e);
+		   		//rollBack(conn, e);
 		   		throw e;
 		    } 
 		    finally 
 		    {
-		        releaseConn(conn);
+		        //releaseConn(conn);
 		    }
 			return runStatsData;
 		}
 		else
 		{
 			// calculate usage stats
-   			conn = getConn();
+   			/*conn = getConn();
    			PreparedStatement stmt = null;
-   			ResultSet rs = null;
+   			ResultSet rs = null;*/
    			try 
    			{
-   	            stmt = getStatement(conn, "delete from holdingejb where holdingejb.account_accountid is null");
+   				holdingRepository.deleteHoldingForAccountidNull();
+   				
+   				orderRepository.deleteOrderByAccountid();
+   				
+   				holdingRepository.deleteHoldingDataByAccountid();
+   				
+   				
+   	   			
+   	            /*stmt = getStatement(conn, "delete from holdingejb where holdingejb.account_accountid is null");
    	            stmt.executeUpdate();
    	            stmt.close();
-
+*/
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	            /*stmt =
    	                   getStatement(
    	                       conn,
    	                       "delete from orderejb where account_accountid in (select accountid from accountejb a where a.profile_userid like 'ru:%')");
    	            stmt.executeUpdate();
    	            stmt.close();
-
+*/
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	            /*stmt =
    	                    getStatement(
    	                        conn,
    	                        "delete from holdingejb where account_accountid in (select accountid from accountejb a where a.profile_userid like 'ru:%')");
    	            stmt.executeUpdate();
-   	            stmt.close();          
+   	            stmt.close(); */         
    	            
    	   			// Cound and delete random users (with id that start with "ru:%")
    	            // this code needs to be in the portfolios to accounts 
-   	   			stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
+   				
+   				int newUserCount = accountsRepository.deleteAccountDataByUser();
+   	   			runStatsData.setNewUserCount(newUserCount);
+   	   			/*stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
    	   			int newUserCount = stmt.executeUpdate();
    	   			runStatsData.setNewUserCount(newUserCount);
-   	   			stmt.close();
+   	   			stmt.close();*/
    	            
    	            // count holdings for trade users
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	   			int holdingCount = holdingRepository.countHoldingByAccountid();
+   	   			runStatsData.setHoldingCount(holdingCount);
+   	            /*stmt =
    	                getStatement(conn,
    	                    "select count(holdingid) as \"holdingCount\" from holdingejb h where h.account_accountid in "
    	                        + "(select accountid from accountejb a where a.profile_userid like 'uid:%')");
@@ -339,12 +382,15 @@ public class PortfoliosService
    	            runStatsData.setHoldingCount(holdingCount);
    	            stmt.close();
    	            rs.close();
-
+*/
    	            // count orders for trade users
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	   			
+   	   			int orderCount = orderRepository.countOrderByAccountid();
+	            runStatsData.setOrderCount(orderCount);
+   	            /*stmt =
    	                getStatement(conn,
    	                    "select count(orderid) as \"orderCount\" from orderejb o where o.account_accountid in "
    	                        + "(select accountid from accountejb a where a.profile_userid like 'uid:%')");
@@ -354,13 +400,15 @@ public class PortfoliosService
    	            int orderCount = rs.getInt("orderCount");
    	            runStatsData.setOrderCount(orderCount);
    	            stmt.close();
-   	            rs.close();
+   	            rs.close();*/
 
    	            // count orders by type for trade users
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	            int buyOrderCount = orderRepository.countOrderByOrderTypeBuy();
+	            runStatsData.setBuyOrderCount(buyOrderCount);
+   	            /*stmt =
    	                getStatement(conn,
    	                    "select count(orderid) \"buyOrderCount\"from orderejb o where (o.account_accountid in "
    	                        + "(select accountid from accountejb a where a.profile_userid like 'uid:%')) AND "
@@ -371,13 +419,16 @@ public class PortfoliosService
    	            int buyOrderCount = rs.getInt("buyOrderCount");
    	            runStatsData.setBuyOrderCount(buyOrderCount);
    	            stmt.close();
-   	            rs.close();
+   	            rs.close();*/
 
    	            // count orders by type for trade users
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	            
+   	            int sellOrderCount = orderRepository.countOrderByOrderTypeSell();
+	            runStatsData.setSellOrderCount(sellOrderCount);
+   	            /*stmt =
    	                getStatement(conn,
    	                    "select count(orderid) \"sellOrderCount\"from orderejb o where (o.account_accountid in "
    	                        + "(select accountid from accountejb a where a.profile_userid like 'uid:%')) AND "
@@ -389,48 +440,54 @@ public class PortfoliosService
    	            runStatsData.setSellOrderCount(sellOrderCount);
    	            stmt.close();
    	            rs.close();
-
+*/
    	            // Delete cancelled orders
-   	            stmt = getStatement(conn, "delete from orderejb where orderStatus='cancelled'");
+   	            int cancelledOrderCount = orderRepository.deleteByOrderStatus("cancelled");
+   	            runStatsData.setCancelledOrderCount(cancelledOrderCount);
+   	            /*stmt = getStatement(conn, "delete from orderejb where orderStatus='cancelled'");
    	            int cancelledOrderCount = stmt.executeUpdate();
    	            runStatsData.setCancelledOrderCount(cancelledOrderCount);
    	            stmt.close();
    	            rs.close();
-
+*/
    	            // count open orders by type for trade users
    	            // imported accountejb into portfolios microservice to do the inner join across the accountejb 
    	            // (in this microservice) instead of the accountejb (in the accounts microservice). As a result of this,
    	            // here were no changes to the sql statement
-   	            stmt =
+   	            
+   	            int openOrderCount = orderRepository.countOrderIdByAccountAndOrderStatus();
+	            runStatsData.setOpenOrderCount(openOrderCount);
+   	            /*stmt =
    	                getStatement(conn,
    	                    "select count(orderid) \"openOrderCount\"from orderejb o where (o.account_accountid in "
    	                        + "(select accountid from accountejb a where a.profile_userid like 'uid:%')) AND "
    	                        + " (o.orderStatus='open')");
 
    	            rs = stmt.executeQuery();
-   	            rs.next();
-   	            int openOrderCount = rs.getInt("openOrderCount");
-   	            runStatsData.setOpenOrderCount(openOrderCount);
+   	            rs.next();*/
+   	            
 
-   	            stmt.close();
-   	            rs.close();
+   	           /* stmt.close();
+   	            rs.close();*/
    	            // Delete orders for holding which have been purchased and sold
-   	            stmt = getStatement(conn, "delete from orderejb where holding_holdingid is null");
+   	            int deletedOrderCount = orderRepository.deleteOrderByHoldingidNull();
+   	            runStatsData.setDeletedOrderCount(deletedOrderCount);
+   	            /*stmt = getStatement(conn, "delete from orderejb where holding_holdingid is null");
    	            int deletedOrderCount = stmt.executeUpdate();
    	            runStatsData.setDeletedOrderCount(deletedOrderCount);
    	            stmt.close();
-   	            rs.close();
+   	            rs.close();*/
 
-   	            commit(conn);
+   	            //commit(conn);
    			} 
    			catch (Exception e) 
    			{
-   				rollBack(conn, e);
+   				//rollBack(conn, e);
    				throw e;
    			} 
    			finally 
    			{
-   				releaseConn(conn);
+   				//releaseConn(conn);
    			}
 
    			return runStatsData;
@@ -558,15 +615,14 @@ public class PortfoliosService
 	{       
     	//
         // Mode is ignored for now. Later it will be used for async order processing
-        Connection conn = null;
+        //Connection conn = null;
         OrderDataBean orderData = null;
 
         try {
 
-            conn = getConn();
+           // conn = getConn();
 			
-            AccountDataBean accountData = getAccountData(conn,userID);
-            
+            AccountDataBean accountData = getAccountData(userID);
         	// Construct the order data
         	orderData = new OrderDataBean();
         	orderData.setOrderFee(TradeConfig.getOrderFee("buy"));
@@ -585,17 +641,17 @@ public class PortfoliosService
             // Ask quotes microservice for the data instead of accessing directly
             QuoteDataBean quoteData = quotesService.getQuote(symbol);
     		
-    		orderData = buy(conn, accountData, orderData, quoteData, mode);
+    		orderData = buy(accountData, orderData, quoteData, mode);
     		
-    		commit(conn);
+    		//commit(conn);
     		
     		return orderData;
         
         } catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+            //releaseConn(conn);
         }
         
     }
@@ -608,7 +664,7 @@ public class PortfoliosService
     public OrderDataBean sell(String userID, Integer holdingID, Integer mode) throws Exception 
 	{
     	// Mode is ignored for now. Later it will be used for async order processing
-        Connection conn = null;
+        //Connection conn = null;
         OrderDataBean orderData = null;
 
         /*
@@ -618,14 +674,14 @@ public class PortfoliosService
 
         try 
         {
-            conn = getConn();
-            AccountDataBean accountData = getAccountData(conn,userID);
+            //conn = getConn();
+            AccountDataBean accountData = getAccountData(userID);
             if ((accountData == null)) 
             {
                 throw new NotFoundException("Unable to find account for userID: " + userID);
             }
             
-            HoldingDataBean holdingData = getHoldingData(conn,holdingID.intValue());
+            HoldingDataBean holdingData = getHoldingData(holdingID.intValue());
             if (holdingData == null)
             {
             	throw new NotFoundException("Unable to find holding for holdingID: " + holdingID);
@@ -640,28 +696,30 @@ public class PortfoliosService
         	}
 
             double quantity = holdingData.getQuantity();
-            orderData = createOrder(conn, accountData, quoteData, holdingData, "sell", quantity);
+            orderData = createOrder(accountData, quoteData, holdingData, "sell", quantity);
 
             // Set the holdingSymbol purchaseDate to selling to signify the sell is "inflight"
-            updateHoldingStatus(conn, holdingData.getHoldingID(), holdingData.getQuoteID());
+            updateHoldingStatus(holdingData.getHoldingID(), holdingData.getQuoteID());
 
             // UPDATE -- account should be credited during completeOrder
             BigDecimal price = quoteData.getPrice();
             BigDecimal orderFee = orderData.getOrderFee();
             total = (new BigDecimal(quantity).multiply(price)).subtract(orderFee);
-            creditAccountBalance(conn, accountData, total);
+            
+            BigDecimal updatedBalance = accountData.getBalance().add(total);
+            
+            creditAccountBalance(accountData, updatedBalance);
+            completeOrder(orderData.getOrderID());
 
-            completeOrder(conn, orderData.getOrderID());
+            orderData = getOrderData(orderData.getOrderID().intValue());
 
-            orderData = getOrderData(conn, orderData.getOrderID().intValue());
-
-            commit(conn);
+           // commit(conn);
 
         } catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+            //releaseConn(conn);
         }
 
         return orderData;
@@ -677,7 +735,14 @@ public class PortfoliosService
         Connection conn = null;
         try 
         {
-            conn = getConn();
+        	
+        	/*"select * from orderejb o where o.account_accountid = "
+                    + "(select a.accountid from accountejb a where a.profile_userid = ?)";*/
+        	//change
+        	List<Integer> accountid = accountsRepository.findAccountidByprofileID(userID);
+        	
+        	orderDataBeans = orderRepository.findOrderByAccountID(accountid);
+            /*conn = getConn();
             PreparedStatement stmt = getStatement(conn, getOrdersByUserSQL);
             stmt.setString(1, userID);
 
@@ -693,13 +758,13 @@ public class PortfoliosService
             }
 
             stmt.close();
-            commit(conn);
+            commit(conn);*/
 
         } catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+            //releaseConn(conn);
         }
         return orderDataBeans;
     }
@@ -711,16 +776,21 @@ public class PortfoliosService
 	 */
     public Collection<OrderDataBean> getClosedOrders(String userID) throws Exception {
         Collection<OrderDataBean> orderDataBeans = new ArrayList<OrderDataBean>();
-        Connection conn = null;
+       // Connection conn = null;
         try 
         {
-            conn = getConn();
+            //conn = getConn();
             // As soon as an order has been processed it goes to the closed state. When user open 
             // their account page it notifies the user of orders that are in the closed state and
             // transitions them to the completed state. To do that it calls this method. It reads
             // the closed orders, transitions them to the completed state, and returns the list 
             // of completed orders.
-            PreparedStatement stmt = getStatement(conn, getClosedOrdersSQL);
+        	
+        	List<Integer> accountid = accountsRepository.findAccountidByprofileID(userID);
+        	String status = "closed";
+        	orderDataBeans = orderRepository.fetchOrderByStatusAndAccountid(accountid,status);
+        	
+            /*PreparedStatement stmt = getStatement(conn, getClosedOrdersSQL);
             stmt.setString(1, userID);
 
             ResultSet rs = stmt.executeQuery();
@@ -733,12 +803,12 @@ public class PortfoliosService
             }
 
             stmt.close();
-            commit(conn);
+            commit(conn);*/
         } catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
         return orderDataBeans;
     }
@@ -753,25 +823,31 @@ public class PortfoliosService
         Connection conn = null;
         try 
         {
-            conn = getConn();
+        	List<Integer> accountId = accountsRepository.findAccountidByprofileID(userID);
+        	holdingDataBeans = holdingRepository.findHoldingDataByaccountID(accountId);
+        	
+        	/*"select * from holdingejb h where h.account_accountid = "
+                    + "(select a.accountid from accountejb a where a.profile_userid = ?)";
+*/
+            /*conn = getConn();
             PreparedStatement stmt = getStatement(conn, getHoldingsForUserSQL);
             stmt.setString(1, userID);
 
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();*/
 
-            while (rs.next()) {
+            /*while (rs.next()) {
                 HoldingDataBean holdingData = getHoldingDataFromResultSet(rs);
                 holdingDataBeans.add(holdingData);
             }
 
             stmt.close();
             commit(conn);
-
+*/
         } catch (Exception e) {
-            rollBack(conn, e);
+            //rollBack(conn, e);
             throw e;
         } finally {
-            releaseConn(conn);
+           // releaseConn(conn);
         }
         return holdingDataBeans;
     }    
@@ -803,15 +879,18 @@ public class PortfoliosService
         return accountData;
     }
     
-    private void creditAccountBalance(Connection conn, AccountDataBean accountData, BigDecimal credit) throws Exception {
-        PreparedStatement stmt = getStatement(conn, creditAccountBalanceSQL);
+    private void creditAccountBalance(AccountDataBean accountData, BigDecimal credit) throws Exception {
+    	
+    accountsRepository.creditAccountBalance(credit, accountData.getAccountID().intValue());
+    	
+        /*PreparedStatement stmt = getStatement(conn, creditAccountBalanceSQL);
 
         stmt.setBigDecimal(1, credit);
         stmt.setInt(2, accountData.getAccountID().intValue());
 
         stmt.executeUpdate();
         stmt.close();
-
+*/
     }
 
 	/**
@@ -819,8 +898,8 @@ public class PortfoliosService
 	 * @see TradeServices#buy(String, String, double, int)
 	 *
 	 */
-    private OrderDataBean buy(Connection conn, 
-    		AccountDataBean accountData, OrderDataBean orderData, QuoteDataBean quoteData, Integer mode) throws Exception 
+    
+    private OrderDataBean buy(AccountDataBean accountData, OrderDataBean orderData, QuoteDataBean quoteData, Integer mode) throws Exception 
 	{
     	// Mode is ignored for now. Later it will be used for async order processing
 
@@ -831,28 +910,31 @@ public class PortfoliosService
             
         HoldingDataBean holdingData = null; // the completeOrder operation will create the holding and associate it with the order
 
-        orderData = createOrder(conn, accountData, quoteData, holdingData, "buy", orderData.getQuantity());
+        orderData = createOrder(accountData, quoteData, holdingData, "buy", orderData.getQuantity());
 
         // Update -- account should be credited during completeOrder
         BigDecimal price = quoteData.getPrice();
         BigDecimal orderFee = orderData.getOrderFee();
         total = (new BigDecimal(orderData.getQuantity()).multiply(price)).add(orderFee);
-
+        BigDecimal updatedBalance = accountData.getBalance().subtract(total);
+        
         // subtract total from account balance
-        creditAccountBalance(conn, accountData, total.negate());
+        creditAccountBalance(accountData, updatedBalance);
 
-        completeOrder(conn, orderData.getOrderID());
+        completeOrder(orderData.getOrderID());
 
-        orderData = getOrderData(conn, orderData.getOrderID().intValue());
+        orderData = getOrderData(orderData.getOrderID().intValue());
 
         return orderData;
     }
     
-    private OrderDataBean completeOrder(Connection conn, Integer orderID) throws Exception 
+    private OrderDataBean completeOrder(Integer orderID) throws Exception 
     {
         OrderDataBean orderData = null;
 
-        PreparedStatement stmt = getStatement(conn, getOrderSQL);
+         
+        orderData = orderRepository.findById(orderID).get();
+        /*PreparedStatement stmt = getStatement(getOrderSQL);
         stmt.setInt(1, orderID.intValue());
 
         ResultSet rs = stmt.executeQuery();
@@ -862,7 +944,7 @@ public class PortfoliosService
             stmt.close();
             throw new NotFoundException("Unable to find order with ID: " + orderID);
         }
-        orderData = getOrderDataFromResultSet(rs);
+        orderData = getOrderDataFromResultSet(rs);*/
 
         String orderType = orderData.getOrderType();
         String orderStatus = orderData.getOrderStatus();
@@ -873,9 +955,12 @@ public class PortfoliosService
             || (orderStatus.compareToIgnoreCase("cancelled") == 0))
             throw new ClientErrorException("Attempt to complete an order that is already complete", Response.Status.CONFLICT);
 
-        int accountID = rs.getInt("account_accountID");
-        String quoteID = rs.getString("quote_symbol");
-        int holdingID = rs.getInt("holding_holdingID");
+        int accountID = orderData.getAccountID();
+        String quoteID = orderData.getSymbol();
+        int holdingID = 0;
+        if(null!=orderData.getHoldingID()) {
+        holdingID = orderData.getHoldingID();
+        }
 
         BigDecimal price = orderData.getPrice();
         double quantity = orderData.getQuantity();
@@ -888,7 +973,12 @@ public class PortfoliosService
          * conn); QuoteDataBean quoteData = getQuoteData(conn, quoteID);
          */
         
-        String userID = getAccountProfileData(conn, new Integer(accountID)).getUserID();
+        AccountProfileDataBean profileData = getAccountProfileData(new Integer(accountID));
+        String userID = "";
+        if(null!= profileData) {
+        userID = profileData.getUserID();
+        }
+        
 
         HoldingDataBean holdingData = null;
 
@@ -902,8 +992,8 @@ public class PortfoliosService
              * balance
              */
 
-            holdingData = createHolding(conn, accountID, quoteID, quantity, price);
-            updateOrderHolding(conn, orderID.intValue(), holdingData.getHoldingID().intValue());
+            holdingData = createHolding(accountID, quoteID, quantity, price);
+            updateOrderHolding(orderID.intValue(), holdingData.getHoldingID().intValue());
         }
 
         // if (order.isSell()) {
@@ -912,23 +1002,23 @@ public class PortfoliosService
              * Complete a Sell operation - remove the Holding from the Account - deposit the Order proceeds to the
              * Account balance
              */
-            holdingData = getHoldingData(conn, holdingID);
+            holdingData = getHoldingData(holdingID);
             if (holdingData == null)
                 Log.debug("PortfoliosService:completeOrder:sell -- user: " + userID + " already sold holding: " + holdingID);
             else
-                removeHolding(conn, holdingID, orderID.intValue());
+                removeHolding( holdingID, orderID.intValue());
 
         }
 
         orderData.setOrderStatus("closed");
-        updateOrderStatus(conn, orderData.getOrderID(), orderData.getOrderStatus() );
+        updateOrderStatus(orderData.getOrderID(), orderData.getOrderStatus() );
 
 //        Log.debug("PortfoliosService:completeOrder()--> Completed Order " + orderData.getOrderID() + "\n\t Order info: "
 //                + orderData + "\n\t Account info: " + accountID + "\n\t Quote info: " + quoteID + "\n\t Holding info: "
 //                + holdingData);
 
-        rs.close();
-        stmt.close();
+        /*rs.close();
+        stmt.close();*/
 
 // public (buy/sell) method responsible for transaction demarcation
 //        commit(conn);
@@ -940,14 +1030,27 @@ public class PortfoliosService
         return orderData;
     }
 
-    private AccountProfileDataBean getAccountProfileData(Connection conn, Integer accountID) throws Exception {
-        PreparedStatement stmt = getStatement(conn, getAccountProfileForAccountSQL);
+    private AccountProfileDataBean getAccountProfileData(Integer accountID) throws Exception {
+    	
+    	Optional<AccountDataBean> accountData = accountsRepository.findById(accountID);
+    	AccountProfileDataBean accountProfileData = null;
+
+        if (!accountData.isPresent())
+        	Log.debug("PortfoliosService:getAccountProfileData() - cannot find profile; result is empty");
+        else
+        {
+        	// code change to populate the account profile with the data required by this microservice
+        	accountProfileData = new AccountProfileDataBean();
+        	accountProfileData.setUserID(accountData.get().getProfileID());
+        }
+    	
+        /*PreparedStatement stmt = getStatement(conn, getAccountProfileForAccountSQL);
         stmt.setInt(1, accountID.intValue());
 
         ResultSet rs = stmt.executeQuery();
 
         AccountProfileDataBean accountProfileData = getAccountProfileDataFromResultSet(rs);
-        stmt.close();
+        stmt.close();*/
         return accountProfileData;
     }
 
@@ -1000,11 +1103,18 @@ public class PortfoliosService
         return accountData;
     }
 
-    private HoldingDataBean createHolding(Connection conn, int accountID, String symbol, double quantity,
+    private HoldingDataBean createHolding(int accountID, String symbol, double quantity,
         BigDecimal purchasePrice) throws Exception {
 
         Timestamp purchaseDate = new Timestamp(System.currentTimeMillis());
-        PreparedStatement stmt = getStatement(conn, createHoldingSQL);
+        HoldingDataBean holdingData = new HoldingDataBean();
+        holdingData.setPurchaseDate(purchaseDate);
+        holdingData.setPurchasePrice(purchasePrice);
+        holdingData.setQuantity(quantity);
+        holdingData.setAccountID(accountID);
+        holdingData.setQuoteID(symbol);
+        holdingData = holdingRepository.save(holdingData);
+        /*PreparedStatement stmt = getStatement(conn, createHoldingSQL);
 
         Integer holdingID = KeySequenceDirect.getNextID("holding");
         stmt.setInt(1, holdingID.intValue());
@@ -1016,33 +1126,51 @@ public class PortfoliosService
         stmt.executeUpdate();
 
         stmt.close();
-
-        return getHoldingData(conn, holdingID.intValue());
+*/
+        return getHoldingData(holdingData.getHoldingID().intValue());
     }
 
-    private void removeHolding(Connection conn, int holdingID, int orderID) throws Exception {
-        PreparedStatement stmt = getStatement(conn, removeHoldingSQL);
+    private void removeHolding(int holdingID, int orderID) throws Exception {
+    	
+    	holdingRepository.deleteById(holdingID);
+        /*PreparedStatement stmt = getStatement(conn, removeHoldingSQL);
 
         stmt.setInt(1, holdingID);
         stmt.executeUpdate();
         stmt.close();
-
+*/
         // set the HoldingID to NULL for the purchase and sell order now that
         // the holding as been removed
-        stmt = getStatement(conn, removeHoldingFromOrderSQL);
+    	orderRepository.updateOrderDataHoldingIDNull(holdingID);
+        /*stmt = getStatement(conn, removeHoldingFromOrderSQL);
 
         stmt.setInt(1, holdingID);
         stmt.executeUpdate();
         stmt.close();
-
+*/
     }
 
-    private OrderDataBean createOrder(Connection conn, AccountDataBean accountData, QuoteDataBean quoteData,
+    private OrderDataBean createOrder(AccountDataBean accountData, QuoteDataBean quoteData,
         HoldingDataBean holdingData, String orderType, double quantity) throws Exception {
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 
-        PreparedStatement stmt = getStatement(conn, createOrderSQL);
+        OrderDataBean orderDataBean = new OrderDataBean();
+        orderDataBean.setOrderType(orderType);
+        orderDataBean.setOrderStatus("open");
+        orderDataBean.setOpenDate(currentDate);
+        orderDataBean.setQuantity(quantity);
+        orderDataBean.setPrice(quoteData.getPrice().setScale(FinancialUtils.SCALE, FinancialUtils.ROUND));
+        orderDataBean.setOrderFee(TradeConfig.getOrderFee(orderType));
+        orderDataBean.setAccountID(accountData.getAccountID().intValue());
+        if(null==holdingData)
+        	orderDataBean.setHoldingID(java.sql.Types.INTEGER);
+        else
+        	orderDataBean.setHoldingID(holdingData.getHoldingID().intValue());
+        
+        orderDataBean.setSymbol(quoteData.getSymbol());
+        orderDataBean = orderRepository.save(orderDataBean);
+        /*PreparedStatement stmt = getStatement(conn, createOrderSQL);
 
         Integer orderID = KeySequenceDirect.getNextID("order");
         stmt.setInt(1, orderID.intValue());
@@ -1060,15 +1188,24 @@ public class PortfoliosService
         stmt.setString(10, quoteData.getSymbol());
         stmt.executeUpdate();
 
-        stmt.close();
+        stmt.close();*/
 
-        return getOrderData(conn, orderID.intValue());
+        return getOrderData(orderDataBean.getOrderID());
     }
 
-    private HoldingDataBean getHoldingData(Connection conn, int holdingID) throws Exception {
+    private HoldingDataBean getHoldingData(int holdingID) throws Exception {
+        Optional<HoldingDataBean> holdingDetails = null;
         HoldingDataBean holdingData = null;
+       
         
-        PreparedStatement stmt = getStatement(conn, getHoldingSQL);
+        /*"select * from holdingejb h where h.holdingid = ?"*/
+        holdingDetails = holdingRepository.findById(holdingID);
+        if(holdingDetails.isPresent()) {
+        	holdingData = holdingDetails.get();
+        }
+        else
+        	Log.debug("PortfoliosService:getHoldingData() - unable to find holding with ID " + holdingID);
+        /*PreparedStatement stmt = getStatement(conn, getHoldingSQL);
         stmt.setInt(1, holdingID);
         
         ResultSet rs = stmt.executeQuery();
@@ -1079,15 +1216,21 @@ public class PortfoliosService
             holdingData = getHoldingDataFromResultSet(rs);
 
         rs.close();
-        stmt.close();
+        stmt.close();*/
         return holdingData;
     }
 
-    private OrderDataBean getOrderData(Connection conn, int orderID) throws Exception 
+    private OrderDataBean getOrderData(int orderID) throws Exception 
     {
         OrderDataBean orderData = null;
         
-        PreparedStatement stmt = getStatement(conn, getOrderSQL);
+        orderData = orderRepository.findById(orderID).get();
+        if(null==orderData)
+        	 Log.debug("PortfoliosService:getOrderData() - unable to find order with ID " + orderID);
+        else
+        	Log.debug("PortfoliosService:getOrderData() - Order " + orderData.toString() +" OrderID: "+ orderID);
+               
+        /*PreparedStatement stmt = getStatement(conn, getOrderSQL);
         stmt.setInt(1, orderID);
         ResultSet rs = stmt.executeQuery();
         
@@ -1097,40 +1240,46 @@ public class PortfoliosService
             orderData = getOrderDataFromResultSet(rs);
         
         rs.close();
-        stmt.close();
+        stmt.close();*/
         
         return orderData;
     }
 
     // Set Timestamp to zero to denote sell is inflight
     // UPDATE -- could add a "status" attribute to holding
-    private void updateHoldingStatus(Connection conn, Integer holdingID, String symbol) throws Exception {
+    private void updateHoldingStatus(Integer holdingID, String symbol) throws Exception {
         Timestamp ts = new Timestamp(0);
-        PreparedStatement stmt = getStatement(conn, "update holdingejb set purchasedate= ? where holdingid = ?");
+        holdingRepository.updateHoldingStatus(ts, holdingID);
+        /*PreparedStatement stmt = getStatement(conn, "update holdingejb set purchasedate= ? where holdingid = ?");
 
         stmt.setTimestamp(1, ts);
         stmt.setInt(2, holdingID.intValue());
         stmt.executeUpdate();
-        stmt.close();
+        stmt.close();*/
     }
 
-    private void updateOrderStatus(Connection conn, Integer orderID, String status) throws Exception {
-        PreparedStatement stmt = getStatement(conn, updateOrderStatusSQL);
+    private void updateOrderStatus(Integer orderID, String status) throws Exception {
+    	
+    	Timestamp completionDate = new Timestamp(System.currentTimeMillis());
+    	orderRepository.updateOrderStatus(status, completionDate, orderID);
+        /*PreparedStatement stmt = getStatement(conn, updateOrderStatusSQL);
 
         stmt.setString(1, status);
         stmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
         stmt.setInt(3, orderID.intValue());
         stmt.executeUpdate();
-        stmt.close();
+        stmt.close();*/
     }
 
-    private void updateOrderHolding(Connection conn, int orderID, int holdingID) throws Exception {
-        PreparedStatement stmt = getStatement(conn, updateOrderHoldingSQL);
+    private void updateOrderHolding(int orderID, int holdingID) throws Exception {
+    	
+    	orderRepository.updateOrderDataHoldingID(holdingID, orderID);
+        /*PreparedStatement stmt = getStatement(conn, updateOrderHoldingSQL);
 
         stmt.setInt(1, holdingID);
         stmt.setInt(2, orderID);
         stmt.executeUpdate();
-        stmt.close();
+        stmt.close();*/
     }
 
     private HoldingDataBean getHoldingDataFromResultSet(ResultSet rs) throws Exception {
@@ -1228,7 +1377,7 @@ public class PortfoliosService
      * Lookup the TradeData datasource
      */
     private void getDataSource() throws Exception {
-        datasource = (DataSource) context.lookup(dsName);
+        //datasource = (DataSource) context.lookup(dsName);
     }
 
     /*
@@ -1393,9 +1542,9 @@ public class PortfoliosService
 
         try {
             context = new InitialContext();
-            datasource = (DataSource) context.lookup(dsName);
+           // datasource = (DataSource) context.lookup(dsName);
         } catch (Exception e) {
-        	Log.error("PortfoliosService:init() - error on JNDI lookup of " + dsName + " -- PortfoliosService will not work",e);
+        	//Log.error("PortfoliosService:init() - error on JNDI lookup of " + dsName + " -- PortfoliosService will not work",e);
             return;
         }
         TradeConfig.setPublishQuotePriceChange(false);

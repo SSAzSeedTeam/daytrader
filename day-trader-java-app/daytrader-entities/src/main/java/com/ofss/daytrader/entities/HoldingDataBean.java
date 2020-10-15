@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,18 +32,21 @@ import org.springframework.stereotype.Component;
 
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
-
+@Entity
+@Table(name="holdingejb",
+	indexes = {@Index(name = "HOLDING_ACCOUNTID", columnList = "account_accountid")})
 @Component
 public class HoldingDataBean implements Serializable {
 
     /* persistent/relationship fields */
 	@Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Integer holdingID;              /* holdingID */
     private double quantity;                /* quantity */
     private BigDecimal purchasePrice;       /* purchasePrice */
     private Date purchaseDate;              /* purchaseDate */
     private String quoteID;                 /* Holding(*)  ---> Quote(1) */
+    @Column(name="account_accountid")
     private Integer accountID;				/* Account id*/
     
 // moved unused field into the user aggregate 

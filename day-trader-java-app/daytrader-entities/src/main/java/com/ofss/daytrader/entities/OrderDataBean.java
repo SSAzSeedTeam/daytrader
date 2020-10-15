@@ -20,6 +20,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 import com.ofss.daytrader.utils.Log;
@@ -27,8 +35,15 @@ import com.ofss.daytrader.utils.TradeConfig;
 
 @SuppressWarnings("serial")
 @Component
+@Entity
+@Table(name="orderejb",
+	indexes = {@Index(name = "ORDER_ACCOUNTID", columnList = "account_accountid"),
+				@Index(name = "ORDER_HOLDINGID", columnList = "holding_holdingid"),
+				@Index(name = "CLOSED_ORDERS", columnList = "account_accountid,orderStatus")})
 public class OrderDataBean implements Serializable
 {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Integer orderID;            /* orderID */
     private String orderType;           /* orderType (buy, sell, etc.) */
     private String orderStatus;         /* orderStatus (open, processing, completed, closed, cancelled) */
@@ -37,9 +52,13 @@ public class OrderDataBean implements Serializable
     private double quantity;            /* quantity */
     private BigDecimal price;                /* price */
     private BigDecimal orderFee;            /* price */
+    @Column(name="quote_symbol")
     private String symbol;
+    @Column(name="account_accountid")
     private Integer accountID;        /* accountID */
+    @Column(name="holding_holdingid")
     private Integer holdingID;  /* holdingID */
+ 
     
 // removed unused field
 //    private AccountDataBean account;  /* account */
@@ -279,6 +298,8 @@ public class OrderDataBean implements Serializable
 	public void setHoldingID(Integer holdingID) {
 	  	this.holdingID = holdingID;
 	}
+	
+	
 
 //	Removed unused methods 
 //
@@ -305,7 +326,8 @@ public class OrderDataBean implements Serializable
 //        this.holding = holding;
 //    }
 
-    public boolean isBuy()
+
+	public boolean isBuy()
     {
         String orderType = getOrderType();
         if ( orderType.compareToIgnoreCase("buy") == 0 )

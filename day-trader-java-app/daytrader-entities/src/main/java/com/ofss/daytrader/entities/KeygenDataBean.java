@@ -6,12 +6,14 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name="keygenejb")
 public class KeygenDataBean {
 
-	private Integer keyval;
 	@Id
 	private String keyname;
+	private Integer keyval;
+	
 	
 	public Integer getKeyval() {
 		return keyval;

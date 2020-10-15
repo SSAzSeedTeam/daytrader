@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
 import javax.ws.rs.NotAuthorizedException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // Spring
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,7 +73,10 @@ import com.ofss.daytrader.entities.AccountProfileDataBean;
 @RestController
 public class AccountsController
 {
-	private static AccountsService accountsService = new AccountsService();
+	//private static AccountsService accountsService = new AccountsService();
+	
+	@Autowired
+	AccountsService accountsService;
 
 	//
 	// Account Related Endpoints
@@ -184,8 +188,7 @@ public class AccountsController
 		try
 		{
 			accountData = accountsService.getAccountData(userId);
-	    	System.out.println("accountData ="+accountData );
-			double exchangeRate = 0.0d;//accountsService.getExchangeRateData("INR");
+			double exchangeRate = accountsService.getExchangeRateData("INR");
 			accountData.setExchangeRate(exchangeRate);
 	    	System.out.println("accountData ="+accountData );
 			if (accountData != null) 
@@ -301,7 +304,7 @@ public class AccountsController
 		Boolean result = false;		
 		try
 		{
-			result = accountsService.recreateDBTables();
+			//result = accountsService.recreateDBTables();
 			Log.traceExit("AccountsController.recreateDBTables()");
 			return new ResponseEntity<Boolean>(result, getNoCacheHeaders(), HttpStatus.CREATED);
 		}
