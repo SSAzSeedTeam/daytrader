@@ -113,7 +113,6 @@ services:
 
     depends_on:
       - daytrader-gateway
-      - daytrader-trade-common
       
   daytrader-trade-producer:
     image: azseed/daytrader-trade-producer:1.0
@@ -126,4 +125,3 @@ services:
 
     depends_on:
       - daytrader-gateway
-      - daytrader-trade-common
