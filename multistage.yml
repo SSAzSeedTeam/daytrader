@@ -1,5 +1,10 @@
 trigger: none
 
+variables:
+- name: docker_tag
+  value: 1.7
+
+
 stages:
 - stage: JavaBuild
   jobs:
@@ -36,14 +41,15 @@ stages:
     #    specificBuildWithTriggering: true
     #    buildVersionToDownload: 'latest'
     #    targetPath: '$(Pipeline.Workspace)'
+    - script: mkdir -p $(Pipeline.Workspace)/Java_Build_Artifact
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
         artifactName: 'Java_Build_Artifact'
-        targetPath: '$(Pipeline.Workspace)'
+        targetPath: '$(Pipeline.Workspace)/Java_Build_Artifact'
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(Pipeline.Workspace)'
+        SourceFolder: '$(Pipeline.Workspace)/Java_Build_Artifact'
         Contents: '**'
         TargetFolder: '$(system.defaultworkingdirectory)'
     
@@ -54,7 +60,7 @@ stages:
         repository: 'azseed / daytrader-accounts'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-accounts/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-gateway'
@@ -63,7 +69,7 @@ stages:
         repository: 'azseed / daytrader-gateway'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-gateway/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-portfolios'
@@ -72,7 +78,7 @@ stages:
         repository: 'azseed / daytrader-portfolios'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-portfolios/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-quotes'
@@ -81,7 +87,7 @@ stages:
         repository: 'azseed / daytrader-quotes'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-quotes/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-web'
@@ -90,7 +96,7 @@ stages:
         repository: 'azseed / daytrader-web'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-web/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-report-generator'
@@ -99,7 +105,7 @@ stages:
         repository: 'azseed / daytrader-report-generator'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-report-generator/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
       displayName: 'daytrader-onprem-exchange-rate'
@@ -108,7 +114,43 @@ stages:
         repository: 'azseed / daytrader-onprem-exchange-rate'
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
-        tags: '15'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-consumer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-consumer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-producer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-producer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-react-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-react-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_npm_start'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-react-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-react-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
 
 - stage: AKS_Deploy
   jobs:
@@ -130,7 +172,7 @@ stages:
             displayName: 'daytrader-accounts-deployment-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/accounts/deployment.yaml'
               secretType: 'dockerRegistry'
@@ -139,7 +181,7 @@ stages:
             displayName: 'daytrader-accounts-service-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/accounts/service.yaml'
           
@@ -147,7 +189,7 @@ stages:
             displayName: 'daytrader-gateway-deployment-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/gateway/deployment.yaml'
           
@@ -155,7 +197,7 @@ stages:
             displayName: 'daytrader-gateway-service-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/gateway/service.yaml'
           
@@ -163,7 +205,7 @@ stages:
             displayName: 'daytrader-portfolios-deployment-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/portfolios/deployment.yaml'
           
@@ -171,7 +213,7 @@ stages:
             displayName: 'daytrader-portfolios-service-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/portfolios/service.yaml'
           
@@ -179,7 +221,7 @@ stages:
             displayName: 'daytrader-quotes-deployment-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/quotes/deployment.yaml'
           
@@ -187,7 +229,7 @@ stages:
             displayName: 'daytrader-quotes-service-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/quotes/service.yaml'
           
@@ -195,7 +237,7 @@ stages:
             displayName: 'daytrader-web-deployment-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/web/deployment.yaml'
           
@@ -203,14 +245,14 @@ stages:
             displayName: 'daytrader-web-service-k8s'
             inputs:
               connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
               command: 'apply'
               arguments: '-f daytrader/kubernetes-manifests/web/service.yaml'
           
           #- task: Kubernetes@1
           #  inputs:
           #    connectionType: 'Kubernetes Service Connection'
-          #    kubernetesServiceEndpoint: 'daytrader-cluster-srv-conn'
+          #    kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
           #    command: 'apply'
           #    arguments: '-f daytrader/kubernetes-manifests/ingress/ingress.yaml'
           #    secretType: 'dockerRegistry'

@@ -156,7 +156,7 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <scope>compile</scope>
-            <version>3.2.1</version>
+            <version>3.2.2</version>
         </dependency>       
 
 		<!-- REST Client Dependencies -->
@@ -190,7 +190,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.2</version>
+                        <version>4.13.1</version>
 		</dependency>
 
     </dependencies>

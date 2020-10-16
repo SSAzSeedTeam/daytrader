@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 public class AccountDataBean implements Serializable {
 
 	@Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer accountID;              /* accountID */
     private int loginCount;                 /* loginCount */
     private int logoutCount;                /* logoutCount */

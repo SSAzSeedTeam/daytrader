@@ -1,0 +1,173 @@
+trigger: none
+
+variables:
+- name: docker_tag
+  value: 0
+
+
+stages:
+- stage: JavaBuild
+  jobs:
+  - job: JavaBuild
+    pool:
+      vmImage: 'Ubuntu-latest'
+      demands: maven
+    continueOnError: false
+    steps:
+    - task: Maven@3
+      displayName: 'Java Build'
+      inputs:
+       mavenPomFile: 'day-trader-java-app/pom.xml'
+       publishJUnitResults: false
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(system.defaultworkingdirectory)'
+        artifact: 'Java_Build_Artifact'
+        publishLocation: 'pipeline'
+
+
+- stage: Docker_Build_and_Push
+  jobs:
+  - job: Docker_Build_and_Push
+    pool:
+      vmImage: 'Ubuntu-latest'
+    continueOnError: false
+    steps:
+    #- task: DownloadPipelineArtifact@2
+    #  inputs:
+    #    buildType: 'specific'
+    #    project: '3d034576-aa51-4760-88fd-3fe8617a5399'
+    #    definition: '9'
+    #    specificBuildWithTriggering: true
+    #    buildVersionToDownload: 'latest'
+    #    targetPath: '$(Pipeline.Workspace)'
+    - script: mkdir -p $(Pipeline.Workspace)/Java_Build_Artifact
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'Java_Build_Artifact'
+        targetPath: '$(Pipeline.Workspace)/Java_Build_Artifact'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Pipeline.Workspace)/Java_Build_Artifact'
+        Contents: '**'
+        TargetFolder: '$(system.defaultworkingdirectory)'
+    
+    - task: Docker@2
+      displayName: 'daytrader-accounts'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-accounts'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-accounts/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+    
+    - task: Docker@2
+      displayName: 'daytrader-gateway'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-gateway'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-gateway/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+    
+    - task: Docker@2
+      displayName: 'daytrader-portfolios'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-portfolios'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-portfolios/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+    
+    - task: Docker@2
+      displayName: 'daytrader-quotes'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-quotes'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-quotes/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+    
+    - task: Docker@2
+      displayName: 'daytrader-web'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+    
+    - task: Docker@2
+      displayName: 'daytrader-report-generator'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-report-generator'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-report-generator/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-onprem-exchange-rate'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-onprem-exchange-rate'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-consumer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-consumer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-producer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-producer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-consumer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-consumer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-trade-producer'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-trade-producer'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-react-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-react-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_npm_start'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-react-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-react-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+

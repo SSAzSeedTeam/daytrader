@@ -7,11 +7,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,7 +19,7 @@ public interface AccountsRepository extends JpaRepository<AccountDataBean,Intege
 	
 	@SuppressWarnings("unchecked")
 	public AccountDataBean save(AccountDataBean accountData);
-
+	
 	@Query(value="select * from accountejb a where a.profile_userid =?1", nativeQuery=true)
 	public AccountDataBean findAccountDataByprofileID(String profile_userid);
 	

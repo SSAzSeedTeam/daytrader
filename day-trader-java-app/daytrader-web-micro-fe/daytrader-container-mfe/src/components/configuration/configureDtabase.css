@@ -1,0 +1,92 @@
+.rc-top-container {
+  width: 80%;
+  margin: auto;
+  padding: 100px 0 0;
+  background-color: white;
+}
+
+.rc-top-container div {
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.recreate-table-data-container {
+  width: 80%;
+  margin: auto;
+  background-color: white;
+}
+
+.recreate-table-data-container table {
+  width: 100%;
+}
+
+.main-heading-table {
+  border: 1px solid #f1f1f1;
+}
+
+.main-heading-table tr th {
+  padding: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.current-day-trader-heading {
+  margin: 15px 0;
+  font-size: 16px;
+  color: #cc3f3f;
+}
+.recreate-table-data-container table .table-header td:first-child {
+  background-color: #cc3f3f;
+  color: #fff;
+  width: 80%;
+  padding: 10px;
+}
+
+.recreate-table-data-container table .table-header td:last-child {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+.recreate-table-data-container .recreate-config-table {
+  border: 1px solid #f1f1f1;
+  margin-top: 20px;
+}
+
+.recreate-table-data-container .recreate-config-table tr td {
+  border-bottom: 1px solid #f1f1f1;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.recreate-table-data-container .recreate-config-table tr td:first-child {
+  border-right: 1px solid #f1f1f1;
+  width: 25%;
+}
+
+.recreate-table-data-container .recreate-config-table tr:last-child td {
+  border-bottom: none;
+}
+
+.recreate-table-data-container .recreate-config-table-two {
+  border: 1px solid #f1f1f1;
+  margin-top: 20px;
+}
+
+.recreate-table-data-container .recreate-config-table-two tr td {
+  border-bottom: 1px solid #f1f1f1;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.recreate-table-data-container .recreate-config-table-two tr td:first-child {
+  border-right: 1px solid #f1f1f1;
+  width: 55%;
+}
+
+.recreate-table-data-container .recreate-config-table-two tr:last-child td {
+  border-bottom: none;
+}

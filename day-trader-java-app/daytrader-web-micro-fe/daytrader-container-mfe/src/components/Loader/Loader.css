@@ -1,0 +1,16 @@
+.app-loader-conatiner .app-loader-overlay {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.app-loader-conatiner .app-loader-overlay img {
+    max-width: 40px;
+}

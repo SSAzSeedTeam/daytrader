@@ -1,0 +1,56 @@
+.configuration-app-container .configuration-content {
+    width: 80%;
+    margin: auto;
+    padding: 100px 0;
+}
+
+.config-util-suite-table tr.table-header th {
+    background-color: #cc3f3f;
+    color: #fff;
+}
+
+.config-util-suite-table tr th {
+    padding: 10px;
+    font-size: 18px;
+    line-height: 22px;
+    border: 1px solid #f1f1f1;
+}
+
+
+.config-util-suite-table tr.table-second-header th {
+    font-size: 15px;
+}
+
+.config-util-suite-table tr td {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 22px;
+    border-bottom: 1px solid #f1f1f1;
+    border-left: 1px solid #f1f1f1;
+}
+
+.config-util-suite-table tr td:first-child {
+    text-align: center;
+    width: 200px;
+}
+
+.config-util-suite-table tr td:first-child a {
+    text-decoration: underline; cursor: pointer;
+    /* color:rgb(0,0,238); */
+    color: #333;
+}
+.config-util-suite-table tr td:last-child {
+    border-right: 1px solid #f1f1f1;
+}
+
+.config-content-container {
+    max-width: 85%;
+    margin: auto;
+    padding-top: 100px;
+}
+
+.config-content-container .content {
+    font-size: 16px;
+    word-break: break-all;
+    line-height: 28px;
+}

@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -51,8 +50,5 @@ public interface AccountsRepository extends JpaRepository<AccountDataBean,Intege
 	 @Modifying(flushAutomatically = true, clearAutomatically = true)
 	 @Query(value="update accountejb set last_login=?1, login_count=login_count+1 where profile_userid=?2", nativeQuery=true)
 	 public void loginUpdate(Timestamp lastLogin, String userid);
-	 
-	 
-	 
 
 }

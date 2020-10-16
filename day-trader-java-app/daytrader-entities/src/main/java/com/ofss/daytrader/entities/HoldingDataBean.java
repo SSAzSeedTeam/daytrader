@@ -35,7 +35,6 @@ import com.ofss.daytrader.utils.TradeConfig;
 @Entity
 @Table(name="holdingejb",
 	indexes = {@Index(name = "HOLDING_ACCOUNTID", columnList = "account_accountid")})
-@Component
 public class HoldingDataBean implements Serializable {
 
     /* persistent/relationship fields */

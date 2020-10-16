@@ -28,13 +28,12 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
+
 
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
 @SuppressWarnings("serial")
-@Component
 @Entity
 @Table(name="orderejb",
 	indexes = {@Index(name = "ORDER_ACCOUNTID", columnList = "account_accountid"),
@@ -43,7 +42,7 @@ import com.ofss.daytrader.utils.TradeConfig;
 public class OrderDataBean implements Serializable
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.AUTO)
     private Integer orderID;            /* orderID */
     private String orderType;           /* orderType (buy, sell, etc.) */
     private String orderStatus;         /* orderStatus (open, processing, completed, closed, cancelled) */

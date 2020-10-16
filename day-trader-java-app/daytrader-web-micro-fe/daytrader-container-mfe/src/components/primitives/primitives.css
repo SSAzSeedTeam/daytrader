@@ -1,0 +1,60 @@
+.primitive-app-container .primitive-content {
+    width: 80%;
+    margin: auto;
+    padding: 100px 0;
+}
+
+.primitive-app-container .primitive-content  h4.heading {
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 10px;
+}
+
+.test-suite-table {
+    width: 100%;
+}
+
+.test-suite-table tr th {
+    width: 100%;
+    text-align: center;
+    background-color: #cc3f3f;
+    padding: 10px;
+    color: #fff;
+}
+
+.test-suite-table tr td {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 22px;
+    border: 1px solid #f1f1f1;
+}
+
+.container-ping-suite-table {
+    width: 100%;
+}
+
+.container-ping-suite-table tr th {
+    width: 100%;
+    text-align: center;
+    background-color: #cc3f3f;
+    padding: 10px;
+    color: #fff;
+}
+
+.container-ping-suite-table tr td {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 22px;
+    border-bottom: 1px solid #f1f1f1;
+    border-left: 1px solid #f1f1f1;
+}
+
+.container-ping-suite-table tr td:first-child {
+    text-align: center;
+}
+
+.container-ping-suite-table tr td:first-child a {
+    text-decoration: underline; cursor: pointer;
+}
+.container-ping-suite-table tr td:last-child {
+    border-right: 1px solid #f1f1f1;
+}

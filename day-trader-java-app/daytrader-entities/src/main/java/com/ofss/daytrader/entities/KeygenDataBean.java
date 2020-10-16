@@ -14,7 +14,6 @@ public class KeygenDataBean {
 	private String keyname;
 	private Integer keyval;
 	
-	
 	public Integer getKeyval() {
 		return keyval;
 	}
