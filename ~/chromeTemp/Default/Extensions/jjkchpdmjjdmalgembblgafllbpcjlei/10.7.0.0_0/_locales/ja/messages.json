@@ -1,0 +1,755 @@
+{
+   "res_100": {
+      "message": "ja_JP"
+   },
+   "res_1000": {
+      "message": "http://www.siteadvisor.com/restricted.html?domain=%s&originalURL=%s"
+   },
+   "res_1001": {
+      "message": "http://www.siteadvisor.com/phishing.html?domain=%s&originalURL=%s"
+   },
+   "res_101": {
+      "message": "ja-JP"
+   },
+   "res_102": {
+      "message": "jp"
+   },
+   "res_11010": {
+      "message": "安全検索"
+   },
+   "res_1102": {
+      "message": "http://www.siteadvisor.com/support/index.html"
+   },
+   "res_1107": {
+      "message": "https://home.mcafee.com/Store/PackageDetail.aspx?pkgid=284&culture=%s"
+   },
+   "res_1110": {
+      "message": "https://home.mcafee.com/Store/PackageDetail.aspx?pkgid=284&culture=%s"
+   },
+   "res_1116": {
+      "message": "http://www.ebates.com/mcafee/index.htm"
+   },
+   "res_113": {
+      "message": "サイトレポートを表示"
+   },
+   "res_114": {
+      "message": "オプション..."
+   },
+   "res_120": {
+      "message": "ヘルプ"
+   },
+   "res_12001": {
+      "message": "芸術/文化/歴史"
+   },
+   "res_12002": {
+      "message": "アルコール"
+   },
+   "res_12003": {
+      "message": "覆面サイト"
+   },
+   "res_12004": {
+      "message": "匿名ツール"
+   },
+   "res_12005": {
+      "message": "ビジネス"
+   },
+   "res_12006": {
+      "message": "チャット"
+   },
+   "res_12007": {
+      "message": "公開情報"
+   },
+   "res_12008": {
+      "message": "犯罪活動の可能性"
+   },
+   "res_12009": {
+      "message": "ドラッグ"
+   },
+   "res_12010": {
+      "message": "教育/リファレンス"
+   },
+   "res_12011": {
+      "message": "娯楽"
+   },
+   "res_12012": {
+      "message": "過激"
+   },
+   "res_12013": {
+      "message": "金融/銀行"
+   },
+   "res_12014": {
+      "message": "ギャンブル"
+   },
+   "res_12015": {
+      "message": "ゲーム"
+   },
+   "res_12016": {
+      "message": "政府/軍隊"
+   },
+   "res_12017": {
+      "message": "ハッキング/コンピュータ犯罪の可能性"
+   },
+   "res_12018": {
+      "message": "健康"
+   },
+   "res_12019": {
+      "message": "ユーモア/コミック"
+   },
+   "res_12020": {
+      "message": "差別的な表現"
+   },
+   "res_12021": {
+      "message": "インスタント メッセージ"
+   },
+   "res_12022": {
+      "message": "株式取引"
+   },
+   "res_12023": {
+      "message": "インターネット ラジオ/テレビ"
+   },
+   "res_12024": {
+      "message": "求人"
+   },
+   "res_12025": {
+      "message": "情報の保全"
+   },
+   "res_12026": {
+      "message": "出会い系/ソーシャル ネットワーキング"
+   },
+   "res_12027": {
+      "message": "携帯電話"
+   },
+   "res_12028": {
+      "message": "メディアのダウンロード"
+   },
+   "res_12029": {
+      "message": "悪質なサイト"
+   },
+   "res_12031": {
+      "message": "ヌード"
+   },
+   "res_12032": {
+      "message": "非営利団体/権利擁護団体/NGO"
+   },
+   "res_12033": {
+      "message": "ニュース"
+   },
+   "res_12034": {
+      "message": "オンライン ショッピング"
+   },
+   "res_12035": {
+      "message": "挑発的な服装"
+   },
+   "res_12036": {
+      "message": "P2P/ファイル共有"
+   },
+   "res_12037": {
+      "message": "政治/意見"
+   },
+   "res_12038": {
+      "message": "個人のページ"
+   },
+   "res_12039": {
+      "message": "ポータル サイト"
+   },
+   "res_12040": {
+      "message": "リモート アクセス"
+   },
+   "res_12041": {
+      "message": "宗教/思想"
+   },
+   "res_12042": {
+      "message": "リソース共有"
+   },
+   "res_12043": {
+      "message": "検索エンジン"
+   },
+   "res_12044": {
+      "message": "スポーツ"
+   },
+   "res_12045": {
+      "message": "ストリーミング メディア"
+   },
+   "res_12046": {
+      "message": "シェアウェア/フリーウェア"
+   },
+   "res_12047": {
+      "message": "ポルノ"
+   },
+   "res_12048": {
+      "message": "スパイウェア/アドウェア/キーロガー"
+   },
+   "res_12049": {
+      "message": "タバコ"
+   },
+   "res_12050": {
+      "message": "旅行"
+   },
+   "res_12051": {
+      "message": "暴力"
+   },
+   "res_12052": {
+      "message": "Web 広告"
+   },
+   "res_12053": {
+      "message": "武器"
+   },
+   "res_12054": {
+      "message": "Web メール"
+   },
+   "res_12055": {
+      "message": "Web 電話"
+   },
+   "res_12056": {
+      "message": "オークション/求人広告"
+   },
+   "res_12057": {
+      "message": "フォーラム/掲示板"
+   },
+   "res_12058": {
+      "message": "冒涜"
+   },
+   "res_12059": {
+      "message": "カンニング情報"
+   },
+   "res_12060": {
+      "message": "性的な内容"
+   },
+   "res_12061": {
+      "message": "グロテスクな内容"
+   },
+   "res_12062": {
+      "message": "ビジュアル検索エンジン"
+   },
+   "res_12063": {
+      "message": "テクニカル/ビジネス フォーラム"
+   },
+   "res_12064": {
+      "message": "ギャンブル関連"
+   },
+   "res_12065": {
+      "message": "メッセージング"
+   },
+   "res_12066": {
+      "message": "暴力的なゲーム/漫画"
+   },
+   "res_12067": {
+      "message": "フィッシング詐欺"
+   },
+   "res_12068": {
+      "message": "個人のネットワーク ストレージ"
+   },
+   "res_12069": {
+      "message": "スパム URL"
+   },
+   "res_12070": {
+      "message": "対話型 Web アプリケーション"
+   },
+   "res_12071": {
+      "message": "ファッション/美容"
+   },
+   "res_12072": {
+      "message": "ソフトウェア/ハードウェア"
+   },
+   "res_12073": {
+      "message": "不正なソフトウェアの可能性"
+   },
+   "res_12074": {
+      "message": "コンテンツ サーバ"
+   },
+   "res_12075": {
+      "message": "インターネット サービス"
+   },
+   "res_12076": {
+      "message": "メディアの共有"
+   },
+   "res_12077": {
+      "message": "偶発的に表示されたヌード"
+   },
+   "res_12078": {
+      "message": "マーケティング/販売活動"
+   },
+   "res_12079": {
+      "message": "保留ドメイン"
+   },
+   "res_12080": {
+      "message": "薬局"
+   },
+   "res_12081": {
+      "message": "レストラン"
+   },
+   "res_12082": {
+      "message": "不動産"
+   },
+   "res_12083": {
+      "message": "レクリエーション/趣味"
+   },
+   "res_12084": {
+      "message": "ブログ/Wiki"
+   },
+   "res_12085": {
+      "message": "デジタル ポストカード"
+   },
+   "res_12086": {
+      "message": "履歴の修正"
+   },
+   "res_12087": {
+      "message": "技術情報"
+   },
+   "res_12088": {
+      "message": "デート/個人"
+   },
+   "res_12089": {
+      "message": "自動車"
+   },
+   "res_12090": {
+      "message": "プロフェッショナル ネットワーキング"
+   },
+   "res_12091": {
+      "message": "ソーシャル ネットワーキング"
+   },
+   "res_12092": {
+      "message": "テキスト翻訳"
+   },
+   "res_12093": {
+      "message": "Web 会議"
+   },
+   "res_12094": {
+      "message": "子供向け"
+   },
+   "res_12095": {
+      "message": "履歴"
+   },
+   "res_12096": {
+      "message": "管理された議論"
+   },
+   "res_12097": {
+      "message": "テキスト/音声のみ"
+   },
+   "res_12098": {
+      "message": "ブラウザ攻撃"
+   },
+   "res_12099": {
+      "message": "消費者保護"
+   },
+   "res_121": {
+      "message": "バージョン情報"
+   },
+   "res_12100": {
+      "message": "物議を醸す意見"
+   },
+   "res_12101": {
+      "message": "不正な UK"
+   },
+   "res_12102": {
+      "message": "主なグローバル領域"
+   },
+   "res_12103": {
+      "message": "不正なダウンロード"
+   },
+   "res_12104": {
+      "message": "不審なプログラム"
+   },
+   "res_12105": {
+      "message": "住宅の IP アドレス"
+   },
+   "res_122": {
+      "message": "このサイトのキャッシュ バックを表示する"
+   },
+   "res_123": {
+      "message": "安全サイトでのショッピング特典に進む"
+   },
+   "res_125": {
+      "message": "[%SITEADVISORPLUS%] へのアップグレード"
+   },
+   "res_127": {
+      "message": "今すぐ登録する"
+   },
+   "res_129": {
+      "message": "Yahoo! ツールバーから切り離す"
+   },
+   "res_133": {
+      "message": "サブスクリプションの同期"
+   },
+   "res_140": {
+      "message": "[%SITEADVISORPLUS%] へのアップグレード"
+   },
+   "res_141": {
+      "message": "今すぐ購入"
+   },
+   "res_14100": {
+      "message": "ビジネス、仕事、金融"
+   },
+   "res_14101": {
+      "message": "アルコール、タバコ、薬"
+   },
+   "res_14102": {
+      "message": "娯楽/文化"
+   },
+   "res_14103": {
+      "message": "ゲーム"
+   },
+   "res_14104": {
+      "message": "情報技術"
+   },
+   "res_14105": {
+      "message": "検索、教育、コミュニケーション"
+   },
+   "res_14106": {
+      "message": "ライフスタイル"
+   },
+   "res_14107": {
+      "message": "成人向け"
+   },
+   "res_14108": {
+      "message": "成人向け"
+   },
+   "res_14109": {
+      "message": "ショッピングと e コマース"
+   },
+   "res_14110": {
+      "message": "危険"
+   },
+   "res_14111": {
+      "message": "ニュースと視点"
+   },
+   "res_166": {
+      "message": "サイトレポートを読む"
+   },
+   "res_170": {
+      "message": "バージョン"
+   },
+   "res_171": {
+      "message": "言語"
+   },
+   "res_172": {
+      "message": "ビルド"
+   },
+   "res_173": {
+      "message": "最終更新"
+   },
+   "res_20008": {
+      "message": "このリンクはまだ評価されていません"
+   },
+   "res_20009": {
+      "message": "これは不審なリンクです"
+   },
+   "res_20010": {
+      "message": "これは安全なリンクです"
+   },
+   "res_20017": {
+      "message": "[%COMPANY%] [%SITEADVISOR%] の警告"
+   },
+   "res_20018": {
+      "message": "この E メールメッセージには、次のサイトに対する危険なリンクが含まれている可能性があります:"
+   },
+   "res_20022": {
+      "message": "詳細..."
+   },
+   "res_20028": {
+      "message": "[%COMPANY%] [%SITEADVISOR%] 安全検索の設定により、このリンクは自動的にブロックされました。"
+   },
+   "res_20029": {
+      "message": "サイト コンテンツ:"
+   },
+   "res_20031": {
+      "message": "毎日テストしています"
+   },
+   "res_20033": {
+      "message": "これは危険なリンクです"
+   },
+   "res_20034": {
+      "message": "この McAfee SECURE サイトは、キャッシュ バックの対象になっている可能性があります。詳細については、サイトでご確認ください。"
+   },
+   "res_20040": {
+      "message": "テストの結果、このサイトの閲覧は危険であることが判明しました。"
+   },
+   "res_20041": {
+      "message": "テストの結果、このサイトは危険なサイトまたは不審なサイトであることが判明しました。このため、ページのコンテンツをブロックしました。サイトの安全性が確認できた場合にのみ、このコンテンツを閲覧してください。"
+   },
+   "res_20042": {
+      "message": "ブロックされたコンテンツをすべて表示する"
+   },
+   "res_20043": {
+      "message": "警告: 危険なサイト"
+   },
+   "res_207": {
+      "message": "マカフィー"
+   },
+   "res_208": {
+      "message": "サイトアドバイザー"
+   },
+   "res_209": {
+      "message": "ライブ"
+   },
+   "res_212": {
+      "message": "サイトアドバイザー ライブ"
+   },
+   "res_213": {
+      "message": "サイトアドバイザー\u003Csup style='font-size:90%'>&reg;\u003C/sup>&nbsp; ライブ"
+   },
+   "res_30006": {
+      "message": "マカフィー ウェブアドバイザー..."
+   },
+   "res_30007": {
+      "message": "サイトレポートを表示..."
+   },
+   "res_30009": {
+      "message": "マカフィー サイトアドバイザー ライブ..."
+   },
+   "res_30010": {
+      "message": "マカフィー ウェブアドバイザー"
+   },
+   "res_30011": {
+      "message": "マカフィー サイトアドバイザー ライブ"
+   },
+   "res_3302": {
+      "message": "ダウンロード元のサイトに不審なプログラムが存在する可能性があります。[%COMPANY%] の以前のテストで、このサイトから危険なダウンロードを検出しました。"
+   },
+   "res_3305": {
+      "message": "[%COMPANY%] の調査結果では、ダウンロードするファイルにウイルス、スパイウェア、他の不審なプログラムが潜んでいる可能性があります。 これらの脅威により、コンピューターが破壊されたり、個人情報が盗まれる可能性があります。"
+   },
+   "res_3306": {
+      "message": "[%COMPANY%] では、ダウンロードしたファイルからウイルス、スパイウェアなどの不審なプログラムを検出しました。これらのプログラムは、パソコンのハードディスクを損傷させたり、個人情報を盗み出す可能性があります。"
+   },
+   "res_3320": {
+      "message": "このダウンロードは危険です!"
+   },
+   "res_3321": {
+      "message": "生産性の低下を招く可能性があるダウンロードを検出しました。"
+   },
+   "res_3322": {
+      "message": "警告"
+   },
+   "res_4000": {
+      "message": "Yahoo! ツールバーから切り離しますか?この変更はやり直すことはできません。"
+   },
+   "res_4001": {
+      "message": "確認:ツールバーを切り離すことが選択されました。この変更を反映するには、ブラウザを再起動する必要があります。"
+   },
+   "res_4100": {
+      "message": "Web 検索"
+   },
+   "res_4101": {
+      "message": "Web 検索"
+   },
+   "res_4102": {
+      "message": "安全検索"
+   },
+   "res_ABOUT": {
+      "message": "バージョン情報"
+   },
+   "res_ABOUT_DESCRIPTION": {
+      "message": "{0} は、サイトの危険性を事前に通知します。"
+   },
+   "res_AVOID_DANGEROUS_LINKS": {
+      "message": "危険なリンクの回避"
+   },
+   "res_CHROME": {
+      "message": "Chrome"
+   },
+   "res_COMPANY_NAME": {
+      "message": "マカフィー"
+   },
+   "res_CREATE_SAFER_PASSWORDS": {
+      "message": "より安全なパスワードを作成する"
+   },
+   "res_DONT_TRUST": {
+      "message": "信用しない"
+   },
+   "res_DOWNLOADS_BLOCKED": {
+      "message": "ブロックした危険なダウンロード: {1}"
+   },
+   "res_DOWNLOADS_SCANNED": {
+      "message": "スキャンしたダウンロード: {1}"
+   },
+   "res_DOWNLOAD_CONFIDENTLY": {
+      "message": "安全にダウンロードする"
+   },
+   "res_FIREFOX": {
+      "message": "Firefox"
+   },
+   "res_GET_HELP_NOW": {
+      "message": "今すぐヘルプを利用する"
+   },
+   "res_GET_TECHNICAL_SUPPORT": {
+      "message": "ヘルプとテクニカル サポートを利用する"
+   },
+   "res_HELP": {
+      "message": "ヘルプ"
+   },
+   "res_HELP_EMAIL_US": {
+      "message": "電子メールで確認"
+   },
+   "res_HELP_FAQ_SECTION_FOUR_CONTENT": {
+      "message": "マカフィー ウェブアドバイザーに関するお問い合わせは、 マカフィー テクニカル サポートまでお問い合わせください。 {0}"
+   },
+   "res_HELP_FAQ_SECTION_FOUR_HEADER": {
+      "message": "ヘルプが必要です。 テクニカル サポートを利用する方法を教えてください。"
+   },
+   "res_HELP_FAQ_SECTION_ONE_CONTENT": {
+      "message": "{0} は、サイトの危険性を事前に通知します。"
+   },
+   "res_HELP_FAQ_SECTION_ONE_HEADER": {
+      "message": "{0} とは何ですか？"
+   },
+   "res_HELP_FAQ_SECTION_THREE_HEADER": {
+      "message": "使用している {0} のバージョン番号を確認する方法を教えてください。"
+   },
+   "res_HELP_FAQ_SECTION_TWO_CONTENT": {
+      "message": "または次のリンクを共有してください: {0}"
+   },
+   "res_HELP_FAQ_SECTION_TWO_HEADER": {
+      "message": "{0} の情報を共有する方法を教えてください。"
+   },
+   "res_HELP_FAQ_TITLE": {
+      "message": "よくある質問 (FAQ)"
+   },
+   "res_HELP_SUPPORT_TITLE": {
+      "message": "サポート"
+   },
+   "res_IE": {
+      "message": "Internet Explorer"
+   },
+   "res_LICENSE_AGREEMENT_URL": {
+      "message": "https://home.mcafee.com/supportpages/eula.aspx?culture=ja"
+   },
+   "res_OK": {
+      "message": "OK"
+   },
+   "res_PAGES_BLOCKED": {
+      "message": "ブロックした危険なページ: {1}"
+   },
+   "res_PAGES_SCANNED": {
+      "message": "スキャンしたページ数: {1}"
+   },
+   "res_POPUP_BACK": {
+      "message": "戻る"
+   },
+   "res_POPUP_CLEAR": {
+      "message": "クリア"
+   },
+   "res_POPUP_DONE_SO_FAR": {
+      "message": "これまでの保護状況:"
+   },
+   "res_POPUP_DONT_WARN_DESCRIPTION": {
+      "message": "特定のサイトについて警告を表示しない場合には、 ここに追加してください。"
+   },
+   "res_POPUP_ENTER_WEB_ADDRESS": {
+      "message": "Web アドレスを入力..."
+   },
+   "res_POPUP_GET_HELP": {
+      "message": "ヘルプを見る"
+   },
+   "res_POPUP_GET_HELP_URL": {
+      "message": "https://service.mcafee.com/webcenter/portal/cp/home"
+   },
+   "res_POPUP_ITEMS_BLOCKED": {
+      "message": "ブロックした危険なアイテム"
+   },
+   "res_POPUP_PAGES_BLOCKED": {
+      "message": "ブロックした危険なページ"
+   },
+   "res_POPUP_PAGES_SCANNED": {
+      "message": "スキャンしたページ数"
+   },
+   "res_POPUP_PURPOSE_DESCRIPTION": {
+      "message": "インターネットを安全に利用できるように保護しています。"
+   },
+   "res_POPUP_START_FRESH": {
+      "message": "リストを空にしますか？"
+   },
+   "res_POPUP_TERMS_AND_CONDITIONS": {
+      "message": "利用条件"
+   },
+   "res_POPUP_TERMS_AND_CONDITIONS_URL": {
+      "message": "https://home.mcafee.com/supportpages/eula.aspx"
+   },
+   "res_POPUP_VIEW_SITE_REPORT": {
+      "message": "サイト レポートを表示する"
+   },
+   "res_PRIVACY_NOTICE": {
+      "message": "プライバシー通知"
+   },
+   "res_PRIVACY_URL": {
+      "message": "http://www.mcafee.com/common/privacy/consumer/japanese/"
+   },
+   "res_PRODUCT_NAME": {
+      "message": "McAfee Endpoint Security Web 管理"
+   },
+   "res_PRODUCT_NAME_LIVE": {
+      "message": "マカフィー サイトアドバイザー ライブ"
+   },
+   "res_PRODUCT_NAME_TRADEMARKED": {
+      "message": "McAfee® Endpoint Security Web 管理"
+   },
+   "res_READ_PRIVACY_NOTICE": {
+      "message": "プライバシー通知を確認する"
+   },
+   "res_RESET": {
+      "message": "リセット"
+   },
+   "res_SETTINGS": {
+      "message": "設定"
+   },
+   "res_SETTINGS_DEFAULT_TRUSTED_TEXT": {
+      "message": "URL を貼り付けるか、入力してください"
+   },
+   "res_SETTINGS_MANAGE_TRUSTED": {
+      "message": "信用サイトを管理する"
+   },
+   "res_SETTINGS_PP_CAPTION": {
+      "message": "パスワードの安全性をチェックします"
+   },
+   "res_SETTINGS_PP_HEADER": {
+      "message": "パスワード保護"
+   },
+   "res_SETTINGS_RESET_CAPTION": {
+      "message": "{0} をリセットします"
+   },
+   "res_SETTINGS_RESET_DESCRIPTION": {
+      "message": "以前に無視した通知を再度表示できます。 リセット後、これまで表示されたすべての通知がブラウザー上に表示されます。"
+   },
+   "res_SETTINGS_RESET_HEADER": {
+      "message": "設定のリセット"
+   },
+   "res_SETTINGS_SS_CAPTION": {
+      "message": "ウェブを安全に閲覧する"
+   },
+   "res_SETTINGS_SS_HEADER": {
+      "message": "検索結果"
+   },
+   "res_SETTINGS_SS_OPTION_ALL": {
+      "message": "検索エンジンで検索結果が安全かどうか通知する"
+   },
+   "res_SETTINGS_SS_OPTION_NONE": {
+      "message": "検索結果の安全性を通知しない"
+   },
+   "res_SETTINGS_SS_OPTION_SS": {
+      "message": "安全な検索でのみ検索結果が安全かどうか通知する"
+   },
+   "res_SETTINGS_TRUSTED_SITES": {
+      "message": "信用するサイト"
+   },
+   "res_STAT_HEADER": {
+      "message": "これまでのアクティビティの一部を表示します:"
+   },
+   "res_TAKE_PRIVACY_SERIOUSLY": {
+      "message": "{0} は、お客様のプライバシーを第一に考えています。 {1} をご覧ください。"
+   },
+   "res_TRUST_SITE": {
+      "message": "サイトを信用する"
+   },
+   "res_VERSION": {
+      "message": "バージョン"
+   },
+   "res_WEBADVISOR": {
+      "message": "ウェブアドバイザー"
+   },
+   "res_YOUR_PROTECTED": {
+      "message": "パスワードを保護し、アイデンティティ盗難を阻止しました"
+   },
+   "res_menuid1": {
+      "message": "テスト"
+   }
+}

@@ -1,0 +1,755 @@
+{
+   "res_100": {
+      "message": "pt_BR"
+   },
+   "res_1000": {
+      "message": "http://www.siteadvisor.com/restricted.html?domain=%s&originalURL=%s"
+   },
+   "res_1001": {
+      "message": "http://www.siteadvisor.com/phishing.html?domain=%s&originalURL=%s"
+   },
+   "res_101": {
+      "message": "pt-BR"
+   },
+   "res_102": {
+      "message": "pt-br"
+   },
+   "res_11010": {
+      "message": "Pesquisa segura"
+   },
+   "res_1102": {
+      "message": "http://www.siteadvisor.com/support/index.html"
+   },
+   "res_1107": {
+      "message": "https://home.mcafee.com/Store/PackageDetail.aspx?pkgid=284&culture=%s"
+   },
+   "res_1110": {
+      "message": "https://home.mcafee.com/Store/PackageDetail.aspx?pkgid=284&culture=%s"
+   },
+   "res_1116": {
+      "message": "http://www.ebates.com/mcafee/index.htm"
+   },
+   "res_113": {
+      "message": "Exibir relatório de site"
+   },
+   "res_114": {
+      "message": "Opções..."
+   },
+   "res_120": {
+      "message": "Ajuda"
+   },
+   "res_12001": {
+      "message": "Arte/Cultura/Patrimônio"
+   },
+   "res_12002": {
+      "message": "Álcool"
+   },
+   "res_12003": {
+      "message": "Anonimato"
+   },
+   "res_12004": {
+      "message": "Utilitários para anonimato"
+   },
+   "res_12005": {
+      "message": "Negócios"
+   },
+   "res_12006": {
+      "message": "Bate-papo"
+   },
+   "res_12007": {
+      "message": "Informações públicas"
+   },
+   "res_12008": {
+      "message": "Possíveis atividades criminosas"
+   },
+   "res_12009": {
+      "message": "Drogas"
+   },
+   "res_12010": {
+      "message": "Educação/Referência"
+   },
+   "res_12011": {
+      "message": "Entretenimento"
+   },
+   "res_12012": {
+      "message": "Extremo"
+   },
+   "res_12013": {
+      "message": "Finanças/Bancos"
+   },
+   "res_12014": {
+      "message": "Jogos de azar"
+   },
+   "res_12015": {
+      "message": "Jogos"
+   },
+   "res_12016": {
+      "message": "Governo/Militar"
+   },
+   "res_12017": {
+      "message": "Possíveis invasões de hacker/Crimes cibernéticos"
+   },
+   "res_12018": {
+      "message": "Saúde"
+   },
+   "res_12019": {
+      "message": "Humor/Quadrinhos"
+   },
+   "res_12020": {
+      "message": "Discriminação"
+   },
+   "res_12021": {
+      "message": "Mensagens instantâneas"
+   },
+   "res_12022": {
+      "message": "Mercado de ações"
+   },
+   "res_12023": {
+      "message": "Rádio/TV pela Internet"
+   },
+   "res_12024": {
+      "message": "Pesquisa de empregos"
+   },
+   "res_12025": {
+      "message": "Segurança da informação"
+   },
+   "res_12026": {
+      "message": "Encontros/Redes sociais"
+   },
+   "res_12027": {
+      "message": "Celular"
+   },
+   "res_12028": {
+      "message": "Downloads de mídia"
+   },
+   "res_12029": {
+      "message": "Sites maliciosos"
+   },
+   "res_12031": {
+      "message": "Nudez"
+   },
+   "res_12032": {
+      "message": "Organizações não governamentais/sem fins lucrativos/beneficientes"
+   },
+   "res_12033": {
+      "message": "Notícias gerais"
+   },
+   "res_12034": {
+      "message": "Compras on-line"
+   },
+   "res_12035": {
+      "message": "Roupas provocantes"
+   },
+   "res_12036": {
+      "message": "P2P/Compartilhamento de arquivos"
+   },
+   "res_12037": {
+      "message": "Política/Opinião"
+   },
+   "res_12038": {
+      "message": "Páginas pessoais"
+   },
+   "res_12039": {
+      "message": "Portais"
+   },
+   "res_12040": {
+      "message": "Acesso remoto"
+   },
+   "res_12041": {
+      "message": "Religião/Ideologia"
+   },
+   "res_12042": {
+      "message": "Compartilhamento de recursos"
+   },
+   "res_12043": {
+      "message": "Mecanismos de pesquisa"
+   },
+   "res_12044": {
+      "message": "Esportes"
+   },
+   "res_12045": {
+      "message": "Mídia em streaming"
+   },
+   "res_12046": {
+      "message": "Shareware/Freeware"
+   },
+   "res_12047": {
+      "message": "Pornografia"
+   },
+   "res_12048": {
+      "message": "Spyware/Adware/Keyloggers"
+   },
+   "res_12049": {
+      "message": "Tabaco"
+   },
+   "res_12050": {
+      "message": "Viagem"
+   },
+   "res_12051": {
+      "message": "Violência"
+   },
+   "res_12052": {
+      "message": "Anúncios na Web"
+   },
+   "res_12053": {
+      "message": "Armas"
+   },
+   "res_12054": {
+      "message": "Webmail"
+   },
+   "res_12055": {
+      "message": "Web Phone"
+   },
+   "res_12056": {
+      "message": "Leilões/Classificados"
+   },
+   "res_12057": {
+      "message": "Fóruns/Grupos de discussão"
+   },
+   "res_12058": {
+      "message": "Profanação"
+   },
+   "res_12059": {
+      "message": "Informações sobre trapaças escolares"
+   },
+   "res_12060": {
+      "message": "Materiais sexuais"
+   },
+   "res_12061": {
+      "message": "Conteúdo hediondo"
+   },
+   "res_12062": {
+      "message": "Mecanismo de pesquisa visual"
+   },
+   "res_12063": {
+      "message": "Fóruns técnicos/comerciais"
+   },
+   "res_12064": {
+      "message": "Relacionados a jogos de azar"
+   },
+   "res_12065": {
+      "message": "Mensagens"
+   },
+   "res_12066": {
+      "message": "Violência em jogos/desenhos animados"
+   },
+   "res_12067": {
+      "message": "Phishing"
+   },
+   "res_12068": {
+      "message": "Armazenamento pessoal em rede"
+   },
+   "res_12069": {
+      "message": "URLs de spam"
+   },
+   "res_12070": {
+      "message": "Aplicativos interativos na Web"
+   },
+   "res_12071": {
+      "message": "Moda/Beleza"
+   },
+   "res_12072": {
+      "message": "Software/Hardware"
+   },
+   "res_12073": {
+      "message": "Possível software ilegal"
+   },
+   "res_12074": {
+      "message": "Servidor de conteúdo"
+   },
+   "res_12075": {
+      "message": "Serviços de Internet"
+   },
+   "res_12076": {
+      "message": "Compartilhamento de mídia"
+   },
+   "res_12077": {
+      "message": "Nudez acidental"
+   },
+   "res_12078": {
+      "message": "Publicidade/Propaganda"
+   },
+   "res_12079": {
+      "message": "Domínio reservado"
+   },
+   "res_12080": {
+      "message": "Farmácia"
+   },
+   "res_12081": {
+      "message": "Restaurantes"
+   },
+   "res_12082": {
+      "message": "Imóveis"
+   },
+   "res_12083": {
+      "message": "Recreação/Hobbies"
+   },
+   "res_12084": {
+      "message": "Blogs/Wiki"
+   },
+   "res_12085": {
+      "message": "Cartões postais digitais"
+   },
+   "res_12086": {
+      "message": "Revisionismo histórico"
+   },
+   "res_12087": {
+      "message": "Informações técnicas"
+   },
+   "res_12088": {
+      "message": "Encontros/Relacionamentos"
+   },
+   "res_12089": {
+      "message": "Veículos automotores"
+   },
+   "res_12090": {
+      "message": "Redes de profissionais"
+   },
+   "res_12091": {
+      "message": "Redes sociais"
+   },
+   "res_12092": {
+      "message": "Tradutores de texto"
+   },
+   "res_12093": {
+      "message": "Encontros na Web"
+   },
+   "res_12094": {
+      "message": "Infantil"
+   },
+   "res_12095": {
+      "message": "Histórico"
+   },
+   "res_12096": {
+      "message": "Moderado"
+   },
+   "res_12097": {
+      "message": "Somente texto e áudio"
+   },
+   "res_12098": {
+      "message": "Explorações de navegador"
+   },
+   "res_12099": {
+      "message": "Proteção do consumidor"
+   },
+   "res_121": {
+      "message": "Sobre"
+   },
+   "res_12100": {
+      "message": "Opiniões controversas"
+   },
+   "res_12101": {
+      "message": "Ilegal no Reino Unido"
+   },
+   "res_12102": {
+      "message": "Principais regiões do mundo"
+   },
+   "res_12103": {
+      "message": "Downloads maliciosos"
+   },
+   "res_12104": {
+      "message": "PUPs (programas potencialmente indesejados)"
+   },
+   "res_12105": {
+      "message": "Endereço IP residencial"
+   },
+   "res_122": {
+      "message": "Mostrar Cash Back deste site"
+   },
+   "res_123": {
+      "message": "Ir para Prêmios de compras seguras"
+   },
+   "res_125": {
+      "message": "Fazer upgrade para o [%SITEADVISORPLUS%]"
+   },
+   "res_127": {
+      "message": "Registrar agora"
+   },
+   "res_129": {
+      "message": "Desencaixar da barra de ferramentas do Yahoo!"
+   },
+   "res_133": {
+      "message": "Sincronizar assinatura"
+   },
+   "res_140": {
+      "message": "Fazer upgrade para o software [%SITEADVISORPLUS%]"
+   },
+   "res_141": {
+      "message": "Comprar agora"
+   },
+   "res_14100": {
+      "message": "Negócios, trabalho e finanças"
+   },
+   "res_14101": {
+      "message": "Álcool, tabaco e drogas"
+   },
+   "res_14102": {
+      "message": "Entretenimento/Cultura"
+   },
+   "res_14103": {
+      "message": "Jogos"
+   },
+   "res_14104": {
+      "message": "Tecnologia da informação"
+   },
+   "res_14105": {
+      "message": "Pesquisa, editorial e comunicação"
+   },
+   "res_14106": {
+      "message": "Estilo de vida"
+   },
+   "res_14107": {
+      "message": "Público adulto"
+   },
+   "res_14108": {
+      "message": "Público adulto"
+   },
+   "res_14109": {
+      "message": "Compras e comércio eletrônico"
+   },
+   "res_14110": {
+      "message": "Arriscado"
+   },
+   "res_14111": {
+      "message": "Notícias e exibições"
+   },
+   "res_166": {
+      "message": "Exibir relatório de site"
+   },
+   "res_170": {
+      "message": "Versão"
+   },
+   "res_171": {
+      "message": "Idioma"
+   },
+   "res_172": {
+      "message": "Compilação"
+   },
+   "res_173": {
+      "message": "Última atualização"
+   },
+   "res_20008": {
+      "message": "Este link não foi classificado"
+   },
+   "res_20009": {
+      "message": "Este link é suspeito"
+   },
+   "res_20010": {
+      "message": "Este link é seguro"
+   },
+   "res_20017": {
+      "message": "Aviso do [%COMPANY%] [%SITEADVISOR%]"
+   },
+   "res_20018": {
+      "message": "Esta mensagem de e-mail contém links potencialmente não confiáveis para estes sites:"
+   },
+   "res_20022": {
+      "message": "mais informações..."
+   },
+   "res_20028": {
+      "message": "Este link foi bloqueado automaticamente pelas suas configurações da Pesquisa segura do [%COMPANY%] [%SITEADVISOR%]"
+   },
+   "res_20029": {
+      "message": "Conteúdo do site:"
+   },
+   "res_20031": {
+      "message": "Testado diariamente"
+   },
+   "res_20033": {
+      "message": "Este link é perigoso"
+   },
+   "res_20034": {
+      "message": "O Cash Back pode estar disponível neste site McAfee SECURE. Visite o site para obter detalhes."
+   },
+   "res_20040": {
+      "message": "Testamos este site e constatamos que é arriscado visitá-lo."
+   },
+   "res_20041": {
+      "message": "Testamos esta página e bloqueamos conteúdo proveniente de sites potencialmente perigosos ou suspeitos. Permita este conteúdo somente se tiver certeza de que provém de sites seguros."
+   },
+   "res_20042": {
+      "message": "Exibir todo conteúdo bloqueado"
+   },
+   "res_20043": {
+      "message": "Aviso: site perigoso"
+   },
+   "res_207": {
+      "message": "McAfee"
+   },
+   "res_208": {
+      "message": "SiteAdvisor"
+   },
+   "res_209": {
+      "message": "LIVE"
+   },
+   "res_212": {
+      "message": "SiteAdvisor LIVE"
+   },
+   "res_213": {
+      "message": "SiteAdvisor\u003Csup style='font-size:90%'>&reg;\u003C/sup>&nbsp;LIVE"
+   },
+   "res_30006": {
+      "message": "McAfee WebAdvisor..."
+   },
+   "res_30007": {
+      "message": "Exibir relatório de site..."
+   },
+   "res_30009": {
+      "message": "McAfee WebAdvisor Live..."
+   },
+   "res_30010": {
+      "message": "McAfee WebAdvisor"
+   },
+   "res_30011": {
+      "message": "McAfee WebAdvisor Live"
+   },
+   "res_3302": {
+      "message": "Você está fazendo download de um site que pode conter programas potencialmente indesejados. A [%COMPANY%] detectou downloads potencialmente perigosos deste site em testes anteriores."
+   },
+   "res_3305": {
+      "message": "[%COMPANY%] descobriu que o arquivo que você está prestes a baixar pode ter vírus, spyware ou outros programas potencialmente indesejados. Isso pode danificar seu computador e roubar informações pessoais."
+   },
+   "res_3306": {
+      "message": "A [%COMPANY%] detectou que seu download pode conter vírus, spyware e outros programas potencialmente indesejados. Esses programas podem danificar sua unidade de disco rígido ou roubar informações pessoais."
+   },
+   "res_3320": {
+      "message": "Este download é perigoso!"
+   },
+   "res_3321": {
+      "message": "Um download potencialmente incômodo foi detectado!"
+   },
+   "res_3322": {
+      "message": "Aviso!"
+   },
+   "res_4000": {
+      "message": "Tem certeza de que deseja desencaixar da barra de ferramentas do Yahoo!? Você não poderá desfazer esta alteração."
+   },
+   "res_4001": {
+      "message": "Confirmação: Você selecionou a opção para desencaixar (separar) a barra de ferramentas. Para que esta alteração seja efetuada, reinicie seu navegador."
+   },
+   "res_4100": {
+      "message": "Pesquisa na Web"
+   },
+   "res_4101": {
+      "message": "Pesquisa na Web"
+   },
+   "res_4102": {
+      "message": "Pesquisa segura"
+   },
+   "res_ABOUT": {
+      "message": "Sobre"
+   },
+   "res_ABOUT_DESCRIPTION": {
+      "message": "{0} ajuda você a tomar melhores decisões durante as suas atividades on-line."
+   },
+   "res_AVOID_DANGEROUS_LINKS": {
+      "message": "Evite links perigosos"
+   },
+   "res_CHROME": {
+      "message": "Chrome"
+   },
+   "res_COMPANY_NAME": {
+      "message": "McAfee"
+   },
+   "res_CREATE_SAFER_PASSWORDS": {
+      "message": "Crie senhas mais seguras"
+   },
+   "res_DONT_TRUST": {
+      "message": "Não confiar"
+   },
+   "res_DOWNLOADS_BLOCKED": {
+      "message": "{1} downloads perigosos bloqueados"
+   },
+   "res_DOWNLOADS_SCANNED": {
+      "message": "{1} downloads varridos"
+   },
+   "res_DOWNLOAD_CONFIDENTLY": {
+      "message": "Faça downloads com confiança"
+   },
+   "res_FIREFOX": {
+      "message": "Firefox"
+   },
+   "res_GET_HELP_NOW": {
+      "message": "Obter ajuda agora"
+   },
+   "res_GET_TECHNICAL_SUPPORT": {
+      "message": "Obtenha ajuda e suporte técnico"
+   },
+   "res_HELP": {
+      "message": "Ajuda"
+   },
+   "res_HELP_EMAIL_US": {
+      "message": "Envie um e-mail para"
+   },
+   "res_HELP_FAQ_SECTION_FOUR_CONTENT": {
+      "message": "Todo mundo precisa de ajuda de vez em quando. Estamos aqui para ajudá-lo. {0}"
+   },
+   "res_HELP_FAQ_SECTION_FOUR_HEADER": {
+      "message": "SOCORRO! Preciso de suporte técnico"
+   },
+   "res_HELP_FAQ_SECTION_ONE_CONTENT": {
+      "message": "{0} ajuda você a tomar melhores decisões durante as suas atividades on-line."
+   },
+   "res_HELP_FAQ_SECTION_ONE_HEADER": {
+      "message": "O que é {0}?"
+   },
+   "res_HELP_FAQ_SECTION_THREE_HEADER": {
+      "message": "Como faço para saber qual é a minha versão do {0}?"
+   },
+   "res_HELP_FAQ_SECTION_TWO_CONTENT": {
+      "message": "Ou compartilhe este link: {0}"
+   },
+   "res_HELP_FAQ_SECTION_TWO_HEADER": {
+      "message": "Como faço para compartilhar {0} com outras pessoas?"
+   },
+   "res_HELP_FAQ_TITLE": {
+      "message": "Perguntas frequentes"
+   },
+   "res_HELP_SUPPORT_TITLE": {
+      "message": "Suporte"
+   },
+   "res_IE": {
+      "message": "Internet Explorer"
+   },
+   "res_LICENSE_AGREEMENT_URL": {
+      "message": "https://home.mcafee.com/supportpages/eula.aspx?culture=pt-br"
+   },
+   "res_OK": {
+      "message": "OK"
+   },
+   "res_PAGES_BLOCKED": {
+      "message": "{1} páginas perigosas bloqueadas"
+   },
+   "res_PAGES_SCANNED": {
+      "message": "{1} páginas varridas"
+   },
+   "res_POPUP_BACK": {
+      "message": "Voltar"
+   },
+   "res_POPUP_CLEAR": {
+      "message": "Limpar lista"
+   },
+   "res_POPUP_DONE_SO_FAR": {
+      "message": "Veja aqui está o que fizemos até agora:"
+   },
+   "res_POPUP_DONT_WARN_DESCRIPTION": {
+      "message": "Não deseja ser alertado sobre um site específico? Adicione-o aqui."
+   },
+   "res_POPUP_ENTER_WEB_ADDRESS": {
+      "message": "Digite um endereço da Web..."
+   },
+   "res_POPUP_GET_HELP": {
+      "message": "Obter ajuda"
+   },
+   "res_POPUP_GET_HELP_URL": {
+      "message": "https://service.mcafee.com/webcenter/portal/cp/home"
+   },
+   "res_POPUP_ITEMS_BLOCKED": {
+      "message": "Itens perigosos bloqueados"
+   },
+   "res_POPUP_PAGES_BLOCKED": {
+      "message": "Páginas perigosas bloqueadas"
+   },
+   "res_POPUP_PAGES_SCANNED": {
+      "message": "Páginas varridas"
+   },
+   "res_POPUP_PURPOSE_DESCRIPTION": {
+      "message": "Estamos aqui para ajudar a mantê-lo seguro on-line."
+   },
+   "res_POPUP_START_FRESH": {
+      "message": "Deseja começar do zero?"
+   },
+   "res_POPUP_TERMS_AND_CONDITIONS": {
+      "message": "Termos e condições"
+   },
+   "res_POPUP_TERMS_AND_CONDITIONS_URL": {
+      "message": "https://home.mcafee.com/supportpages/eula.aspx"
+   },
+   "res_POPUP_VIEW_SITE_REPORT": {
+      "message": "Exibir relatório do site"
+   },
+   "res_PRIVACY_NOTICE": {
+      "message": "Aviso de privacidade"
+   },
+   "res_PRIVACY_URL": {
+      "message": "http://www.mcafee.com/common/privacy/consumer/portuguese-br/"
+   },
+   "res_PRODUCT_NAME": {
+      "message": "Controle da Web do McAfee Endpoint Security"
+   },
+   "res_PRODUCT_NAME_LIVE": {
+      "message": "McAfee WebAdvisor Live"
+   },
+   "res_PRODUCT_NAME_TRADEMARKED": {
+      "message": "Controle da Web do McAfee® Endpoint Security"
+   },
+   "res_READ_PRIVACY_NOTICE": {
+      "message": "Leia o Aviso de Privacidade"
+   },
+   "res_RESET": {
+      "message": "Redefinir"
+   },
+   "res_SETTINGS": {
+      "message": "Configurações"
+   },
+   "res_SETTINGS_DEFAULT_TRUSTED_TEXT": {
+      "message": "Copie ou cole seu URL"
+   },
+   "res_SETTINGS_MANAGE_TRUSTED": {
+      "message": "Gerencie os sites confiáveis"
+   },
+   "res_SETTINGS_PP_CAPTION": {
+      "message": "Proteção extra para todas as suas senhas"
+   },
+   "res_SETTINGS_PP_HEADER": {
+      "message": "Proteção por senha"
+   },
+   "res_SETTINGS_RESET_CAPTION": {
+      "message": "Redefinir {0}"
+   },
+   "res_SETTINGS_RESET_DESCRIPTION": {
+      "message": "Você ignorou uma notificação e deseja vê-la novamente? Não se preocupe - após a redefinição, todas as notificações aparecerão novamente no seu navegador como se fosse a primeira vez que são exibidas."
+   },
+   "res_SETTINGS_RESET_HEADER": {
+      "message": "Redefinir configurações"
+   },
+   "res_SETTINGS_SS_CAPTION": {
+      "message": "Navegue na Internet com segurança"
+   },
+   "res_SETTINGS_SS_HEADER": {
+      "message": "Resultados da pesquisa"
+   },
+   "res_SETTINGS_SS_OPTION_ALL": {
+      "message": "Avise-me quando um resultado de pesquisa for seguro em qualquer mecanismo de pesquisa"
+   },
+   "res_SETTINGS_SS_OPTION_NONE": {
+      "message": "Não me avise a respeito dos resultados de pesquisa"
+   },
+   "res_SETTINGS_SS_OPTION_SS": {
+      "message": "Avise-me quando um resultado de pesquisa for seguro apenas com a Pesquisa segura"
+   },
+   "res_SETTINGS_TRUSTED_SITES": {
+      "message": "Sites em que você confia"
+   },
+   "res_STAT_HEADER": {
+      "message": "Eis algumas coisas que fizemos até agora:"
+   },
+   "res_TAKE_PRIVACY_SERIOUSLY": {
+      "message": "{0} leva sua privacidade a sério. Leia o {1}."
+   },
+   "res_TRUST_SITE": {
+      "message": "Confiar no site"
+   },
+   "res_VERSION": {
+      "message": "Versão"
+   },
+   "res_WEBADVISOR": {
+      "message": "WebAdvisor"
+   },
+   "res_YOUR_PROTECTED": {
+      "message": "Protegemos sua senha e sua identidade contra roubo de identidade"
+   },
+   "res_menuid1": {
+      "message": "Testar"
+   }
+}

@@ -1,0 +1,755 @@
+{
+   "res_100": {
+      "message": "ko_KR"
+   },
+   "res_1000": {
+      "message": "http://www.siteadvisor.com/restricted.html?domain=%s&originalURL=%s"
+   },
+   "res_1001": {
+      "message": "http://www.siteadvisor.com/phishing.html?domain=%s&originalURL=%s"
+   },
+   "res_101": {
+      "message": "ko-KR"
+   },
+   "res_102": {
+      "message": "ko"
+   },
+   "res_11010": {
+      "message": "보안 검색"
+   },
+   "res_1102": {
+      "message": "http://www.siteadvisor.com/support/index.html"
+   },
+   "res_1107": {
+      "message": "https://home.mcafee.com/Store/PackageDetail.aspx?pkgid=284&culture=%s"
+   },
+   "res_1110": {
+      "message": "https://home.mcafee.com/Store/PackageDetail.aspx?pkgid=284&culture=%s"
+   },
+   "res_1116": {
+      "message": "http://www.ebates.com/mcafee/index.htm"
+   },
+   "res_113": {
+      "message": "사이트 보고서 보기"
+   },
+   "res_114": {
+      "message": "옵션..."
+   },
+   "res_120": {
+      "message": "도움말"
+   },
+   "res_12001": {
+      "message": "예술/문화/전통"
+   },
+   "res_12002": {
+      "message": "음주"
+   },
+   "res_12003": {
+      "message": "익명 서비스"
+   },
+   "res_12004": {
+      "message": "익명 유틸리티"
+   },
+   "res_12005": {
+      "message": "비즈니스"
+   },
+   "res_12006": {
+      "message": "채팅"
+   },
+   "res_12007": {
+      "message": "공개 정보"
+   },
+   "res_12008": {
+      "message": "잠재적 범죄 행위"
+   },
+   "res_12009": {
+      "message": "마약"
+   },
+   "res_12010": {
+      "message": "교육/참조"
+   },
+   "res_12011": {
+      "message": "오락"
+   },
+   "res_12012": {
+      "message": "익스트림"
+   },
+   "res_12013": {
+      "message": "재무/금융"
+   },
+   "res_12014": {
+      "message": "도박"
+   },
+   "res_12015": {
+      "message": "게임"
+   },
+   "res_12016": {
+      "message": "정부/군대"
+   },
+   "res_12017": {
+      "message": "잠재적 해킹/컴퓨터 범죄"
+   },
+   "res_12018": {
+      "message": "건강"
+   },
+   "res_12019": {
+      "message": "유머/코믹"
+   },
+   "res_12020": {
+      "message": "차별"
+   },
+   "res_12021": {
+      "message": "인스턴트 메시징"
+   },
+   "res_12022": {
+      "message": "주식 거래"
+   },
+   "res_12023": {
+      "message": "인터넷 라디오/TV"
+   },
+   "res_12024": {
+      "message": "직업 검색"
+   },
+   "res_12025": {
+      "message": "정보 보안"
+   },
+   "res_12026": {
+      "message": "교제/소셜 네트워킹"
+   },
+   "res_12027": {
+      "message": "휴대폰"
+   },
+   "res_12028": {
+      "message": "미디어 다운로드"
+   },
+   "res_12029": {
+      "message": "악의적인 사이트"
+   },
+   "res_12031": {
+      "message": "노출"
+   },
+   "res_12032": {
+      "message": "비영리/옹호/NGO"
+   },
+   "res_12033": {
+      "message": "일반 뉴스"
+   },
+   "res_12034": {
+      "message": "온라인 쇼핑"
+   },
+   "res_12035": {
+      "message": "도발적인 의상"
+   },
+   "res_12036": {
+      "message": "P2P/파일 공유"
+   },
+   "res_12037": {
+      "message": "정치/의견"
+   },
+   "res_12038": {
+      "message": "개인 페이지"
+   },
+   "res_12039": {
+      "message": "포털 사이트"
+   },
+   "res_12040": {
+      "message": "원격 액세스"
+   },
+   "res_12041": {
+      "message": "종교/이데올로기"
+   },
+   "res_12042": {
+      "message": "리소스 공유"
+   },
+   "res_12043": {
+      "message": "검색 엔진"
+   },
+   "res_12044": {
+      "message": "스포츠"
+   },
+   "res_12045": {
+      "message": "스트리밍 미디어"
+   },
+   "res_12046": {
+      "message": "셰어웨어/프리웨어"
+   },
+   "res_12047": {
+      "message": "포르노"
+   },
+   "res_12048": {
+      "message": "스파이웨어/애드웨어/키로거"
+   },
+   "res_12049": {
+      "message": "흡연"
+   },
+   "res_12050": {
+      "message": "여행"
+   },
+   "res_12051": {
+      "message": "폭력"
+   },
+   "res_12052": {
+      "message": "웹 광고"
+   },
+   "res_12053": {
+      "message": "무기"
+   },
+   "res_12054": {
+      "message": "웹 메일"
+   },
+   "res_12055": {
+      "message": "웹폰"
+   },
+   "res_12056": {
+      "message": "경매/분류 광고"
+   },
+   "res_12057": {
+      "message": "포럼/게시판"
+   },
+   "res_12058": {
+      "message": "모독적인 내용"
+   },
+   "res_12059": {
+      "message": "학교 부정 행위 정보"
+   },
+   "res_12060": {
+      "message": "음란물"
+   },
+   "res_12061": {
+      "message": "끔찍한 내용"
+   },
+   "res_12062": {
+      "message": "시각적 검색 엔진"
+   },
+   "res_12063": {
+      "message": "기술/비즈니스 포럼"
+   },
+   "res_12064": {
+      "message": "도박 관련"
+   },
+   "res_12065": {
+      "message": "메시징"
+   },
+   "res_12066": {
+      "message": "게임/폭력 만화"
+   },
+   "res_12067": {
+      "message": "피싱"
+   },
+   "res_12068": {
+      "message": "개인 네트워크 저장소"
+   },
+   "res_12069": {
+      "message": "스팸 URL"
+   },
+   "res_12070": {
+      "message": "인터랙티브 웹 응용 프로그램"
+   },
+   "res_12071": {
+      "message": "패션/미용"
+   },
+   "res_12072": {
+      "message": "소프트웨어/하드웨어"
+   },
+   "res_12073": {
+      "message": "잠재적 불법 소프트웨어"
+   },
+   "res_12074": {
+      "message": "콘텐츠 서버"
+   },
+   "res_12075": {
+      "message": "인터넷 서비스"
+   },
+   "res_12076": {
+      "message": "미디어 공유"
+   },
+   "res_12077": {
+      "message": "우발적인 노출"
+   },
+   "res_12078": {
+      "message": "마케팅/판촉"
+   },
+   "res_12079": {
+      "message": "파킹된 도메인"
+   },
+   "res_12080": {
+      "message": "제약"
+   },
+   "res_12081": {
+      "message": "식당"
+   },
+   "res_12082": {
+      "message": "부동산"
+   },
+   "res_12083": {
+      "message": "레크리에이션/취미"
+   },
+   "res_12084": {
+      "message": "블로그/Wiki"
+   },
+   "res_12085": {
+      "message": "디지털 엽서"
+   },
+   "res_12086": {
+      "message": "역사적 수정주의"
+   },
+   "res_12087": {
+      "message": "기술 정보"
+   },
+   "res_12088": {
+      "message": "교제/개인"
+   },
+   "res_12089": {
+      "message": "오토바이"
+   },
+   "res_12090": {
+      "message": "전문 네트워킹"
+   },
+   "res_12091": {
+      "message": "소셜 네트워킹"
+   },
+   "res_12092": {
+      "message": "텍스트 번역가"
+   },
+   "res_12093": {
+      "message": "웹 미팅"
+   },
+   "res_12094": {
+      "message": "어린이용"
+   },
+   "res_12095": {
+      "message": "기록"
+   },
+   "res_12096": {
+      "message": "보통"
+   },
+   "res_12097": {
+      "message": "텍스트/음성 전용"
+   },
+   "res_12098": {
+      "message": "브라우저 취약성 공격"
+   },
+   "res_12099": {
+      "message": "소비자 보호"
+   },
+   "res_121": {
+      "message": "정보"
+   },
+   "res_12100": {
+      "message": "논쟁 의견"
+   },
+   "res_12101": {
+      "message": "잘못된 UK"
+   },
+   "res_12102": {
+      "message": "전 세계 주요 지역"
+   },
+   "res_12103": {
+      "message": "악성 다운로드"
+   },
+   "res_12104": {
+      "message": "PUP"
+   },
+   "res_12105": {
+      "message": "가정용 IP 주소"
+   },
+   "res_122": {
+      "message": "이 사이트에 대한 캐시백 표시"
+   },
+   "res_123": {
+      "message": "안전 쇼핑 보상으로 이동"
+   },
+   "res_125": {
+      "message": "[%SITEADVISORPLUS%]로 업그레이드"
+   },
+   "res_127": {
+      "message": "지금 등록"
+   },
+   "res_129": {
+      "message": "Yahoo! 도구 모음에서 고정 해제"
+   },
+   "res_133": {
+      "message": "등록 동기화"
+   },
+   "res_140": {
+      "message": "[%SITEADVISORPLUS%] 소프트웨어로 업그레이드"
+   },
+   "res_141": {
+      "message": "지금 구입"
+   },
+   "res_14100": {
+      "message": "비즈니스, 일 및 재무"
+   },
+   "res_14101": {
+      "message": "술, 담배 및 마약"
+   },
+   "res_14102": {
+      "message": "오락/문화"
+   },
+   "res_14103": {
+      "message": "게임"
+   },
+   "res_14104": {
+      "message": "정보 기술"
+   },
+   "res_14105": {
+      "message": "검색, 편집 및 통신"
+   },
+   "res_14106": {
+      "message": "라이프스타일"
+   },
+   "res_14107": {
+      "message": "성인 대상"
+   },
+   "res_14108": {
+      "message": "성인 대상"
+   },
+   "res_14109": {
+      "message": "쇼핑 및 전자 상거래"
+   },
+   "res_14110": {
+      "message": "위험한 사이트"
+   },
+   "res_14111": {
+      "message": "뉴스 및 보기"
+   },
+   "res_166": {
+      "message": "사이트 보고서 읽기"
+   },
+   "res_170": {
+      "message": "버전"
+   },
+   "res_171": {
+      "message": "언어"
+   },
+   "res_172": {
+      "message": "빌드"
+   },
+   "res_173": {
+      "message": "최근 업데이트"
+   },
+   "res_20008": {
+      "message": "이 링크는 등급이 지정되지 않았습니다"
+   },
+   "res_20009": {
+      "message": "이 링크는 의심스럽습니다"
+   },
+   "res_20010": {
+      "message": "이 링크는 안전합니다"
+   },
+   "res_20017": {
+      "message": "[%COMPANY%] [%SITEADVISOR%] 경고"
+   },
+   "res_20018": {
+      "message": "이 전자 메일 메시지에는 이러한 사이트에 대해 잠재적으로 안전하지 않은 링크가 포함되어 있습니다."
+   },
+   "res_20022": {
+      "message": "추가 정보..."
+   },
+   "res_20028": {
+      "message": "이 링크는 사용자의 [%COMPANY%] [%SITEADVISOR%] 보안 검색 설정에 의해 자동 차단되었습니다."
+   },
+   "res_20029": {
+      "message": "사이트 내용:"
+   },
+   "res_20031": {
+      "message": "매일 테스트됨"
+   },
+   "res_20033": {
+      "message": "이 링크는 위험합니다"
+   },
+   "res_20034": {
+      "message": "이 McAfee SECURE 사이트에서 캐시백 이용이 가능할 수도 있습니다. 자세한 내용을 보려면 사이트를 방문하십시오."
+   },
+   "res_20040": {
+      "message": "이 사이트를 테스트하여 방문하는 것이 위험하단 사실을 발견했습니다."
+   },
+   "res_20041": {
+      "message": "이 페이지를 테스트하여 출처가 잠재적으로 위험하거나 의심스러운 사이트의 콘텐츠를 차단했습니다. 콘텐츠의 출처가 안전한 사이트일 경우에만 허용하십시오."
+   },
+   "res_20042": {
+      "message": "모든 차단된 콘텐츠 보기"
+   },
+   "res_20043": {
+      "message": "경고: 위험한 사이트"
+   },
+   "res_207": {
+      "message": "McAfee"
+   },
+   "res_208": {
+      "message": "사이트어드바이저"
+   },
+   "res_209": {
+      "message": "라이브"
+   },
+   "res_212": {
+      "message": "사이트어드바이저 라이브"
+   },
+   "res_213": {
+      "message": "사이트어드바이저\u003Csup style='font-size:90%'>&reg;\u003C/sup>&nbsp;라이브"
+   },
+   "res_30006": {
+      "message": "McAfee 웹어드바이저..."
+   },
+   "res_30007": {
+      "message": "사이트 보고서 보기..."
+   },
+   "res_30009": {
+      "message": "McAfee WebAdvisor Live..."
+   },
+   "res_30010": {
+      "message": "McAfee 웹어드바이저"
+   },
+   "res_30011": {
+      "message": "McAfee WebAdvisor Live"
+   },
+   "res_3302": {
+      "message": "원하지 않은 프로그램이 포함되었을 가능성이 있는 웹 사이트에서 다운로드하고 있습니다.  [%COMPANY%]에서 과거 테스트 시 이 사이트에서 잠재적으로 위험한 다운로드를 탐지한 적이 있습니다."
+   },
+   "res_3305": {
+      "message": "[%COMPANY%]의 검색에 따르면 다운로드하려는 파일에 바이러스, 스파이웨어 또는 기타 원하지 않는 프로그램이 포함되어 있을 수 있습니다. 이러한 악성 콘텐츠는 컴퓨터에 나쁜 영향을 주고 사용자의 개인 정보를 훔칠 수 있습니다."
+   },
+   "res_3306": {
+      "message": "[%COMPANY%]이(가) 다운로드에 바이러스, 스파이웨어 및 기타 잠재적으로 원하지 않은 프로그램이 포함되었을 가능성이 있음을 탐지했습니다.  이러한 프로그램은 하드 드라이브를 손상시키거나 개인 정보를 도용할 수 있습니다."
+   },
+   "res_3320": {
+      "message": "위험한 다운로드입니다!"
+   },
+   "res_3321": {
+      "message": "성가실 가능성이 있는 다운로드가 탐지되었습니다!"
+   },
+   "res_3322": {
+      "message": "경고!"
+   },
+   "res_4000": {
+      "message": "Yahoo! 도구 모음에서 고정 해제하시겠습니까?  이 변경 사항은 실행 취소할 수 없습니다."
+   },
+   "res_4001": {
+      "message": "확인: 도구 모음을 고정 해제(분리)하도록 선택했습니다.  이 변경 사항을 적용하려면 브라우저를 다시 시작하십시오."
+   },
+   "res_4100": {
+      "message": "웹 검색"
+   },
+   "res_4101": {
+      "message": "웹 검색"
+   },
+   "res_4102": {
+      "message": "보안 검색"
+   },
+   "res_ABOUT": {
+      "message": "정보"
+   },
+   "res_ABOUT_DESCRIPTION": {
+      "message": "{0}는 온라인에서 사용자의 올바른 상황 판단을 돕습니다."
+   },
+   "res_AVOID_DANGEROUS_LINKS": {
+      "message": "위험한 링크 회피"
+   },
+   "res_CHROME": {
+      "message": "Chrome"
+   },
+   "res_COMPANY_NAME": {
+      "message": "McAfee"
+   },
+   "res_CREATE_SAFER_PASSWORDS": {
+      "message": "보다 안전한 암호 만들기"
+   },
+   "res_DONT_TRUST": {
+      "message": "신뢰하지 않음"
+   },
+   "res_DOWNLOADS_BLOCKED": {
+      "message": "{1}건의 안전하지 않은 다운로드 차단"
+   },
+   "res_DOWNLOADS_SCANNED": {
+      "message": "{1}건의 다운로드 검색"
+   },
+   "res_DOWNLOAD_CONFIDENTLY": {
+      "message": "안전한 다운로드"
+   },
+   "res_FIREFOX": {
+      "message": "Firefox"
+   },
+   "res_GET_HELP_NOW": {
+      "message": "지금 도움을 받으십시오."
+   },
+   "res_GET_TECHNICAL_SUPPORT": {
+      "message": "도움 및 기술 지원을 받으십시오."
+   },
+   "res_HELP": {
+      "message": "도움말"
+   },
+   "res_HELP_EMAIL_US": {
+      "message": "이메일 주소"
+   },
+   "res_HELP_FAQ_SECTION_FOUR_CONTENT": {
+      "message": "안심하십시오. 다음을 클릭하여 지원 받으십시오. {0}"
+   },
+   "res_HELP_FAQ_SECTION_FOUR_HEADER": {
+      "message": "도와주세요! 기술 지원이 필요합니다."
+   },
+   "res_HELP_FAQ_SECTION_ONE_CONTENT": {
+      "message": "{0}는 온라인에서 사용자의 올바른 상황 판단을 돕습니다."
+   },
+   "res_HELP_FAQ_SECTION_ONE_HEADER": {
+      "message": "{0}가 무엇입니까?"
+   },
+   "res_HELP_FAQ_SECTION_THREE_HEADER": {
+      "message": "내 {0} 버전을 알고 싶으면 어떻게 해야 합니까?"
+   },
+   "res_HELP_FAQ_SECTION_TWO_CONTENT": {
+      "message": "또는 다음 링크를 공유하십시오: {0}"
+   },
+   "res_HELP_FAQ_SECTION_TWO_HEADER": {
+      "message": "{0}를 다른 사람과 공유하려면 어떻게 해야 합니까?"
+   },
+   "res_HELP_FAQ_TITLE": {
+      "message": "질문과 대답(FAQ)"
+   },
+   "res_HELP_SUPPORT_TITLE": {
+      "message": "지원"
+   },
+   "res_IE": {
+      "message": "Internet Explorer"
+   },
+   "res_LICENSE_AGREEMENT_URL": {
+      "message": "https://home.mcafee.com/supportpages/eula.aspx?culture=ko"
+   },
+   "res_OK": {
+      "message": "확인"
+   },
+   "res_PAGES_BLOCKED": {
+      "message": "{1}개의 위험한 페이지 차단"
+   },
+   "res_PAGES_SCANNED": {
+      "message": "{1}개의 페이지 검색"
+   },
+   "res_POPUP_BACK": {
+      "message": "뒤로"
+   },
+   "res_POPUP_CLEAR": {
+      "message": "목록 삭제"
+   },
+   "res_POPUP_DONE_SO_FAR": {
+      "message": "지금까지 수행한 작업입니다."
+   },
+   "res_POPUP_DONT_WARN_DESCRIPTION": {
+      "message": "특정 사이트에 대한 경고 표시를 원하지 않으십니까? 여기에 추가하십시오."
+   },
+   "res_POPUP_ENTER_WEB_ADDRESS": {
+      "message": "웹 주소를 입력하십시오."
+   },
+   "res_POPUP_GET_HELP": {
+      "message": "도움말 보기"
+   },
+   "res_POPUP_GET_HELP_URL": {
+      "message": "https://service.mcafee.com/webcenter/portal/cp/home"
+   },
+   "res_POPUP_ITEMS_BLOCKED": {
+      "message": "안전하지 않은 항목 차단됨"
+   },
+   "res_POPUP_PAGES_BLOCKED": {
+      "message": "위험한 페이지 차단됨"
+   },
+   "res_POPUP_PAGES_SCANNED": {
+      "message": "페이지 검색됨"
+   },
+   "res_POPUP_PURPOSE_DESCRIPTION": {
+      "message": "귀하의 온라인 보안 유지를 지원합니다."
+   },
+   "res_POPUP_START_FRESH": {
+      "message": "새로 시작하시겠습니까?"
+   },
+   "res_POPUP_TERMS_AND_CONDITIONS": {
+      "message": "약관"
+   },
+   "res_POPUP_TERMS_AND_CONDITIONS_URL": {
+      "message": "https://home.mcafee.com/supportpages/eula.aspx"
+   },
+   "res_POPUP_VIEW_SITE_REPORT": {
+      "message": "사이트 보고서 보기"
+   },
+   "res_PRIVACY_NOTICE": {
+      "message": "개인 정보 보호 고지 사항"
+   },
+   "res_PRIVACY_URL": {
+      "message": "http://www.mcafee.com/common/privacy/consumer/korean/"
+   },
+   "res_PRODUCT_NAME": {
+      "message": "McAfee Endpoint Security 웹 컨트롤"
+   },
+   "res_PRODUCT_NAME_LIVE": {
+      "message": "McAfee 웹 어드바이저 라이브"
+   },
+   "res_PRODUCT_NAME_TRADEMARKED": {
+      "message": "McAfee® Endpoint Security 웹 컨트롤"
+   },
+   "res_READ_PRIVACY_NOTICE": {
+      "message": "개인 정보 보호 고지 사항 업데이트를 읽으십시오."
+   },
+   "res_RESET": {
+      "message": "재설정"
+   },
+   "res_SETTINGS": {
+      "message": "설정"
+   },
+   "res_SETTINGS_DEFAULT_TRUSTED_TEXT": {
+      "message": "URL을 붙여 넣거나 입력합니다."
+   },
+   "res_SETTINGS_MANAGE_TRUSTED": {
+      "message": "신뢰할 수 있는 사이트 관리"
+   },
+   "res_SETTINGS_PP_CAPTION": {
+      "message": "보다 안전한 암호를 보장합니다."
+   },
+   "res_SETTINGS_PP_HEADER": {
+      "message": "암호 보호"
+   },
+   "res_SETTINGS_RESET_CAPTION": {
+      "message": "{0} 재설정"
+   },
+   "res_SETTINGS_RESET_DESCRIPTION": {
+      "message": "무시하고 넘어간 통보를 다시 보고 싶으신가요? 걱정하지 마십시오. 재설정하면 최초에 표시된 것과 동일하게 모든 통보가 브라우저에 다시 표시됩니다."
+   },
+   "res_SETTINGS_RESET_HEADER": {
+      "message": "재설정"
+   },
+   "res_SETTINGS_SS_CAPTION": {
+      "message": "안전한 웹 검색"
+   },
+   "res_SETTINGS_SS_HEADER": {
+      "message": "검색 결과"
+   },
+   "res_SETTINGS_SS_OPTION_ALL": {
+      "message": "모든 검색 엔진에서 검색 결과가 안전한지 알림"
+   },
+   "res_SETTINGS_SS_OPTION_NONE": {
+      "message": "검색 결과에 대해 알리지 않음"
+   },
+   "res_SETTINGS_SS_OPTION_SS": {
+      "message": "보안 검색에서만 검색 결과가 안전한지 알림"
+   },
+   "res_SETTINGS_TRUSTED_SITES": {
+      "message": "신뢰하는 사이트"
+   },
+   "res_STAT_HEADER": {
+      "message": "다음은 지금까지의 작업 기록 중 일부입니다."
+   },
+   "res_TAKE_PRIVACY_SERIOUSLY": {
+      "message": "{0}는 귀하의 개인 정보를 소중하게 다룹니다. {1}을(를) 읽으십시오."
+   },
+   "res_TRUST_SITE": {
+      "message": "사이트 신뢰"
+   },
+   "res_VERSION": {
+      "message": "버전"
+   },
+   "res_WEBADVISOR": {
+      "message": "웹어드바이저"
+   },
+   "res_YOUR_PROTECTED": {
+      "message": "귀하의 암호를 보호하고 ID 도용 차단"
+   },
+   "res_menuid1": {
+      "message": "테스트"
+   }
+}
