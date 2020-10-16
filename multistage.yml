@@ -135,6 +135,33 @@ stages:
         tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
+      displayName: 'daytrader-scdf-trade-generator'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-scdf-trade-generator'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-generator/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-scdf-trade-processor'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-scdf-trade-processor'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-processor/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-scdf-trade-validation'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-scdf-trade-validation'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-validation/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
       displayName: 'daytrader-web-react-npm'
       inputs:
         containerRegistry: 'DockerHub'
