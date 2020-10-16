@@ -46,6 +46,7 @@ import com.ofss.daytrader.core.direct.FinancialUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
@@ -62,6 +63,7 @@ import com.ofss.daytrader.utils.TradeConfig;
  */
 
 @Service
+@Transactional
 public class QuotesService
 {
 	//	- Each microservice has their own private database (datasource)

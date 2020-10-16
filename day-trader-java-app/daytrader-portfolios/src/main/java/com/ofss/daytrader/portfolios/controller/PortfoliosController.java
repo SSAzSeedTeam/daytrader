@@ -77,6 +77,7 @@ import com.ofss.daytrader.portfolios.utils.Log;
 @RestController
 public class PortfoliosController 
 {
+	//private static PortfoliosService portfoliosService = new PortfoliosService();
 	
 	@Autowired
 	PortfoliosService portfoliosService;

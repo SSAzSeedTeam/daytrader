@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ofss.daytrader.entities.HoldingDataBean;
 
 @Repository
-@Transactional
 public interface HoldingRepository extends JpaRepository<HoldingDataBean, Integer>{
 	
 	@Query(value="select * from holdingejb h where h.account_accountid in(?1)", nativeQuery = true)

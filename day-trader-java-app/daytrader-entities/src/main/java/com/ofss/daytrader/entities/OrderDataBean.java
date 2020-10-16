@@ -29,6 +29,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 

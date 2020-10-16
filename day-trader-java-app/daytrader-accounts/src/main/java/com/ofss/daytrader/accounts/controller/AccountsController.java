@@ -189,8 +189,7 @@ public class AccountsController
 		try
 		{
 			accountData = accountsService.getAccountData(userId);
-	    	System.out.println("accountData ="+accountData );
-			double exchangeRate = 0.0d;//accountsService.getExchangeRateData("INR");
+			double exchangeRate = accountsService.getExchangeRateData("INR");
 			accountData.setExchangeRate(exchangeRate);
 	    	System.out.println("accountData ="+accountData );
 			if (accountData != null) 
