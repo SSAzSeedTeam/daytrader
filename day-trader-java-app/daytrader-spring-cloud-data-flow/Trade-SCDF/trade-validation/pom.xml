@@ -75,7 +75,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <finalName>trade-validation</finalName>
     </build>
 
 </project>

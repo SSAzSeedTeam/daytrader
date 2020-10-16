@@ -75,7 +75,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>trade-processor</finalName>
 	</build>
 
 </project>
