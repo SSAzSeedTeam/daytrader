@@ -21,7 +21,7 @@ steps:
   inputs:
     containerregistrytype: 'Azure Container Registry'
     azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
-    dockerComposeFile: '**/docker-compose.yml'
+    dockerComposeFile: '**/docker-compose.yaml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'up -d'
 
@@ -68,6 +68,6 @@ steps:
   inputs:
     containerregistrytype: 'Azure Container Registry'
     azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
-    dockerComposeFile: '**/docker-compose.yml'
+    dockerComposeFile: '**/docker-compose.yaml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'down'
