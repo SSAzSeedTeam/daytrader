@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-scdf-trade-validation
+  name: daytrader-scdf-trade-validation
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-scdf-trade-validation
+  template:
+    metadata:
+      labels:
+        app: daytrader-scdf-trade-validation
+    spec:
+      containers:
+      - name: daytrader-scdf-trade-validation
+        image: azseed/daytrader-scdf-trade-validation:1.7
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6463
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4

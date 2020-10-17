@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: daytrader-service-urls-config-map
+data:
+  DAYTRADER_ACCOUNTS_SERVICE  : http://daytrader-accounts
+  DAYTRADER_GATEWAY_SERVICE   : http://daytrader-gateway
+  DAYTRADER_PORTFOLIOS_SERVICE: http://daytrader-portfolios
+  DAYTRADER_QUOTES_SERVICE    : http://daytrader-quotes
