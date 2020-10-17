@@ -1,0 +1,16 @@
+daytrader-accounts--------------- 1443
+daytrader-gateway---------------- 2443
+daytrader-portfolios------------- 3443
+daytrader-quotes----------------- 4443
+
+daytrader-web-------------------- 5443
+daytrader-web-react-------------- 5453
+
+daytrader-report-generator------- No Port
+
+daytrader-scdf-trade-generator--- 6443
+daytrader-scdf-trade-processor--- 6453
+daytrader-scdf-trade-validation-- 6463
+
+daytrader-trade-consumer--------- 7443
+daytrader-trade-producer--------- 7453
