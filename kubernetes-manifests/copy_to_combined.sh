@@ -26,8 +26,8 @@ cp "pods/web-react-static/deployment.yaml"                "all_combined/web-reac
 cp "pods/web-react-static/service.yaml"                   "all_combined/web-react-static_service.yaml"
 
 
-cp "configmaps-mysql\config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"
-cp "configmaps-mysql\config-map-portfolios-db-mysql.yaml" "all_combined/config-map-portfolios-db-mysql.yaml"
-cp "configmaps-mysql\config-map-quotes-db-mysql.yaml"     "all_combined/config-map-quotes-db-mysql.yaml"
-cp "configmaps-mysql\config-map-service-urls.yaml"        "all_combined/config-map-service-urls.yaml"
+cp "configmaps-mysql/config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"
+cp "configmaps-mysql/config-map-portfolios-db-mysql.yaml" "all_combined/config-map-portfolios-db-mysql.yaml"
+cp "configmaps-mysql/config-map-quotes-db-mysql.yaml"     "all_combined/config-map-quotes-db-mysql.yaml"
+cp "configmaps-mysql/config-map-service-urls.yaml"        "all_combined/config-map-service-urls.yaml"
 
