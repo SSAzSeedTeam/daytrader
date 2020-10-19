@@ -52,6 +52,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
@@ -620,6 +621,8 @@ public class PortfoliosService
 	 * @see TradeServices#buy(String, String, double, int)
 	 *
 	 */
+    
+    @HystrixCommand(fallbackMethod = "buyFallback")
     public OrderDataBean buy(String userID, String symbol, double quantity, Integer mode) throws Exception 
 	{       
     	//
@@ -650,8 +653,11 @@ public class PortfoliosService
 			//
             // Ask quotes microservice for the data instead of accessing directly
             QuoteDataBean quoteData = quotesService.getQuote(symbol);
+            
+            System.out.println("quotes data from buy method of portfolio service *** " + quoteData);
     		
     		orderData = buy(accountData, orderData, quoteData, mode);
+    		System.out.println("orderData from buy ****" + orderData);
     		
     		//commit(conn);
     		
@@ -665,6 +671,34 @@ public class PortfoliosService
         }
         
     }
+    
+    public OrderDataBean buyFallback(String userID, String symbol, double quantity, Integer mode) throws Exception 
+	{
+        
+         OrderDataBean orderData = null;
+			try {
+
+				AccountDataBean accountData = getAccountData(userID);
+
+				orderData = new OrderDataBean();
+				orderData.setOrderFee(TradeConfig.getOrderFee("buy"));
+				orderData.setAccountID(accountData.getAccountID());
+				orderData.setSymbol(symbol);
+				orderData.setQuantity(quantity);
+				orderData.setOrderType("buy");
+				orderData.setOrderStatus("open");
+				QuoteDataBean quoteData = new QuoteDataBean("s:701", "Company701", 10.00, new BigDecimal(-1),
+						new BigDecimal(-1), new BigDecimal(-1), new BigDecimal(-1), 1.0);
+
+				orderData = buy(accountData, orderData, quoteData, mode);
+				System.out.println("orderData from buy fallback ****" + orderData);
+
+				return orderData;
+
+			} catch (Exception e) {
+             throw e;
+         }
+	}
 
 	/**
 	 * 

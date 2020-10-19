@@ -401,6 +401,8 @@ public class QuotesService
             }
             //commit(conn);
             marketSummaryData = new MarketSummaryDataBean(TSIA, openTSIA, volume, topGainersData, topLosersData);
+            System.out.println("topGainersData from quotes" + topGainersData);
+            System.out.println("topLosersData from quotes" + topLosersData);
 			}
 
         catch (Exception e) {
@@ -409,6 +411,8 @@ public class QuotesService
         } finally {
             //releaseConn(conn);
         }
+        
+        System.out.println("in quotes" + marketSummaryData);
         return marketSummaryData;
 
     }

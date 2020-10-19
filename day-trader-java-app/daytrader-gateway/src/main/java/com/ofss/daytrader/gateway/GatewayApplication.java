@@ -31,10 +31,12 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.boot.web.servlet.ServletComponentScan;
 //import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 
 @ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
 @SpringBootApplication
+@EnableHystrix
 public class GatewayApplication extends SpringBootServletInitializer {
 	
 	//	- Each microservice has their own private database (datasource)

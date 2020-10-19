@@ -21,12 +21,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 //Jackson
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.entities.*;
 import com.ofss.daytrader.gateway.utils.Log;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.ws.rs.core.Response;
 
 // Daytrader
 import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
@@ -104,6 +108,9 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 	 * @see TradeServices#getMarketSummary()
 	 *
 	 */
+		
+	
+	@HystrixCommand(fallbackMethod = "getMarketSummaryFallback")
     public MarketSummaryDataBean getMarketSummary() throws Exception 
     {
     	// Added exchange on 7-10-2018 (03); it is ignored for now.
@@ -112,8 +119,15 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
     	String exchange = "TSIA"; /* Trade Stock Index Average */
     	String url = quotesServiceRoute + "/markets/" + exchange;   
 		Log.debug("QuotesRemoteCallService.getMarketSummary() - " + url);
-	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
-        MarketSummaryDataBean marketSummaryData = mapper.readValue(responseString,MarketSummaryDataBean.class);
+		String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+		MarketSummaryDataBean marketSummaryData = mapper.readValue(responseString,MarketSummaryDataBean.class);
+	    System.out.println("in gateway service" + marketSummaryData);
+		
+        
+		/*
+		 * if (exchange=="TSIA") { throw new Exception("calling fallback method"); }
+		 */
+	
         return marketSummaryData;
     }
     
@@ -195,6 +209,35 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
     {
     	// The parameter publishQuotePriceChange isn't required; it was always false
         return updateQuotePriceVolume(symbol, changeFactor, sharesTraded);
+    }
+    
+    public MarketSummaryDataBean getMarketSummaryFallback() throws Exception {
+    	
+    	System.out.println("in fallback method of market summary");
+    	Collection<QuoteDataBean> topGainersData = new ArrayList<QuoteDataBean>(5);
+        Collection<QuoteDataBean> topLosersData = new ArrayList<QuoteDataBean>(5);
+        BigDecimal TSIA = new BigDecimal(-1);
+        BigDecimal openTSIA = new BigDecimal(-1);
+        double volume = 7.0;
+        
+        topGainersData.add(new QuoteDataBean("s:701","Company701",10.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:7012","Company702",20.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:703","Company703",30.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:704","Company704",40.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:705","Company705",50.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        
+        topLosersData.add(new QuoteDataBean("s:706","Company706",9.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:707","Company707",8.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:708","Company708",7.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:709","Company709",6.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:710","Company710",5.00,new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        
+        
+        MarketSummaryDataBean marketSummaryData = new MarketSummaryDataBean(TSIA, openTSIA, volume, topGainersData, topLosersData);
+        
+        System.out.println("marketSummaryData from fall back method" + marketSummaryData);
+        return marketSummaryData;
+        
     }
         
 }
