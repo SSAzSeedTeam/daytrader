@@ -1,3 +1,9 @@
+.app-login-navbar-container {
+    max-width: 85%;
+    margin: auto;
+    padding-top: 80px;
+}
+
 .app-login-navbar-container .aln-nav-links {
     display: flex;
     justify-content: flex-start;
