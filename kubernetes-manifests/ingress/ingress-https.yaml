@@ -13,16 +13,21 @@ metadata:
 spec:
   tls:
   - hosts:
-    - daytrader-app.xyz
-    secretName: daytrader-tls-secret
+    #- daytrader-app.xyz
+    #secretName: daytrader-tls-secret
+    - 20.54.183.162
   rules:
-    - host: daytrader-app.xyz
+    #- host: daytrader-app.xyz
     - http: 
         paths:
         - path: /
           backend:
             serviceName: daytrader-web
             servicePort: 443
+#        - path: /config
+#          backend:
+#            serviceName: daytrader-web
+#            servicePort: 443
         - path: /quotes
           backend:
             serviceName: daytrader-quotes
@@ -35,4 +40,3 @@ spec:
           backend:
             serviceName: daytrader-portfolios
             servicePort: 443
-            

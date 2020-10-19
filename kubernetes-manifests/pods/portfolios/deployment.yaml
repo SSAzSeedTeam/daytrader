@@ -83,3 +83,8 @@ spec:
             configMapKeyRef:
               name: daytrader-portfolios-db-config-map
               key: DAYTRADER_DATABASE_PASSWORD
+        - name: DAYTRADER_DATABASE_DIALECT
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-db-config-map
+              key: DAYTRADER_DATABASE_DIALECT

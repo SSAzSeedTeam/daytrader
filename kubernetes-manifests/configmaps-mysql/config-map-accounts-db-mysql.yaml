@@ -7,3 +7,4 @@ data:
   DAYTRADER_DATABASE_URL     : jdbc:mysql://daytrader-server.mysql.database.azure.com:3306/daytrader-mysql-accounts-db?useSSL=true&requireSSL=false&serverTimezone=UTC
   DAYTRADER_DATABASE_USERNAME: daytrader_admin@daytrader-server
   DAYTRADER_DATABASE_PASSWORD: Mjuh_78wYFfdTRdH
+  DAYTRADER_DATABASE_DIALECT : org.hibernate.dialect.MySQL5InnoDBDialect
