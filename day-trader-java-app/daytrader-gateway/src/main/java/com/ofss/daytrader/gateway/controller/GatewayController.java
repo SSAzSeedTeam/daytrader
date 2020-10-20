@@ -161,7 +161,8 @@ public class GatewayController
 	@RequestMapping(value = "/accounts/{userId}/profiles", method = RequestMethod.GET)
 	public ResponseEntity<AccountProfileDataBean> getAccountProfileData(@PathVariable("userId") String userId) 
 	{
-		Log.traceEnter("GatewayController.getAccountProfileData()");
+        System.out.println("XXXXXXXXXXXXXXXX");
+        Log.traceEnter("GatewayController.getAccountProfileData()");
 		AccountProfileDataBean profileData = null;
 		try
 		{

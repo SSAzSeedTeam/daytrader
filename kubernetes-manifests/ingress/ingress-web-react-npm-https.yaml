@@ -22,21 +22,22 @@ spec:
         paths:
         - path: /
           backend:
-            serviceName: daytrader-web
+            serviceName: daytrader-gateway
             servicePort: 443
 #        - path: /config
 #          backend:
 #            serviceName: daytrader-web
 #            servicePort: 443
-        - path: /quotes
-          backend:
-            serviceName: daytrader-quotes
-            servicePort: 443
-        - path: /accounts
-          backend:
-            serviceName: daytrader-accounts
-            servicePort: 443
-        - path: /portfolios
-          backend:
-            serviceName: daytrader-portfolios
-            servicePort: 443
+#        - path: /quotes
+#          backend:
+#            serviceName: daytrader-quotes
+#            servicePort: 443
+#        - path: /accounts
+#          backend:
+#            serviceName: daytrader-accounts
+#            servicePort: 443
+#        - path: /portfolios
+#          backend:
+#            serviceName: daytrader-portfolios
+#            servicePort: 443
+#
