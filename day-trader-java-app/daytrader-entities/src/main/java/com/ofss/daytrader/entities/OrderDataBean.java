@@ -35,7 +35,7 @@ import com.ofss.daytrader.utils.TradeConfig;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="orderejb",
+@Table(name="orderdb",
 	indexes = {@Index(name = "ORDER_ACCOUNTID", columnList = "account_accountid"),
 			   @Index(name = "ORDER_HOLDINGID", columnList = "holding_holdingid"),
 			   @Index(name = "CLOSED_ORDERS", columnList = "account_accountid,orderStatus")})

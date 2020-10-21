@@ -27,7 +27,7 @@ import com.ofss.daytrader.utils.TradeConfig;
 
 
 @Entity
-@Table(name="accountprofileejb")
+@Table(name="accountprofile")
 public class AccountProfileDataBean implements java.io.Serializable {
 
     /* Accessor methods for persistent fields */

@@ -37,7 +37,7 @@ import javax.persistence.Transient;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name="accountejb",
+@Table(name="account",
 	indexes = {@Index(name = "ACCOUNT_USERID", columnList = "profile_userid")})
 public class AccountDataBean implements Serializable {
 

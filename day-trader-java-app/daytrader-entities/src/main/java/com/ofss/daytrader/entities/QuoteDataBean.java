@@ -27,7 +27,7 @@ import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
 @Entity
-@Table(name = "quoteejb")
+@Table(name = "quote")
 public class QuoteDataBean implements Serializable {
 
     /* Accessor methods for persistent fields */
