@@ -54,6 +54,10 @@
 		<module>daytrader-trade-common</module>
 		<module>daytrader-trade-consumer</module>
 		<module>daytrader-trade-producer</module>
+		<module>daytrader-scdf-trade-generator</module>
+		<module>daytrader-scdf-trade-processor</module>
+		<module>daytrader-scdf-trade-validation</module>
+
 		<!--
 		-->
 

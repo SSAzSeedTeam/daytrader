@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-portfolios
+  name: daytrader-portfolios
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-portfolios
+  template:
+    metadata:
+      labels:
+        app: daytrader-portfolios
+    spec:
+      containers:
+      - name: daytrader-portfolios
+        image: azseed/daytrader-portfolios:1.7
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3443
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
+        env:
+        - name: DAYTRADER_ACCOUNTS_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_ACCOUNTS_SERVICE
+        - name: DAYTRADER_GATEWAY_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_GATEWAY_SERVICE
+        - name: DAYTRADER_PORTFOLIOS_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_PORTFOLIOS_SERVICE
+        - name: DAYTRADER_QUOTES_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_QUOTES_SERVICE
+        - name: GET_HOSTS_FROM
+          value: dns
+#       DATABASE related config
+        - name: DAYTRADER_DATABASE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-db-config-map
+              key: DAYTRADER_DATABASE_DRIVER
+        - name: DAYTRADER_DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-db-config-map
+              key: DAYTRADER_DATABASE_URL
+        - name: DAYTRADER_DATABASE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-db-config-map
+              key: DAYTRADER_DATABASE_USERNAME
+        - name: DAYTRADER_DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-db-config-map
+              key: DAYTRADER_DATABASE_PASSWORD
+        - name: DAYTRADER_DATABASE_DIALECT
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-portfolios-db-config-map
+              key: DAYTRADER_DATABASE_DIALECT

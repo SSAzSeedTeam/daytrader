@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-scdf-trade-processor
+  name: daytrader-scdf-trade-processor
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-scdf-trade-processor
+  template:
+    metadata:
+      labels:
+        app: daytrader-scdf-trade-processor
+    spec:
+      containers:
+      - name: daytrader-scdf-trade-processor
+        image: azseed/daytrader-scdf-trade-processor:1.7
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6453
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4

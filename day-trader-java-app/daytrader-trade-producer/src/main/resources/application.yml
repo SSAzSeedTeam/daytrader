@@ -4,7 +4,7 @@
 # spring.kafka.bootstrap-servers and schema.registry.url (part of spring.kafka.properties)
 
 server:
-  port: 8086
+  port: 8443
 
 stockTick:
   producer:

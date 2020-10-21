@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: daytrader-scdf-trade-validation
+  name: daytrader-scdf-trade-validation
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 6463
+  selector:
+    app: daytrader-scdf-trade-validation
+  sessionAffinity: ClientIP
+#  type: LoadBalancer 
