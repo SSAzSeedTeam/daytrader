@@ -38,7 +38,7 @@
     "rollup-plugin-visualizer": "^0.8.0"
   },
   "scripts": {
-    "start": "SET PORT=3002&&react-scripts start",
+    "start": "PORT=3002 react-scripts start",
     "build": "rollup -c",
     "prod": "SET REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway&& npm start",
     "test": "react-scripts test",
