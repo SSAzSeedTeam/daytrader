@@ -228,6 +228,11 @@
     <artifactId>hibernate-jpql-parser</artifactId>
     <version>1.0.0.Alpha1</version>
 </dependency> -->
+<dependency>
+    <groupId>de.codecentric</groupId>
+    <artifactId>chaos-monkey-spring-boot</artifactId>
+    <version>2.2.0</version>
+</dependency>
 
     </dependencies>
 

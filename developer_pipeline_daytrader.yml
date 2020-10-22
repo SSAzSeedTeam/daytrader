@@ -2,7 +2,7 @@ trigger: none
 
 variables:
 - name: docker_tag
-  value: 0
+  value: 17.1
 
 
 stages:
