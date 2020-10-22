@@ -11,7 +11,6 @@ import uparrow from '../../assets/arrowup.gif';
 // import CompletedOrder from './NewOrder/CompletedOrder';
 import {LOCAL_GATEWAY_URL} from '../../constants';
 
-
 const exchangeString = 'TSIA'
 class Dashboard extends Component {
   constructor() {
@@ -74,9 +73,6 @@ class Dashboard extends Component {
     const profit = (sumOfTotalHoldings + balance) - openBalance;
     return (
       <div className='dashboard-container'>
-        <div className='app-login-navbar-section'>
-          <LoginNavbar />
-        </div>
         <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
         </div>

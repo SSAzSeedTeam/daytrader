@@ -83,6 +83,39 @@ services:
       - daytrader-gateway
       - daytrader-portfolios
       - daytrader-quotes
+      
+  daytrader-trade-consumer:
+    image: daytrader-trade-consumer:0
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+    ports:
+      - "7443:7443"
+    restart: always
+
+    depends_on:
+      - daytrader-accounts
+      - daytrader-gateway
+      - daytrader-portfolios
+      - daytrader-quotes
+
+      
+  daytrader-trade-producer:
+    image: daytrader-trade-producer:0
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+    ports:
+      - "8443:8086"
+    restart: always
+
+    depends_on:
+      - daytrader-accounts
+      - daytrader-gateway
+      - daytrader-portfolios
+      - daytrader-quotes
 
 #  daytrader-web-react:
 #    image: daytrader-web-react:0

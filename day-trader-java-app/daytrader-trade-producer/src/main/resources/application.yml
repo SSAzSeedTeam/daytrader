@@ -18,8 +18,7 @@ spring:
     #consumer.group-id: kafkaSchemaGroup
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      #io.stockgeeks.kafka.stock.ticker.producer.avro.ProducerSerializer
+      value-serializer: com.ofss.daytrader.trade.producer.ProducerSerializer
     properties:
       ssl.endpoint.identification.algorithm: https
       sasl.mechanism: PLAIN
@@ -27,6 +26,10 @@ spring:
       security.protocol: SASL_SSL
       retry.backoff.ms: 500
       sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="SQBFW4EG47FHFWSI" password="qzbQtcO+gN/IlsU4h7vJhwzb1waKAHJVdsxejVhnfL+4YQamXP09OU81LVm+b0i3";
+  json:
+    use:
+      type:
+        headers: false
     
       # Schema Registry specific settings
   #    schema.registry.url: {registry url}

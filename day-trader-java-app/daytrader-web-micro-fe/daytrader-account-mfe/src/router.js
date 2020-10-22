@@ -4,15 +4,13 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import Account from './components/TradingAndPortfolios/Account/Account'
+import AccountsPage from './accounts/accounts'
 
 const AppRouter = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/Account" component={Account} exact />
-
-
+        <Route path="/trading/accounts" component={AccountsPage} exact />
       </Switch>
     </Router>
   )

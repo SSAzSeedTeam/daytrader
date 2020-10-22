@@ -19,11 +19,15 @@ import ResetDatabaseComponent from './components/configuration/ResetDatabaseComp
 import Navbar from './components/shared/Navbar/Navbar';
 import Footer from './components/shared/Footer/Footer';
 import TradingHome from './components/trading/trading';
+import NewOrderpage from './components/orders/new-order';
+import CompletedOrderPage from './components/orders/completed-order';
+import LoginNavbar from './components/shared/LoginNavbar/LoginNavbar';
 
 const AppRouter = () => {
   return (
     <Router>
       <Navbar />
+      <LoginNavbar />
       <Switch>
         <Route path="/" component={Home} exact />
         <Route path="/login" component={Login} exact />
@@ -38,6 +42,8 @@ const AppRouter = () => {
         <Route path="/configure" component={ConfigureDatabaseComponent} exact />
         <Route path="/version" component={DaytraderVersionDatabaseComponent} exact />
         <Route path="/reset" component={ResetDatabaseComponent} exact />
+        <Route path="/trading/new-order" component={NewOrderpage} exact/>
+        <Route path="/trading/complete-order" component={CompletedOrderPage} exact/>
       </Switch>
       <Footer />
     </Router>

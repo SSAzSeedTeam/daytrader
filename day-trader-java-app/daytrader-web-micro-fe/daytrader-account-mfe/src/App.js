@@ -1,13 +1,12 @@
 import React from 'react';
 import AppRouter from './router';
 
-const App = () => {
-  console.log('dotenv', process.env)
+const AccountsApp = () => {
   return (
-    <div className="App">
+    <div className="AccountsApp">
       <AppRouter />
     </div>
   );
 }
 
-export default App;
+export default AccountsApp;

@@ -62,10 +62,5 @@ public class TradeConsumer {
 	logger.info("recieved a complex message : {}", message.getOrderType());
     
   }
-  
-  @Bean
-  public RestTemplate restTemplate() {
-      return new RestTemplate();
-  }
 
 }
