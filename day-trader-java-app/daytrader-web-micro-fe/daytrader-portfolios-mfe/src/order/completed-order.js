@@ -16,8 +16,8 @@ class CompletedOrderPage extends Component {
   }
 
   componentDidMount() {
-    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    axios.patch(`${LOCAL_GATEWAY_URL}/portfolios/${userId}/orders?status=${status}`)
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/orders?status=${status}`)
       .then(res => {
         console.log('res ---<', res)
         this.setState({

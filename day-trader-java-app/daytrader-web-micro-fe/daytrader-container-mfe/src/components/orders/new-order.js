@@ -4,6 +4,8 @@ import axios from 'axios'
 import './new-order.css';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import {LOCAL_GATEWAY_URL} from '../../constants';
+
 const mode = 0;
 
 const status = 'closed'
@@ -16,7 +18,9 @@ class NewOrderpage extends Component {
     }
   }
   componentDidMount() {
-    axios.patch(`https://localhost:3443/portfolios/${userId}/orders?status=${status}`)
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+
+    axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/orders?status=${status}`)
       .then(res => {
         console.log('res ---<', res)
         this.setState({

@@ -36,7 +36,8 @@ class Registerpage extends Component {
         showErrorMessage: true
       })
     } else {
-      axios.post(`${LOCAL_GATEWAY_URL}/accounts`, {
+      const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+      axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts`, {
         accountID: 0,
         balance: 0,
         creationDate: new Date(),
