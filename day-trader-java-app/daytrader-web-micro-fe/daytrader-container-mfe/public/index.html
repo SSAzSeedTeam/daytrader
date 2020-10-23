@@ -37,17 +37,17 @@
     <script type="module">
       singleSpa.registerApplication(
         "quotes",
-        () => import("http://localhost:3004/pages.min.js"),
+        () => import("%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"),
         ({ pathname }) => pathname === "/trading/quotes"
       );
       singleSpa.registerApplication(
         "accounts",
-        () => import("http://localhost:3002/pages.min.js"),
+        () => import("%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"),
         ({ pathname }) => pathname === "/trading/accounts"
       );
       singleSpa.registerApplication(
         "portfolio",
-        () => import("http://localhost:3003/pages.min.js"),
+        () => import("%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"),
         ({ pathname }) => pathname === "/trading/portfolio"
       );
       singleSpa.start();

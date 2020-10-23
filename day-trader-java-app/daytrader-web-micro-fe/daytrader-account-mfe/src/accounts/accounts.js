@@ -23,18 +23,28 @@ class AccountsPage extends Component {
     // let REACT_APP_DAYTRADER_GATEWAY_SERVICE = ''
     // if (process && process.env) {
     //     REACT_APP_DAYTRADER_GATEWAY_SERVICE = process.env.REACT_APP_DAYTRADER_GATEWAY_SERVICE
+    //     console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
     // } else {
     //   REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL
+    //   console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE in else' , REACT_APP_DAYTRADER_GATEWAY_SERVICE)
+
     // }
+
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
+
     const userId = localStorage.getItem('userId')
-    axios.get(`${LOCAL_GATEWAY_URL}/accounts/${userId}`)
+
+    // axios.get(`${LOCAL_GATEWAY_URL}/accounts/${userId}`)
+
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}`)
       .then(res => {
         console.log('res', res)
         this.setState({
           accountsummary: res.data,
         })
       })
-    axios.get(`${LOCAL_GATEWAY_URL}/accounts/${userId}/profiles`)
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}/profiles`)
       .then(res => {
         console.log('res', res)
         this.setState({
@@ -56,7 +66,7 @@ class AccountsPage extends Component {
   }
 
   handleUpdateProfile = () => {
-    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process && process.env
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process && process.env
     const { userinfo } = this.state
     const dataToSend = {
       address: userinfo.address,
@@ -67,7 +77,7 @@ class AccountsPage extends Component {
       userID: userinfo.userID
     }
     const userId = localStorage.getItem('userId')
-    axios.put(`${LOCAL_GATEWAY_URL}/accounts/${userId}/profiles`, dataToSend)
+    axios.put(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}/profiles`, dataToSend)
       .then(res => {
         console.log('res', res);
         this.setState({
@@ -76,9 +86,9 @@ class AccountsPage extends Component {
       })
   }
   showAllOrders = () => {
-    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+   const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userId = localStorage.getItem('userId')
-    axios.get(`${LOCAL_GATEWAY_URL}/portfolios/${userId}/orders`)
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/orders`)
       .then(res => {
         console.log('res', res)
         this.setState({

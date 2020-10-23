@@ -1,48 +1,51 @@
 version: '3.4'
 
 services:
-  daytrader-container:
+  daytrader-container-mfe:
     image: singhavinash857/daytrader-container-mfe:latest
     ports:
       - "3001:3001"
     restart: always  
     environment:
-      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
-      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
-   
+      - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http://localhost:3002
+      - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http://localhost:3003  
+      - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:3004 
 
-  daytrader-account:
+  daytrader-account-mfe:
     image: singhavinash857/daytrader-account-mfe:latest
     ports:
       - "3002:3002"
     restart: always
     environment:
-      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
-      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
 
-  daytrader-portfolio:
+
+  daytrader-portfolio-mfe:
     image: singhavinash857/daytrader-portfolio-mfe:latest
     ports:
       - "3003:3003"
     restart: always
     environment:
-      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
-      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
   
-  daytrader-quotes:
+  daytrader-quotes-mfe:
     image: singhavinash857/daytrader-quotes-mfe:latest
     ports:
       - "3004:3004"
     restart: always
     environment:
-      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
-      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
  
