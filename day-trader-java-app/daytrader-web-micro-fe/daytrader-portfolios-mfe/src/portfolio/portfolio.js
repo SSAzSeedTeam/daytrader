@@ -21,17 +21,20 @@ class PortfolioPage extends Component {
   }
 
   componentDidMount() {
-    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE);
+    console.log('LOCAL_GATEWAY_URL', LOCAL_GATEWAY_URL);
+
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${LOCAL_GATEWAY_URL}/portfolios/${userId}/holdings`).
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
         if (res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${LOCAL_GATEWAY_URL}/quotes/${symbol}`)
+            await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const {price} = res.data;
@@ -65,7 +68,7 @@ class PortfolioPage extends Component {
     return sum;
   }
   handleSellOrder = (holdingID, symbol, price, quantity) => {
-    // const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userID = localStorage.getItem('userId');
   //  const cDate = new Date();
     const dataToSend = {
@@ -87,7 +90,7 @@ class PortfolioPage extends Component {
       symbol,
     }
     console.log('dataToSend', dataToSend);
-    axios.post(`${LOCAL_GATEWAY_URL}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {

@@ -22,9 +22,10 @@ services:
     restart: always
     environment:
       # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
       # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
 
   daytrader-portfolio-mfe:
@@ -34,9 +35,11 @@ services:
     restart: always
     environment:
       # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
       # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+
   
   daytrader-quotes-mfe:
     image: singhavinash857/daytrader-quotes-mfe:latest
@@ -45,7 +48,9 @@ services:
     restart: always
     environment:
       # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
       # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
       # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+
  
