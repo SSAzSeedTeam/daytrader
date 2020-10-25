@@ -29,6 +29,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 
+
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
@@ -36,12 +37,12 @@ import com.ofss.daytrader.utils.TradeConfig;
 @Entity
 @Table(name="orderejb",
 	indexes = {@Index(name = "ORDER_ACCOUNTID", columnList = "account_accountid"),
-				@Index(name = "ORDER_HOLDINGID", columnList = "holding_holdingid"),
-				@Index(name = "CLOSED_ORDERS", columnList = "account_accountid,orderStatus")})
+			   @Index(name = "ORDER_HOLDINGID", columnList = "holding_holdingid"),
+			   @Index(name = "CLOSED_ORDERS", columnList = "account_accountid,orderStatus")})
 public class OrderDataBean implements Serializable
 {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer orderID;            /* orderID */
     private String orderType;           /* orderType (buy, sell, etc.) */
     private String orderStatus;         /* orderStatus (open, processing, completed, closed, cancelled) */

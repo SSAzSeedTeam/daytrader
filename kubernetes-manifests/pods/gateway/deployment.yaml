@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-gateway
+  name: daytrader-gateway
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-gateway
+  template:
+    metadata:
+      labels:
+        app: daytrader-gateway
+    spec:
+      containers:
+      - name: daytrader-gateway
+        image: azseed/daytrader-gateway:1.7
+        imagePullPolicy: Always
+        
+#        resources:
+#          requests:
+#            cpu: 250m
+#          limits:
+#            cpu: 500m                    
+        
+        
+        ports:
+        - containerPort: 2443
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 2443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 2443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
+        env:
+        - name: DAYTRADER_ACCOUNTS_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_ACCOUNTS_SERVICE
+        - name: DAYTRADER_GATEWAY_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_GATEWAY_SERVICE
+        - name: DAYTRADER_PORTFOLIOS_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_PORTFOLIOS_SERVICE
+        - name: DAYTRADER_QUOTES_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_QUOTES_SERVICE
+        - name: GET_HOSTS_FROM
+          value: dns

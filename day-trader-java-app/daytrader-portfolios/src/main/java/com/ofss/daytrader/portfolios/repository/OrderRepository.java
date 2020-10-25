@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ofss.daytrader.entities.OrderDataBean;
 
 @Repository
-@Transactional
 public interface OrderRepository extends JpaRepository<OrderDataBean, Integer>{
 	
 	@Query(value="select * from orderejb o where o.accountID in(?1)", nativeQuery = true)

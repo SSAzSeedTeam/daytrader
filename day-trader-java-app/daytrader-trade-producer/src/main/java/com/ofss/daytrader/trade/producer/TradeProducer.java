@@ -3,6 +3,7 @@ package com.ofss.daytrader.trade.producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +14,7 @@ import com.ofss.daytrader.trade.common.Trade;
 import lombok.extern.slf4j.Slf4j;
 
 
+@CrossOrigin(origins = "*")
 @Slf4j
 @Component
 @RestController
