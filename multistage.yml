@@ -179,6 +179,42 @@ stages:
         Dockerfile: 'day-trader-java-app/daytrader-web-react/Dockerfile_static_files'
         tags: '${{variables.docker_tag}}'
 
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-accounts-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-accounts-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-account-mfe/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-container-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-container-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-container-mfe/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-portfolios-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-portfolios-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-portfolios-mfe/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-quotes-npm'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-quotes-npm'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-quotes-mfe/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+
 - stage: AKS_Deploy
   jobs:
     # track deployments on the environment
