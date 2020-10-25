@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-web-mfe-accounts-npm
+  name: daytrader-web-mfe-accounts-npm
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-web-mfe-accounts-npm
+  template:
+    metadata:
+      labels:
+        app: daytrader-web-mfe-accounts-npm
+    spec:
+      containers:
+      - name: daytrader-web-mfe-accounts-npm
+        image: azseed/daytrader-web-mfe-accounts-npm:1.7
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 3000
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 3000
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
+        env:
+        - name: CI
+          value: "true"
+        - name: ACCOUNTS_SERVICE_ROUTE
+          value: http://daytrader-accounts
+        - name: GATEWAY_SERVICE_ROUTE
+          value: http://daytrader-gateway
+        - name: PORTFOLIOS_SERVICE_ROUTE
+          value: http://daytrader-portfolios
+        - name: QUOTES_SERVICE_ROUTE
+          value: http://daytrader-quotes
+#        - name: GET_HOSTS_FROM
+#          value: dns
+        - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
+          value: https://20.54.182.253
+        - name: DAYTRADER_GATEWAY_SERVICE
+          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
+          value: https://20.54.182.253
+          
