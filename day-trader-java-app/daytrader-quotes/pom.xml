@@ -59,6 +59,13 @@
 		
 		<!-- Database Dependencies -->
 		
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-hystrix -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+			<version>2.2.5.RELEASE</version>
+		</dependency>
+		
 	    <dependency>
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derby</artifactId>
