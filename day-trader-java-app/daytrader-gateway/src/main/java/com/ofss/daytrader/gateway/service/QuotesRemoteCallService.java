@@ -122,11 +122,6 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 		String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
 		MarketSummaryDataBean marketSummaryData = mapper.readValue(responseString,MarketSummaryDataBean.class);
 	    System.out.println("in gateway service" + marketSummaryData);
-		
-        
-		/*
-		 * if (exchange=="TSIA") { throw new Exception("calling fallback method"); }
-		 */
 	
         return marketSummaryData;
     }

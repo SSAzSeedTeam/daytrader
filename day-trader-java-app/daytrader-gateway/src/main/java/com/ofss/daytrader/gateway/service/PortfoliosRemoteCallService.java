@@ -21,6 +21,7 @@ package com.ofss.daytrader.gateway.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.entities.*;
 import com.ofss.daytrader.gateway.utils.Log;
@@ -184,7 +185,19 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 	 * @see TradeServices#getHoldings(String)
 	 *
 	 */
+	
+	@HystrixCommand(fallbackMethod = "getHoldingsFallback")
 	public Collection<HoldingDataBean> getHoldings(String userID) throws Exception 
+	{		
+		// Returns the holdings for the give user
+    	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/holdings";
+		Log.debug("PortfoliosRemoteCallService.getHoldings() - " + url);
+	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	   	Collection<HoldingDataBean> holdings = mapper.readValue(responseString,new TypeReference<ArrayList<HoldingDataBean>>(){ });
+		return holdings;
+    }
+	
+	public Collection<HoldingDataBean> getHoldingsFallback(String userID) throws Exception 
 	{		
 		// Returns the holdings for the give user
     	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/holdings";

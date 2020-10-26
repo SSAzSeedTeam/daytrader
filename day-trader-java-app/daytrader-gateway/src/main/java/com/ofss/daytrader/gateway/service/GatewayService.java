@@ -135,17 +135,10 @@ public class GatewayService {
     /**
      * @see TradeServices#getMarketSummary()
      */
-	@HystrixCommand(fallbackMethod = "getMarketSummaryFallback")
-	public MarketSummaryDataBean getMarketSummary() throws Exception {
-		//throw new Exception("Throwing exception to call falbback method");
+	public MarketSummaryDataBean getMarketSummary() throws Exception 
+	{
 		
-		try {
         return quotesService.getMarketSummary();
-		}
-		catch(Exception e) {
-			throw e;
-		}
-		
     }
     
     /**

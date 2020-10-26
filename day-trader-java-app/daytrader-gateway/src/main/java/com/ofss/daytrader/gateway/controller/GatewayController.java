@@ -20,6 +20,7 @@ package com.ofss.daytrader.gateway.controller;
 // Java
 import java.util.ArrayList;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 // Javax
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.entities.AccountDataBean;
@@ -390,6 +392,8 @@ public class GatewayController
 	 * REST call to get the portfolio's holdings.
 	 * 
 	 */
+	
+	@HystrixCommand(fallbackMethod = "getHoldingsFallback")
 	@RequestMapping(value = "/portfolios/{userId}/holdings", method = RequestMethod.GET)
 	public ResponseEntity<Collection<HoldingDataBean>> getHoldings(@PathVariable("userId") String userId)
 	{
@@ -422,6 +426,7 @@ public class GatewayController
 	 * REST call to get the portfolio's orders.
 	 * 
 	 */
+	@HystrixCommand(fallbackMethod = "getOrdersFallback")
 	@RequestMapping(value = "/portfolios/{userId}/orders", method = RequestMethod.GET)
 	public ResponseEntity<Collection<OrderDataBean>> getOrders(@PathVariable("userId") String userId)
 	{
@@ -432,7 +437,8 @@ public class GatewayController
 		try
 		{
 			orders = gatewayService.getOrders(userId);
-			if ( orders != null)
+			System.out.println("orders data from gateway controller" + orders);
+			if (orders != null)
 			{
 				Log.traceExit("GatewayController.getOrders()");
 				return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
@@ -541,7 +547,8 @@ public class GatewayController
 			if (orderData.getOrderType().equals("sell"))
 			{
 				// Sell the specified holding and remove it from the portfolio
-				orderData = gatewayService.sell(userId,orderData.getHoldingID(),mode);	
+				orderData = gatewayService.sell(userId,orderData.getHoldingID(),mode);
+				System.out.println("orderData from gateway controller " + orderData);
 				Log.traceExit("GatewayController.processOrder()");
 				return new ResponseEntity<OrderDataBean>(orderData, getNoCacheHeaders(), HttpStatus.CREATED);
 			}
@@ -572,6 +579,7 @@ public class GatewayController
 	 * REST call to get the quote given the symbol.
 	 * 
 	 */
+	@HystrixCommand(fallbackMethod = "getQuoteFallback")
 	@RequestMapping(value = "/quotes/{symbol}", method = RequestMethod.GET)
 	public ResponseEntity<QuoteDataBean> getQuote(@PathVariable("symbol") String symbol) 
 	{
@@ -712,18 +720,22 @@ public class GatewayController
 	// Markets Related Endpoints
 	//
 
+	@HystrixCommand(fallbackMethod = "getMarketSummaryFallback")
 	@RequestMapping(value = "/markets/{exchange}", method = RequestMethod.GET)
-	public ResponseEntity<MarketSummaryDataBean> getMarketSummary(@PathVariable("exchange") String exchange) 
+	public ResponseEntity<MarketSummaryDataBean> getMarketSummary(@PathVariable("exchange") String exchange) throws Exception 
 	{	
 		Log.traceEnter("GatewayController.getMarketSummary()");
 		
 		MarketSummaryDataBean marketSummary = new MarketSummaryDataBean();
-		
+		//throw new Exception("fallback from Gateway controller");
 		try
 		{
+			//throw new Exception("fallback from Gateway controller");
+			
 			marketSummary = gatewayService.getMarketSummary();
 			Log.traceExit("GatewayController.getMarketSummary()");
 			return new ResponseEntity<MarketSummaryDataBean>(marketSummary, getNoCacheHeaders(), HttpStatus.OK);
+			
 		}
 		catch (NotFoundException nfe)
 		{
@@ -746,6 +758,62 @@ public class GatewayController
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Cache-Control", "no-cache");
 		return responseHeaders;
+	}
+	
+	public ResponseEntity<MarketSummaryDataBean> getMarketSummaryFallback(@PathVariable("exchange") String exchange) throws Exception {
+    	
+    	System.out.println("in fallback method of market summary");
+    	Collection<QuoteDataBean> topGainersData = new ArrayList<QuoteDataBean>(5);
+        Collection<QuoteDataBean> topLosersData = new ArrayList<QuoteDataBean>(5);
+        BigDecimal TSIA = new BigDecimal(12);
+        BigDecimal openTSIA = new BigDecimal(120);
+        double volume = 7.0;
+        
+        topGainersData.add(new QuoteDataBean("s:701","Company701",10.00,new BigDecimal(190),new BigDecimal(190),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:702","Company702",20.00,new BigDecimal(191),new BigDecimal(191),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:703","Company703",30.00,new BigDecimal(192),new BigDecimal(192),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:704","Company704",40.00,new BigDecimal(193),new BigDecimal(193),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topGainersData.add(new QuoteDataBean("s:705","Company705",50.00,new BigDecimal(194),new BigDecimal(-194),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        
+        topLosersData.add(new QuoteDataBean("s:706","Company706",9.00,new BigDecimal(195),new BigDecimal(195),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:707","Company707",8.00,new BigDecimal(196),new BigDecimal(196),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:708","Company708",7.00,new BigDecimal(197),new BigDecimal(197),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:709","Company709",6.00,new BigDecimal(198),new BigDecimal(198),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        topLosersData.add(new QuoteDataBean("s:710","Company710",5.00,new BigDecimal(199),new BigDecimal(199),new BigDecimal(-1),new BigDecimal(-1),1.0));
+        
+        
+        MarketSummaryDataBean marketSummaryData = new MarketSummaryDataBean(TSIA, openTSIA, volume, topGainersData, topLosersData);
+        
+        System.out.println("marketSummaryData from fall back method" + marketSummaryData);
+        //return marketSummaryData;
+        return new ResponseEntity<MarketSummaryDataBean>(marketSummaryData, getNoCacheHeaders(), HttpStatus.OK);
+        
+    }
+	
+	public ResponseEntity<Collection<HoldingDataBean>> getHoldingsFallback(@PathVariable("userId") String userId)
+	{
+		Log.traceEnter("getHoldingsFallback of GatewayController");
+		
+		Collection<HoldingDataBean> holdings = new ArrayList<HoldingDataBean>(3);	
+		
+		holdings.add(new HoldingDataBean(701,107d,new BigDecimal(10),new Timestamp(System.currentTimeMillis()),"s:701"));
+		holdings.add(new HoldingDataBean(702,17d,new BigDecimal(10),new Timestamp(System.currentTimeMillis()),"s:702"));
+		holdings.add(new HoldingDataBean(703,177d,new BigDecimal(10),new Timestamp(System.currentTimeMillis()),"s:703"));
+		return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
+	}
+	
+	public ResponseEntity<QuoteDataBean> getQuoteFallback(@PathVariable("symbol") String symbol) 
+	{
+		QuoteDataBean quoteData = new QuoteDataBean("s:701","Company701",9.00,new BigDecimal(195),new BigDecimal(195),new BigDecimal(1),new BigDecimal(10),1.0);
+		
+		return new ResponseEntity<QuoteDataBean>(quoteData,getNoCacheHeaders(),HttpStatus.OK);
+	}		
+	
+	public ResponseEntity<Collection<OrderDataBean>> getOrdersFallback(@PathVariable("userId") String userId)
+	{
+		Collection<OrderDataBean> orders = null;		
+		
+		return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 	}
 	
 }
