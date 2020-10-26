@@ -653,11 +653,8 @@ public class PortfoliosService
 			//
             // Ask quotes microservice for the data instead of accessing directly
             QuoteDataBean quoteData = quotesService.getQuote(symbol);
-            
-            System.out.println("quotes data from buy method of portfolio service *** " + quoteData);
     		
     		orderData = buy(accountData, orderData, quoteData, mode);
-    		System.out.println("orderData from buy ****" + orderData);
     		
     		//commit(conn);
     		
@@ -687,7 +684,7 @@ public class PortfoliosService
 				orderData.setQuantity(quantity);
 				orderData.setOrderType("buy");
 				orderData.setOrderStatus("open");
-				QuoteDataBean quoteData = new QuoteDataBean("s:701", "Company701", 10.00, new BigDecimal(-1),
+				QuoteDataBean quoteData = new QuoteDataBean(symbol, "Company199", quantity, new BigDecimal(-1),
 						new BigDecimal(-1), new BigDecimal(-1), new BigDecimal(-1), 1.0);
 
 				orderData = buy(accountData, orderData, quoteData, mode);
@@ -720,6 +717,7 @@ public class PortfoliosService
         {
             //conn = getConn();
             AccountDataBean accountData = getAccountData(userID);
+            System.out.println("accountData from sell of porfolios" + accountData);
             if ((accountData == null)) 
             {
                 throw new NotFoundException("Unable to find account for userID: " + userID);
@@ -734,6 +732,7 @@ public class PortfoliosService
             // 
             //  Ask quotes microservice for the data instead of accessing directly
             QuoteDataBean quoteData = quotesService.getQuote(holdingData.getQuoteID());
+            System.out.println("quoteData from sell of portfolios" + quoteData);
             if (quoteData == null)
         	{
             	throw new NotFoundException("Unable to find quote for symbol: " + holdingData.getQuoteID());

@@ -460,7 +460,6 @@ public class AccountsService
             commit(conn);
 */
         	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
-        	System.out.println("accountData in try block " + accountData);
         	
         }catch (Exception e) {
            // rollBack(conn, e);
@@ -472,6 +471,13 @@ public class AccountsService
         	System.out.println("accountData" + accountData);
         	throw new Exception("Testing fallback");
         }
+        
+        System.out.println(CachedObjectsClass.getInstance());
+		Object cachedObjectCheck = CachedObjectsClass.getInstance().checkCacheForObject("kk");
+        System.out.println("cachedObjectCheck value is " + cachedObjectCheck);
+        CachedObjectsClass.getInstance().addObjectToCache("l", accountData);
+        System.out.println(CachedObjectsClass.checkCacheForObject("1"));
+        
         return accountData;
     }
 	
@@ -480,7 +486,10 @@ public class AccountsService
 	* @see TradeServices#getAccountProfileData(String)
 	*
 	*/
+    
+    @HystrixCommand(fallbackMethod = "getAccountProfileDataFallback")
     public AccountProfileDataBean getAccountProfileData(String userID) throws Exception {
+    	
         AccountProfileDataBean accountProfileData = null;
        // Connection conn = null;
         /*session=sessionFactory.openSession();
@@ -499,6 +508,16 @@ public class AccountsService
         	//session.close();
             //releaseConn(conn);
         }
+        
+        if (accountProfileData == null) {
+        	throw new Exception("Calling fallback from getAccountProfileData ");
+        }
+        CachedObjectsClass.getInstance();
+		Object cachedObjectCheck = CachedObjectsClass
+                .checkCacheForObject("kk");
+        System.out.println("cachedObjectCheck value is " + cachedObjectCheck);
+        CachedObjectsClass.getInstance().addObjectToCache("l", accountProfileData);
+        System.out.println(CachedObjectsClass.checkCacheForObject("1"));
         return accountProfileData;
     }
 	
@@ -613,6 +632,7 @@ public class AccountsService
         } finally {
             //releaseConn(conn);
         }
+        System.out.println("in login method" + accountData);
         return accountData;
     }
 
@@ -686,8 +706,8 @@ public class AccountsService
         }
         return accountData;
     }
-    // fallback method for register()
     
+    // fallback method for register()    
     public AccountDataBean registerFallback(String userID, String password, String fullname, 
     		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
     {
@@ -695,7 +715,7 @@ public class AccountsService
     	 BigDecimal balance = openBalance;
          Timestamp creationDate = new Timestamp(System.currentTimeMillis());
          
-    	AccountDataBean accountData = new AccountDataBean(007,0,0,creationDate,creationDate,balance,balance,userID);
+    	AccountDataBean accountData = new AccountDataBean(707,0,0,creationDate,creationDate,balance,balance,userID);
     	System.out.println("in register fallback method" + accountData);
     	return accountData ;
     
@@ -1099,6 +1119,20 @@ public class AccountsService
        	accountData.setBalance(new BigDecimal(-1));
        	accountData.setOpenBalance(new BigDecimal(-1));
         return accountData;
+    }
+    
+    public AccountProfileDataBean getAccountProfileDataFallback(String userID) throws Exception {
+        
+    	AccountProfileDataBean accountProfileData = new AccountProfileDataBean();
+        accountProfileData.setUserID(userID);
+        accountProfileData.setPassword("777");
+        accountProfileData.setAddress("");
+        accountProfileData.setCreditCard("1234-5678-0123");
+        accountProfileData.setEmail("email@gmail.com");
+        accountProfileData.setExchangeRate(1.0d);
+        accountProfileData.setFullName("FullName");
+        
+        return accountProfileData;
     }
 
 }
