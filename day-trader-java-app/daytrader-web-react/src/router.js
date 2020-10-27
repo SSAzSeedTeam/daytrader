@@ -28,7 +28,7 @@ import Footer from './components/shared/Footer/Footer';
 
 const AppRouter = () => {
   return (
-    <Router>
+    <Router basename={process.env.REACT_APP_ROUTER_BASE || ''}>
       <Navbar />
       <Switch>
         <Route path="/" component={Home} exact />
