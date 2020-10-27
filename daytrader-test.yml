@@ -9,12 +9,26 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'azseedteam'
+    scannerMode: 'Other'
 
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'day-trader-java-app/pom.xml'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: true
+    sqMavenPluginVersionChoice: 'latest'
 
-
-
-
-
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
 
 #- task: DockerCompose@0
 #  inputs:
