@@ -671,7 +671,7 @@ public class PortfoliosService
     
     public OrderDataBean buyFallback(String userID, String symbol, double quantity, Integer mode) throws Exception 
 	{
-        
+        System.out.println("in buyFallback method ");
          OrderDataBean orderData = null;
 			try {
 
@@ -702,6 +702,7 @@ public class PortfoliosService
 	 * @see TradeServices#sell(String, Integer, Integer)
 	 *
 	 */
+    @HystrixCommand(fallbackMethod = "sellFallback")
     public OrderDataBean sell(String userID, Integer holdingID, Integer mode) throws Exception 
 	{
     	// Mode is ignored for now. Later it will be used for async order processing
@@ -763,7 +764,43 @@ public class PortfoliosService
         } finally {
             //releaseConn(conn);
         }
+        System.out.println("orderData from sell method of portfolios" + orderData);
+        return orderData;
+    }
+    
+    public OrderDataBean sellFallback(String userID, Integer holdingID, Integer mode) throws Exception 
+	{
+    	// Mode is ignored for now. Later it will be used for async order processing
+        //Connection conn = null;
+        OrderDataBean orderData = null;
 
+        /*
+         * total = (quantity * purchasePrice) + orderFee
+         */
+        BigDecimal total;
+
+        try 
+        {
+        	AccountDataBean accountData = getAccountData(userID);
+        	orderData = new OrderDataBean();
+        				
+        	orderData.setCompletionDate(new Timestamp(System.currentTimeMillis()));
+        	orderData.setOpenDate(new Timestamp(System.currentTimeMillis()));
+        	orderData.setPrice(TradeConfig.getOrderFee("buy"));
+        	orderData.setOrderFee(TradeConfig.getOrderFee("sell"));
+        	orderData.setAccountID(701);
+        	orderData.setSymbol("s:701");
+    		orderData.setQuantity(100.0);
+    		orderData.setOrderType("sell");
+    		orderData.setOrderStatus("closed");
+    		
+        } catch (Exception e) {
+            //rollBack(conn, e);
+            throw e;
+        } finally {
+            //releaseConn(conn);
+        }
+        System.out.println("orderData from sell method of portfolios" + orderData);
         return orderData;
     }
     
