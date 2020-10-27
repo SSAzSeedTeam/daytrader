@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-trade-consumer
-        image: azseed/daytrader-trade-consumer:1.7
+        image: azseed/daytrader-trade-consumer:1.8
         imagePullPolicy: Always
         ports:
         - containerPort: 7443

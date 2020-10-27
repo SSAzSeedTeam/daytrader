@@ -8,8 +8,8 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 #    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/rewrite-path: /
-    nginx.ingress.kubernetes.io/secure-backends: "true"    
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+#    nginx.ingress.kubernetes.io/secure-backends: "true"    
+#    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   tls:
   - hosts:
@@ -23,7 +23,7 @@ spec:
         - path: /
           backend:
             serviceName: daytrader-gateway
-            servicePort: 443
+            servicePort: 80
 #        - path: /config
 #          backend:
 #            serviceName: daytrader-web

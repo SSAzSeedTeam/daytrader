@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-scdf-trade-validation
-        image: azseed/daytrader-scdf-trade-validation:1.7
+        image: azseed/daytrader-scdf-trade-validation:1.8
         imagePullPolicy: Always
         ports:
         - containerPort: 6463

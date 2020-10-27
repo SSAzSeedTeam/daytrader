@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-web-mfe-quotes-npm
-        image: azseed/daytrader-web-mfe-quotes-npm:1.7
+        image: azseed/daytrader-web-mfe-quotes-npm:1.8
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

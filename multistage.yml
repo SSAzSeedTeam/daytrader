@@ -2,7 +2,7 @@ trigger: none
 
 variables:
 - name: docker_tag
-#  value: 1.7 - SOnali chaos testing
+#  value: 17.1 - Sonali chaos testing
 #  value: 1.8 - micro front ends
   value: 1.8
 

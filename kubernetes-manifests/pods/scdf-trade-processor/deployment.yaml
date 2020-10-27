@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-scdf-trade-processor
-        image: azseed/daytrader-scdf-trade-processor:1.7
+        image: azseed/daytrader-scdf-trade-processor:1.8
         imagePullPolicy: Always
         ports:
         - containerPort: 6453
