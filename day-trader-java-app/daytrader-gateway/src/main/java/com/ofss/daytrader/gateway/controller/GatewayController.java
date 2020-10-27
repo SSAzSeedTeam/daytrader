@@ -150,8 +150,11 @@ public class GatewayController {
 	 * REST call to get the user's profile
 	 * 
 	 */
+	@HystrixCommand(fallbackMethod = "getAccountProfileDataFallback")
 	@RequestMapping(value = "/accounts/{userId}/profiles", method = RequestMethod.GET)
 	public ResponseEntity<AccountProfileDataBean> getAccountProfileData(@PathVariable("userId") String userId) {
+		String profileDataKey = "AccountProfileData" + userId;
+
 		System.out.println("XXXXXXXXXXXXXXXX");
 		Log.traceEnter("GatewayController.getAccountProfileData()");
 		AccountProfileDataBean profileData = null;
@@ -159,6 +162,8 @@ public class GatewayController {
 			profileData = gatewayService.getAccountProfileData(userId);
 			if (profileData != null) {
 				Log.traceExit("GatewayController.getAccountProfileData()");
+				CachedObjectsClass.getInstance().addObjectToCache(profileDataKey, profileData);
+				System.out.println("CachedObjectsClass.getInstance()" + CachedObjectsClass.getInstance());
 				return new ResponseEntity<AccountProfileDataBean>(profileData, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getAccountProfileData()");
@@ -175,8 +180,11 @@ public class GatewayController {
 	 * REST call to get the user's account
 	 * 
 	 */
+	@HystrixCommand(fallbackMethod = "getAccountDataFallback")
 	@RequestMapping(value = "/accounts/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<AccountDataBean> getAccountData(@PathVariable("userId") String userId) {
+		String DataKey = "AccountData" + userId;
+
 		Log.traceEnter("GatewayController.getAccountData()");
 		AccountDataBean accountData = null;
 		try {
@@ -184,6 +192,8 @@ public class GatewayController {
 			System.out.println("accountData=" + accountData);
 			if (accountData != null) {
 				Log.traceExit("GatewayController.getAccountData()");
+				CachedObjectsClass.getInstance().addObjectToCache(DataKey, accountData);
+				System.out.println("CachedObjectsClass.getInstance()" + CachedObjectsClass.getInstance());
 				return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getAccountData()");
@@ -751,6 +761,48 @@ public class GatewayController {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Cache-Control", "no-cache");
 		return responseHeaders;
+	}
+
+	public ResponseEntity<AccountDataBean> getAccountDataFallback(@PathVariable("userId") String userId) {
+		String DataKey = "AccountData" + userId;
+		AccountDataBean accountData = new AccountDataBean();
+		if (CachedObjectsClass.getInstance().checkCacheForObject(DataKey) != null) {
+			System.out.println("data is displayed from cache");
+			accountData = (AccountDataBean) CachedObjectsClass.getInstance().checkCacheForObject(DataKey);
+			return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
+
+		} else {
+			accountData.setAccountID(1);
+			accountData.setProfileID(userId);
+			accountData.setBalance(new BigDecimal(-1));
+			accountData.setOpenBalance(new BigDecimal(-1));
+			return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
+
+		}
+	}
+
+	public ResponseEntity<AccountProfileDataBean> getAccountProfileDataFallback(@PathVariable("userId") String userId) {
+		String profileDataKey = "AccountProfileData" + userId;
+
+		AccountProfileDataBean accountProfileData = new AccountProfileDataBean();
+		if (CachedObjectsClass.getInstance().checkCacheForObject(profileDataKey) != null) {
+			System.out.println("data is displayed from cache");
+			accountProfileData = (AccountProfileDataBean) CachedObjectsClass.getInstance()
+					.checkCacheForObject(profileDataKey);
+			return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
+
+		} else {
+			accountProfileData.setUserID(userId);
+			accountProfileData.setPassword("777");
+			accountProfileData.setAddress("");
+			accountProfileData.setCreditCard("1234-5678-0123");
+			accountProfileData.setEmail("email@gmail.com");
+			accountProfileData.setExchangeRate(1.0d);
+			accountProfileData.setFullName("FullName");
+
+			return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
+		}
+
 	}
 
 }
