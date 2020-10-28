@@ -191,6 +191,7 @@ class Dashboard extends Component {
                       <tbody>
                         {topGainers && topGainers.map((tg, index) => {
                           const { symbol, price, change} = tg;
+                          if(index < 10)
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
@@ -219,6 +220,7 @@ class Dashboard extends Component {
                       <tbody>
                         {topLosers && topLosers.map((tg, index) => {
                           const { symbol, price, change} = tg;
+                          if(index < 10)
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
