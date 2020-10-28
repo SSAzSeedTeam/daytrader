@@ -32,7 +32,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 //import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
+@EnableHystrix
 @ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
 @SpringBootApplication
 public class GatewayApplication extends SpringBootServletInitializer {
