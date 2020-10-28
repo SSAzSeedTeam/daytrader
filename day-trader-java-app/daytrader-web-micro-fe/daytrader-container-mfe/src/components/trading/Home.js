@@ -73,12 +73,6 @@ class Dashboard extends Component {
     const profit = (sumOfTotalHoldings + balance) - openBalance;
     return (
       <div className='dashboard-container'>
-<<<<<<< HEAD
-        {/* <div className='app-login-navbar-section'>
-          <LoginNavbar />
-        </div> */}
-=======
->>>>>>> master
         <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
         </div>
