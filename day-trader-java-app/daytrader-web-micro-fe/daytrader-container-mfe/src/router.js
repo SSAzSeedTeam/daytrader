@@ -22,12 +22,20 @@ import TradingHome from './components/trading/trading';
 import NewOrderpage from './components/orders/new-order';
 import CompletedOrderPage from './components/orders/completed-order';
 import LoginNavbar from './components/shared/LoginNavbar/LoginNavbar';
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 const AppRouter = () => {
   return (
     <Router>
       <Navbar />
+<<<<<<< HEAD
       <Route path="/trading" component={LoginNavbar} />
 
+=======
+      <LoginNavbar />
+>>>>>>> master
       <Switch>
         <Route path="/" component={Home} exact />
         <Route path="/login" component={Login} exact />

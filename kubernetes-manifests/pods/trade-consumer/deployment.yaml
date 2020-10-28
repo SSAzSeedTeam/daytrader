@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-trade-consumer
+  name: daytrader-trade-consumer
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-trade-consumer
+  template:
+    metadata:
+      labels:
+        app: daytrader-trade-consumer
+    spec:
+      containers:
+      - name: daytrader-trade-consumer
+        image: azseed/daytrader-trade-consumer:1.8
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7443
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 7443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 7443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4

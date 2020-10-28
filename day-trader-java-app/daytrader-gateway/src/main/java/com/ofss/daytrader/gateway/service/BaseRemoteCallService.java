@@ -115,6 +115,7 @@ public class BaseRemoteCallService {
 
     public static Response sendRequest(String url, String method, String body, int connTimeOut) 
     {
+        System.out.println("Gateway.sendRequest():url="+url);
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);

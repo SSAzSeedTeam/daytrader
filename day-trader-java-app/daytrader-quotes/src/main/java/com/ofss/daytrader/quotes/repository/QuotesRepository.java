@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ofss.daytrader.entities.QuoteDataBean;
 
 @Repository
-@Transactional
 public interface QuotesRepository extends JpaRepository<QuoteDataBean, String>{
 	
 	

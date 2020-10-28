@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-trade-producer
+  name: daytrader-trade-producer
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-trade-producer
+  template:
+    metadata:
+      labels:
+        app: daytrader-trade-producer
+    spec:
+      containers:
+      - name: daytrader-trade-producer
+        image: azseed/daytrader-trade-producer:1.8
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7453
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 7453
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 7453
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4

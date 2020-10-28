@@ -30,6 +30,10 @@ import java.util.Optional;
 import java.util.ArrayList;
 
 import javax.naming.InitialContext;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -49,13 +53,12 @@ import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.core.direct.FinancialUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
-import com.ofss.daytrader.portfolios.repository.AccountsProfileRepository;
 import com.ofss.daytrader.portfolios.repository.AccountsRepository;
 import com.ofss.daytrader.portfolios.repository.HoldingRepository;
 import com.ofss.daytrader.portfolios.repository.KeygenRepository;
@@ -74,6 +77,7 @@ import com.ofss.daytrader.utils.TradeConfig;
  */
 
 @Service
+@Transactional
 public class PortfoliosService
 {
 	//	- Each microservice has their own private database (datasource)
@@ -95,14 +99,6 @@ public class PortfoliosService
     
     @Autowired
 	private KeygenRepository keygenRepository;
-	
-	/*@Autowired
-	SessionFactory sessionFactory;
-	Session session;
-	Transaction trans;*/
-   	
-   	/*@Autowired
-   	private AccountsProfileRepository accountsProfileRepository;*/
     
     //	- Enables portfolios microservice to consume accounts and quotes microservices
     private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
@@ -119,7 +115,6 @@ public class PortfoliosService
 	 * PortfoliosService#tradeBuildDB(int,int)
 	 *
 	 */
-    
     public Boolean tradeBuildDB(int limit, int offset) throws Exception
     {
     	
@@ -211,7 +206,10 @@ public class PortfoliosService
  	*/
      public AccountDataBean register(AccountDataBean accountData) throws Exception 
      {
-
+        // Connection conn = null;
+    	 
+    	 /*session=sessionFactory.openSession();
+         trans=session.beginTransaction();*/
          try 
          {
         	 int loginCount = 0;
@@ -225,11 +223,13 @@ public class PortfoliosService
             // commit(conn);
          } catch (Exception e) 
          {
+        	 //trans.rollback();
              //rollBack(conn, e);
              throw e;
          } 
          finally 
          {
+        	 //session.close();
              //releaseConn(conn);
          }
          return accountData;
@@ -250,20 +250,13 @@ public class PortfoliosService
   	*/
      public AccountDataBean getAccountData(String userID) throws Exception {
          AccountDataBean accountData = null;
-         Connection conn = null;
          try {
-             /*conn = getConn();            
-             accountData = getAccountData(conn,userID);
-             commit(conn);*/
         	 
         	 accountData = accountsRepository.findAccountDataByprofileID(userID);
-        	 System.out.println("cash balance---"+accountData.getBalance());
 
          } catch (Exception e) {
-             //rollBack(conn, e);
              throw e;
          } finally {
-            // releaseConn(conn);
          }
          return accountData;
      }
@@ -289,12 +282,10 @@ public class PortfoliosService
    			PreparedStatement stmt = null;*/
 			try 
 			{
-				System.out.println("before delete all");
 				accountsRepository.deleteAll();
 				holdingRepository.deleteAll();
 				orderRepository.deleteAll();
 				keygenRepository.deleteAll();
-				System.out.println("after delete all");
 				/*stmt = getStatement(conn, "delete from accountejb");
 				stmt.executeUpdate();
 				stmt.close();
@@ -632,7 +623,6 @@ public class PortfoliosService
            // conn = getConn();
 			
             AccountDataBean accountData = getAccountData(userID);
-            
         	// Construct the order data
         	orderData = new OrderDataBean();
         	orderData.setOrderFee(TradeConfig.getOrderFee("buy"));
@@ -715,9 +705,10 @@ public class PortfoliosService
             BigDecimal price = quoteData.getPrice();
             BigDecimal orderFee = orderData.getOrderFee();
             total = (new BigDecimal(quantity).multiply(price)).subtract(orderFee);
-            System.out.println("total after substraction: "+total);
-            creditAccountBalance(accountData, total);
-
+            
+            BigDecimal updatedBalance = accountData.getBalance().add(total);
+            
+            creditAccountBalance(accountData, updatedBalance);
             completeOrder(orderData.getOrderID());
 
             orderData = getOrderData(orderData.getOrderID().intValue());
@@ -795,10 +786,7 @@ public class PortfoliosService
             // the closed orders, transitions them to the completed state, and returns the list 
             // of completed orders.
         	
-        	/*"select * from orderejb o " + "where o.orderstatus = 'closed' AND o.account_accountid = "
-            + "(select a.accountid from accountejb a where a.profile_userid = ?)";*/
         	List<Integer> accountid = accountsRepository.findAccountidByprofileID(userID);
-        	System.out.println("accountid---"+accountid);
         	String status = "closed";
         	orderDataBeans = orderRepository.fetchOrderByStatusAndAccountid(accountid,status);
         	
@@ -893,8 +881,7 @@ public class PortfoliosService
     
     private void creditAccountBalance(AccountDataBean accountData, BigDecimal credit) throws Exception {
     	
-    	System.out.println("credit: "+credit);
-    	accountsRepository.creditAccountBalance(credit, accountData.getAccountID().intValue());
+    accountsRepository.creditAccountBalance(credit, accountData.getAccountID().intValue());
     	
         /*PreparedStatement stmt = getStatement(conn, creditAccountBalanceSQL);
 
@@ -911,6 +898,7 @@ public class PortfoliosService
 	 * @see TradeServices#buy(String, String, double, int)
 	 *
 	 */
+    
     private OrderDataBean buy(AccountDataBean accountData, OrderDataBean orderData, QuoteDataBean quoteData, Integer mode) throws Exception 
 	{
     	// Mode is ignored for now. Later it will be used for async order processing
@@ -928,10 +916,10 @@ public class PortfoliosService
         BigDecimal price = quoteData.getPrice();
         BigDecimal orderFee = orderData.getOrderFee();
         total = (new BigDecimal(orderData.getQuantity()).multiply(price)).add(orderFee);
-        System.out.println("total in buy section: "+total.negate());
-
+        BigDecimal updatedBalance = accountData.getBalance().subtract(total);
+        
         // subtract total from account balance
-        creditAccountBalance(accountData, total.negate());
+        creditAccountBalance(accountData, updatedBalance);
 
         completeOrder(orderData.getOrderID());
 
@@ -998,7 +986,6 @@ public class PortfoliosService
 //                + orderData + "\n\t Account info: " + accountID + "\n\t Quote info: " + quoteID);
 
         // if (order.isBuy())
-        System.out.println("orderType---"+orderType);
         if (orderType.compareToIgnoreCase("buy") == 0) {
             /*
              * Complete a Buy operation - create a new Holding for the Account - deduct the Order cost from the Account

@@ -22,17 +22,17 @@ spec:
         - path: /
           backend:
             serviceName: daytrader-web
-            servicePort: 80
+            servicePort: 443
         - path: /quotes
           backend:
             serviceName: daytrader-quotes
-            servicePort: 80
+            servicePort: 443
         - path: /accounts
           backend:
             serviceName: daytrader-accounts
-            servicePort: 80
+            servicePort: 443
         - path: /portfolios
           backend:
             serviceName: daytrader-portfolios
-            servicePort: 80
+            servicePort: 443
             

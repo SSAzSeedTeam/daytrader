@@ -7,7 +7,7 @@ const Footer = () => {
     <div className='app-footer-container'>
       <div className='app-footer-content'>
         {/* <img className='footer-image' src={footerImage} /> */}
-        <h4>Copyright {new Date().getFullYear()}, Apache Software Foundation. All Rights Reserved</h4>
+        <h4>Copyright {new Date().getFullYear()}, Oracle Corporation. All Rights Reserved</h4>
       </div>
     </div>
   )

@@ -1,7 +1,8 @@
 .quotes-app-main-container {
-    max-width: 80%;
+    max-width: 85%;
     margin: auto;
-    padding-top: 80px;
+    padding-top: 10px;
+    padding-bottom: 80px;
 }
 
 .app-current-date-time-section {
@@ -13,10 +14,10 @@
 }
 
 .quotes-table .table-header td {
-    background-color: #cc3f3f;
+    background-color: #ccc;
     padding: 10px 15px;
     font-weight: 600;
-    color: #fff;
+    color: #333;
 }
 
 .quotes-table .table-row th {

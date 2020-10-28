@@ -45,10 +45,10 @@ import javax.ws.rs.NotAuthorizedException;
 
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.symphonyoss.symphony.jcurl.*;
+//import org.symphonyoss.symphony.jcurl.*;
 
 import com.ofss.daytrader.accounts.repository.AccountsProfileRepository;
 import com.ofss.daytrader.accounts.repository.AccountsRepository;
@@ -65,6 +65,7 @@ import org.hibernate.Transaction;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 
@@ -74,6 +75,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 
 @Service
+@Transactional
 public class AccountsService
 {
 	
@@ -84,11 +86,6 @@ public class AccountsService
 	
 	
     private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
-    
-
-    
-    /*private static EntityManagerFactory entityManagerFactory =
-            Persistence.createEntityManagerFactory("");*/
 
 	
 	//	- Each microservice has their own private database (datasource)
@@ -98,24 +95,17 @@ public class AccountsService
     private static DataSource datasource = null;
 
     private static InitialContext context;
-	//@Value("${EXCHANGE_RATE_ENABLE}")
+	@Value("${EXCHANGE_RATE_ENABLE}")
     private boolean exchangeRateEnable;
     
-
-    @Autowired(required = true)
+    @Autowired
     AccountsRepository accountsRepository;
 	
-	@Autowired(required = true)
+	@Autowired
 	AccountsProfileRepository accountsProfileRepository;
 	
-	@Autowired(required = true)
+	@Autowired
 	KeygenRepository keygenRepository;
-	
-	/*@Autowired
-	SessionFactory sessionFactory;
-	Session session;
-	Transaction trans;*/
-
 
     /**
      * Zero arg constructor for AccountsService
@@ -181,7 +171,6 @@ public class AccountsService
   	* @see TradeServices#resetTrade(boolean)
   	*
   	*/
-    @Transactional
    	public RunStatsDataBean resetTrade(boolean deleteAll) throws Exception 
    	{
   		//		-  Reset usage statistics for account microservices and only the accounts
@@ -208,6 +197,9 @@ public class AccountsService
 				/*stmt = getStatement(conn, "delete from accountprofileejb");
 				stmt.executeUpdate();
 				stmt.close();*/
+				accountsProfileRepository.deleteAll();
+				keygenRepository.deleteAll();
+
 				accountsProfileRepository.deleteAll();
 				keygenRepository.deleteAll();
 				/*stmt.close();
@@ -270,7 +262,6 @@ public class AccountsService
    				/*stmt =	getStatement(conn,
    				
    				stmt =	getStatement(conn,
-   					"select count(accountid) as \"tradeUserCount\" from accountejb a where a.profile_userid like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
    				int tradeUserCount = rs.getInt("tradeUserCount");
@@ -278,24 +269,20 @@ public class AccountsService
    				stmt.close();*/
 
    				// Count of trade users login, logout
-   				Map<String,Integer> sumCountMap = accountsRepository.fetchSumOfLoginLogoutCount();
+   				 
+   			 Map<String,Integer> sumCountMap = accountsRepository.fetchSumOfLoginLogoutCount();
    				if(null!=sumCountMap) {
    					System.out.println("map value---"+ sumCountMap.toString());
-   					if(sumCountMap.containsKey("sumLoginCount")) {
-   						int sumLoginCount = sumCountMap.get("sumLoginCount");
-   						runStatsData.setSumLoginCount(sumLoginCount);
-   					}
-   					if(sumCountMap.containsKey("sumLogoutCount")) {
-   						int sumLogoutCount = sumCountMap.get("sumLogoutCount");
-   						runStatsData.setSumLogoutCount(sumLogoutCount);
-   					}
+   					int sumLoginCount = null == sumCountMap.get("sumLoginCount")?0:sumCountMap.get("sumLoginCount").intValue();
+   					runStatsData.setSumLoginCount(sumLoginCount);
+   						
+   					int sumLogoutCount = null == sumCountMap.get("sumLogoutCount")?0:sumCountMap.get("sumLogoutCount").intValue();
+   					runStatsData.setSumLogoutCount(sumLogoutCount);
    					
    				}
    				
    				/*stmt = getStatement(conn,
    				
-   				stmt = getStatement(conn,
-                    "select sum(loginCount) as \"sumLoginCount\", sum(logoutCount) as \"sumLogoutCount\" from accountejb a where  a.profile_userID like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
    				int sumLoginCount = rs.getInt("sumLoginCount");
@@ -449,18 +436,37 @@ public class AccountsService
     public AccountDataBean getAccountData(String profile_userid) throws Exception {
         AccountDataBean accountData = null;
        // Connection conn = null;
-       /* session=sessionFactory.openSession();
-        trans=session.beginTransaction();*/
         try {
             /*conn = getConn();
             accountData = getAccountData(conn, userID);
             commit(conn);
-*/
+*/			
         	accountData = accountsRepository.findAccountDataByprofileID(profile_userid);
-        }catch (Exception e) {
+        	
+        	if (null==accountData)
+            {
+            	Log.debug("AccountsService:getAccountData() - cannot find account for user: " + profile_userid);
+            }
+            else 
+            {
+            	// ask the portfolios for the most recent balance so web app can display it
+            	// changed this code to get the balance and open balance from the portfolio
+            	AccountDataBean portfolioData = null;
+            	try {
+                	portfolioData = portfoliosService.getAccountData(accountData.getProfileID());
+                	accountData.setBalance(portfolioData.getBalance());
+                	accountData.setOpenBalance(portfolioData.getOpenBalance());
+            	} catch(Exception e) {
+                	System.out.println("Ignoring below error****");
+            		e.printStackTrace();
+            	}
+            }
+        } catch (Exception e) {
+        	//trans.rollback();
            // rollBack(conn, e);
             throw e;
         } finally {
+        	//session.close();
             //releaseConn(conn);
         }
         return accountData;
@@ -548,12 +554,19 @@ public class AccountsService
                 throw new NotAuthorizedException("Incorrect password: " +  password + " for user: " + userID);
             }
 
+            Timestamp lastLogin = new Timestamp(System.currentTimeMillis());
+            accountsRepository.loginUpdate(lastLogin,userID);
+            
             accountData = accountsRepository.findAccountDataByprofileID(userID);
             
             if (null==accountData) {
                 throw new NotAuthorizedException("Failure to find account for user: " + userID);
             }
-          
+            
+            /*accountData.setLoginCount(updatedLoginCount);
+            accountData.setLastLogin(new Timestamp(System.currentTimeMillis()));
+            accountsRepository.save(accountData);*/
+            /*conn = getConn();
             Integer currLoginCount = accountData.getLoginCount();
             Integer updatedLoginCount = currLoginCount + 1;
             accountData.setLoginCount(updatedLoginCount);
@@ -648,6 +661,8 @@ public class AccountsService
     {  
         AccountDataBean accountData = null;
        // Connection conn = null;
+        /*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         try 
         {
             //conn = getConn();
@@ -668,11 +683,13 @@ public class AccountsService
         } 
         catch (Exception e) 
         {
+        	//trans.rollback();
    			//rollBack(conn, e);
    			throw e;
         } 
         finally 
         {
+        	//session.close();
             //releaseConn(conn);
         }
         return accountData;
@@ -1059,44 +1076,44 @@ public class AccountsService
     public static void destroy() {
         return;
     }
-    public double getExchangeRateData(String currency) throws Exception 
-    {
-    	System.out.println("Entering AccountsService.getExchangeRateData()");
-        Log.debug("exchangeRateEnable="+exchangeRateEnable);
-        if(exchangeRateEnable == false) {
-            return 0;
-        }
-   		String url = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
-   		url = url + "&currency="+currency;
-   		Log.debug("AccountsService.getExchangeRateData() - " + url);
+//    public double getExchangeRateData(String currency) throws Exception 
+//    {
+//    	System.out.println("Entering AccountsService.getExchangeRateData()");
+//        Log.debug("exchangeRateEnable="+exchangeRateEnable);
+//        if(exchangeRateEnable == false) {
+//            return 0;
+//        }
+//   		String url = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
+//   		url = url + "&currency="+currency;
+//   		Log.debug("AccountsService.getExchangeRateData() - " + url);
+//
+//   		
+//
+//        JCurl jcurl = JCurl.builder()
+//                        .method(JCurl.HttpMethod.GET)
+//                        .insecure(true)
+////                        .data(jsonData.toString())
+//                        .build();
+//        //TODO  the url should come from ENVIRONMENT VARIABLE.
+//        //TODO also fix the rest of the URL
+//        java.net.HttpURLConnection connection = jcurl.connect(url);
+//        
+//        JCurl.Response response = jcurl.processResponse(connection);
+//        //Print the output of the call
+//        String responseString = response.getOutput(); 
+//        System.out.println(responseString );       
+//        Object obj = new JSONParser().parse(responseString);
+//        
+//        JSONObject jo = (JSONObject) obj;
+//        //orderDataBean = new OrderDataBean();
+//        
+//        //String currency = (String) jo.get("currency");
+//        double exchangeRate = (Double) jo.get("exchangeRate");
+//    	System.out.println("exchangeRate    ="+exchangeRate );
+//
+//    	System.out.println("Exiting AccountsService.getExchangeRateData()");
+//   		return exchangeRate;
+//    }
 
-   		
-
-        JCurl jcurl = JCurl.builder()
-                        .method(JCurl.HttpMethod.GET)
-                        .insecure(true)
-//                        .data(jsonData.toString())
-                        .build();
-        //TODO  the url should come from ENVIRONMENT VARIABLE.
-        //TODO also fix the rest of the URL
-        java.net.HttpURLConnection connection = jcurl.connect(url);
-        
-        JCurl.Response response = jcurl.processResponse(connection);
-        //Print the output of the call
-        String responseString = response.getOutput(); 
-        System.out.println(responseString );       
-        Object obj = new JSONParser().parse(responseString);
-        
-        JSONObject jo = (JSONObject) obj;
-        //orderDataBean = new OrderDataBean();
-        
-        //String currency = (String) jo.get("currency");
-        double exchangeRate = (Double) jo.get("exchangeRate");
-    	System.out.println("exchangeRate    ="+exchangeRate );
-
-    	System.out.println("Exiting AccountsService.getExchangeRateData()");
-   		return exchangeRate;
-    }
-	
 
 }

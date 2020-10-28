@@ -27,7 +27,7 @@ export DAYTRADER_WAR_ARTIFACTID=daytrader-accounts
 # set db variables 
 #
 export DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-export DAYTRADER_DATABASE_URL='jdbc:derby:tradesdb;create=true'
+export DAYTRADER_DATABASE_URL='jdbc:derby:accountsdb;create=true'
 export DAYTRADER_DATABASE_USERNAME=
 export DAYTRADER_DATABASE_PASSWORD=
 #

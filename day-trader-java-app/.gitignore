@@ -6,6 +6,9 @@
 
 # Derby
 derby.log
+accountsdb
+portfoliosdb
+quotesdb
 
 # Intellij
 .idea/

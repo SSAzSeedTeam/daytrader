@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import Footer from "../shared/Footer/Footer";
+import { LOCAL_GATEWAY_URL } from '../../constants'
 
 const RecreateDatabaseComponent = () => {
   const { register, handleSubmit, setValue } = useForm();
@@ -14,8 +15,9 @@ const RecreateDatabaseComponent = () => {
   };
 
   const onClickUpdateConfig = async (updateConfigFormValue) => {
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     return await axios.post(
-      "https://localhost:2443/admin/recreateDBTables",
+      `${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/admin/recreateDBTables`,
       updateConfigFormValue
     );
   };

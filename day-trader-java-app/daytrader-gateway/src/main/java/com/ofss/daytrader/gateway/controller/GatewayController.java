@@ -32,6 +32,7 @@ import javax.ws.rs.NotAuthorizedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,6 +79,7 @@ import com.ofss.daytrader.gateway.utils.Log;
  *		a method. So access control checks should be added in Stage 04: Microservices 
  */
 
+@CrossOrigin(origins = "*")
 @RestController
 public class GatewayController
 {
@@ -159,7 +161,8 @@ public class GatewayController
 	@RequestMapping(value = "/accounts/{userId}/profiles", method = RequestMethod.GET)
 	public ResponseEntity<AccountProfileDataBean> getAccountProfileData(@PathVariable("userId") String userId) 
 	{
-		Log.traceEnter("GatewayController.getAccountProfileData()");
+        System.out.println("XXXXXXXXXXXXXXXX");
+        Log.traceEnter("GatewayController.getAccountProfileData()");
 		AccountProfileDataBean profileData = null;
 		try
 		{

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-scdf-trade-generator
+  name: daytrader-scdf-trade-generator
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-scdf-trade-generator
+  template:
+    metadata:
+      labels:
+        app: daytrader-scdf-trade-generator
+    spec:
+      containers:
+      - name: daytrader-scdf-trade-generator
+        image: azseed/daytrader-scdf-trade-generator:1.8
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3443
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /health
+#            scheme: HTTP
+#            port: 3443
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4

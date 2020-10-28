@@ -6,12 +6,13 @@ import axios from 'axios';
 import moment from 'moment';
 import './Home.css';
 import { Link } from 'react-router-dom';
-import { ACCOUNTS_API_URL } from '../../constants';
 import downarrow from '../../assets/arrowdown.gif';
 import uparrow from '../../assets/arrowup.gif';
 import CompletedOrder from './NewOrder/CompletedOrder';
+import {LOCAL_GATEWAY_URL} from '../../constants';
 
-const exchangeString = 'oracle'
+
+const exchangeString = 'TSIA'
 class Dashboard extends Component {
   constructor() {
     super();
@@ -19,13 +20,15 @@ class Dashboard extends Component {
       userInfo: {},
       marketSummary: {},
       holdings: [],
-      curTime : new Date().toLocaleString(),
+      curTime : new Date(),
     }
   }
 
   componentDidMount () {
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
     const userId = localStorage.getItem('userId');
-    axios.get(`https://localhost:2443/markets/${exchangeString}`)
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/markets/${exchangeString}`)
       .then(res => {
         console.log('res', res)
         this.setState({
@@ -33,7 +36,7 @@ class Dashboard extends Component {
         })
       })
     
-    axios.get(`${ACCOUNTS_API_URL}/accounts/${userId}`)
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}`)
     .then(res => {
       console.log('res', res)
       this.setState({
@@ -41,7 +44,7 @@ class Dashboard extends Component {
       })
     })
 
-    axios.get(`https://localhost:3443/portfolios/${userId}/holdings`)
+    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`)
     .then(res => {
       console.log('res', res)
       this.setState({
@@ -61,9 +64,10 @@ class Dashboard extends Component {
   }
 
   render () {
+    console.log('process.env', process.env)
     const userId = localStorage.getItem('userId');
     const {marketSummary, userInfo, holdings,curTime} = this.state
-    const {accountID, loginCount, creationDate, lastLogin, openBalance, balance} = userInfo;
+    const {accountID, loginCount, creationDate, lastLogin, openBalance, balance, exchangeRate} = userInfo;
     const {summaryDate, gainPercent, tsia, topGainers, topLosers, openTSIA, volume} = marketSummary;
     const totalHoldings = holdings ? holdings.length : 0;
     const sumOfTotalHoldings = this.getSumOfTotalHoldings();
@@ -118,11 +122,11 @@ class Dashboard extends Component {
                   </tr>
                   <tr>
                     <td><Link>Cash Balance:</Link></td>
-                    <td>${balance}</td>
+                    <td>${balance || 0.0}</td>
                   </tr>
                   <tr>
                     <td><Link>Number of Holdings:</Link></td>
-                    <td>{totalHoldings}</td>
+                    <td>{totalHoldings || 0}</td>
                   </tr>
                   <tr>
                     <td><Link>Total of Holdings:</Link></td>
@@ -130,15 +134,19 @@ class Dashboard extends Component {
                   </tr>
                   <tr>
                     <td><Link>Sum of cash/holdings opening balance:</Link></td>
-                    <td>${sumOfTotalHoldings + balance}</td>
+                    <td>${sumOfTotalHoldings + (balance || 0)}</td>
                   </tr>
                   <tr>
                     <td><Link>Opening Balance:</Link></td>
-                    <td>${openBalance}</td>
+                    <td>${openBalance || 0.0}</td>
                   </tr>
                   <tr>
                     <td><Link>Current Gain ({profit > 0 ? 'profit' : 'loss'})</Link></td>
-                    <td style={{color: profit > 0 ? 'green' : 'red'}}>${profit.toFixed(2)}</td>
+                    <td style={{color: profit > 0 ? 'green' : 'red'}}>${profit ? profit.toFixed(2) : 0.0}</td>
+                  </tr>
+                  <tr>
+                    <td><Link>Exchange Rate: </Link></td>
+                    <td>INR {exchangeRate ? exchangeRate.toFixed(4) : 76.0000}</td>
                   </tr>
                 </tbody>
               </table>
@@ -186,8 +194,8 @@ class Dashboard extends Component {
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
-                              <td>{price.toFixed(2)}</td>
-                              <td>{change.toFixed(2)} <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
+                              <td>{price ? price.toFixed(2) : 0.0}</td>
+                              <td>{change ? change.toFixed(2) : 0.0} <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
                             </tr>
                           )
                         })}
@@ -214,8 +222,8 @@ class Dashboard extends Component {
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
-                              <td>{price.toFixed(2)}</td>
-                              <td>{change.toFixed(2)}
+                              <td>{price ? price.toFixed(2) : 0.0}</td>
+                              <td>{change ? change.toFixed(2) : 0.0}
                               <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
                             </tr>
                           )

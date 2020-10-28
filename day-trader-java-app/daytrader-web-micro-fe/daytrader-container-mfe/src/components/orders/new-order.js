@@ -35,9 +35,12 @@ class NewOrderpage extends Component {
     const {orderID, symbol, quantity} = orderInfo && orderInfo.length ? orderInfo[0]: {orderID: 0, symbol: 's0', quantity: 1}
     return (
       <div>
+<<<<<<< HEAD
         {/* <div className='app-login-navbar-section'>
           <LoginNavbar />
         </div> */}
+=======
+>>>>>>> master
         <div className='new-order-container'>
           <table className='new-order-table' width="100%" cellSpacing="0" cellPadding="0">
             <tr className='table-header'>
