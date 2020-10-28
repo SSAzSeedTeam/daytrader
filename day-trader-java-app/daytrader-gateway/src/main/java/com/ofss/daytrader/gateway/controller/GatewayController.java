@@ -844,7 +844,7 @@ public class GatewayController
 			return new ResponseEntity<QuoteDataBean>(quoteDataBean, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
-			QuoteDataBean quoteData = new QuoteDataBean("s:701", "Company701", 9.00, new BigDecimal(195),
+			QuoteDataBean quoteData = new QuoteDataBean(symbol, "Company701", 9.00, new BigDecimal(195),
 					new BigDecimal(195), new BigDecimal(1), new BigDecimal(10), 1.0);
 
 			return new ResponseEntity<QuoteDataBean>(quoteData, getNoCacheHeaders(), HttpStatus.OK);
@@ -871,16 +871,16 @@ public class GatewayController
 		if (CachedObjectsClass.getInstance().checkCacheForObject(DataKey) != null) {
 			System.out.println("data is displayed from cache");
 			accountData = (AccountDataBean) CachedObjectsClass.getInstance().checkCacheForObject(DataKey);
-			return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
-
-		} else {
+		}
+		else
+		{
 			accountData.setAccountID(1);
 			accountData.setProfileID(userId);
 			accountData.setBalance(new BigDecimal(-1));
 			accountData.setOpenBalance(new BigDecimal(-1));
-			return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
 
 		}
+		return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
 	}
 
 	public ResponseEntity<AccountProfileDataBean> getAccountProfileDataFallback(@PathVariable("userId") String userId) {
@@ -891,9 +891,9 @@ public class GatewayController
 			System.out.println("data is displayed from cache");
 			accountProfileData = (AccountProfileDataBean) CachedObjectsClass.getInstance()
 					.checkCacheForObject(profileDataKey);
-			return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
-
-		} else {
+		} 
+		else
+		{
 			accountProfileData.setUserID(userId);
 			accountProfileData.setPassword("777");
 			accountProfileData.setAddress("");
@@ -902,9 +902,8 @@ public class GatewayController
 			accountProfileData.setExchangeRate(1.0d);
 			accountProfileData.setFullName("FullName");
 
-			return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
 		}
-
+		return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
 	}
 
 	//
