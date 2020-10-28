@@ -53,7 +53,7 @@ class Login extends Component {
     console.log('aaaa',errorFlag)
     return (
       <div className='app-login-container'>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className='al-content'>
           <div className='al-login-box'>
             <div className='form-container'>

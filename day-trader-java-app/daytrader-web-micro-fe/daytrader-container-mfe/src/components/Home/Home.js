@@ -8,7 +8,7 @@ import Footer from '../shared/Footer/Footer'
 const Home = () => {
   return (
     <div className='app-home-container'>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className='app-home-content'>
         <h4 className='heading'>Overview</h4>
         <p>

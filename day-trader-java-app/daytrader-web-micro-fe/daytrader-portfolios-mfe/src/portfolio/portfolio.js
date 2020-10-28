@@ -26,6 +26,8 @@ class PortfolioPage extends Component {
     console.log('LOCAL_GATEWAY_URL', LOCAL_GATEWAY_URL);
 
     const userId = localStorage.getItem('userId')
+    console.log('userId===>', userId);
+
     let holdingsinfo = [];
     axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`).
       then(async (res) => {
@@ -70,6 +72,8 @@ class PortfolioPage extends Component {
   handleSellOrder = (holdingID, symbol, price, quantity) => {
     const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userID = localStorage.getItem('userId');
+    console.log('userID===>', userID);
+
   //  const cDate = new Date();
     const dataToSend = {
       accountID: 0,

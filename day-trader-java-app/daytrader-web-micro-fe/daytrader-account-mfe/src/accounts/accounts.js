@@ -65,7 +65,7 @@ class AccountsPage extends Component {
   }
 
   handleUpdateProfile = () => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process && process.env
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const { userinfo } = this.state
     const dataToSend = {
       address: userinfo.address,
@@ -104,7 +104,7 @@ class AccountsPage extends Component {
     const { userID, fullName, address, email, creditCard, password } = userinfo;
     return (
       <div className='account-page-main-container'>
-        <div className='app-current-date-time-section' style={{ maxWidth: '85%', margin: 'auto' }}>
+        <div className='app-current-date-time-section'>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY')}</p>
         </div>
         <div className='update-message' style={{ maxWidth: '85%', margin: 'auto' }}>{updateFlag ? <p>Account profile update successful</p> : ''}</div>

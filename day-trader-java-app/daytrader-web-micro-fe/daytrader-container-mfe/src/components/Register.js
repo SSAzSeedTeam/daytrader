@@ -72,7 +72,7 @@ class Registerpage extends Component {
     const { fullName, address, email, userID, password, confirmPassword, openBalance, creditCard, showErrorMessage } = this.state
     return (
       <div className='app-register-container'>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className='ar-content'>
           <div className='ar-register-box'>
             <div className='form-container'>
