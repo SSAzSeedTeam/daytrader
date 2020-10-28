@@ -190,8 +190,13 @@ class Dashboard extends Component {
                       </thead>
                       <tbody>
                         {topGainers && topGainers.map((tg, index) => {
+<<<<<<< HEAD
 
                           const { symbol, price, change } = tg;
+=======
+                          const { symbol, price, change} = tg;
+                          if(index < 10)
+>>>>>>> remotes/origin/avinash_react_branch
                           return (
 
                             <tr key={`top-gainers-data-row-${index}`}>
@@ -221,7 +226,12 @@ class Dashboard extends Component {
                       </thead>
                       <tbody>
                         {topLosers && topLosers.map((tg, index) => {
+<<<<<<< HEAD
                           const { symbol, price, change } = tg;
+=======
+                          const { symbol, price, change} = tg;
+                          if(index < 10)
+>>>>>>> remotes/origin/avinash_react_branch
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>

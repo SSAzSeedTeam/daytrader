@@ -28,7 +28,7 @@ class CompletedOrderPage extends Component {
   render() {
     const { completedorderinfo } = this.state
     return (
-      <div>
+      <div className='portfolio-page-table-container'>
         {completedorderinfo && completedorderinfo.length > 0 && (
           <table className='completed-order-table quotes-table' cellSpacing="0" cellPadding="0" width="100%" style={{marginBottom: 15}}>
             <tr className='table-header'>
