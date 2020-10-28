@@ -30,6 +30,7 @@ public class TradeGeneratorApplication {
 				,new Product(102,"book",6000))
 				.collect(Collectors.toList());
 		logger.info("products : {}",products);
+		System.out.println("test **************************************************************");
 		return ()-> MessageBuilder.withPayload(products).build();
 	}
 
