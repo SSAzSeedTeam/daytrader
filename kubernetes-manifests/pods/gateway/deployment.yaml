@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-gateway
-        image: azseed/daytrader-gateway:1.8
+        image: azseed/daytrader-gateway:17.2
         imagePullPolicy: Always
         
 #        resources:
@@ -70,3 +70,5 @@ spec:
               key: DAYTRADER_QUOTES_SERVICE
         - name: GET_HOSTS_FROM
           value: dns
+        - name: SERVER_SSL_ENABLED
+          value: "false"

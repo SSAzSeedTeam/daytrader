@@ -20,10 +20,10 @@ cp "pods/quotes/service.yaml"                             "all_combined/quotes_s
 #cp "pods/trade-producer/service.yaml"                     "all_combined/trade-producer_service.yaml"
 cp "pods/web/deployment.yaml"                             "all_combined/web_deployment.yaml"
 cp "pods/web/service.yaml"                                "all_combined/web_service.yaml"
-cp "pods/web-react-npm/deployment.yaml"                   "all_combined/web-react-npm_deployment.yaml"
-cp "pods/web-react-npm/service.yaml"                      "all_combined/web-react-npm_service.yaml"
-cp "pods/web-react-static/deployment.yaml"                "all_combined/web-react-static_deployment.yaml"
-cp "pods/web-react-static/service.yaml"                   "all_combined/web-react-static_service.yaml"
+#cp "pods/web-react-npm/deployment.yaml"                   "all_combined/web-react-npm_deployment.yaml"
+#cp "pods/web-react-npm/service.yaml"                      "all_combined/web-react-npm_service.yaml"
+#cp "pods/web-react-static/deployment.yaml"                "all_combined/web-react-static_deployment.yaml"
+#cp "pods/web-react-static/service.yaml"                   "all_combined/web-react-static_service.yaml"
 #cp "pods/web-mfe-accounts-npm/deployment.yaml"            "all_combined/web-mfe-accounts-npm_deployment.yaml"
 #cp "pods/web-mfe-accounts-npm/service.yaml"               "all_combined/web-mfe-accounts-npm_service.yaml"
 #cp "pods/web-mfe-container-npm/deployment.yaml"           "all_combined/web-mfe-container-npm_deployment.yaml"
@@ -34,8 +34,8 @@ cp "pods/web-react-static/service.yaml"                   "all_combined/web-reac
 #cp "pods/web-mfe-quotes-npm/service.yaml"                 "all_combined/web-mfe-quotes-npm_service.yaml"
 
 
-#cp "configmaps-mysql/config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"
-#cp "configmaps-mysql/config-map-portfolios-db-mysql.yaml" "all_combined/config-map-portfolios-db-mysql.yaml"
-#cp "configmaps-mysql/config-map-quotes-db-mysql.yaml"     "all_combined/config-map-quotes-db-mysql.yaml"
-#cp "configmaps-mysql/config-map-service-urls.yaml"        "all_combined/config-map-service-urls.yaml"
+cp "configmaps-mysql/config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"
+cp "configmaps-mysql/config-map-portfolios-db-mysql.yaml" "all_combined/config-map-portfolios-db-mysql.yaml"
+cp "configmaps-mysql/config-map-quotes-db-mysql.yaml"     "all_combined/config-map-quotes-db-mysql.yaml"
+cp "configmaps-mysql/config-map-service-urls.yaml"        "all_combined/config-map-service-urls.yaml"
 

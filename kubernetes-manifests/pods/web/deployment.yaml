@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-web
-        image: azseed/daytrader-web:1.8
+        image: azseed/daytrader-web:17.2
         imagePullPolicy: Always
         ports:
         - containerPort: 5443
@@ -62,3 +62,5 @@ spec:
               key: DAYTRADER_QUOTES_SERVICE
         - name: GET_HOSTS_FROM
           value: dns
+        - name: SERVER_SSL_ENABLED
+          value: "false"

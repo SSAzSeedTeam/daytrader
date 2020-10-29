@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-portfolios
-        image: azseed/daytrader-portfolios:1.8
+        image: azseed/daytrader-portfolios:17.2
         imagePullPolicy: Always
         ports:
         - containerPort: 3443
@@ -88,3 +88,26 @@ spec:
             configMapKeyRef:
               name: daytrader-portfolios-db-config-map
               key: DAYTRADER_DATABASE_DIALECT
+        - name: SPRING_PROFILES_ACTIVE
+          value: chaos-monkey
+        - name: CHAOS_MONKEY_ENABLED
+          value: "true"
+        - name: CHAOS_MONKEY_WATCHER_CONTROLLER
+          value: "false"
+        - name: CHAOS_MONKEY_WATCHER_RESTCONTROLLER
+          value: "true"
+        - name: CHAOS_MONKEY_WATCHER_SERVICE       
+          value: "true"
+        - name: CHAOS_MONKEY_WATCHER_REPOSITORY    
+          value: "false"
+        - name: MANAGEMENT_ENDPOINT_CHAOSMONKEY_ENABLED
+          value: "true"
+        - name: MANAGEMENT_ENDPOINT_CHAOSMONKEYJMX_ENABLED
+          value: "true"
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: "*"
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: health,info,chaosmonkey
+        - name: SERVER_SSL_ENABLED
+          value: "false"
+                    
