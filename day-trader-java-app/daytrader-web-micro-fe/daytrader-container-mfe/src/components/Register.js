@@ -17,7 +17,21 @@ class Registerpage extends Component {
       userID: '',
       openBalance: '',
       confirmPassword: '',
-      showErrorMessage: false
+      showErrorMessage: false,
+      apiUrl: 'https://localhost:2443'
+    }
+  }
+
+  componentDidMount () {
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      let endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+      this.setState({
+        apiUrl: endPointUrl
+      })
     }
   }
 
@@ -30,14 +44,13 @@ class Registerpage extends Component {
 
   handleRegister = (e) => {
     e.preventDefault()
-    const { fullName, address, email, userID, password, confirmPassword, openBalance, creditCard } = this.state
+    const { fullName, address, email, userID, password, confirmPassword, openBalance, creditCard, apiUrl } = this.state
     if (!fullName || !address || !email || !userID || password !== confirmPassword || !openBalance || !creditCard) {
       this.setState({
         showErrorMessage: true
       })
     } else {
-      const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-      axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts`, {
+      axios.post(`${apiUrl}/accounts`, {
         accountID: 0,
         balance: 0,
         creationDate: new Date(),
