@@ -19,7 +19,6 @@ package com.ofss.daytrader.gateway;
 
 import javax.sql.DataSource;
 
-
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextResource;

@@ -1,8 +1,7 @@
 import React from 'react';
 import AppRouter from './router';
 
-const App = () => {
-  console.log('dotenv', process.env)
+const PortfolioApp = () => {
   return (
     <div className="App">
       <AppRouter />
@@ -10,4 +9,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default PortfolioApp;

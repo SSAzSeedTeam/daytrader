@@ -3,7 +3,8 @@ import axios from 'axios'
 import './quotes.css';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
-import LoginNavbar from '../components/LoginNavbar/LoginNavbar';
+import {LOCAL_GATEWAY_URL} from '../constants';
+
 // import CompletedOrder from '../NewOrder/CompletedOrder';
 const TXN_FEE = 24.95;
 const mode = 0;
@@ -19,12 +20,16 @@ class Quotes extends React.Component {
   }
 
   getQuotesBySymbol = async () => {
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
     const {quotes} = this.state
     let quotesData = [];
     let obj = {};
     for(let i = 0; i < quotes.length; i += 1) {
       const symbol = quotes[i];
-      await axios.get(`https://localhost:4443/quotes/${symbol}`)
+      // await axios.get(`https://localhost:4443/quotes/${symbol}`)
+       await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
+
       .then(res => {
         console.log('res', res)
         quotesData.push(res.data);
@@ -60,6 +65,7 @@ class Quotes extends React.Component {
   }
 
   handleBuyOrder = (symbol, i, price) => {
+
     const quantity = this.state[`symbol${i}`]
     const userID = localStorage.getItem('userId');
     const cDate = new Date();
@@ -81,12 +87,16 @@ class Quotes extends React.Component {
       sell: true,
       symbol,
     }
+        
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
+
     console.log('dataToSend', dataToSend);
-    axios.post(`https://localhost:3443/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
-          this.props.history.push({pathname: '/NewOrder', state: res.data})
+          this.props.history.push({pathname: '/trading/new-order', state: res.data})
         }
       })
   }

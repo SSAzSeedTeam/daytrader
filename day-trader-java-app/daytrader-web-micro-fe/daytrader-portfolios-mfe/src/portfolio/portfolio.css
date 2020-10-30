@@ -1,6 +1,7 @@
 .portfolio-page-table-container {
     max-width: 85%;
     margin: 20px auto;
+    padding-top: 10px;
     padding-bottom: 80px;
 }
 
@@ -8,6 +9,11 @@
     border: 1px solid #f1f1f1;
 }
 
+.portfolio-table .table-header td {
+    background-color: #ccc;
+    padding: 10px 15px;
+    color: #333;
+}
 .portfolio-table .table-row th {
     border-bottom: 1px solid #f1f1f1;
     text-align: center;

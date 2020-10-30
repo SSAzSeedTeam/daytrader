@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom';
-import './NewOrder.css'
+import './new-order.css'
 import moment from 'moment';
-import {LOCAL_GATEWAY_URL} from '../../../constants';
+import {LOCAL_GATEWAY_URL} from '../../constants';
+
 
 const status = 'closed'
 const userId = localStorage.getItem('userId')
@@ -17,6 +18,7 @@ class CompletedOrderPage extends Component {
 
   componentDidMount() {
     const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+
     axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/orders?status=${status}`)
       .then(res => {
         console.log('res ---<', res)

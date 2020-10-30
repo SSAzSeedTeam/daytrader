@@ -28,7 +28,9 @@ class Login extends Component {
     e.preventDefault()
     const { uid, passwd } = this.state
     if (uid && passwd) {
-      axios.patch(`${LOCAL_GATEWAY_URL}/login/${uid}`, passwd, {
+      const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+
+      axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/login/${uid}`, passwd, {
           headers: {
           'Content-Type': 'text/plain',
         }}

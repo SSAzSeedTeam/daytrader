@@ -1,6 +1,7 @@
 .account-page-main-container .account-page-table-container {
     max-width: 85%;
     margin: 20px auto;
+    padding-top: 10px;
     padding-bottom: 80px;
 }
 

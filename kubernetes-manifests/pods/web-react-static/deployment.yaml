@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-web-react-static
-        image: azseed/daytrader-web-react-static:1.7
+        image: azseed/daytrader-web-react-static:1.8
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

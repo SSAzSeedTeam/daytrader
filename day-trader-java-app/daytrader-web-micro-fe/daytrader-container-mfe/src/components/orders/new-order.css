@@ -1,0 +1,33 @@
+.new-order-container {
+    max-width: 85%;
+    margin: auto;
+}
+
+.new-order-table {
+    border: 1px solid #f1f1f1;
+}
+
+.new-order-table .table-row th {
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.new-order-table .table-row td {
+    border-bottom: 1px solid #f1f1f1;
+    text-align: center;
+}
+
+.table-header-row th {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.table-header-row th a {
+    text-align: center;
+    font-size: 14px;
+    color: navy;
+    font-weight: 600;
+    text-decoration: none;
+}

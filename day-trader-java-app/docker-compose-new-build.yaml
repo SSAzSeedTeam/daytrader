@@ -136,3 +136,36 @@ services:
 #      - daytrader-quotes
 #      
 #
+
+      
+  daytrader-scdf-trade-generator:
+    image: daytrader-scdf-trade-generator:0
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+    ports:
+      - "8443:8086"
+    restart: always
+
+  daytrader-scdf-trade-processor:
+    image: daytrader-scdf-trade-processor:0
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+    ports:
+      - "8444:8086"
+    restart: always
+
+  daytrader-scdf-trade-validation:
+    image: daytrader-scdf-trade-validation:0
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+    ports:
+      - "8445:8086"
+    restart: always
+
+    

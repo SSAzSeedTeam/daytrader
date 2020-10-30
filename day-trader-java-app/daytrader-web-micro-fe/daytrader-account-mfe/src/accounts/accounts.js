@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import './Account.css';
-import { LOCAL_GATEWAY_URL } from '../../../constants';
+import './accounts.css';
+import { LOCAL_GATEWAY_URL } from '../constants';
 
-
-class Accountpage extends Component {
+class AccountsPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -21,8 +20,22 @@ class Accountpage extends Component {
   }
 
   componentDidMount() {
+    // let REACT_APP_DAYTRADER_GATEWAY_SERVICE = ''
+    // if (process && process.env) {
+    //     REACT_APP_DAYTRADER_GATEWAY_SERVICE = process.env.REACT_APP_DAYTRADER_GATEWAY_SERVICE
+    // } else {
+    //   REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL
+    // }
+
     const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+
+    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
+    console.log('LOCAL_GATEWAY_URL', LOCAL_GATEWAY_URL)
+
     const userId = localStorage.getItem('userId')
+
+    // axios.get(`${LOCAL_GATEWAY_URL}/accounts/${userId}`)
+
     axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}`)
       .then(res => {
         console.log('res', res)
@@ -52,7 +65,7 @@ class Accountpage extends Component {
   }
 
   handleUpdateProfile = () => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process && process.env
     const { userinfo } = this.state
     const dataToSend = {
       address: userinfo.address,
@@ -91,10 +104,6 @@ class Accountpage extends Component {
     const { userID, fullName, address, email, creditCard, password } = userinfo;
     return (
       <div className='account-page-main-container'>
-
-
-        <div className='app-login-navbar-section'>
-        </div>
         <div className='app-current-date-time-section' style={{ maxWidth: '85%', margin: 'auto' }}>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY')}</p>
         </div>
@@ -244,4 +253,4 @@ class Accountpage extends Component {
   }
 }
 
-export default Accountpage
+export default AccountsPage
