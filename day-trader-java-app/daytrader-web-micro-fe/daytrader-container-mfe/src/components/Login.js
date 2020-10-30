@@ -4,7 +4,6 @@ import axios from 'axios'
 import './login.css'
 import Navbar from './shared/Navbar/Navbar'
 import Footer from './shared/Footer/Footer'
-import { LOCAL_GATEWAY_URL } from '../constants'
 
 class Login extends Component {
   constructor() {
@@ -13,6 +12,20 @@ class Login extends Component {
       uid: '',
       passwd: '',
       errorFlag:false,
+      apiUrl: 'https://localhost:2443'
+    }
+  }
+
+  componentDidMount () {
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      let endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+      this.setState({
+        apiUrl: endPointUrl
+      })
     }
   }
 
@@ -26,11 +39,9 @@ class Login extends Component {
 
   handleLogin = (e) => {
     e.preventDefault()
-    const { uid, passwd } = this.state
+    const { uid, passwd, apiUrl } = this.state
     if (uid && passwd) {
-      const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-
-      axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/login/${uid}`, passwd, {
+      axios.patch(`${apiUrl}/login/${uid}`, passwd, {
           headers: {
           'Content-Type': 'text/plain',
         }}
