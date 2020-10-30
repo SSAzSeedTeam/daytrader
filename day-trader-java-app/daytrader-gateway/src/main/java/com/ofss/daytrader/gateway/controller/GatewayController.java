@@ -697,8 +697,8 @@ public class GatewayController {
 			System.out.println("data is displayed from cache");
 			HoldingDataBean holdingDataBean = (HoldingDataBean) CachedObjectBean.getInstance()
 					.getCacheObject(userKey);
-			return new ResponseEntity<Collection<HoldingDataBean>>((Collection<HoldingDataBean>) holdingDataBean,
-					getNoCacheHeaders(), HttpStatus.OK);
+						return new ResponseEntity<Collection<HoldingDataBean>>(holdingDataBean, getNoCacheHeaders(), HttpStatus.OK);
+
 
 		} else {
 
