@@ -18,9 +18,9 @@ public interface HoldingRepository extends JpaRepository<HoldingDataBean, Intege
 	@Query(value="select * from holdingejb h where h.account_accountid in(?1)", nativeQuery = true)
 	public Collection<HoldingDataBean> findHoldingDataByaccountID(List<Integer> accountid);
 	
-	@Modifying
+	/*@Modifying
 	@Query(value="update holdingejb set purchase_date= ?1 where holdingid = ?2", nativeQuery = true)
-	public void updateHoldingStatus(Timestamp purchasedate, Integer holdingID);
+	public void updateHoldingStatus(Timestamp purchasedate, Integer holdingID);*/
 	
 	@Modifying
 	@Query(value="delete from holdingejb where holdingejb.account_accountid is null", nativeQuery = true)

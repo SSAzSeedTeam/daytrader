@@ -18,13 +18,13 @@ public interface OrderRepository extends JpaRepository<OrderDataBean, Integer>{
 	@Query(value="select * from orderejb o where o.account_accountid in(?1)", nativeQuery = true)
 	public Collection<OrderDataBean> findOrderByAccountID(List<Integer> accountid);
 	
-	@Query(value="select * from orderejb o where o.orderID =?1", nativeQuery = true)
-	public OrderDataBean fetchOrdersByOrderID(Integer orderid);
+	/*@Query(value="select * from orderejb o where o.orderID =?1", nativeQuery = true)
+	public OrderDataBean fetchOrdersByOrderID(Integer orderid);*/
 	
 	@Query(value="select * from orderejb  where order_status = ?2 AND account_accountid in(?1)", nativeQuery = true)
 	public Collection<OrderDataBean> fetchOrderByStatusAndAccountid(List<Integer> accountid, String status);
 	
-	@Modifying
+	/*@Modifying
 	@Query(value="update orderejb set holding_holdingid = ?1 where orderID = ?2", nativeQuery = true)
 	public void updateOrderDataHoldingID(int holdingID, int orderID);
 	
@@ -34,7 +34,7 @@ public interface OrderRepository extends JpaRepository<OrderDataBean, Integer>{
 	
 	@Modifying
 	@Query(value="update orderejb set order_status = ?1, completion_date = ?2 where orderid = ?3", nativeQuery = true)
-	public void updateOrderStatus(String orderStatus, Timestamp completionDate, int orderID);
+	public void updateOrderStatus(String orderStatus, Timestamp completionDate, int orderID);*/
 	
 	@Modifying
 	@Query(value="delete from orderejb where account_accountid in (select accountid from accountejb a where a.profile_userid like 'ru:%')", nativeQuery = true)

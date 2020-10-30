@@ -20,7 +20,7 @@ public interface AccountsRepository extends JpaRepository<AccountDataBean,Intege
 	@SuppressWarnings("unchecked")
 	public AccountDataBean save(AccountDataBean accountData);
 	
-	@Query(value="select * from accountejb a where a.profile_userid =?1", nativeQuery=true)
+	//@Query(value="select * from accountejb a where a.profile_userid =?1", nativeQuery=true)
 	public AccountDataBean findAccountDataByprofileID(String profile_userid);
 	
 	@Query(value = "select a.accountid from accountejb a where a.profile_userid = ?1", nativeQuery = true)
@@ -40,10 +40,10 @@ public interface AccountsRepository extends JpaRepository<AccountDataBean,Intege
 	 @Query(value = "select sum(login_count) as sumLoginCount, sum(logout_count) as sumLogoutCount from accountejb a where  a.profile_userid like 'uid:%'", nativeQuery = true)
 	 public Map<String,Integer> fetchSumOfLoginLogoutCount();
 	 
-	 @Transactional
+	 /*@Transactional
 	 @Modifying(flushAutomatically = true, clearAutomatically = true)
 	 @Query(value="update accountejb set balance = ?1 where accountid = ?2", nativeQuery = true)
-	 public int creditAccountBalance(BigDecimal balance, Integer accountid);
+	 public int creditAccountBalance(BigDecimal balance, Integer accountid);*/
 	 
 	 @Transactional
 	 @Modifying(flushAutomatically = true, clearAutomatically = true)

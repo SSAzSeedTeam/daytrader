@@ -7,12 +7,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Component;
+import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,8 +19,8 @@ public interface AccountsRepository extends JpaRepository<AccountDataBean,Intege
 	
 	@SuppressWarnings("unchecked")
 	public AccountDataBean save(AccountDataBean accountData);
-
-	@Query(value="select * from accountejb a where a.profile_userid =?1", nativeQuery=true)
+	
+	//@Query(value="select * from accountejb a where a.profile_userid =?1", nativeQuery=true)
 	public AccountDataBean findAccountDataByprofileID(String profile_userid);
 	
 	@Query(value = "select a.accountid from accountejb a where a.profile_userid = ?1", nativeQuery = true)
@@ -41,14 +40,17 @@ public interface AccountsRepository extends JpaRepository<AccountDataBean,Intege
 	 @Query(value = "select sum(login_count) as sumLoginCount, sum(logout_count) as sumLogoutCount from accountejb a where  a.profile_userid like 'uid:%'", nativeQuery = true)
 	 public Map<String,Integer> fetchSumOfLoginLogoutCount();
 	 
-	 @Transactional
+	 /*@Transactional
 	 @Modifying(flushAutomatically = true, clearAutomatically = true)
 	 @Query(value="update accountejb set balance = ?1 where accountid = ?2", nativeQuery = true)
-	 public int creditAccountBalance(BigDecimal balance, Integer accountid);
+	 public int creditAccountBalance(BigDecimal balance, Integer accountid);*/
 	 
 	 @Transactional
 	 @Modifying(flushAutomatically = true, clearAutomatically = true)
 	 @Query(value="update accountejb set last_login=?1, login_count=login_count+1 where profile_userid=?2", nativeQuery=true)
 	 public void loginUpdate(Timestamp lastLogin, String userid);
+	 
+	 
+	 
 
 }
