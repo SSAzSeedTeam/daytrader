@@ -15,7 +15,7 @@ import com.ofss.daytrader.entities.OrderDataBean;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderDataBean, Integer>{
 	
-	@Query(value="select * from orderejb o where o.accountID in(?1)", nativeQuery = true)
+	@Query(value="select * from orderejb o where o.account_accountid in(?1)", nativeQuery = true)
 	public Collection<OrderDataBean> findOrderByAccountID(List<Integer> accountid);
 	
 	@Query(value="select * from orderejb o where o.orderID =?1", nativeQuery = true)
