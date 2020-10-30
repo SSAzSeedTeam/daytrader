@@ -253,6 +253,7 @@ public class PortfoliosService
          try {
         	 
         	 accountData = accountsRepository.findAccountDataByprofileID(userID);
+        	 System.out.println("account data---"+accountData.getBalance());
 
          } catch (Exception e) {
              throw e;
@@ -699,8 +700,8 @@ public class PortfoliosService
             orderData = createOrder(accountData, quoteData, holdingData, "sell", quantity);
 
             // Set the holdingSymbol purchaseDate to selling to signify the sell is "inflight"
-            updateHoldingStatus(holdingData.getHoldingID(), holdingData.getQuoteID());
-
+            //updateHoldingStatus(holdingData.getHoldingID(), holdingData.getQuoteID());
+            updateHoldingStatus(holdingData);
             // UPDATE -- account should be credited during completeOrder
             BigDecimal price = quoteData.getPrice();
             BigDecimal orderFee = orderData.getOrderFee();
@@ -740,7 +741,7 @@ public class PortfoliosService
                     + "(select a.accountid from accountejb a where a.profile_userid = ?)";*/
         	//change
         	List<Integer> accountid = accountsRepository.findAccountidByprofileID(userID);
-        	
+        	System.out.println("account id list--"+accountid.size());
         	orderDataBeans = orderRepository.findOrderByAccountID(accountid);
             /*conn = getConn();
             PreparedStatement stmt = getStatement(conn, getOrdersByUserSQL);
@@ -787,6 +788,7 @@ public class PortfoliosService
             // of completed orders.
         	
         	List<Integer> accountid = accountsRepository.findAccountidByprofileID(userID);
+        	System.out.println("acount id list:"+accountid.size());
         	String status = "closed";
         	orderDataBeans = orderRepository.fetchOrderByStatusAndAccountid(accountid,status);
         	
@@ -824,6 +826,7 @@ public class PortfoliosService
         try 
         {
         	List<Integer> accountId = accountsRepository.findAccountidByprofileID(userID);
+        	System.out.println("acount id list:"+accountId.size());
         	holdingDataBeans = holdingRepository.findHoldingDataByaccountID(accountId);
         	
         	/*"select * from holdingejb h where h.account_accountid = "
@@ -881,7 +884,9 @@ public class PortfoliosService
     
     private void creditAccountBalance(AccountDataBean accountData, BigDecimal credit) throws Exception {
     	
-    accountsRepository.creditAccountBalance(credit, accountData.getAccountID().intValue());
+    	accountData.setBalance(credit);
+    	accountsRepository.save(accountData);
+    //accountsRepository.creditAccountBalance(credit, accountData.getAccountID().intValue());
     	
         /*PreparedStatement stmt = getStatement(conn, creditAccountBalanceSQL);
 
@@ -993,7 +998,9 @@ public class PortfoliosService
              */
 
             holdingData = createHolding(accountID, quoteID, quantity, price);
-            updateOrderHolding(orderID.intValue(), holdingData.getHoldingID().intValue());
+            orderData.setHoldingID(holdingData.getHoldingID().intValue());
+            //updateOrderHolding(orderID.intValue(), holdingData.getHoldingID().intValue());
+            updateOrderHolding(orderData);
         }
 
         // if (order.isSell()) {
@@ -1006,12 +1013,15 @@ public class PortfoliosService
             if (holdingData == null)
                 Log.debug("PortfoliosService:completeOrder:sell -- user: " + userID + " already sold holding: " + holdingID);
             else
-                removeHolding( holdingID, orderID.intValue());
+                removeHolding(holdingData, orderData);
 
         }
 
         orderData.setOrderStatus("closed");
-        updateOrderStatus(orderData.getOrderID(), orderData.getOrderStatus() );
+        Timestamp completionDate = new Timestamp(System.currentTimeMillis());
+        orderData.setCompletionDate(completionDate);
+        orderRepository.save(orderData);
+        //updateOrderStatus(orderData.getOrderID(), orderData.getOrderStatus() );
 
 //        Log.debug("PortfoliosService:completeOrder()--> Completed Order " + orderData.getOrderID() + "\n\t Order info: "
 //                + orderData + "\n\t Account info: " + accountID + "\n\t Quote info: " + quoteID + "\n\t Holding info: "
@@ -1130,9 +1140,9 @@ public class PortfoliosService
         return getHoldingData(holdingData.getHoldingID().intValue());
     }
 
-    private void removeHolding(int holdingID, int orderID) throws Exception {
+    private void removeHolding(HoldingDataBean holdingData, OrderDataBean orderData) throws Exception {
     	
-    	holdingRepository.deleteById(holdingID);
+    	holdingRepository.deleteById(holdingData.getHoldingID().intValue());
         /*PreparedStatement stmt = getStatement(conn, removeHoldingSQL);
 
         stmt.setInt(1, holdingID);
@@ -1141,7 +1151,8 @@ public class PortfoliosService
 */
         // set the HoldingID to NULL for the purchase and sell order now that
         // the holding as been removed
-    	orderRepository.updateOrderDataHoldingIDNull(holdingID);
+    	orderData.setHoldingID(null);
+    	orderRepository.save(orderData);
         /*stmt = getStatement(conn, removeHoldingFromOrderSQL);
 
         stmt.setInt(1, holdingID);
@@ -1247,9 +1258,11 @@ public class PortfoliosService
 
     // Set Timestamp to zero to denote sell is inflight
     // UPDATE -- could add a "status" attribute to holding
-    private void updateHoldingStatus(Integer holdingID, String symbol) throws Exception {
+    private void updateHoldingStatus(HoldingDataBean holdingData) throws Exception {
         Timestamp ts = new Timestamp(0);
-        holdingRepository.updateHoldingStatus(ts, holdingID);
+        holdingData.setPurchaseDate(ts);
+        holdingRepository.save(holdingData);
+       // holdingRepository.updateHoldingStatus(ts, holdingID);
         /*PreparedStatement stmt = getStatement(conn, "update holdingejb set purchasedate= ? where holdingid = ?");
 
         stmt.setTimestamp(1, ts);
@@ -1261,7 +1274,7 @@ public class PortfoliosService
     private void updateOrderStatus(Integer orderID, String status) throws Exception {
     	
     	Timestamp completionDate = new Timestamp(System.currentTimeMillis());
-    	orderRepository.updateOrderStatus(status, completionDate, orderID);
+    	//orderRepository.updateOrderStatus(status, completionDate, orderID);
         /*PreparedStatement stmt = getStatement(conn, updateOrderStatusSQL);
 
         stmt.setString(1, status);
@@ -1271,9 +1284,10 @@ public class PortfoliosService
         stmt.close();*/
     }
 
-    private void updateOrderHolding(int orderID, int holdingID) throws Exception {
+    private void updateOrderHolding(OrderDataBean orderData) throws Exception {
     	
-    	orderRepository.updateOrderDataHoldingID(holdingID, orderID);
+    	orderRepository.save(orderData);
+    	//orderRepository.updateOrderDataHoldingID(holdingID, orderID);
         /*PreparedStatement stmt = getStatement(conn, updateOrderHoldingSQL);
 
         stmt.setInt(1, holdingID);

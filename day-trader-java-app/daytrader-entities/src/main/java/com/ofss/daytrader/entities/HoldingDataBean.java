@@ -40,7 +40,6 @@ public class HoldingDataBean implements Serializable {
     /* persistent/relationship fields */
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
->>>>>>> master
     private Integer holdingID;              /* holdingID */
     private double quantity;                /* quantity */
     private BigDecimal purchasePrice;       /* purchasePrice */

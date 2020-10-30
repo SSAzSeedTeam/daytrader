@@ -531,6 +531,8 @@ public class QuotesService
             }
 
             BigDecimal newPrice = changeFactor.multiply(oldPrice).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal open1 = quoteData.getOpen();
+            System.out.println("open1---"+open1);
 
             updateQuotePriceVolume(quoteData.getSymbol(), newPrice, newVolume);
             quoteData = getQuote(symbol);
@@ -612,6 +614,8 @@ public class QuotesService
     private void updateQuotePriceVolume(String symbol, BigDecimal newPrice, double newVolume)
         throws Exception {
     	quotesRepository.updateQuotePriceVolume(newPrice,newVolume,symbol);
+    	
+    	/*update quoteejb set " + "price = ?, change1 = ? - open1, volume = ? " + "where symbol = ?*/
         /*PreparedStatement stmt = getStatement(conn, updateQuotePriceVolumeSQL);
 
         stmt.setBigDecimal(1, newPrice);
