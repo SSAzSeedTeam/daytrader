@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import downarrow from '../../assets/arrowdown.gif';
 import uparrow from '../../assets/arrowup.gif';
 import CompletedOrder from './NewOrder/CompletedOrder';
-import {LOCAL_GATEWAY_URL} from '../../constants';
+import { LOCAL_GATEWAY_URL } from '../../constants';
 
 
 const exchangeString = 'TSIA'
@@ -20,11 +20,11 @@ class Dashboard extends Component {
       userInfo: {},
       marketSummary: {},
       holdings: [],
-      curTime : new Date(),
+      curTime: new Date(),
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
     const userId = localStorage.getItem('userId');
@@ -35,40 +35,40 @@ class Dashboard extends Component {
           marketSummary: res.data
         })
       })
-    
+
     axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}`)
-    .then(res => {
-      console.log('res', res)
-      this.setState({
-        userInfo: res.data
+      .then(res => {
+        console.log('res', res)
+        this.setState({
+          userInfo: res.data
+        })
       })
-    })
 
     axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`)
-    .then(res => {
-      console.log('res', res)
-      this.setState({
-        holdings: res.data
+      .then(res => {
+        console.log('res', res)
+        this.setState({
+          holdings: res.data
+        })
       })
-    })
   }
 
   getSumOfTotalHoldings = () => {
-    const {holdings} = this.state;
+    const { holdings } = this.state;
     let sum = 0
     for (let i = 0; i < holdings.length; i += 1) {
-      const { quantity, purchasePrice} = holdings[i];
+      const { quantity, purchasePrice } = holdings[i];
       sum = sum + (quantity * purchasePrice);
     }
     return sum;
   }
 
-  render () {
+  render() {
     console.log('process.env', process.env)
     const userId = localStorage.getItem('userId');
-    const {marketSummary, userInfo, holdings,curTime} = this.state
-    const {accountID, loginCount, creationDate, lastLogin, openBalance, balance, exchangeRate} = userInfo;
-    const {summaryDate, gainPercent, tsia, topGainers, topLosers, openTSIA, volume} = marketSummary;
+    const { marketSummary, userInfo, holdings, curTime } = this.state
+    const { accountID, loginCount, creationDate, lastLogin, openBalance, balance, exchangeRate } = userInfo;
+    const { summaryDate, gainPercent, tsia, topGainers, topLosers, openTSIA, volume } = marketSummary;
     const totalHoldings = holdings ? holdings.length : 0;
     const sumOfTotalHoldings = this.getSumOfTotalHoldings();
     const profit = (sumOfTotalHoldings + balance) - openBalance;
@@ -78,11 +78,11 @@ class Dashboard extends Component {
         <div className='app-login-navbar-section'>
           <LoginNavbar />
         </div>
-        <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
-          <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
+        <div className='app-current-date-time-section' style={{ maxWidth: '85%', margin: 'auto' }}>
+          <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY')}</p>
         </div>
         <div className='completed-order-container'>
-          <CompletedOrder/>
+          <CompletedOrder />
         </div>
         <div className='flex-container'>
           <div className='left-side-container'>
@@ -142,7 +142,7 @@ class Dashboard extends Component {
                   </tr>
                   <tr>
                     <td><Link>Current Gain ({profit > 0 ? 'profit' : 'loss'})</Link></td>
-                    <td style={{color: profit > 0 ? 'green' : 'red'}}>${profit ? profit.toFixed(2) : 0.0}</td>
+                    <td style={{ color: profit > 0 ? 'green' : 'red' }}>${profit ? profit.toFixed(2) : 0.0}</td>
                   </tr>
                   <tr>
                     <td><Link>Exchange Rate: </Link></td>
@@ -177,7 +177,7 @@ class Dashboard extends Component {
                 </tr>
                 <tr>
                   <td className='main-table-td'>
-                   <Link to='/Terms'> Top Gainers</Link>
+                    <Link to='/Terms'> Top Gainers</Link>
                   </td>
                   <td className='top-gainers-table'>
                     <table cellSpacing='0' cellPadding='0'>
@@ -190,15 +190,19 @@ class Dashboard extends Component {
                       </thead>
                       <tbody>
                         {topGainers && topGainers.map((tg, index) => {
-                          const { symbol, price, change} = tg;
-                          if(index < 10)
-                          return (
-                            <tr key={`top-gainers-data-row-${index}`}>
-                              <td><Link to='/Terms'>{symbol}</Link></td>
-                              <td>{price ? price.toFixed(2) : 0.0}</td>
-                              <td>{change ? change.toFixed(2) : 0.0} <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
-                            </tr>
-                          )
+
+                          const { symbol, price, change } = tg;
+                          const { symbol, price, change } = tg;
+                          if (index < 10)
+                            return (
+
+                              <tr key={`top-gainers-data-row-${index}`}>
+                                <td><Link to='/Terms'>{symbol}</Link></td>
+                                <td>{price ? price.toFixed(2) : 0.0}</td>
+                                <td>{change ? change.toFixed(2) : 0.0} <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
+                              </tr>
+
+                            )
                         })}
                       </tbody>
                     </table>
@@ -206,27 +210,31 @@ class Dashboard extends Component {
                 </tr>
                 <tr>
                   <td className='main-table-td'>
-                   <Link to='/Terms'>Top Loosers</Link>
-                    </td>
+                    <Link to='/Terms'>Top Loosers</Link>
+                  </td>
                   <td className='top-gainers-table'>
                     <table cellSpacing='0' cellPadding='0'>
                       <thead>
                         <tr>
-                         <th><Link to ='/Terms'>Symbol</Link></th>
-                          <th><Link to ='/Terms'>Price</Link></th>
+                          <th><Link to='/Terms'>Symbol</Link></th>
+                          <th><Link to='/Terms'>Price</Link></th>
                           <th><Link to='Terms'>Change</Link></th>
                         </tr>
                       </thead>
                       <tbody>
                         {topLosers && topLosers.map((tg, index) => {
+<<<<<<< HEAD
+                          const { symbol, price, change } = tg;
+=======
                           const { symbol, price, change} = tg;
                           if(index < 10)
+>>>>>>> remotes/origin/avinash_react_branch
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
                               <td>{price ? price.toFixed(2) : 0.0}</td>
                               <td>{change ? change.toFixed(2) : 0.0}
-                              <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
+                                <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
                             </tr>
                           )
                         })}
@@ -238,7 +246,7 @@ class Dashboard extends Component {
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     )
   }
