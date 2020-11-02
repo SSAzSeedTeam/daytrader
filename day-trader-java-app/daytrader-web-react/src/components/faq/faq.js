@@ -13,20 +13,56 @@ const FAQ = () => {
         <div className='faq-questions'>
           <h4 className='blue-heading'>Application Design</h4>
           <h5>What is DayTrader?</h5>
-          <p>DayTrader is an end-to-end Web application that is modeled after an on-line stock brokerage. DayTrader leverages J2EE components such as servlets, JSP files, enterprise beans, message-driven beans (MDBs) and Java database connectivity (JDBCTM) to provide a set of user services such as login/logout, stock quotes, buy, sell, account details, and so on through standards-based HTTP and Web services protocols.</p>
+          <p>DayTrader is an end-to-end Microservices based Web application that is modeled after an on-line stock brokerage. DayTrader leverages components such as
+          Middleware  Java 8, Spring Boot, Spring MVC.
+          FrontEnd   React JS for enhanced UI experience
+          Backend  MySQL, Oracle, Derby(in memory)
+           to provide a set of user services such as login/logout, stock quotes, buy, sell, account details, and so on through standards-based HTTP and Web services protocols.</p>
           <h5>What are Web Primitives?</h5>
           <p>The Web primitives leverage the DayTrader infrastructure to test specific features of the Application Servers implementing the J2EE 1.4 programming model. A description of each of the Web primitives is provided on the main web primitive page.</p>
           <h5>What software is required to run DayTrader?</h5>
           <ul>
-            <li>Any J2EE 1.4 Compliant Application Server</li>
-            <li>A database that has a suitable JDBC driver for both XA and non-XA connectivity.</li>
+            <li>Docker engine or Kubernetes platform. </li>
+            <li>A database</li>
           </ul>
           <h5>What are the most common configuration scenarios?</h5>
           <ul>
-            <li><b>Single server with a remote database</b> - The DayTrader application runs on a stand alone WebSphere Application Server instance. The required database software and the associated Trade database are located on a different system from the Application Server. The Application Server system must have the necessary database client software to connect to the remote database.</li>
-            <li><b>Single server with a local database</b> - Same as the previous scenario; however, the required database software and the associated DayTrader database are located on the same system as the Application Server.</li>
+            <li><b>Single server with a remote database</b> - The Day Trader application runs on Kubernetes platform (on premise or cloud) as Docker images. The required database software and the associated Trade database are located on a different system from the Application Server. The Application Server system must have the necessary database client software to connect to the remote database(on premise or cloud)
+</li>
+            <li><b>Single server with a local database</b> - Same as the previous scenario; however, the required database software and the associated DayTrader database are located on the same system as the Application Server.
+</li>
           </ul>
         </div>
+
+
+        <div className='faq-questions'>
+          <h4 className='blue-heading'>Administrator Task</h4>
+          <h5>What does the ResetDayTrader link do?</h5>
+          <p>The ResetDayTrader link on the configuration page must be clicked between DayTrader runs. This link sets the database to a consistent size by removing all the newly registered users created during a DayTrader run. The reset also sets all outstanding orders to a consistent state. Resetting the database to a consistent size ensures repeatable throughput on subsequent DayTrader runs.</p>
+          <h5>What are the run-time modes?</h5>
+          <p>DayTrader provides two server implementations of the emulated DayTrader brokerage services.</p>
+          <ul>
+            <li><b>Docker/ Kubernetes</b> - The images created can be run in isolation using a containerized environment using Docker Engine. The interactions between the Microservices can happen by setting Network parameters in Docker Compose.
+            </li>
+            <li><b>Cloud</b> - This mode uses the image which are self-contained and can be deployed on any Cloud environment <b>(AWS/ AZURE/ GCP etc) </b>using Kubernetes Service.
+
+            </li>
+            <li><b>Local</b> - This mode helps in running the application on any local environment where Java8+ is installed. For database, the application can connect to on premise or Cloud service.
+
+            </li>
+
+          </ul>
+
+
+          <h5>What are the order processing modes?</h5>
+          <p>DayTrader provides 2 ways of Order processing. The order processing mode determines the mode for completing stock purchase and sell operations. </p>
+          <ul>
+            <li><b>Web UI</b> - Orders are completed from the React JS based Web UI by logging in to the account. </li>
+            <li><b>Batch Processing</b> - Orders are queued to the topic in Kafka for batch processing.</li>
+          </ul>
+
+        </div>
+
         <div className='faq-questions'>
           <h4 className='blue-heading'>Run-time Configuration</h4>
           <h5>What does the ResetDayTrader link do?</h5>
@@ -68,43 +104,37 @@ const FAQ = () => {
           <h5>What is the Primitive Iteration setting?</h5>
           <p>By default, the DayTrader primitives run one operation per Web request. Setting this value alters the number of operations performed per client request. This is useful for reducing the amount of work that is performed by the Web Container and for stressing other components within the application server.</p>
         </div>
+
         <div className='faq-questions'>
           <h4 className='blue-heading'>
             Benchmarking
           </h4>
-          <h5>What is the TradeScenario servlet?</h5>
-          <p>The TradeScenario servlet provides a simple mechanism to drive the DayTrader application. The Trade database is initially populated with a set of fictitious users with names ranging from uid:0 to uid:49 and a set of stocks ranging from s:0 to s:99. The TradeScenario servlet emulates a population of Web users by generating a specific DayTrader operation for a randomly chosen user on each access to the URL. To run the TradeScenario servlet use the single TradeScenario URL (http://hostname/daytrader/scenario) with a load generation tool.</p>
-          <p>Although TradeScenario servlet provides a simple mechanism for driving the DayTrader application, there is a drawback to using this method versus using a series of load generation scripts that drive the operations directly. This servlet consumes processing resources on the server to manage incoming clients and dispatch these simple client requests to complex Trade actions. This action artificially decreases server throughput because the server is emulating tasks that are normally performed by a standard client or a more complex load generation tool.</p>
-          <h5>What is the typical procedure for collecting performance measurements with DayTrader?</h5>
-          <p>When DayTrader is successfully installed on the application server and the supporting database is populated, you can us the DayTrader application to collect performance measurements. The following list provides the typical process for gathering performance measurements with DayTrader.</p>
-          <ol>
-            <li>
-              Select the DayTrader run-time configuration parameters from the configuration page (EJB, synchronous, and so on).
-            </li>
-            <li>
-              Reset the DayTrader run-time using the Reset DayTrader link.
-            </li>
-            <li>
-              Warm-up the application server JVMTM by applying load for a short period of time. The load generation tool may access the TradeScenario servlet, web primitives, or use custom scripts to drive the various operations of TradeApp servlet. To warm-up the JVM, each code path within DayTrader must be processed enough times to esnure that the JIT compiler has compiled and optimzed the application and server paths; generally, about 3000 iterations should do the trick. Remember that the same code path is not necessarily run on each request unless primitives are being run. Therefore, perform an adequate number of requests to stabilize the performance results.
-            </li>
-            <li>
-              Stop the load generation tool.
-            </li>
-            <li>
-              Reset the Trade run-time again
-            </li>
-            <li>
-              Restart the load generation tool and record measurements after the driver completes the requests.
-            </li>
-            <li>
-              Repeat steps 5 and 6 to obtain additional measurements.
-            </li>
-          </ol>
           <h5>Where did DayTrader come from?</h5>
-          <p>DayTrader was originally an application designed by IBM to test their commercial Application Server. The application was designed around common development patterns as well as to use the majority of the J2EE programming model. The original author was Stan Cox where he developed Trade (the original name) for J2EE 1.3. Since then Stan has evolved Trade and several other individuals have contributed to the project. Christopher Blythe has been instrumental in stabilizing the long running capability of the benchmark and Andrew Spyker introduced the Application Clients. The Application Clients (Streamer and WSAppClient) provide remote capability to validate remote J2EE functionality and database consistency as well as provide a remote WebServices client. Matt Hogstrom has used Trade extensively for performance analysis and brought Trade to the Apache Software Foundation Geronimo Project. He has removed (hopefully) all WebSphere specific items in the application and introduced additional functionality for gathering server compliance information and low-level diagnostic information.</p>
+          <p> DayTrader is an MVP application designed for testing online trading features. The application was designed around common development patterns of Microservices Framework as well as to use the majority of the Java and Spring Boot components. The application is dockerized image making PODA (Package Once Deploy Anywhere) enabled.
+           The application is Hybrid Cloud enabled and can be deployed on or integrated with multiple cloud providers and on premise applications.</p>
           <h5>Where is it going?</h5>
-          <p>Version 1.1 of DayTrader represents the first presentation of the application as an Open Source version for performance and benchmarking. Currently it is focused on J2EE 1.4 but needs to be upgraded to J2EE 1.5. Also, as there is a large number of developers that are not interested in the full J2EE stack, DayTrader needs to be updated to be modular such that only the interesting pieces need to be deployed.</p>
-          <p>Also, DayTrader needs to incorporate some additional technology such as Spring and Hibernate for performance testing such that comparisons can be made against competing technologies.</p>
+          <p>Version 1.1 of DayTrader represents the first presentation of the application as an Open Source version for performance and benchmarking.
+           DayTrader application will be updated with the latest technology in the market.</p>
+        </div>
+        <div className='faq-questions'>
+          <h4 className='blue-heading'>Questions</h4>
+          <h5>What should I look in for an Online Trading Platform?</h5>
+          <p>There are numerous online trading platforms available, with various options available. Here are some key points we suggest looking for on any platform you choose:
+          You will need a user-friendly platform – are you able to do everything online or will you need to download software?
+          The platform should have easy deposit methods, such as e-wallets or Wire Transfers
+          Look for a company that offers a high level of personal service and support including live chat, SMS services, and personal training
+          Use a company that has a regulatory license for your region
+          You will want 24-hour access to your accounts
+          There should be various trading tools available including charts, outlooks, financial calendars and news
+          Look at the Leverage offered and the cost of renewal/rolling fees for Day Trades
+          Be sure there are no hidden costs including commissions on deposits or withdrawals
+          Look for a platform with no maintenance margins with fixed rates and stop loss limits
+           </p>
+          <h5>Which type of Payment method should I use?</h5>
+          <p>Currently we support Credit cards.
+            Sooner we will be enabling PayPal, Skrill etc as mode of payments.</p>
+          <h5>How do I know which stock will go up or down?</h5>
+          <p>Stock prices are exceptionally volatile, making them tough to predict. Now, because of this volatility, no system can assure you that any transactions on the foreign currency market will result in significant benefits to you, nor is it possible to guarantee that your transactions will yield favorable results.</p>
         </div>
       </div>
       <Footer />
