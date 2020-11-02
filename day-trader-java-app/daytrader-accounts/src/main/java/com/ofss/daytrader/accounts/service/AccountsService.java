@@ -1088,9 +1088,9 @@ public class AccountsService
         double exchangeRate = 0;
       
 //   		String exchangeRateOnpremUrl = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
-   		exchangeRateOnpremUrl = exchangeRateOnpremUrl + "&currency="+currency;
-   		Log.debug("AccountsService.getExchangeRateData() - " + exchangeRateOnpremUrl);
-    	System.out.println("AccountsService.getExchangeRateData() - " + exchangeRateOnpremUrl);
+   		String localExchangeRateOnpremUrl = exchangeRateOnpremUrl + "&currency="+currency;
+   		Log.debug("AccountsService.getExchangeRateData() - " + localExchangeRateOnpremUrl);
+    	System.out.println("AccountsService.getExchangeRateData() - " + localExchangeRateOnpremUrl);
     	
     	String responseString= "";
     	
@@ -1114,7 +1114,7 @@ public class AccountsService
    		SSLUtilities.trustAllHostnames();
    		SSLUtilities.trustAllHttpsCertificates();
    		
-        URL urlObj = new URL(exchangeRateOnpremUrl);
+        URL urlObj = new URL(localExchangeRateOnpremUrl);
         BufferedReader in = new BufferedReader(new InputStreamReader(urlObj.openStream()));
 
         String inputLine;
