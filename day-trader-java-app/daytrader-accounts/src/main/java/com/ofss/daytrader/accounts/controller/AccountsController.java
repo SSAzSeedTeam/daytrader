@@ -195,6 +195,7 @@ public class AccountsController
 				accountData.setExchangeRate(exchangeRate);
 			} catch (Exception e) {
 				//ignore any error from external system
+				e.printStackTrace();
 				System.out.println("ignoring error from exchange rate external system");
 			}
 	    	System.out.println("accountData ="+accountData );
