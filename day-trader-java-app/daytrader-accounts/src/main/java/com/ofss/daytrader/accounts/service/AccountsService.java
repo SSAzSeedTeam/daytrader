@@ -98,6 +98,8 @@ public class AccountsService
     private static InitialContext context;
 	@Value("${EXCHANGE_RATE_ENABLE}")
     private boolean exchangeRateEnable;
+	@Value("${DAYTRADER_ONPREM_EXCHANGERATE_SERVICE}")
+    private String exchangeRateOnpremUrl;
     
     @Autowired
     AccountsRepository accountsRepository;
@@ -1079,15 +1081,16 @@ public class AccountsService
     }
     public double getExchangeRateData(String currency) throws Exception {
     	System.out.println("Entering AccountsService.getExchangeRateData()");
-        Log.debug("exchangeRateEnable="+exchangeRateEnable);
+    	System.out.println("exchangeRateEnable="+exchangeRateEnable);
         if(exchangeRateEnable == false) {
             return 0;
         }
         double exchangeRate = 0;
       
-   		String url = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
-   		url = url + "&currency="+currency;
-   		Log.debug("AccountsService.getExchangeRateData() - " + url);
+//   		String exchangeRateOnpremUrl = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
+   		exchangeRateOnpremUrl = exchangeRateOnpremUrl + "&currency="+currency;
+   		Log.debug("AccountsService.getExchangeRateData() - " + exchangeRateOnpremUrl);
+    	System.out.println("AccountsService.getExchangeRateData() - " + exchangeRateOnpremUrl);
 //
 //   		
 //
@@ -1106,7 +1109,7 @@ public class AccountsService
 //        System.out.println(responseString );       
 
    		
-        URL urlObj = new URL(url);
+        URL urlObj = new URL(exchangeRateOnpremUrl);
         BufferedReader in = new BufferedReader(new InputStreamReader(urlObj.openStream()));
 
         String inputLine;
