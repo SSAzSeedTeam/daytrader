@@ -3,9 +3,7 @@ import axios from 'axios'
 import './quotes.css';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
-import {LOCAL_GATEWAY_URL} from '../constants';
 
-// import CompletedOrder from '../NewOrder/CompletedOrder';
 const TXN_FEE = 24.95;
 const mode = 0;
 class Quotes extends React.Component {
@@ -16,19 +14,17 @@ class Quotes extends React.Component {
       quotesData: [],
       quotesinfo: {},
       curTime : new Date(),
+      apiUrl: 'https://localhost:2443'
     }
   }
 
   getQuotesBySymbol = async () => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
-    const {quotes} = this.state
+    const {quotes,apiUrl} = this.state
     let quotesData = [];
     let obj = {};
     for(let i = 0; i < quotes.length; i += 1) {
       const symbol = quotes[i];
-      // await axios.get(`https://localhost:4443/quotes/${symbol}`)
-       await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
+       await axios.get(`${apiUrl}/quotes/${symbol}`)
 
       .then(res => {
         console.log('res', res)
@@ -43,7 +39,18 @@ class Quotes extends React.Component {
   }
 
   componentDidMount() {
-    this.getQuotesBySymbol();
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      let endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+      this.setState({
+        apiUrl: endPointUrl
+      }, () => {
+        this.getQuotesBySymbol();
+      })
+    }
   }
 
   handleOnQuoteChange = (e) => {
@@ -65,7 +72,7 @@ class Quotes extends React.Component {
   }
 
   handleBuyOrder = (symbol, i, price) => {
-
+    const {apiUrl} = this.state
     const quantity = this.state[`symbol${i}`]
     const userID = localStorage.getItem('userId');
     const cDate = new Date();
@@ -87,12 +94,7 @@ class Quotes extends React.Component {
       sell: true,
       symbol,
     }
-        
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
-
-    console.log('dataToSend', dataToSend);
-    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {

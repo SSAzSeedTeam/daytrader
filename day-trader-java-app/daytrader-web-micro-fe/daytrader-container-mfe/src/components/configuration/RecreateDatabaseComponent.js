@@ -16,10 +16,16 @@ const RecreateDatabaseComponent = () => {
   };
 
   const onClickUpdateConfig = async (updateConfigFormValue) => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-
-    return await axios.post(
-      `${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/admin/recreateDBTables`,
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
+  return await axios.post(
+      `${endPointUrl}/admin/recreateDBTables`,
       updateConfigFormValue
     );
   };
