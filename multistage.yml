@@ -3,8 +3,10 @@ trigger: none
 variables:
 - name: docker_tag
 #  value: 17.1 - Sonali chaos testing
+#  value: 17.2 - Sonali chaos testing - with hysterix
 #  value: 1.8 - micro front ends
-  value: 1.8
+  value: 1.9 - exchange rate
+  value: 1.9 
 
 
 stages:
