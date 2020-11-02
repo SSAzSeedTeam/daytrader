@@ -68,7 +68,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
+import com.roxstudio.utils.CUrl;
 
 /**
  * A microservice to manage accounts (and profiles).
@@ -1091,6 +1091,8 @@ public class AccountsService
    		exchangeRateOnpremUrl = exchangeRateOnpremUrl + "&currency="+currency;
    		Log.debug("AccountsService.getExchangeRateData() - " + exchangeRateOnpremUrl);
     	System.out.println("AccountsService.getExchangeRateData() - " + exchangeRateOnpremUrl);
+    	
+    	String responseString= "";
 //
 //   		
 //
@@ -1108,16 +1110,20 @@ public class AccountsService
 //        String responseString = response.getOutput(); 
 //        System.out.println(responseString );       
 
-   		
-        URL urlObj = new URL(exchangeRateOnpremUrl);
-        BufferedReader in = new BufferedReader(new InputStreamReader(urlObj.openStream()));
 
-        String inputLine;
-        String responseString = "";
-        while ((inputLine = in.readLine()) != null) {
-        	responseString = responseString + inputLine;
-        }
-        in.close();   		
+        CUrl curl = new CUrl(exchangeRateOnpremUrl)
+                .insecure();  // Ignore certificate check
+        responseString = new String(curl.exec());
+    	
+//        URL urlObj = new URL(exchangeRateOnpremUrl);
+//        BufferedReader in = new BufferedReader(new InputStreamReader(urlObj.openStream()));
+//
+//        String inputLine;
+//        responseString = "";
+//        while ((inputLine = in.readLine()) != null) {
+//        	responseString = responseString + inputLine;
+//        }
+//        in.close();   		
    		
         Object obj = new JSONParser().parse(responseString);
         
