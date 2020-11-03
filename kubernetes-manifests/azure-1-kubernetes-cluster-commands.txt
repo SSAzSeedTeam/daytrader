@@ -1,0 +1,97 @@
+------------------------------------------------------------------------------------
+#Create MySQL database if required
+bash D:\Temp_Transfer\cli_scripts\azure-mysql.txt
+------------------------------------------------------------------------------------
+set EMAIL=shibu.narayanan@oracle.com
+for /f "tokens=2-8 delims=.:/ " %a in ("%date% %time%") do set DATETIME=%c-%a-%b:%d-%e-%f.%g
+az aks create --name daytrader-cluster  --node-count 1 --enable-addons monitoring --resource-group shibu_azure_aks_res_grp --vm-set-type VirtualMachineScaleSets --load-balancer-sku standard --enable-cluster-autoscaler  --min-count 1 --max-count 2 --generate-ssh-keys --service-principal "ad295607-ec24-4515-9ce3-5e51288a4a6c"  --client-secret  "?Kd8hK)@ABwk@vJWL*o3.+jk<XLtn4vo"  --tags email=%EMAIL% created=%DATETIME%
+
+------------------------------------------------------------------------------------
+Step4: Connect to the cluster created in step 3
+az aks get-credentials --resource-group shibu_azure_aks_res_grp --name daytrader-cluster --overwrite-existing
+
+------------------------------------------------------------------------------------
+#install ingress controller
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress ingress-nginx/ingress-nginx
+
+#helm uninstall ingress
+------------------------------------------------------------------------------------
+#this is the one...
+kubectl apply --validate=false -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\configmaps-mysql\
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\config-map-service-urls
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\all_combined
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\ingress\ingress-web-https.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\ingress\ingress-web-react-npm-https.yaml
+------------------------------------------------------------------------------------
+
+
+Step5: deploy the containers to the pods using .yaml files
+kubectl delete deployment daytrader-accounts
+kubectl delete deployment daytrader-gateway
+kubectl delete deployment daytrader-portfolios
+kubectl delete deployment daytrader-quotes
+kubectl delete deployment daytrader-web
+
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\pods\accounts\deployment.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\pods\gateway\deployment.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\pods\portfolios\deployment.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\pods\quotes\deployment.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\pods\web\deployment.yaml
+
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\accounts\service.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\gateway\service.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\portfolios\service.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\quotes\service.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\web\service.yaml
+
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\report-generator\deployment.yaml
+------------------------------------------------------------------------------------
+
+#check IP address of deployed resources
+kubectl get svc
+
+
+#copy Gateway IP into web-react
+51.124.147.38
+
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\web-react\deployment.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\web-react\service.yaml
+
+------------------------------------------------------------------------------------
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\accounts\autoscaling.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\gateway\autoscaling.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\quotes\autoscaling.yaml
+------------------------------------------------------------------------------------
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\ingress\ingress-http.yaml
+kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\ingress\ingress-https.yaml
+
+#kubectl apply -f D:\Projects\daytrader-chaos-2\kubernetes-manifests\ingress\daytrader-tls-secret.yaml
+
+#TLS secret - preferable to create using below command instead of a YAML
+pushd D:\Temp_Transfer\daytrader-app.xyz
+kubectl create secret tls daytrader-tls-secret --key privkey.pem --cert fullchain.pem
+
+------------------------------------------------------------------------------------
+
+You must see all the five pods in ready and up status, copy the the external Ip of the webapp pod hit it in the browser you must be able to see the home page of DatraderwebApp
+
+kubectl get pods
+kubectl get svc
+kubectl get ingress
+kubectl get cronjob
+kubectl get all
+
+web-react - 51.124.151.244
+web       - 51.124.149.179
+gateway   - 51.124.147.38
+
+------------------------------------------------------------------------------------
+#delete cluster
+az aks delete --name daytrader-cluster  --resource-group shibu_azure_aks_res_grp --yes
+
+#list all resources
+az resource list --resource-group shibu_azure_aks_res_grp --output table
+------------------------------------------------------------------------------------

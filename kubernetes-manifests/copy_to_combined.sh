@@ -34,8 +34,8 @@ cp "pods/web/service.yaml"                                "all_combined/web_serv
 #cp "pods/web-mfe-quotes-npm/service.yaml"                 "all_combined/web-mfe-quotes-npm_service.yaml"
 
 
-cp "configmaps-mysql/config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"
-cp "configmaps-mysql/config-map-portfolios-db-mysql.yaml" "all_combined/config-map-portfolios-db-mysql.yaml"
-cp "configmaps-mysql/config-map-quotes-db-mysql.yaml"     "all_combined/config-map-quotes-db-mysql.yaml"
-cp "configmaps-mysql/config-map-service-urls.yaml"        "all_combined/config-map-service-urls.yaml"
+#cp "configmaps-mysql/config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"
+#cp "configmaps-mysql/config-map-portfolios-db-mysql.yaml" "all_combined/config-map-portfolios-db-mysql.yaml"
+#cp "configmaps-mysql/config-map-quotes-db-mysql.yaml"     "all_combined/config-map-quotes-db-mysql.yaml"
+#cp "configmaps-mysql/config-map-service-urls.yaml"        "all_combined/config-map-service-urls.yaml"
 

@@ -1,0 +1,42 @@
+------------------------------------------------------------------------------------
+#create config maps
+#mysql
+kubectl apply --validate=false -f D:\Projects\daytrader\kubernetes-manifests\configmaps-mysql\config-map-accounts-db-mysql.yaml
+kubectl apply --validate=false -f D:\Projects\daytrader\kubernetes-manifests\configmaps-mysql\config-map-portfolios-db-mysql.yaml
+kubectl apply --validate=false -f D:\Projects\daytrader\kubernetes-manifests\configmaps-mysql\config-map-quotes-db-mysql.yaml
+
+#derby
+kubectl apply --validate=false -f D:\Projects\daytrader\kubernetes-manifests\accounts\config-map-accounts-derby.yaml
+kubectl apply --validate=false -f D:\Projects\daytrader\kubernetes-manifests\portfolios\config-map-portfolios-derby.yaml
+kubectl apply --validate=false -f D:\Projects\daytrader\kubernetes-manifests\quotes\config-map-quotes-derby.yaml
+------------------------------------------------------------------------------------
+
+
+Step5: deploy the containers to the pods using .yaml files
+kubectl delete deployment daytrader-accounts
+kubectl delete deployment daytrader-gateway
+kubectl delete deployment daytrader-portfolios
+kubectl delete deployment daytrader-quotes
+kubectl delete deployment daytrader-web
+
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\pods\accounts\deployment.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\pods\gateway\deployment.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\pods\portfolios\deployment.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\pods\quotes\deployment.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\pods\web\deployment.yaml
+
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\accounts\service.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\gateway\service.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\portfolios\service.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\quotes\service.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\web\service.yaml
+
+
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\report-generator\deployment.yaml
+
+
+
+------------------------------------------------------------------------------------
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\accounts\autoscaling.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\gateway\autoscaling.yaml
+kubectl apply -f D:\Projects\daytrader\kubernetes-manifests\quotes\autoscaling.yaml

@@ -1,0 +1,12 @@
+kc delete service/daytrader-accounts service/daytrader-gateway service/daytrader-portfolios service/daytrader-quotes service/daytrader-web service/daytrader-web-react-npm service/daytrader-web-react-static
+kc delete service/daytrader-scdf-trade-generator service/daytrader-scdf-trade-processor service/daytrader-scdf-trade-validation service/daytrader-trade-consumer service/daytrader-trade-producer
+kc delete service/daytrader-web-mfe-accounts-npm service/daytrader-web-mfe-container-npm service/daytrader-web-mfe-portfolios-npm service/daytrader-web-mfe-quotes-npm
+
+kc delete deployment.apps/daytrader-accounts deployment.apps/daytrader-gateway deployment.apps/daytrader-portfolios deployment.apps/daytrader-quotes deployment.apps/daytrader-web deployment.apps/daytrader-web-react-npm deployment.apps/daytrader-web-react-static
+kc delete deployment.apps/daytrader-scdf-trade-generator deployment.apps/daytrader-scdf-trade-processor deployment.apps/daytrader-scdf-trade-validation deployment.apps/daytrader-trade-consumer deployment.apps/daytrader-trade-producer
+kc delete deployment.apps/daytrader-web-mfe-accounts-npm deployment.apps/daytrader-web-mfe-container-npm deployment.apps/daytrader-web-mfe-portfolios-npm deployment.apps/daytrader-web-mfe-quotes-npm
+
+kc delete configmap daytrader-accounts-db-config-map
+kc delete configmap daytrader-portfolios-db-config-map
+kc delete configmap daytrader-quotes-db-config-map
+kc delete configmap daytrader-service-urls-config-map
