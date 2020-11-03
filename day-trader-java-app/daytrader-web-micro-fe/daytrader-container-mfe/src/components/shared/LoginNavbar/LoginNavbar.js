@@ -2,16 +2,20 @@ import React, {useEffect, useState} from 'react'
 import './LoginNavbar.css'
 import { NavLink, withRouter } from 'react-router-dom'
 import axios from 'axios'
-import { LOCAL_GATEWAY_URL } from '../../../constants'
 
 const LoginNavbar = (props) => {
   const [showLoginNavbar, setShowLoginNavbar] = useState(false)
   const userId = localStorage.getItem('userId');
   const handleLogOut = () => {
-
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    
-    axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/logout/${userId}`)
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
+    axios.patch(`${endPointUrl}/logout/${userId}`)
       .then(res => {
         localStorage.removeItem('userId');
         props.history.push('/login');

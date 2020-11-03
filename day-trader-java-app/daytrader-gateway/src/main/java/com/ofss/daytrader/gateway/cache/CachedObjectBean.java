@@ -2,20 +2,20 @@ package com.ofss.daytrader.gateway.cache;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class CachedObjectsClass
+public class CachedObjectBean
 {
-	 private static CachedObjectsClass singletonInstance = null;
+	 private static CachedObjectBean singletonInstance = null;
 
 	    static HashMap<String, Object> cachedObjects;
 
-	    private CachedObjectsClass()
+	    private CachedObjectBean()
 	    {
 	        cachedObjects = new HashMap<>();
 	    }
 
-	    public static CachedObjectsClass getInstance()
+	    public static CachedObjectBean getInstance()
 	    {
-	        singletonInstance = singletonInstance == null ? new CachedObjectsClass()
+	        singletonInstance = singletonInstance == null ? new CachedObjectBean()
 	                : singletonInstance;
 	        return singletonInstance;
 	    }
@@ -28,7 +28,7 @@ public class CachedObjectsClass
 	        System.out.println("cachedObjects"+cachedObjects);
 	    }
 
-	    public Object checkCacheForObject(String title)
+	    public Object getCacheObject(String title)
 	    {
 	        return cachedObjects.get(title);
 	    }
