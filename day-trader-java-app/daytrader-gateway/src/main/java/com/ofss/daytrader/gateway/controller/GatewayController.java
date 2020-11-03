@@ -175,8 +175,8 @@ public class GatewayController
 			if (profileData != null)
 			{
 				Log.traceExit("GatewayController.getAccountProfileData()");
-				CachedObjectsClass.getInstance().addObjectToCache(profileDataKey, profileData);
-				System.out.println("CachedObjectsClass.getInstance()" + CachedObjectsClass.getInstance());
+				CachedObjectBean.getInstance().addObjectToCache(profileDataKey, profileData);
+				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<AccountProfileDataBean>(profileData, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -210,8 +210,8 @@ public class GatewayController
 			if (accountData != null) 
 			{
 				Log.traceExit("GatewayController.getAccountData()");
-				CachedObjectsClass.getInstance().addObjectToCache(DataKey, accountData);
-				System.out.println("CachedObjectsClass.getInstance()" + CachedObjectsClass.getInstance());
+				CachedObjectBean.getInstance().addObjectToCache(DataKey, accountData);
+				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -816,19 +816,16 @@ public class GatewayController
 
 		if (CachedObjectBean.getInstance().getCacheObject(userKey) != null) {
 			System.out.println("data is displayed from cache");
-			HoldingDataBean holdingDataBean = (HoldingDataBean) CachedObjectBean.getInstance()
-					.getCacheObject(userKey);
-						return new ResponseEntity<Collection<HoldingDataBean>>(holdingDataBean, getNoCacheHeaders(), HttpStatus.OK);
+			HoldingDataBean holdingDataBean = (HoldingDataBean) CachedObjectBean.getInstance().getCacheObject(userKey);
+			holdings.add(holdingDataBean);
+			return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 
 
 		} else {
 
-			holdings.add(new HoldingDataBean(701, 107d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),
-					"s:701"));
-			holdings.add(new HoldingDataBean(702, 17d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),
-					"s:702"));
-			holdings.add(new HoldingDataBean(703, 177d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),
-					"s:703"));
+			holdings.add(new HoldingDataBean(701, 107d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),"s:701"));
+			holdings.add(new HoldingDataBean(702, 17d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),"s:702"));
+			holdings.add(new HoldingDataBean(703, 177d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),"s:703"));
 			return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 		}
 	}
@@ -867,9 +864,9 @@ public class GatewayController
 	public ResponseEntity<AccountDataBean> getAccountDataFallback(@PathVariable("userId") String userId) {
 		String DataKey = "AccountData" + userId;
 		AccountDataBean accountData = new AccountDataBean();
-		if (CachedObjectsClass.getInstance().checkCacheForObject(DataKey) != null) {
+		if (CachedObjectBean.getInstance().getCacheObject(DataKey) != null) {
 			System.out.println("data is displayed from cache");
-			accountData = (AccountDataBean) CachedObjectsClass.getInstance().checkCacheForObject(DataKey);
+			accountData = (AccountDataBean) CachedObjectBean.getInstance().getCacheObject(DataKey);
 		}
 		else
 		{
@@ -886,10 +883,9 @@ public class GatewayController
 		String profileDataKey = "AccountProfileData" + userId;
 
 		AccountProfileDataBean accountProfileData = new AccountProfileDataBean();
-		if (CachedObjectsClass.getInstance().checkCacheForObject(profileDataKey) != null) {
+		if (CachedObjectBean.getInstance().getCacheObject(profileDataKey) != null) {
 			System.out.println("data is displayed from cache");
-			accountProfileData = (AccountProfileDataBean) CachedObjectsClass.getInstance()
-					.checkCacheForObject(profileDataKey);
+			accountProfileData = (AccountProfileDataBean) CachedObjectBean.getInstance().getCacheObject(profileDataKey);
 		} 
 		else
 		{
