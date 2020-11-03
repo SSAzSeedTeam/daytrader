@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-gateway
-        image: azseed/daytrader-gateway:17.2
+        image: azseed/daytrader-gateway:17.3
         imagePullPolicy: Always
         
 #        resources:
