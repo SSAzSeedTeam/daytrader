@@ -35,7 +35,7 @@
     "rollup-plugin-visualizer": "^0.8.0"
   },
   "scripts": {
-    "start": "SET PORT=3004&& react-scripts start",
+    "start": "PORT=3004 react-scripts start",
     "build": "rollup -c",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
