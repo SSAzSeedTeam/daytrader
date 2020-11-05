@@ -820,12 +820,9 @@ public class GatewayController
 		String userKey = "holdings_" + userId;
 
 		if (CachedObjectBean.getInstance().getCacheObject(userKey) != null) {
-			System.out.println("data is displayed from cache - " + userKey);
-			System.out.println("CachedObjectBean.getInstance().getCacheObject(userKey) - " + CachedObjectBean.getInstance().getCacheObject(userKey));
+			
 			holdings = (Collection<HoldingDataBean>) CachedObjectBean.getInstance().getCacheObject(userKey);
-			System.out.println("data holdingDataBean - " + holdings);
 			//holdings.add(holdingDataBean);
-			System.out.println("data holdings - " + holdings);
 			return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 
 
