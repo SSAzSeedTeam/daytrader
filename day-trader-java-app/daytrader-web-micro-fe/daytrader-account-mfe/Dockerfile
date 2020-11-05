@@ -13,4 +13,5 @@ RUN npm install
 COPY ./ ./
 
 
-CMD ["npm", "start"]
+#CMD ["npm", "start"]
+CMD ["set_env_and_start.sh" "$REACT_APP_DAYTRADER_GATEWAY_SERVICE"]
