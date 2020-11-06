@@ -11,7 +11,7 @@ WORKDIR /usr/app
 COPY ./package.json ./
 RUN npm install
 COPY ./ ./
-
+COPY ./set_env_and_start.sh ./
 
 #CMD ["npm", "start"]
-CMD ["set_env_and_start.sh" "$REACT_APP_DAYTRADER_GATEWAY_SERVICE"]
+CMD  "/usr/app/set_env_and_start.sh" "$REACT_APP_DAYTRADER_GATEWAY_SERVICE" 
