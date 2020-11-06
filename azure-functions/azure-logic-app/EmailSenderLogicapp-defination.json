@@ -1,0 +1,96 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "EmailSender": {
+                "inputs": {
+                    "body": "@triggerBody()",
+                    "function": {
+                        "id": "/subscriptions/15fb3a3b-433e-4bc9-a99b-166f264943cd/resourceGroups/arunima_responsedelay/providers/Microsoft.Web/sites/arunimaemail/functions/EmailSender"
+                    },
+                    "method": "POST"
+                },
+                "runAfter": {},
+                "type": "Function"
+            },
+            "Parse_JSON": {
+                "inputs": {
+                    "content": "@body('EmailSender')",
+                    "schema": {
+                        "properties": {
+                            "attachment": {
+                                "type": "array"
+                            },
+                            "recepients": {
+                                "type": "string"
+                            },
+                            "subject": {
+                                "type": "string"
+                            },
+                            "text": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "runAfter": {
+                    "EmailSender": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ParseJson"
+            },
+            "Send_an_email_(V2)": {
+                "inputs": {
+                    "body": {
+                        "Body": "<p>@{body('Parse_JSON')?['text']}</p>",
+                        "Subject": "@body('Parse_JSON')?['subject']",
+                        "To": "@body('Parse_JSON')?['recepients']"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['outlook']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/v2/Mail"
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "method": "POST"
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "outlook": {
+                    "connectionId": "/subscriptions/15fb3a3b-433e-4bc9-a99b-166f264943cd/resourceGroups/arunima_responsedelay/providers/Microsoft.Web/connections/outlook",
+                    "connectionName": "outlook",
+                    "id": "/subscriptions/15fb3a3b-433e-4bc9-a99b-166f264943cd/providers/Microsoft.Web/locations/centralus/managedApis/outlook"
+                }
+            }
+        }
+    }
+}
