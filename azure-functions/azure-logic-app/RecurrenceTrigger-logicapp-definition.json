@@ -1,0 +1,46 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "createBlob": {
+                "inputs": {
+                    "function": {
+                        "id": "/subscriptions/15fb3a3b-433e-4bc9-a99b-166f264943cd/resourceGroups/shibu_daytrader_data_gateway/providers/Microsoft.Web/sites/azure-functions-Recurrence-LA/functions/createBlob"
+                    },
+                    "method": "GET"
+                },
+                "runAfter": {},
+                "type": "Function"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {},
+        "triggers": {
+            "Recurrence": {
+                "recurrence": {
+                    "frequency": "Week",
+                    "interval": 1,
+                    "schedule": {
+                        "hours": [
+                            "10",
+                            "15",
+                            "17"
+                        ],
+                        "minutes": [
+                            5
+                        ],
+                        "weekDays": [
+                            "Monday",
+                            "Wednesday",
+                            "Friday"
+                        ]
+                    },
+                    "timeZone": "India Standard Time"
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "parameters": {}
+}
