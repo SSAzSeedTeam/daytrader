@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.entities.AccountDataBean;
@@ -412,12 +413,12 @@ public class GatewayController
 		String userKey = "holdings_" + userId;
 		try
 		{
+			System.out.println("gatewayService in getHoldings");
 			holdings = gatewayService.getHoldings(userId);
 			if ( holdings != null)
 			{
 				Log.traceExit("GatewayController.getHoldings()");
 				CachedObjectBean.getInstance().addObjectToCache(userKey, holdings);
-				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -477,6 +478,7 @@ public class GatewayController
 	 * the closed status then it returns HttpStatus.BAD_REQUEST
 	 * 
 	 */
+	@HystrixCommand(fallbackMethod = "getOrdersByStatusFallback")
 	@RequestMapping(value = "/portfolios/{userId}/orders", method = RequestMethod.PATCH)
 	public ResponseEntity<Collection<OrderDataBean>>getOrdersByStatus(
 			@PathVariable("userId") String userId, @RequestParam(value = "status") String status)
@@ -484,7 +486,7 @@ public class GatewayController
 		Log.traceEnter("GatewayController.getOrdersByStatus()");
 		
 		Collection<OrderDataBean> orders = new ArrayList<OrderDataBean>();
-
+		String OrdersByStatus = "OrdersByStatus_" + userId;
 		try
 		{
 			if (status.equals("closed")) 
@@ -493,6 +495,8 @@ public class GatewayController
 				if (orders != null)
 				{
 					Log.traceExit("GatewayController.getOrdersByStatus()");
+					CachedObjectBean.getInstance().addObjectToCache(OrdersByStatus, orders);
+					System.out.println("orders from getOrdersByStatus" + orders);
 					return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 				}
 				else
@@ -511,6 +515,7 @@ public class GatewayController
      	catch(Throwable t)
      	{
      		Log.error("GatewayController.getOrdersByStatus()", t);
+     		System.out.println("in catch block of getOrdersByStatus" + orders);
 			return new ResponseEntity<Collection<OrderDataBean>>(orders, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}	
@@ -811,13 +816,13 @@ public class GatewayController
 	public ResponseEntity<Collection<HoldingDataBean>> getHoldingsFallback(@PathVariable("userId") String userId) {
 		Log.traceEnter("getHoldingsFallback of GatewayController");
 
-		Collection<HoldingDataBean> holdings = new ArrayList<HoldingDataBean>(3);
+		Collection<HoldingDataBean> holdings = new ArrayList<HoldingDataBean>();
 		String userKey = "holdings_" + userId;
 
 		if (CachedObjectBean.getInstance().getCacheObject(userKey) != null) {
-			System.out.println("data is displayed from cache");
-			HoldingDataBean holdingDataBean = (HoldingDataBean) CachedObjectBean.getInstance().getCacheObject(userKey);
-			holdings.add(holdingDataBean);
+			
+			holdings = (Collection<HoldingDataBean>) CachedObjectBean.getInstance().getCacheObject(userKey);
+			//holdings.add(holdingDataBean);
 			return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 
 
@@ -900,7 +905,23 @@ public class GatewayController
 		}
 		return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public ResponseEntity<Collection<OrderDataBean>>getOrdersByStatusFallback(
+			@PathVariable("userId") String userId, @RequestParam(value = "status") String status)
+	{		
+		String OrdersByStatus = "OrdersByStatus_" + userId;
+		Collection<OrderDataBean> orders = new ArrayList<OrderDataBean>();
+		System.out.println("data is displayed from cache in getOrdersByStatusFallback method");
+		if (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus) != null) {
+			System.out.println("data is displayed from cache");
+			orders = (Collection<OrderDataBean>) (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus));
+		
+		//return new ResponseEntity<Collection<OrderDataBean>>(orderDataBean, getNoCacheHeaders(), HttpStatus.OK);
+		}
+		return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
+		
+	}
 	//
 	// Private helper functions
 	//
