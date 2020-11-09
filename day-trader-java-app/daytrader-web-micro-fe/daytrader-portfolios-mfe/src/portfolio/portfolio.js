@@ -8,7 +8,7 @@ import './portfolio.css';
 
 const trade = 'sell'
 const mode=0
-class PortfolioPage extends Component {
+ class PortfolioPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -175,5 +175,6 @@ class PortfolioPage extends Component {
       </div>
     )
   }
+
 }
 export default PortfolioPage
