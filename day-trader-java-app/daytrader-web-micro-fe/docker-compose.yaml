@@ -2,18 +2,18 @@ version: '3.4'
 
 services:
   daytrader-container-mfe:
-    image: singhavinash857/daytrader-container-mfe:latest
+    image: singhavinash857/container-mfe:latest
     ports:
       - "3001:3001"
     restart: always  
     environment:
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
       - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http://localhost:3002
       - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http://localhost:3003  
       - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:3004 
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
   daytrader-account-mfe:
-    image: singhavinash857/daytrader-account-mfe:latest
+    image: singhavinash857/account-mfe:latest
     ports:
       - "3002:3002"
     restart: always
@@ -22,20 +22,17 @@ services:
 
 
   daytrader-portfolio-mfe:
-    image: singhavinash857/daytrader-portfolio-mfe:latest
+    image: singhavinash857/portfolio-mfe:latest
     ports:
       - "3003:3003"
     restart: always
     environment:
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
-  
   daytrader-quotes-mfe:
-    image: singhavinash857/daytrader-quotes-mfe:latest
+    image: singhavinash857/quotes-mfe:latest
     ports:
       - "3004:3004"
     restart: always
     environment:
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-
- 
