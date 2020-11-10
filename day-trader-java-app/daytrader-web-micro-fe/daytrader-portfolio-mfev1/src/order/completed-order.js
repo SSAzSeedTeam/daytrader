@@ -24,6 +24,8 @@ class CompletedOrderPage extends Component {
         endPointUrl = 'https://localhost:2443'
       }
     }
+    const userId = localStorage.getItem('userId')
+
     axios.patch(`${endPointUrl}/portfolios/${userId}/orders?status=${status}`)
       .then(res => {
         console.log('res ---<', res)
