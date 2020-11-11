@@ -6,7 +6,7 @@ variables:
 #  value: 17.2 - Sonali chaos testing - with hysterix
 #  value: 1.8 - micro front ends
 #  value: 1.9 - exchange rate
-  value: 1.9 
+  value: 2.0 
 
 
 stages:
@@ -218,6 +218,43 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-quotes-mfe/Dockerfile'
         tags: '${{variables.docker_tag}}'
+        
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-accounts-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-accounts-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-account-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-container-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-container-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-container-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-portfolios-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-portfolios-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-portfolio-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-quotes-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-quotes-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-quotes-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
 
 - stage: Postman_and_Jmeter_Testing
   jobs:
