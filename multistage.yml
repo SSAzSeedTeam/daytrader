@@ -3,8 +3,10 @@ trigger: none
 variables:
 - name: docker_tag
 #  value: 17.1 - Sonali chaos testing
+#  value: 17.2 - Sonali chaos testing - with hysterix
 #  value: 1.8 - micro front ends
-  value: 1.8
+#  value: 1.9 - exchange rate
+  value: 1.9 
 
 
 stages:
@@ -216,6 +218,53 @@ stages:
         command: 'buildAndPush'
         Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-quotes-mfe/Dockerfile'
         tags: '${{variables.docker_tag}}'
+
+- stage: Postman_and_Jmeter_Testing
+  jobs:
+  - job: Postman_and_Jmeter_Testing
+    pool:
+      vmImage: 'Ubuntu-latest'
+    continueOnError: false
+    steps:
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
+        dockerComposeFile: '**/docker-compose.yaml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up -d'
+    - task: Bash@3
+      continueOnError: true
+      inputs:
+        filePath: 'postman-testing/test_all.sh'
+        workingDirectory: 'postman-testing/'
+        failOnStderr: true
+    - task: PublishTestResults@2
+      #continueOnError: true
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'postman-testing/postman_results/**.xml'
+        mergeTestResults: true
+        failTaskOnFailedTests: true
+    - task: JMeterInstaller@0
+      inputs:
+        jmeterVersion: '5.3'
+    - task: CmdLine@2
+      inputs:
+        script: 'jmeter -n -t jmeter-testing/DayTraderApacheJmeterScripts.jmx -l jmeter-testing/report.csv -e -o jmeter-testing/report'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: 'jmeter-testing'
+        artifact: 'jmeter-reports'
+        publishLocation: 'pipeline'
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
+        dockerComposeFile: '**/docker-compose.yaml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'down'
+
 
 - stage: AKS_Deploy
   jobs:

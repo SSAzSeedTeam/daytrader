@@ -7,10 +7,6 @@ services:
       - "3001:3001"
     restart: always  
     environment:
-      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http://localhost:3002
       - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http://localhost:3003  
       - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:3004 
@@ -22,10 +18,6 @@ services:
       - "3002:3002"
     restart: always
     environment:
-      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
 
@@ -35,10 +27,6 @@ services:
       - "3003:3003"
     restart: always
     environment:
-      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
   
@@ -48,10 +36,6 @@ services:
       - "3004:3004"
     restart: always
     environment:
-      # - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      # - DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-      # - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
-      # - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
  

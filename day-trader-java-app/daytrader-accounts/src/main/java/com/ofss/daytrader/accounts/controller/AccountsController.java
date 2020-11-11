@@ -189,8 +189,15 @@ public class AccountsController
 		try
 		{
 			accountData = accountsService.getAccountData(userId);
-			double exchangeRate = 0; //accountsService.getExchangeRateData("INR");
-			accountData.setExchangeRate(exchangeRate);
+			double exchangeRate = 0;
+			try {
+				exchangeRate = accountsService.getExchangeRateData("INR");
+				accountData.setExchangeRate(exchangeRate);
+			} catch (Exception e) {
+				//ignore any error from external system
+				e.printStackTrace();
+				System.out.println("ignoring error from exchange rate external system");
+			}
 	    	System.out.println("accountData ="+accountData );
 			if (accountData != null) 
 			{

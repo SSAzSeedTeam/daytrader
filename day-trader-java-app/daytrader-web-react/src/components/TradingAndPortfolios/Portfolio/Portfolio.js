@@ -23,21 +23,29 @@ class Portfoliopage extends Component {
       quotes: {},
       curTime : new Date(),
       tableinfo:{},
+      apiUrl: 'https://localhost:2443',
     }
   }
 
   componentDidMount() {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`).
+    axios.get(`${endPointUrl}/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
         if (res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
+            await axios.get(`${endPointUrl}/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const {price} = res.data;
@@ -71,7 +79,6 @@ class Portfoliopage extends Component {
     return sum;
   }
   handleSellOrder = (holdingID, symbol, price, quantity) => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userID = localStorage.getItem('userId');
   //  const cDate = new Date();
     const dataToSend = {
@@ -92,8 +99,9 @@ class Portfoliopage extends Component {
       sell: true,
       symbol,
     }
+    const {apiUrl}=this.state
     console.log('dataToSend', dataToSend);
-    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
@@ -116,7 +124,9 @@ class Portfoliopage extends Component {
         <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
         </div>
-        <div><CompletedOrder /></div>
+        <div className='completed-order-container'>
+          <CompletedOrder/>
+        </div>
         <div className='portfolio-page-table-container'>
           <table width="100%" cellSpacing="0" cellPadding="0" className='portfolio-table'>
             <tr className='table-header'>

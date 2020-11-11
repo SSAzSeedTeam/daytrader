@@ -17,24 +17,29 @@ class PortfolioPage extends Component {
       quotes: {},
       curTime : new Date(),
       tableinfo:{},
+      apiUrl: 'https://localhost:2443',
     }
   }
 
   componentDidMount() {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE);
-    console.log('LOCAL_GATEWAY_URL', LOCAL_GATEWAY_URL);
-
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`).
+    axios.get(`${endPointUrl}/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
         if (res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/quotes/${symbol}`)
+            await axios.get(`${endPointUrl}/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const {price} = res.data;
@@ -42,7 +47,8 @@ class PortfolioPage extends Component {
               })
           }
           this.setState({
-            holdingsinfo
+            holdingsinfo,
+            apiUrl: endPointUrl
           })
         }
         console.log('holdingsInfo', holdingsinfo)
@@ -68,7 +74,6 @@ class PortfolioPage extends Component {
     return sum;
   }
   handleSellOrder = (holdingID, symbol, price, quantity) => {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
     const userID = localStorage.getItem('userId');
   //  const cDate = new Date();
     const dataToSend = {
@@ -89,8 +94,9 @@ class PortfolioPage extends Component {
       sell: true,
       symbol,
     }
+    const {apiUrl}=this.state
     console.log('dataToSend', dataToSend);
-    axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {

@@ -38,7 +38,6 @@
   "scripts": {
     "start": "PORT=3003 react-scripts start",
     "build": "rollup -c",
-    "prod": "SET REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway&& npm start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

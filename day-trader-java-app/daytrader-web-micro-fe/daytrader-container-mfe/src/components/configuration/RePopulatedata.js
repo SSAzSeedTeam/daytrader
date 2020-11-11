@@ -21,12 +21,18 @@ class RePopulatePage extends Component {
   }
 
   async componentDidMount () {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
     let content = '';
     let contentTwo = ''
     for (let offset = 0; offset <= maxQuoutesLimit; offset += quotesBuildlimit) {
-      await axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/admin/quotesBuildDB?limit=${quotesBuildlimit}&offset=${offset}`).
+      await axios.post(`${endPointUrl}/admin/quotesBuildDB?limit=${quotesBuildlimit}&offset=${offset}`).
         then(res => {
           console.log('res', content)
           content += `....s${offset}`
@@ -40,10 +46,10 @@ class RePopulatePage extends Component {
         })
     }
     for (let offset = 0; offset < maxTradeLimit; offset += TradeBuildlimit) {
-      await axios.post(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/admin/tradeBuildDB?limit=${TradeBuildlimit}&offset=${offset}`).
+      await axios.post(`${endPointUrl}/admin/tradeBuildDB?limit=${TradeBuildlimit}&offset=${offset}`).
         then(async res => {
           console.log('res', res)
-          await axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/uid:${offset}/holdings`).
+          await axios.get(`${endPointUrl}/portfolios/uid:${offset}/holdings`).
             then(res => {
               const holdings = res.data
               contentTwo += `Account# ${offset} User ID=${offset} has ${holdings.length} holdings`

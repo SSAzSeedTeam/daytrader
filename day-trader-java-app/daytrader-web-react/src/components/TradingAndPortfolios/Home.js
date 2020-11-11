@@ -25,10 +25,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount () {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
-    console.log('REACT_APP_DAYTRADER_GATEWAY_SERVICE', REACT_APP_DAYTRADER_GATEWAY_SERVICE)
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
     const userId = localStorage.getItem('userId');
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/markets/${exchangeString}`)
+    axios.get(`${endPointUrl}/markets/${exchangeString}`)
       .then(res => {
         console.log('res', res)
         this.setState({
@@ -36,7 +42,7 @@ class Dashboard extends Component {
         })
       })
     
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/accounts/${userId}`)
+    axios.get(`${endPointUrl}/accounts/${userId}`)
     .then(res => {
       console.log('res', res)
       this.setState({
@@ -44,7 +50,7 @@ class Dashboard extends Component {
       })
     })
 
-    axios.get(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/holdings`)
+    axios.get(`${endPointUrl}/portfolios/${userId}/holdings`)
     .then(res => {
       console.log('res', res)
       this.setState({

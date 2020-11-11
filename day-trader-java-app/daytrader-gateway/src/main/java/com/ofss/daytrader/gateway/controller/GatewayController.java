@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import com.ofss.daytrader.entities.AccountDataBean;
@@ -53,7 +54,7 @@ import com.ofss.daytrader.entities.AccountProfileDataBean;
 import com.ofss.daytrader.entities.HoldingDataBean;
 import com.ofss.daytrader.entities.OrderDataBean;
 import com.ofss.daytrader.entities.QuoteDataBean;
-import com.ofss.daytrader.gateway.cache.CachedObjectsClass;
+import com.ofss.daytrader.gateway.cache.CachedObjectBean;
 import com.ofss.daytrader.gateway.service.GatewayService;
 import com.ofss.daytrader.gateway.utils.Log;
 
@@ -181,6 +182,8 @@ public class GatewayController {
 				// profileData);
 				// System.out.println("CachedObjectsClass.getInstance()" +
 				// CachedObjectsClass.getInstance());
+			//	CachedObjectBean.getInstance().addObjectToCache(profileDataKey, profileData);
+				//System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<AccountProfileDataBean>(profileData, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getAccountProfileData()");
@@ -191,7 +194,6 @@ public class GatewayController {
 			Log.error("GatewayController.getAccountProfileData()", t);
 			return new ResponseEntity<AccountProfileDataBean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
 
 	/**
 	 * REST call to get the user's account
@@ -215,6 +217,8 @@ public class GatewayController {
 				// CachedObjectsClass.getInstance().addObjectToCache(DataKey, accountData);
 				// System.out.println("CachedObjectsClass.getInstance()" +
 				// CachedObjectsClass.getInstance());
+				//CachedObjectBean.getInstance().addObjectToCache(DataKey, accountData);
+				//System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getAccountData()");
@@ -380,6 +384,9 @@ public class GatewayController {
 		Collection<HoldingDataBean> holdings = null;
 		String userKey = "holdings_" + userId;
 		try {
+		try
+		{
+			System.out.println("gatewayService in getHoldings");
 			holdings = gatewayService.getHoldings(userId);
 			if (holdings != null) {
 				Log.traceExit("GatewayController.getHoldings()");
@@ -388,6 +395,7 @@ public class GatewayController {
 				// CachedObjectsClass.getInstance().addObjectToCache(userKey, holdings);
 				// System.out.println("CachedObjectsClass.getInstance()" +
 				// CachedObjectsClass.getInstance());
+				CachedObjectBean.getInstance().addObjectToCache(userKey, holdings);
 				return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getHoldings()");
@@ -423,6 +431,9 @@ public class GatewayController {
 				System.out.println("orders data from get orders:" + orders);
 				// System.out.println("CachedObjectsClass.getInstance()" +
 				// CachedObjectsClass.getInstance());
+				CachedObjectBean.getInstance().addObjectToCache(userId, orders);
+				System.out.println("orders data from get orders:" + orders);
+				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getOrders()");
@@ -443,6 +454,7 @@ public class GatewayController {
 	 * the closed status then it returns HttpStatus.BAD_REQUEST
 	 * 
 	 */
+	@HystrixCommand(fallbackMethod = "getOrdersByStatusFallback")
 	@RequestMapping(value = "/portfolios/{userId}/orders", method = RequestMethod.PATCH)
 	public ResponseEntity<Collection<OrderDataBean>> getOrdersByStatus(@PathVariable("userId") String userId,
 			@RequestParam(value = "status") String status) {
@@ -452,9 +464,16 @@ public class GatewayController {
 
 		try {
 			if (status.equals("closed")) {
+		String OrdersByStatus = "OrdersByStatus_" + userId;
+		try
+		{
+			if (status.equals("closed")) 
+			{
 				orders = gatewayService.getClosedOrders(userId);
 				if (orders != null) {
 					Log.traceExit("GatewayController.getOrdersByStatus()");
+				//	CachedObjectBean.getInstance().addObjectToCache(OrdersByStatus, orders);
+				//	System.out.println("orders from getOrdersByStatus" + orders);
 					return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 				} else {
 					Log.traceExit("GatewayController.getOrdersByStatus()");
@@ -470,6 +489,11 @@ public class GatewayController {
 			}
 		} catch (Throwable t) {
 			Log.error("GatewayController.getOrdersByStatus()", t);
+		}
+     	catch(Throwable t)
+     	{
+     		Log.error("GatewayController.getOrdersByStatus()", t);
+     		System.out.println("in catch block of getOrdersByStatus" + orders);
 			return new ResponseEntity<Collection<OrderDataBean>>(orders, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -554,6 +578,8 @@ public class GatewayController {
 				// CachedObjectsClass.getInstance().addObjectToCache(quotekey, quoteData);
 				// System.out.println("CachedObjectsClass.getInstance()" +
 				// CachedObjectsClass.getInstance());
+			//	CachedObjectBean.getInstance().addObjectToCache(quotekey, quoteData);
+				//System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<QuoteDataBean>(quoteData, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
 				Log.traceExit("GatewayController.getQuote()");
@@ -677,6 +703,8 @@ public class GatewayController {
 			// CachedObjectsClass.getInstance().addObjectToCache(exchange, marketSummary);
 			// System.out.println("CachedObjectsClass.getInstance()" +
 			// CachedObjectsClass.getInstance());
+//			System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
+
 			return new ResponseEntity<MarketSummaryDataBean>(marketSummary, getNoCacheHeaders(), HttpStatus.OK);
 		} catch (NotFoundException nfe) {
 			Log.error("QuotesController.getMarketSummary()", nfe);
@@ -701,10 +729,14 @@ public class GatewayController {
 if (hashOperations.get("getMarketSummary", exchange)!=null) {
 	MarketSummaryDataBean marketSummaryData = (MarketSummaryDataBean)hashOperations.get("getMarketSummary", exchange);
 
-//		if (CachedObjectsClass.getInstance().checkCacheForObject(exchange) != null) {
-			System.out.println("data is displayed from cache");
+	//if (CachedObjectsClass.getInstance().checkCacheForObject(exchange) != null) {
+		//	System.out.println("data is displayed from cache");
 			//MarketSummaryDataBean marketSummaryData = (MarketSummaryDataBean) CachedObjectsClass.getInstance()
 					//.checkCacheForObject(exchange);
+//		if (CachedObjectBean.getInstance().getCacheObject(exchange) != null) {
+	//		System.out.println("data is displayed from cache");
+		//	MarketSummaryDataBean marketSummaryData = (MarketSummaryDataBean) CachedObjectBean.getInstance()
+			//		.getCacheObject(exchange);
 			return new ResponseEntity<MarketSummaryDataBean>(marketSummaryData, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
@@ -743,7 +775,7 @@ if (hashOperations.get("getMarketSummary", exchange)!=null) {
 	public ResponseEntity<Collection<HoldingDataBean>> getHoldingsFallback(@PathVariable("userId") String userId) {
 		Log.traceEnter("getHoldingsFallback of GatewayController");
 
-		Collection<HoldingDataBean> holdings = new ArrayList<HoldingDataBean>(3);
+		Collection<HoldingDataBean> holdings = new ArrayList<HoldingDataBean>();
 		String userKey = "holdings_" + userId;
 		//redis cache changes
       if (hashOperations.get("getHolidins",userKey)!=null) {
@@ -756,14 +788,18 @@ if (hashOperations.get("getMarketSummary", exchange)!=null) {
 			return new ResponseEntity<Collection<HoldingDataBean>>((Collection<HoldingDataBean>) holdingDataBean,
 					getNoCacheHeaders(), HttpStatus.OK);
 
+//		if (CachedObjectBean.getInstance().getCacheObject(userKey) != null) {
+			
+	//		holdings = (Collection<HoldingDataBean>) CachedObjectBean.getInstance().getCacheObject(userKey);
+			//holdings.add(holdingDataBean);
+		//	return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
+
+
 		} else {
 
-			holdings.add(new HoldingDataBean(701, 107d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),
-					"s:701"));
-			holdings.add(new HoldingDataBean(702, 17d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),
-					"s:702"));
-			holdings.add(new HoldingDataBean(703, 177d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),
-					"s:703"));
+			holdings.add(new HoldingDataBean(701, 107d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),"s:701"));
+			holdings.add(new HoldingDataBean(702, 17d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),"s:702"));
+			holdings.add(new HoldingDataBean(703, 177d, new BigDecimal(10), new Timestamp(System.currentTimeMillis()),"s:703"));
 			return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 		}
 	}
@@ -780,6 +816,10 @@ if (hashOperations.get("getQuote", quotekey)!=null) {
 			QuoteDataBean quoteDataBean = (QuoteDataBean)hashOperations.get("getQuote", quotekey);
 		//	QuoteDataBean quoteDataBean = (QuoteDataBean) CachedObjectsClass.getInstance()
 					//.checkCacheForObject(quotekey);
+	//	if (CachedObjectBean.getInstance().getCacheObject(quotekey) != null) {
+		//	System.out.println("data is displayed from cache");
+			//QuoteDataBean quoteDataBean = (QuoteDataBean) CachedObjectBean.getInstance()
+				//	.getCacheObject(quotekey);
 			return new ResponseEntity<QuoteDataBean>(quoteDataBean, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
@@ -800,6 +840,9 @@ if (hashOperations.get("getQuote", quotekey)!=null) {
 			System.out.println("data is displayed from cache");
 			QuoteDataBean quoteDataBean =(QuoteDataBean) hashOperations.get("getOrders", userId);
 			//QuoteDataBean quoteDataBean = (QuoteDataBean) CachedObjectsClass.getInstance().checkCacheForObject(userId);
+	//	if (CachedObjectBean.getInstance().getCacheObject(userId) != null) {
+		//	System.out.println("data is displayed from cache");
+			//QuoteDataBean quoteDataBean = (QuoteDataBean) CachedObjectBean.getInstance().getCacheObject(userId);
 			return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
@@ -822,6 +865,12 @@ if (hashOperations.get("getQuote", quotekey)!=null) {
 			//System.out.println("data is displayed from cache");
 			//accountData = (AccountDataBean) CachedObjectsClass.getInstance().checkCacheForObject(DataKey);
 		} else {
+//		if (CachedObjectBean.getInstance().getCacheObject(DataKey) != null) {
+	//		System.out.println("data is displayed from cache");
+		//	accountData = (AccountDataBean) CachedObjectBean.getInstance().getCacheObject(DataKey);
+		//}
+		//else
+		//{
 			accountData.setAccountID(1);
 			accountData.setProfileID(userId);
 			accountData.setBalance(new BigDecimal(-1));
@@ -846,6 +895,12 @@ if (hashOperations.get("getQuote", quotekey)!=null) {
 			//accountProfileData = (AccountProfileDataBean) CachedObjectsClass.getInstance()
 				//	.checkCacheForObject(profileDataKey);
 		} else {
+		//if (CachedObjectBean.getInstance().getCacheObject(profileDataKey) != null) {
+		//	System.out.println("data is displayed from cache");
+			//accountProfileData = (AccountProfileDataBean) CachedObjectBean.getInstance().getCacheObject(profileDataKey);
+		//} 
+		//else
+		//{
 			accountProfileData.setUserID(userId);
 			accountProfileData.setPassword("777");
 			accountProfileData.setAddress("");
@@ -857,7 +912,23 @@ if (hashOperations.get("getQuote", quotekey)!=null) {
 		}
 		return new ResponseEntity<AccountProfileDataBean>(accountProfileData, getNoCacheHeaders(), HttpStatus.OK);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public ResponseEntity<Collection<OrderDataBean>>getOrdersByStatusFallback(
+			@PathVariable("userId") String userId, @RequestParam(value = "status") String status)
+	{		
+		String OrdersByStatus = "OrdersByStatus_" + userId;
+		Collection<OrderDataBean> orders = new ArrayList<OrderDataBean>();
+		System.out.println("data is displayed from cache in getOrdersByStatusFallback method");
+		if (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus) != null) {
+			System.out.println("data is displayed from cache");
+			orders = (Collection<OrderDataBean>) (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus));
+		
+		//return new ResponseEntity<Collection<OrderDataBean>>(orderDataBean, getNoCacheHeaders(), HttpStatus.OK);
+		}
+		return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
+		
+	}
 	//
 	// Private helper functions
 	//
