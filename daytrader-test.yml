@@ -9,71 +9,71 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'azseedteam'
-    scannerMode: 'Other'
+#- task: SonarCloudPrepare@1
+#  inputs:
+#    SonarCloud: 'SonarCloud'
+#    organization: 'azseedteam'
+#    scannerMode: 'Other'
 
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'day-trader-java-app/pom.xml'
-    publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: true
-    sqMavenPluginVersionChoice: 'latest'
+#- task: Maven@3
+#  inputs:
+#    mavenPomFile: 'day-trader-java-app/pom.xml'
+#    publishJUnitResults: false
+#    javaHomeOption: 'JDKVersion'
+#    mavenVersionOption: 'Default'
+#    mavenAuthenticateFeed: false
+#    effectivePomSkip: false
+#    sonarQubeRunAnalysis: true
+#    sqMavenPluginVersionChoice: 'latest'
 
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
+#- task: SonarCloudPublish@1
+#  inputs:
+#    pollingTimeoutSec: '300'
 
-#- task: DockerCompose@0
-#  inputs:
-#    containerregistrytype: 'Azure Container Registry'
-#    azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
-#    dockerComposeFile: '**/docker-compose.yaml'
-#    action: 'Run a Docker Compose command'
-#    dockerComposeCommand: 'up -d'
-#
-#- task: Bash@3
-#  continueOnError: true
-#  inputs:
-#    filePath: 'postman-testing/test_all.sh'
-#    workingDirectory: 'postman-testing/'
-#    failOnStderr: true
-#
-#
-#- task: PublishTestResults@2
-#  #continueOnError: true
-#  inputs:
-#    testResultsFormat: 'JUnit'
-#    testResultsFiles: 'postman-testing/postman_results/**.xml'
-#    mergeTestResults: true
-#    failTaskOnFailedTests: true
-#
-#- task: JMeterInstaller@0
-#  inputs:
-#    jmeterVersion: '5.3'
-#
-#- task: CmdLine@2
-#  inputs:
-#    script: 'jmeter -n -t jmeter-testing/DayTraderApacheJmeterScripts.jmx -l jmeter-testing/report.csv -e -o jmeter-testing/report'
-#
-#- task: PublishPipelineArtifact@1
-#  inputs:
-#    targetPath: 'jmeter-testing'
-#    artifact: 'jmeter-reports'
-#    publishLocation: 'pipeline'
-#
-#
-#
-#- task: DockerCompose@0
-#  inputs:
-#    containerregistrytype: 'Azure Container Registry'
-#    azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
-#    dockerComposeFile: '**/docker-compose.yaml'
-#    action: 'Run a Docker Compose command'
-#    dockerComposeCommand: 'down'
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
+    dockerComposeFile: '**/docker-compose.yaml'
+    action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'up -d'
+
+- task: Bash@3
+  continueOnError: true
+  inputs:
+    filePath: 'postman-testing/test_all.sh'
+    workingDirectory: 'postman-testing/'
+    failOnStderr: true
+
+
+- task: PublishTestResults@2
+  #continueOnError: true
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'postman-testing/postman_results/**.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+
+- task: JMeterInstaller@0
+  inputs:
+    jmeterVersion: '5.3'
+
+- task: CmdLine@2
+  inputs:
+    script: 'jmeter -n -t jmeter-testing/DayTraderApacheJmeterScripts.jmx -l jmeter-testing/report.csv -e -o jmeter-testing/report'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'jmeter-testing'
+    artifact: 'jmeter-reports'
+    publishLocation: 'pipeline'
+
+
+
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Azure subscription 1(15fb3a3b-433e-4bc9-a99b-166f264943cd)'
+    dockerComposeFile: '**/docker-compose.yaml'
+    action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'down'
