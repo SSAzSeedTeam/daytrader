@@ -71,7 +71,7 @@ class Registerpage extends Component {
         console.log('res', res)
         if (res.status === 201) {
           localStorage.setItem('userId', res.data.profileID)
-          this.props.history.push('/TradingAndPortfolios');
+          this.props.history.push('/trading');
         } else {
           window.alert('Something went wrong, Please try again')
         }
