@@ -31,8 +31,7 @@
 }
 
 .app-home-container .app-home-content .overview-image img {
-    max-height: 500px;
-    margin-bottom: 50px;
+    max-height: 400px;
 }
 
 .app-home-container .app-home-content .mvc-info h4 {

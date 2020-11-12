@@ -49,15 +49,9 @@
 		<module>daytrader-web</module>
 		<module>daytrader-entities</module>
 		<module>daytrader-utilities</module>
+		<module>daytrader-auth-server</module>
 		<module>daytrader-onprem-exchange-rate</module>
 		<module>daytrader-report-generator</module>
-		<module>daytrader-trade-common</module>
-		<module>daytrader-trade-consumer</module>
-		<module>daytrader-trade-producer</module>
-		<module>daytrader-scdf-trade-generator</module>
-		<module>daytrader-scdf-trade-processor</module>
-		<module>daytrader-scdf-trade-validation</module>
-
 		<!--
 		-->
 

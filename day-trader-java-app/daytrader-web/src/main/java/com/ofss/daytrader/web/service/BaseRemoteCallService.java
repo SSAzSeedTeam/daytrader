@@ -34,6 +34,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.HttpHeaders;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 
@@ -44,14 +45,14 @@ import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 
 public class BaseRemoteCallService {
 
-    public static String invokeEndpoint(String url, String method, String body) throws Exception
+    public static String invokeEndpoint(String url, String method, String body, String accessToken) throws Exception
     {
-    	return invokeEndpoint(url, method, body, -1);
+    	return invokeEndpoint(url, method, body, -1, accessToken);
     }
     
-    public static String invokeEndpoint(String url, String method, String body, int connTimeOut) throws Exception
+    public static String invokeEndpoint(String url, String method, String body, int connTimeOut, String accessToken) throws Exception
     {       	
-   		Response  response = sendRequest(url, method, body, connTimeOut);
+   		Response  response = sendRequest(url, method, body, connTimeOut, accessToken);
    		int responseCode = response.getStatus();
    		
    		// switch statement 
@@ -113,9 +114,9 @@ public class BaseRemoteCallService {
         return responseEntity;
     }
 
-    public static Response sendRequest(String url, String method, String body, int connTimeOut) 
+    public static Response sendRequest(String url, String method, String body, int connTimeOut, String accessToken) 
     {
-        System.out.println("Web.sendRequest():url="+url);
+    	Response response = null;
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
@@ -126,7 +127,16 @@ public class BaseRemoteCallService {
         }
         
         WebTarget target = client.target(url);
-        Response response = target.request().method(method, Entity.json(body));
+       // Response response = target.request().method(method, Entity.json(body));
+        if(accessToken!="") {
+        	System.out.println("with token");
+        	response = target.request().header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken).method(method, Entity.json(body));
+        	//response = target.request().method(method, Entity.json(body));
+        }
+        else {
+        	System.out.println("no token");
+        	response = target.request().method(method, Entity.json(body));
+        }
         return response;
     }
 }

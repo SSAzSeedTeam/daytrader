@@ -22,7 +22,7 @@
     <Properties>
 		<!-- Each microservice has their own logfile -->
 		<Property name="LOG_FILENAME">${env:DAYTRADER_LOG_FILENAME}</Property>
-		<Property name="LOG_LEVEL">trace</Property>
+		<Property name="LOG_LEVEL">debug</Property>
         <Property name="LOG_PATTERN">%d{HH:mm:ss.SSS}[%T]: %m%n</Property>
         <Property name="LOG_APPENDER">ConsoleAppender</Property>
     </Properties>
@@ -45,7 +45,7 @@
 		<!-- 
 		     Each microservice has their own logger 
 		-->
-        <Logger name="com.ofss.daytrader" level="${LOG_LEVEL}" additivity="false">
+        <Logger name="com.ofss.daytrader.accounts" level="${LOG_LEVEL}" additivity="false">
 			<AppenderRef ref="${LOG_APPENDER}"/>
         </Logger>
     </Loggers>

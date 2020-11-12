@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ import com.ofss.daytrader.core.beans.RunStatsDataBean;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-//import org.symphonyoss.symphony.jcurl.*;
+import org.symphonyoss.symphony.jcurl.*;
 
 import com.ofss.daytrader.accounts.repository.AccountsProfileRepository;
 import com.ofss.daytrader.accounts.repository.AccountsRepository;
@@ -68,7 +67,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-//import com.roxstudio.utils.CUrl;
+
 
 /**
  * A microservice to manage accounts (and profiles).
@@ -87,7 +86,6 @@ public class AccountsService
 	
 	
     private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
-
 	
 	//	- Each microservice has their own private database (datasource)
    // private static String dsName = TradeConfig.ACCOUNTS_DATASOURCE;
@@ -98,8 +96,6 @@ public class AccountsService
     private static InitialContext context;
 	@Value("${EXCHANGE_RATE_ENABLE}")
     private boolean exchangeRateEnable;
-	@Value("${DAYTRADER_ONPREM_EXCHANGERATE_SERVICE}")
-    private String exchangeRateOnpremUrl;
     
     @Autowired
     AccountsRepository accountsRepository;
@@ -174,6 +170,7 @@ public class AccountsService
   	* @see TradeServices#resetTrade(boolean)
   	*
   	*/
+    
    	public RunStatsDataBean resetTrade(boolean deleteAll) throws Exception 
    	{
   		//		-  Reset usage statistics for account microservices and only the accounts
@@ -202,15 +199,6 @@ public class AccountsService
 				stmt.close();*/
 				accountsProfileRepository.deleteAll();
 				keygenRepository.deleteAll();
-
-				accountsProfileRepository.deleteAll();
-				keygenRepository.deleteAll();
-				/*stmt.close();
-				
-				stmt = getStatement(conn, "delete from accountprofileejb");
-				stmt.executeUpdate();
-				stmt.close();*/
-				
 				// Fixed pkey unique constraint violation
 				/*stmt = getStatement(conn, "delete from keygenejb");
 				stmt.executeUpdate();
@@ -243,8 +231,6 @@ public class AccountsService
    				// Count and delete random users (with id that start with "ru:%")
    				accountsProfileRepository.deleteAccountprofileByUser();
    				/*stmt = getStatement(conn, "delete from accountprofileejb where userid like 'ru:%'");
-   				
-   				stmt = getStatement(conn, "delete from accountprofileejb where userid like 'ru:%'");
    				stmt.executeUpdate();
    				stmt.close();*/
 
@@ -253,8 +239,6 @@ public class AccountsService
    				int newUserCount = accountsRepository.deleteAccountDataByUser();
    				runStatsData.setNewUserCount(newUserCount);
    				/*stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
-   			
-   				stmt = getStatement(conn, "delete from accountejb where profile_userid like 'ru:%'");
    				int newUserCount = stmt.executeUpdate();
    				runStatsData.setNewUserCount(newUserCount);
    				stmt.close();*/
@@ -263,8 +247,7 @@ public class AccountsService
    				int tradeUserCount = accountsRepository.getTraderUserCount();
    				runStatsData.setTradeUserCount(tradeUserCount);
    				/*stmt =	getStatement(conn,
-   				
-   				stmt =	getStatement(conn,
+   					"select count(accountid) as \"tradeUserCount\" from accountejb a where a.profile_userid like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
    				int tradeUserCount = rs.getInt("tradeUserCount");
@@ -285,7 +268,7 @@ public class AccountsService
    				}
    				
    				/*stmt = getStatement(conn,
-   				
+                    "select sum(loginCount) as \"sumLoginCount\", sum(logoutCount) as \"sumLogoutCount\" from accountejb a where  a.profile_userID like 'uid:%'");
    				rs = stmt.executeQuery();
    				rs.next();
    				int sumLoginCount = rs.getInt("sumLoginCount");
@@ -439,6 +422,8 @@ public class AccountsService
     public AccountDataBean getAccountData(String profile_userid) throws Exception {
         AccountDataBean accountData = null;
        // Connection conn = null;
+       /* session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         try {
             /*conn = getConn();
             accountData = getAccountData(conn, userID);
@@ -557,6 +542,8 @@ public class AccountsService
                 throw new NotAuthorizedException("Incorrect password: " +  password + " for user: " + userID);
             }
 
+            /*Integer currLoginCount = accountData.getLoginCount();
+            Integer updatedLoginCount = currLoginCount + 1;*/
             Timestamp lastLogin = new Timestamp(System.currentTimeMillis());
             accountsRepository.loginUpdate(lastLogin,userID);
             
@@ -565,18 +552,12 @@ public class AccountsService
             if (null==accountData) {
                 throw new NotAuthorizedException("Failure to find account for user: " + userID);
             }
+          
             
             /*accountData.setLoginCount(updatedLoginCount);
             accountData.setLastLogin(new Timestamp(System.currentTimeMillis()));
             accountsRepository.save(accountData);*/
             /*conn = getConn();
-            Integer currLoginCount = accountData.getLoginCount();
-            Integer updatedLoginCount = currLoginCount + 1;
-            accountData.setLoginCount(updatedLoginCount);
-            accountData.setLastLogin(new Timestamp(System.currentTimeMillis()));
-            accountsRepository.save(accountData);
-            /*conn = getConn();
-        	
             PreparedStatement stmt = getStatement(conn, getAccountProfileSQL);
             stmt.setString(1, userID);
 
@@ -615,9 +596,11 @@ public class AccountsService
             stmt.close();
             commit(conn);*/
         } catch (Exception e) {
+        	//trans.rollback();
             //rollBack(conn, e);
             throw e;
         } finally {
+        	//session.close();
             //releaseConn(conn);
         }
         return accountData;
@@ -631,6 +614,8 @@ public class AccountsService
     public boolean logout(String userID) throws Exception 
     { 
     	boolean result = false;
+    	/*session=sessionFactory.openSession();
+        trans=session.beginTransaction();*/
         
         //Connection conn = null;       
         try {
@@ -646,9 +631,11 @@ public class AccountsService
             commit(conn);*/
             result = true;
         } catch (Exception e) {
+        	//trans.rollback();
             //rollBack(conn, e);
             throw e;
         } finally {
+        	//session.close();
             //releaseConn(conn);
         }
         return result;
@@ -742,6 +729,11 @@ public class AccountsService
     	 profileData = accountsProfileRepository.save(profileData);
     	 
     	 accountData.setProfile(profileData);
+    	 
+    	 System.out.println("new user id saved");
+    	 
+    	 String pwd = accountsProfileRepository.getPwdByUserid(profileData.getUserID());
+    	 System.out.println("password in account: "+ pwd);
     	 
          /*PreparedStatement stmt = getStatement(conn, createAccountSQL);
          
@@ -1079,69 +1071,44 @@ public class AccountsService
     public static void destroy() {
         return;
     }
-    public double getExchangeRateData(String currency) throws Exception {
+    public double getExchangeRateData(String currency) throws Exception 
+    {
     	System.out.println("Entering AccountsService.getExchangeRateData()");
-    	System.out.println("exchangeRateEnable="+exchangeRateEnable);
+        Log.debug("exchangeRateEnable="+exchangeRateEnable);
         if(exchangeRateEnable == false) {
             return 0;
         }
-        double exchangeRate = 0;
-      
-//   		String exchangeRateOnpremUrl = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
-   		String localExchangeRateOnpremUrl = exchangeRateOnpremUrl + "&currency="+currency;
-   		Log.debug("AccountsService.getExchangeRateData() - " + localExchangeRateOnpremUrl);
-    	System.out.println("AccountsService.getExchangeRateData() - " + localExchangeRateOnpremUrl);
-    	
-    	String responseString= "";
-    	
-    	//========================================================================================
-//
-//        JCurl jcurl = JCurl.builder()
-//                        .method(JCurl.HttpMethod.GET)
-//                        .insecure(true)
-////                        .data(jsonData.toString())
-//                        .build();
-//        //TODO  the url should come from ENVIRONMENT VARIABLE.
-//        //TODO also fix the rest of the URL
-//        java.net.HttpURLConnection connection = jcurl.connect(url);
-//        
-//        JCurl.Response response = jcurl.processResponse(connection);
-//        //Print the output of the call
-//        String responseString = response.getOutput(); 
-//        System.out.println(responseString );       
+   		String url = "https://prod-07.centralus.logic.azure.com:443/workflows/f4b8b98c04cc482eb75b472bb4cda3ab/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=VGAQflv_Mr2m8cM3BqV8vFzHee35KxmL4OxdesflfE0";
+   		url = url + "&currency="+currency;
+   		Log.debug("AccountsService.getExchangeRateData() - " + url);
 
-    	//========================================================================================
-   		SSLUtilities.trustAllHostnames();
-   		SSLUtilities.trustAllHttpsCertificates();
    		
-        URL urlObj = new URL(localExchangeRateOnpremUrl);
-        BufferedReader in = new BufferedReader(new InputStreamReader(urlObj.openStream()));
 
-        String inputLine;
-        responseString = "";
-        while ((inputLine = in.readLine()) != null) {
-        	responseString = responseString + inputLine;
-        }
-        in.close();   		
-
-    	
-    	//========================================================================================
-//        CUrl curl = new CUrl(exchangeRateOnpremUrl)
-//                .insecure();  // Ignore certificate check
-//        responseString = new String(curl.exec());
-
-    	//========================================================================================
-    	
-    	System.out.println("responseString ="+responseString );
-   		
+        JCurl jcurl = JCurl.builder()
+                        .method(JCurl.HttpMethod.GET)
+                        .insecure(true)
+//                        .data(jsonData.toString())
+                        .build();
+        //TODO  the url should come from ENVIRONMENT VARIABLE.
+        //TODO also fix the rest of the URL
+        java.net.HttpURLConnection connection = jcurl.connect(url);
+        
+        JCurl.Response response = jcurl.processResponse(connection);
+        //Print the output of the call
+        String responseString = response.getOutput(); 
+        System.out.println(responseString );       
         Object obj = new JSONParser().parse(responseString);
         
         JSONObject jo = (JSONObject) obj;
+        //orderDataBean = new OrderDataBean();
         
-        exchangeRate = (Double) jo.get("exchangeRate");
+        //String currency = (String) jo.get("currency");
+        double exchangeRate = (Double) jo.get("exchangeRate");
     	System.out.println("exchangeRate    ="+exchangeRate );
 
     	System.out.println("Exiting AccountsService.getExchangeRateData()");
    		return exchangeRate;
     }
+	
+
 }

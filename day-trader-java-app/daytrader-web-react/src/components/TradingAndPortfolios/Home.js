@@ -6,13 +6,12 @@ import axios from 'axios';
 import moment from 'moment';
 import './Home.css';
 import { Link } from 'react-router-dom';
+import { ACCOUNTS_API_URL } from '../../constants';
 import downarrow from '../../assets/arrowdown.gif';
 import uparrow from '../../assets/arrowup.gif';
 import CompletedOrder from './NewOrder/CompletedOrder';
-import {LOCAL_GATEWAY_URL} from '../../constants';
 
-
-const exchangeString = 'TSIA'
+const exchangeString = 'oracle'
 class Dashboard extends Component {
   constructor() {
     super();
@@ -20,21 +19,13 @@ class Dashboard extends Component {
       userInfo: {},
       marketSummary: {},
       holdings: [],
-      curTime : new Date(),
+      curTime : new Date().toLocaleString(),
     }
   }
 
   componentDidMount () {
-    let endPointUrl = 'https://localhost:2443'
-    const el = document.getElementById('end-point-url')
-    if (el) {
-      endPointUrl = el.getAttribute('data-end-point')
-      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
-      }
-    }
     const userId = localStorage.getItem('userId');
-    axios.get(`${endPointUrl}/markets/${exchangeString}`)
+    axios.get(`https://localhost:2443/markets/${exchangeString}`)
       .then(res => {
         console.log('res', res)
         this.setState({
@@ -42,7 +33,7 @@ class Dashboard extends Component {
         })
       })
     
-    axios.get(`${endPointUrl}/accounts/${userId}`)
+    axios.get(`${ACCOUNTS_API_URL}/accounts/${userId}`)
     .then(res => {
       console.log('res', res)
       this.setState({
@@ -50,7 +41,7 @@ class Dashboard extends Component {
       })
     })
 
-    axios.get(`${endPointUrl}/portfolios/${userId}/holdings`)
+    axios.get(`https://localhost:3443/portfolios/${userId}/holdings`)
     .then(res => {
       console.log('res', res)
       this.setState({
@@ -70,10 +61,9 @@ class Dashboard extends Component {
   }
 
   render () {
-    console.log('process.env', process.env)
     const userId = localStorage.getItem('userId');
     const {marketSummary, userInfo, holdings,curTime} = this.state
-    const {accountID, loginCount, creationDate, lastLogin, openBalance, balance, exchangeRate} = userInfo;
+    const {accountID, loginCount, creationDate, lastLogin, openBalance, balance} = userInfo;
     const {summaryDate, gainPercent, tsia, topGainers, topLosers, openTSIA, volume} = marketSummary;
     const totalHoldings = holdings ? holdings.length : 0;
     const sumOfTotalHoldings = this.getSumOfTotalHoldings();
@@ -128,11 +118,11 @@ class Dashboard extends Component {
                   </tr>
                   <tr>
                     <td><Link>Cash Balance:</Link></td>
-                    <td>${balance || 0.0}</td>
+                    <td>${balance}</td>
                   </tr>
                   <tr>
                     <td><Link>Number of Holdings:</Link></td>
-                    <td>{totalHoldings || 0}</td>
+                    <td>{totalHoldings}</td>
                   </tr>
                   <tr>
                     <td><Link>Total of Holdings:</Link></td>
@@ -140,19 +130,15 @@ class Dashboard extends Component {
                   </tr>
                   <tr>
                     <td><Link>Sum of cash/holdings opening balance:</Link></td>
-                    <td>${sumOfTotalHoldings + (balance || 0)}</td>
+                    <td>${sumOfTotalHoldings + balance}</td>
                   </tr>
                   <tr>
                     <td><Link>Opening Balance:</Link></td>
-                    <td>${openBalance || 0.0}</td>
+                    <td>${openBalance}</td>
                   </tr>
                   <tr>
                     <td><Link>Current Gain ({profit > 0 ? 'profit' : 'loss'})</Link></td>
-                    <td style={{color: profit > 0 ? 'green' : 'red'}}>${profit ? profit.toFixed(2) : 0.0}</td>
-                  </tr>
-                  <tr>
-                    <td><Link>Exchange Rate: </Link></td>
-                    <td>INR {exchangeRate ? exchangeRate.toFixed(4) : 76.0000}</td>
+                    <td style={{color: profit > 0 ? 'green' : 'red'}}>${profit.toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -197,12 +183,11 @@ class Dashboard extends Component {
                       <tbody>
                         {topGainers && topGainers.map((tg, index) => {
                           const { symbol, price, change} = tg;
-                          if(index < 10)
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
-                              <td>{price ? price.toFixed(2) : 0.0}</td>
-                              <td>{change ? change.toFixed(2) : 0.0} <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
+                              <td>{price.toFixed(2)}</td>
+                              <td>{change.toFixed(2)} <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
                             </tr>
                           )
                         })}
@@ -226,12 +211,11 @@ class Dashboard extends Component {
                       <tbody>
                         {topLosers && topLosers.map((tg, index) => {
                           const { symbol, price, change} = tg;
-                          if(index < 10)
                           return (
                             <tr key={`top-gainers-data-row-${index}`}>
                               <td><Link to='/Terms'>{symbol}</Link></td>
-                              <td>{price ? price.toFixed(2) : 0.0}</td>
-                              <td>{change ? change.toFixed(2) : 0.0}
+                              <td>{price.toFixed(2)}</td>
+                              <td>{change.toFixed(2)}
                               <img className='uparrow-image' src={change >= 0 ? uparrow : downarrow} /></td>
                             </tr>
                           )

@@ -18,18 +18,31 @@
 
 package com.ofss.daytrader.web.service;
 
+import java.io.IOException;
 // java
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 // spring
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.ofss.daytrader.core.api.*;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.entities.*;
@@ -63,6 +76,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 //
 //  - Naming convention based service discovery 
 	private static String gatewayServiceRoute = System.getenv("DAYTRADER_GATEWAY_SERVICE");
+	private static String daytraderAuthService = System.getenv("DAYTRADER_AUTH_SERVICE");
 	   
 	   
 	   /**
@@ -72,9 +86,13 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		*/
 		public RunStatsDataBean resetTrade(boolean deleteAll) throws Exception
 		{
+	
+			
+			
+			
 	    	String url = gatewayServiceRoute + "/admin/resetTrade?deleteAll=" + deleteAll;
 			Log.debug("GatewayRemoteCallService.resetTrade() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	    	String responseEntity = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 	    	RunStatsDataBean runStatsData = mapper.readValue(responseEntity,RunStatsDataBean.class);
 	    	return runStatsData; 
 		}
@@ -88,7 +106,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = gatewayServiceRoute + "/admin/tradeBuildDB?limit=" + limit + "&offset=" + offset;
 			Log.debug("GatewayRemoteCallService.tradeBuildDB() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "","");
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -103,7 +121,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = gatewayServiceRoute + "/admin/quotesBuildDB?limit=" + limit + "&offset=" + offset;
 			Log.debug("GatewayRemoteCallService.quotesBuildDB() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "","");
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -117,7 +135,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = gatewayServiceRoute + "/admin/recreateDBTables";
 			Log.debug("GatewayRemoteCallService.recreateDBTables() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "","");
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -131,7 +149,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    {
 	    	String url = gatewayServiceRoute + "/accounts/" + userID;
 			Log.debug("GatewayRemoteCallService.getAccountData() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	    	String responseEntity = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);
 	    	return accountData;
 	    }
@@ -145,7 +163,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = gatewayServiceRoute + "/accounts/" + userID + "/profiles";
 			Log.debug("GatewayRemoteCallService.getAccountProfileData() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	    	String responseEntity = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 	    	AccountProfileDataBean profileData = mapper.readValue(responseEntity,AccountProfileDataBean.class);
 	    	return profileData;     	
 		}
@@ -160,7 +178,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			String url = gatewayServiceRoute + "/accounts/" + profileData.getUserID() + "/profiles";
 			Log.debug("GatewayRemoteCallService#updateAccountProfile() - " + url);
 			String profileDataInString = mapper.writeValueAsString(profileData);
-		   	String responseEntity = invokeEndpoint(url, "PUT", profileDataInString);
+		   	String responseEntity = invokeEndpoint(url, "PUT", profileDataInString,"");
 	        profileData = mapper.readValue(responseEntity, AccountProfileDataBean.class);
 	        return profileData;
 	    }
@@ -172,9 +190,47 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		*/
 	    public AccountDataBean login(String userID, String password) throws Exception 
 	    {    
+	    	System.out.println("inside we ui gate way remote call login : "+daytraderAuthService);
+			String authUrl = "http://localhost:8080/authenticate";
+					//"http://localhost:8080/oauth/token";
+			
+			HttpPost post = new HttpPost(authUrl);
+
+	        // add request parameter, form parameters
+	        /*List<NameValuePair> urlParameters = new ArrayList<>();
+	        	urlParameters.add(new BasicNameValuePair("username", userID));
+	        	urlParameters.add(new BasicNameValuePair("password", password));
+	        	urlParameters.add(new BasicNameValuePair("grant_type", "password"));
+	        	
+	        	//String encoding = Base64.getEncoder().encodeToString(("devglan-client:devglan-secret").getBytes(‌));
+	        	String encoding = Base64.getEncoder().encodeToString(("devglan-client:devglan-secret").getBytes());
+	        	post.setHeader("Authorization", "Basic " + encoding);
+	       		post.setEntity(new UrlEncodedFormEntity(urlParameters));*/
+	       		JwtRequest request = new JwtRequest();
+	       		request.setUsername(userID);
+	       		request.setPassword(password);
+	       		Gson gson = new Gson();
+	       		String jwtRequest = gson.toJson(request, JwtRequest.class);
+	       		post.setEntity(new StringEntity(jwtRequest));
+	       		HttpClient httpClient = HttpClientBuilder.create().build();
+	       		
+	       		HttpResponse response = null;
+	       		String result = null;
+	       		try {
+	       			response = httpClient.execute(post);
+	       			result = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+	       		} catch (IOException e) {
+	       			e.printStackTrace();
+	       		}
+	       		System.out.println("result:---- "+result);
+	       		
+	       	
+	       		/*String accessToken = responseBean.getAccess_token();
+	       		System.out.println("accessToken--: "+ accessToken);*/
+	       		//httpClient.execute(post);
 	    	String url = gatewayServiceRoute + "/login/" + userID;
 			Log.debug("GatewayRemoteCallService.login() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "PATCH", password);
+	    	String responseEntity = invokeEndpoint(url, "PATCH", password,result);
 	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);	    
 	    	return accountData;
 	    }
@@ -188,7 +244,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    {
 	    	String url = gatewayServiceRoute + "/logout/" + userID;
 			Log.debug("GatewayRemoteCallService.logout() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "PATCH", "");
+	    	String responseEntity = invokeEndpoint(url, "PATCH", "","");
 	    	mapper.readValue(responseEntity,Boolean.class);
 	    }
 		
@@ -216,7 +272,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			accountData.getProfile().setCreditCard(creditCard);
 			
 	    	String accountDataInString = mapper.writeValueAsString(accountData);
-	    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString);
+	    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString,"");
 	    	accountData = mapper.readValue(responseEntity,AccountDataBean.class);
 	    	return accountData;
 	    }
@@ -238,7 +294,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String orderDataInString = mapper.writeValueAsString(orderData);
 	    	String url = gatewayServiceRoute + "/portfolios/" + userID + "/orders?mode=" + orderProcessingMode;
 			Log.debug("GatewayRemoteCallService.buy() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString);
+	    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString,"");
 	    	orderData = mapper.readValue(responseEntity,OrderDataBean.class);
 	    	return orderData;
 	    }
@@ -259,7 +315,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String orderDataInString = mapper.writeValueAsString(orderData);
 	    	String url = gatewayServiceRoute + "/portfolios/" + userID + "/orders?mode=" + orderProcessingMode;
 			Log.debug("GatewayRemoteCallService.sell() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString);
+	    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString,"");
 	    	orderData = mapper.readValue(responseEntity,OrderDataBean.class);
 	    	return orderData;
 	    }
@@ -274,7 +330,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			// Returns the orders for the given user
 	    	String url = gatewayServiceRoute + "/portfolios/" + userID + "/orders";
 			Log.debug("GatewayRemoteCallService.getOrders() - " + url);
-		   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+		   	String responseString = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 		   	Collection<OrderDataBean> orderCollection = mapper.readValue(responseString,new TypeReference<ArrayList<OrderDataBean>>(){ });
 	        return orderCollection;
 	    }
@@ -296,7 +352,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			// REST call transitions closed orders to completed state and returns them.
 	    	String url = gatewayServiceRoute + "/portfolios/" + userID + "/orders?status=closed";
 			Log.debug("GatewayRemoteCallService.getClosedOrders() - " + url);
-		   	String responseString = invokeEndpoint(url, "PATCH", ""); // must pass a request body to the patch method 
+		   	String responseString = invokeEndpoint(url, "PATCH", "",""); // must pass a request body to the patch method 
 		   	Collection<OrderDataBean> orderCollection = mapper.readValue(responseString,new TypeReference<ArrayList<OrderDataBean>>(){ });
 	        return orderCollection;
 	    }
@@ -311,7 +367,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			// Returns the holdings for the give user
 	    	String url = gatewayServiceRoute + "/portfolios/" + userID + "/holdings";
 			Log.debug("GatewayRemoteCallService.getHoldings() - " + url);
-		   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+		   	String responseString = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 		   	Collection<HoldingDataBean> holdings = mapper.readValue(responseString,new TypeReference<ArrayList<HoldingDataBean>>(){ });
 			return holdings;
 	    }    
@@ -329,7 +385,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String exchange = "TSIA"; /* Trade Stock Index Average */
 	    	String url = gatewayServiceRoute + "/markets/" + exchange;   
 			Log.debug("GatewayRemoteCallService.getMarketSummary() - " + url);
-		   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+		   	String responseString = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 	        MarketSummaryDataBean marketSummaryData = mapper.readValue(responseString,MarketSummaryDataBean.class);
 	        return marketSummaryData;
 	    }
@@ -351,7 +407,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			quoteData.setPrice(price);
 		
 	    	String quoteDataInString = mapper.writeValueAsString(quoteData);
-	    	String responseEntity = invokeEndpoint(url, "POST", quoteDataInString);
+	    	String responseEntity = invokeEndpoint(url, "POST", quoteDataInString,"");
 	    	quoteData = mapper.readValue(responseEntity,QuoteDataBean.class);
 	    	return quoteData;
 	    }
@@ -365,7 +421,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    {
 	    	String url = gatewayServiceRoute + "/quotes/" + symbol;  
 			Log.debug("GatewayRemoteCallService.getQuote() - " + url);
-		   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+		   	String responseString = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 	        QuoteDataBean quoteData = mapper.readValue(responseString,QuoteDataBean.class);
 	        return quoteData;
 	    }
@@ -387,7 +443,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	
 	    	String url = gatewayServiceRoute + "/quotes?limit=" + limit + "&offset=" + offset;
 			Log.debug("GatewayRemoteCallService.getAllQuotes() - " + url);
-		   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+		   	String responseString = invokeEndpoint(url, "GET", null,""); // Entity must be null for http method GET.
 	        Collection<QuoteDataBean> quoteCollection = mapper.readValue(responseString,new TypeReference<Collection<QuoteDataBean>>(){ });
 	        return quoteCollection;
 	    }
@@ -401,7 +457,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    {
 	    	String url = gatewayServiceRoute + "/quotes/" + symbol + "?price=" + price + "&volume=" + volume;
 			Log.debug("GatewayRemoteCallService.updateQuotePriceValume() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "PATCH", "");
+	    	String responseEntity = invokeEndpoint(url, "PATCH", "","");
 	    	QuoteDataBean quoteData = mapper.readValue(responseEntity,QuoteDataBean.class);
 	    	return quoteData;
 	    }

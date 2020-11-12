@@ -28,17 +28,18 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-
+import org.springframework.stereotype.Component;
 
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
 
 @SuppressWarnings("serial")
+@Component
 @Entity
-@Table(name="orderejb",
+@Table(name="OrderDB",
 	indexes = {@Index(name = "ORDER_ACCOUNTID", columnList = "account_accountid"),
-			   @Index(name = "ORDER_HOLDINGID", columnList = "holding_holdingid"),
-			   @Index(name = "CLOSED_ORDERS", columnList = "account_accountid,orderStatus")})
+				@Index(name = "ORDER_HOLDINGID", columnList = "holding_holdingid"),
+				@Index(name = "CLOSED_ORDERS", columnList = "account_accountid,orderStatus")})
 public class OrderDataBean implements Serializable
 {
 	@Id

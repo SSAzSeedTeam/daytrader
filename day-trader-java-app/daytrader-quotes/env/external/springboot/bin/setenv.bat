@@ -24,7 +24,7 @@ set DAYTRADER_WAR_ARTIFACTID=daytrader-quotes
 @ECHO OFF
 echo "set database variables"
 set DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-set DAYTRADER_DATABASE_URL=jdbc:derby:quotesdb;create=true
+set DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
 set DAYTRADER_DATABASE_USERNAME=
 set DAYTRADER_DATABASE_PASSWORD=
 
@@ -39,6 +39,7 @@ set DAYTRADER_ACCOUNTS_SERVICE=https://localhost:1443
 set DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 set DAYTRADER_PORTFOLIOS_SERVICE=https://localhost:3443
 set DAYTRADER_QUOTES_SERVICE=https://localhost:4443
+set DAYTRADER_AUTH_SERVICE = http://daytrader-auth-server:8080
 
 @ECHO OFF
 echo set logging variables

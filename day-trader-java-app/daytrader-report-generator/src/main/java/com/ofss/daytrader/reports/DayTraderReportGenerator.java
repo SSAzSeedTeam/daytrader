@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.io.UnsupportedEncodingException;
 
 public class DayTraderReportGenerator {
-  private static String DESTINATION_FOLDER = "D:/TEMP"; //default value
+  private static String DESTINATION_FOLDER = "C:/TEMP"; //default value
   private static SimpleDateFormat sdf_for_timestamp       = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
   private static String ENCODED = "RGVmYXVsdEVuZHBvaW50c1Byb3RvY29sPWh0dHBzO0FjY291bnROYW1lPWRheXRyYWRlcnJlcG9ydHN0b3JhZ2U7QWNjb3VudEtleT16aktvMHZBeEJjNmRSMWk4MzV2L1crKytpbTRBTHoxeHhOTnNKc04yNUwxRk1HYlFmZFpQa0Z4WW5vdGVxaERMaFVQWlhoWW5VeEhwd1dXc2ZEcjErUT09O0VuZHBvaW50U3VmZml4PWNvcmUud2luZG93cy5uZXQ=";
   private static String STORAGE_CONNECTION_STRING = "";

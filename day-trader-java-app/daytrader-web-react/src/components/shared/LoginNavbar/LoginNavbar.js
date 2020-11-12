@@ -2,20 +2,12 @@ import React from 'react'
 import './LoginNavbar.css'
 import { NavLink, withRouter } from 'react-router-dom'
 import axios from 'axios'
-import {LOCAL_GATEWAY_URL} from '../../../constants';
+import { ACCOUNTS_API_URL } from '../../../constants'
 
 const LoginNavbar = (props) => {
   const userId = localStorage.getItem('userId');
   const handleLogOut = () => {
-    let endPointUrl = 'https://localhost:2443'
-    const el = document.getElementById('end-point-url')
-    if (el) {
-      endPointUrl = el.getAttribute('data-end-point')
-      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
-      }
-    }
-  axios.patch(`${endPointUrl}/logout/${userId}`)
+    axios.patch(`${ACCOUNTS_API_URL}/logout/${userId}`)
       .then(res => {
         localStorage.removeItem('userId');
         props.history.push('/login');

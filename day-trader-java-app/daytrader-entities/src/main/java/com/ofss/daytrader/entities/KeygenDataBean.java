@@ -7,12 +7,13 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name="keygenejb")
+@Table(name="keygen")
 public class KeygenDataBean {
 
 	@Id
 	private String keyname;
 	private Integer keyval;
+	
 	
 	public Integer getKeyval() {
 		return keyval;

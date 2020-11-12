@@ -30,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +66,6 @@ import com.ofss.daytrader.quotes.utils.Log;
  *		the application does not check to see is a user is logged in before invoking
  *		a method. So access control checks should be added in Stage 04: Microservices 
  */
-@CrossOrigin(origins = "*")
 @RestController
 public class QuotesController
 {

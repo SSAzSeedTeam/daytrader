@@ -17,35 +17,21 @@
 
 package com.ofss.daytrader.gateway;
 
-import javax.sql.DataSource;
-
-import org.apache.catalina.Context;
-import org.apache.catalina.startup.Tomcat;
-import org.apache.tomcat.util.descriptor.web.ContextResource;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-/*import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;*/
-import org.springframework.boot.web.servlet.ServletComponentScan;
-//import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@EnableHystrix
-@ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
-@SpringBootApplication
-public class GatewayApplication extends SpringBootServletInitializer {
+//@ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+public class GatewayApplication /*extends SpringBootServletInitializer*/ {
 	
 	//	- Each microservice has their own private database (datasource)
 
-	@Override
+	/*@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(GatewayApplication.class);
 	}
-
+*/
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(GatewayApplication.class, args);
 	}

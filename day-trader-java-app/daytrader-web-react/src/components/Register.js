@@ -3,7 +3,7 @@ import axios from 'axios'
 import './Register.css'
 import Navbar from './shared/Navbar/Navbar'
 import Footer from './shared/Footer/Footer'
-import {LOCAL_GATEWAY_URL} from '../constants';
+import { ACCOUNTS_API_URL } from '../constants'
 
 class Registerpage extends Component {
   constructor () {
@@ -17,22 +17,10 @@ class Registerpage extends Component {
       userID: '',
       openBalance: '',
       confirmPassword: '',
-      showErrorMessage: false,
-      apiUrl: 'https://localhost:2443'
+      showErrorMessage: false
     }
   }
-  componentDidMount () {
-    const el = document.getElementById('end-point-url')
-    if (el) {
-      let endPointUrl = el.getAttribute('data-end-point')
-      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
-      }
-      this.setState({
-        apiUrl: endPointUrl
-      })
-    }
-  }
+
   handleOnChange = (e) => {
     const { name, value } = e.target
     this.setState({
@@ -42,13 +30,13 @@ class Registerpage extends Component {
 
   handleRegister = (e) => {
     e.preventDefault()
-    const { fullName, address, email, userID, password, confirmPassword, openBalance, creditCard,apiUrl } = this.state
+    const { fullName, address, email, userID, password, confirmPassword, openBalance, creditCard } = this.state
     if (!fullName || !address || !email || !userID || password !== confirmPassword || !openBalance || !creditCard) {
       this.setState({
         showErrorMessage: true
       })
     } else {
-      axios.post(`${apiUrl}/accounts`, {
+      axios.post(`${ACCOUNTS_API_URL}/accounts`, {
         accountID: 0,
         balance: 0,
         creationDate: new Date(),

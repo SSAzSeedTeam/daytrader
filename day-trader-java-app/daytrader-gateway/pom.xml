@@ -72,13 +72,6 @@
 			<version>2.9.2</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-hystrix -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-			<version>2.2.5.RELEASE</version>
-		</dependency>
-		
 		<dependency>
     <groupId>org.glassfish.jersey.inject</groupId>
     <artifactId>jersey-hk2</artifactId>
@@ -94,7 +87,7 @@
 
 		<!-- Must Precede Third Party Dependencies -->	
 
-	    <dependency>
+	    <!-- <dependency>
 		    <groupId>org.apache.tomcat</groupId>
 		    <artifactId>tomcat-dbcp</artifactId>
 		    <version>8.0.9</version>
@@ -104,7 +97,7 @@
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-jasper</artifactId>
 			<scope>provided</scope>
-	    </dependency>
+	    </dependency> -->
 	    		
 	    <dependency>
 		    <groupId>javax.servlet</groupId>
@@ -116,6 +109,12 @@
 		    <artifactId>ecj</artifactId>
 		    <version>4.6.1</version>		     
 		</dependency>
+		
+		<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-client</artifactId>
+    <version>2.2.4.RELEASE</version>
+</dependency>
  		
  		<!--  
  		spring-boot-starter-web: includes all the dependencies required to create a 
@@ -129,12 +128,12 @@
 		<!-- 
 		spring-boot-starter-tomcat: enable an embedded Apache Tomcat 8 instance, by default. 
 		-->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 	    </dependency>
-		
+		 -->
 		<!-- 
 		spring-boot-starter-actuator: Enables spring boot actuator features in spring boot.
 		-->
@@ -163,7 +162,7 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <scope>compile</scope>
-            <version>3.2.2</version>
+            <version>3.2.1</version>
         </dependency>       
 
 		<!-- REST Client Dependencies -->
@@ -197,8 +196,75 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-                        <version>4.13.1</version>
+			<version>4.2</version>
 		</dependency>
+		
+		<!-- Oauth2 dependency -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-jwt</artifactId>
+    <version>1.0.9.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security.oauth</groupId>
+    <artifactId>spring-security-oauth2</artifactId>
+    <version>2.3.4.RELEASE</version>
+</dependency>
+				<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>
+				spring-boot-starter-oauth2-resource-server
+			</artifactId>
+		</dependency>
+		
+		<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>5.4.0</version>
+</dependency>
+    
+    <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>5.4.0</version>
+</dependency>
+	
+	
+    <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+     <version>5.4.0</version>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+<dependency>
+    <groupId>com.nimbusds</groupId>
+    <artifactId>nimbus-jose-jwt</artifactId>
+    <version>8.19</version>
+</dependency>
+		
+		<!-- End -->
+		<!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        
+		
+		<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>4.0.0.Final</version>
+</dependency> -->
+		
 
     </dependencies>
 
@@ -215,6 +281,14 @@
 -->
 				</excludes>
 			</resource>
+			<resource>
+			<filtering>true</filtering>
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>*.properties</include>
+				<include>common-config</include>
+			</includes>
+		</resource>
 		</resources>
 		
 		<plugins>

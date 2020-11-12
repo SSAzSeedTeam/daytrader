@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,7 +38,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EntityScan(basePackages={"com.ofss.daytrader.entities"})
 @EnableJpaRepositories(basePackages={"com.ofss.daytrader.accounts.repository"})
 @EnableTransactionManagement
-public class AccountsApplication{
+public class AccountsApplication /*extends SpringBootServletInitializer*/ {
 //  Configure database environment 
 //    private static String driverClassName = System.getenv("DAYTRADER_DATABASE_DRIVER");
 //    private static String url = System.getenv("DAYTRADER_DATABASE_URL");

@@ -48,7 +48,7 @@
 		<dependency>
             <groupId>org.apache.geronimo.daytrader</groupId>
             <artifactId>daytrader-entities</artifactId>            
-            <scope>compile</scope>    
+            <!-- <scope>compile</scope>   -->  
             <version>1.0</version>
         </dependency>
         
@@ -169,7 +169,7 @@
 		<dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.1</version>
             <scope>compile</scope>
         </dependency>       
 
@@ -229,20 +229,12 @@
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>com.github.rockswang</groupId>
-            <artifactId>java-curl</artifactId>
-            <version>1.2.2.2</version>
-        </dependency>
--->
-<!--
         <dependency>
             <groupId>org.symphonyoss.symphony</groupId>
             <artifactId>jcurl</artifactId>
             <version>0.9.17</version>
-        </dependency>       
--->
+        </dependency>
+        
        <!-- JPA Depndency -->
         
 		<dependency>

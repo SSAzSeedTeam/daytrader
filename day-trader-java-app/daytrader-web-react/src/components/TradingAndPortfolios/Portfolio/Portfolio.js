@@ -10,7 +10,6 @@ import downarrow from '../../../assets/arrowdown.gif';
 import uparrow from '../../../assets/arrowup.gif';
 import { TXN_FEE } from '../../../constants';
 import CompletedOrder from '../NewOrder/CompletedOrder';
-import {LOCAL_GATEWAY_URL} from '../../../constants';
 
 const trade = 'sell'
 const mode=0
@@ -21,31 +20,22 @@ class Portfoliopage extends Component {
       ordersinfo: {},
       holdingsinfo: [],
       quotes: {},
-      curTime : new Date(),
+      curTime : new Date().toLocaleString(),
       tableinfo:{},
-      apiUrl: 'https://localhost:2443',
     }
   }
 
   componentDidMount() {
-    let endPointUrl = 'https://localhost:2443'
-    const el = document.getElementById('end-point-url')
-    if (el) {
-      endPointUrl = el.getAttribute('data-end-point')
-      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
-      }
-    }
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${endPointUrl}/portfolios/${userId}/holdings`).
+    axios.get(`https://localhost:3443/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
         if (res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${endPointUrl}/quotes/${symbol}`)
+            await axios.get(`https://localhost:4443/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const {price} = res.data;
@@ -78,7 +68,7 @@ class Portfoliopage extends Component {
     }
     return sum;
   }
-  handleSellOrder = (holdingID, symbol, price, quantity) => {
+  handleSellOrder = (holdingID, symbol, price, quantity) =>{
     const userID = localStorage.getItem('userId');
   //  const cDate = new Date();
     const dataToSend = {
@@ -99,9 +89,8 @@ class Portfoliopage extends Component {
       sell: true,
       symbol,
     }
-    const {apiUrl}=this.state
     console.log('dataToSend', dataToSend);
-    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axios.post(`https://localhost:3443/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
@@ -124,9 +113,7 @@ class Portfoliopage extends Component {
         <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
         </div>
-        <div className='completed-order-container'>
-          <CompletedOrder/>
-        </div>
+        <div><CompletedOrder /></div>
         <div className='portfolio-page-table-container'>
           <table width="100%" cellSpacing="0" cellPadding="0" className='portfolio-table'>
             <tr className='table-header'>
@@ -155,12 +142,12 @@ class Portfoliopage extends Component {
                   <td>{holdingID}</td>
                   <td>{moment(purchaseDate).format('llll')}</td>
                   <td>{quoteID}</td>
-                  <td>{quantity ? quantity.toFixed(1) : 0.0}</td>
-                  <td>{purchasePrice ? purchasePrice.toFixed(2) : 0.0}</td>
-                  <td>{currentPrice ? currentPrice.toFixed(2) : 0.0}</td>
-                  <td>{purchasebasis ? purchasebasis.toFixed(2) : 0.0}</td>
-                  <td>{marketvalue ? marketvalue.toFixed(2) : 0.0}</td>
-                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss ? GainOrLoss.toFixed(2) : 0.0}<img className='uparrow-image' src={GainOrLoss > 0 ? uparrow : downarrow} /></td>
+                  <td>{quantity.toFixed(1)}</td>
+                  <td>{purchasePrice.toFixed(2)}</td>
+                  <td>{currentPrice.toFixed(2)}</td>
+                  <td>{purchasebasis.toFixed(2)}</td>
+                  <td>{marketvalue.toFixed(2)}</td>
+                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss.toFixed(2)}<img className='uparrow-image' src={GainOrLoss > 0 ? uparrow : downarrow} /></td>
                   <td onClick={() => this.handleSellOrder(holdingID, quoteID, currentPrice, quantity)}><Link>{trade}</Link></td>
                 </tr>
 
