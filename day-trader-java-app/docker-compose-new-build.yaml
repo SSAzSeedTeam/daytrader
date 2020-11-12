@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   daytrader-accounts:
-    image: daytrader-accounts:0
+    image: azseed/daytrader-accounts:0
     ports:
       - "1443:1443"
     restart: always
@@ -21,7 +21,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy      
 
   daytrader-gateway:
-    image: daytrader-gateway:0
+    image: azseed/daytrader-gateway:0
     ports:
       - "2443:2443"
     restart: always
@@ -36,7 +36,7 @@ services:
       - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
 
   daytrader-portfolios:
-    image: daytrader-portfolios:0
+    image: azseed/daytrader-portfolios:0
     ports:
       - "3443:3443"
     restart: always
@@ -52,7 +52,7 @@ services:
       - DAYTRADER_DATABASE_USERNAME=dummy
       - DAYTRADER_DATABASE_PASSWORD=dummy      
   daytrader-quotes:
-    image: daytrader-quotes:0
+    image: azseed/daytrader-quotes:0
     ports:
       - "4443:4443"
     restart: always
@@ -67,7 +67,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy      
       
   daytrader-web:
-    image: daytrader-web:0
+    image: azseed/daytrader-web:0
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
       - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
@@ -85,7 +85,7 @@ services:
       - daytrader-quotes
       
   daytrader-trade-consumer:
-    image: daytrader-trade-consumer:0
+    image: azseed/daytrader-trade-consumer:0
     deploy:
       replicas: 1
     environment:
@@ -102,7 +102,7 @@ services:
 
       
   daytrader-trade-producer:
-    image: daytrader-trade-producer:0
+    image: azseed/daytrader-trade-producer:0
     deploy:
       replicas: 1
     environment:
@@ -118,7 +118,7 @@ services:
       - daytrader-quotes
 
 #  daytrader-web-react:
-#    image: daytrader-web-react:0
+#    image: azseed/daytrader-web-react:0
 #    environment:
 #      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
 #      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
@@ -139,7 +139,7 @@ services:
 
       
   daytrader-scdf-trade-generator:
-    image: daytrader-scdf-trade-generator:0
+    image: azseed/daytrader-scdf-trade-generator:0
     deploy:
       replicas: 1
     environment:
@@ -149,7 +149,7 @@ services:
     restart: always
 
   daytrader-scdf-trade-processor:
-    image: daytrader-scdf-trade-processor:0
+    image: azseed/daytrader-scdf-trade-processor:0
     deploy:
       replicas: 1
     environment:
@@ -159,7 +159,7 @@ services:
     restart: always
 
   daytrader-scdf-trade-validation:
-    image: daytrader-scdf-trade-validation:0
+    image: azseed/daytrader-scdf-trade-validation:0
     deploy:
       replicas: 1
     environment:
