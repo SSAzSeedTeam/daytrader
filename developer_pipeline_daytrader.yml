@@ -215,4 +215,39 @@ stages:
         Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-quotes-mfe/Dockerfile'
         tags: '${{variables.docker_tag}}'
 
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-accounts-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-accounts-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-account-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-container-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-container-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-container-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-portfolios-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-portfolios-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-portfolio-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
+
+    - task: Docker@2
+      displayName: 'daytrader-web-mfe-quotes-static'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-web-mfe-quotes-static'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-quotes-mfe/Dockerfile_static_files'
+        tags: '${{variables.docker_tag}}'
 
