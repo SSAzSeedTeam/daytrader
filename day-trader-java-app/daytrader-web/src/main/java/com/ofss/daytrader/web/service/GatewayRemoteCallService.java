@@ -33,6 +33,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -195,7 +196,6 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 					//"http://localhost:8080/oauth/token";
 			
 			HttpPost post = new HttpPost(authUrl);
-
 	        // add request parameter, form parameters
 	        /*List<NameValuePair> urlParameters = new ArrayList<>();
 	        	urlParameters.add(new BasicNameValuePair("username", userID));
@@ -211,7 +211,9 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	       		request.setPassword(password);
 	       		Gson gson = new Gson();
 	       		String jwtRequest = gson.toJson(request, JwtRequest.class);
-	       		post.setEntity(new StringEntity(jwtRequest));
+	       		//post.setHeader("content-type", "application/json");
+	       		//post.setEntity(new StringEntity(jwtRequest));
+	       		post.setEntity(new StringEntity(jwtRequest, ContentType.APPLICATION_JSON));
 	       		HttpClient httpClient = HttpClientBuilder.create().build();
 	       		
 	       		HttpResponse response = null;
@@ -224,14 +226,15 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	       		}
 	       		System.out.println("result:---- "+result);
 	       		
-	       	
-	       		/*String accessToken = responseBean.getAccess_token();
-	       		System.out.println("accessToken--: "+ accessToken);*/
+	       		JwtResponse jwtResponse = gson.fromJson(result, JwtResponse.class);
+	       		
+	       		String accessToken = jwtResponse.getToken();
+	       		System.out.println("accessToken--: "+ accessToken);
 	       		//httpClient.execute(post);
 	    	String url = gatewayServiceRoute + "/login/" + userID;
 			Log.debug("GatewayRemoteCallService.login() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "PATCH", password,result);
-	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);	    
+	    	String responseEntity = invokeEndpoint(url, "PATCH", password,accessToken);
+	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);
 	    	return accountData;
 	    }
 

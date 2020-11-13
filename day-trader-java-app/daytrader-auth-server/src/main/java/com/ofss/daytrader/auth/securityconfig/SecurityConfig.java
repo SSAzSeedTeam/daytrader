@@ -2,8 +2,10 @@ package com.ofss.daytrader.auth.securityconfig;
 
 import java.util.ArrayList;
 
+import org.apache.derby.tools.sysinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +23,7 @@ import com.ofss.daytrader.auth.filter.JwtFilterRequest;
 import com.ofss.daytrader.auth.model.MyUserDetailsService;
 
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
@@ -30,8 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  @Override 
 	  //@Order(Ordered.HIGHEST_PRECEDENCE)
 	  protected void configure(HttpSecurity http) throws Exception {
-	  http.csrf().disable().authorizeRequests().antMatchers("/oauth/token").
-	  permitAll().antMatchers("/check_token").permitAll()
+		  
+		  System.out.println("in configure(HttpSecurity http) method");
+	  http.csrf().disable().authorizeRequests().antMatchers("/authenticate").
+	  permitAll()/*.antMatchers("/check_token").permitAll()*/
 	  .anyRequest().authenticated()
 	  .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.
 	  STATELESS);
@@ -45,9 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(myUserDetailsService);
+	@Autowired
+	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService (myUserDetailsService);
 	}
 
 	@Bean

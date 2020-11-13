@@ -128,9 +128,11 @@ public class BaseRemoteCallService {
         
         WebTarget target = client.target(url);
        // Response response = target.request().method(method, Entity.json(body));
-        if(accessToken!="") {
-        	System.out.println("with token");
-        	response = target.request().header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken).method(method, Entity.json(body));
+        if(accessToken!=null)  {
+        	System.out.println("with token" + accessToken);
+        	String bearertoken = "Bearer " + accessToken;
+        	System.out.println("bearer token value is - " + bearertoken);
+        	response = target.request().header(HttpHeaders.AUTHORIZATION, bearertoken).method(method, Entity.json(body));
         	//response = target.request().method(method, Entity.json(body));
         }
         else {

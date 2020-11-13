@@ -2,11 +2,11 @@ package com.ofss.daytrader.core.beans;
 
 public class JwtResponse {
 
-	private final String jwttoken;
+	private final String token;
 	public JwtResponse(String jwttoken) {
-	this.jwttoken = jwttoken;
+	this.token = jwttoken;
 	}
 	public String getToken() {
-	return this.jwttoken;
+	return this.token;
 	}
 }

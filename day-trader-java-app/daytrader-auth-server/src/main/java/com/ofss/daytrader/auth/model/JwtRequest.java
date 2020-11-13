@@ -7,6 +7,7 @@ public class JwtRequest {
 	//need default constructor for JSON Parsing
 	public JwtRequest()
 	{
+		System.out.println("in constructor");
 	}
 	public JwtRequest(String username, String password) {
 	this.setUsername(username);
