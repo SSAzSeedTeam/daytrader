@@ -34,4 +34,6 @@ services:
     ports:
       - "3004:3004"
     restart: always
-    environment:
+    environment: 
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+
