@@ -29,6 +29,10 @@ import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.NotAuthorizedException;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 // Spring
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -85,9 +89,18 @@ import com.ofss.daytrader.gateway.utils.Log;
 
 @CrossOrigin(origins = "*")
 @RestController
+@EnableCaching
 public class GatewayController
 {
 	private static GatewayService gatewayService = new GatewayService();
+	private RedisTemplate<String, AccountProfileDataBean> redisTemplate;
+	private HashOperations hashOperations;
+
+	public GatewayController(RedisTemplate<String, AccountProfileDataBean> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+		hashOperations = redisTemplate.opsForHash();
+	}
+
 
 	//
 	// Account Related Endpoints
@@ -164,6 +177,8 @@ public class GatewayController
 	 */
 	@HystrixCommand(fallbackMethod = "getAccountProfileDataFallback")
 	@RequestMapping(value = "/accounts/{userId}/profiles", method = RequestMethod.GET)
+	//redis cache changes
+	@Cacheable(cacheNames = "getAccountProfileData", key = "#userId")
 	public ResponseEntity<AccountProfileDataBean> getAccountProfileData(@PathVariable("userId") String userId) 
 	{
         System.out.println("XXXXXXXXXXXXXXXX");
@@ -176,8 +191,11 @@ public class GatewayController
 			if (profileData != null)
 			{
 				Log.traceExit("GatewayController.getAccountProfileData()");
-				CachedObjectBean.getInstance().addObjectToCache(profileDataKey, profileData);
-				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
+				//redis cache changes
+				hashOperations.put("ProfileData", profileDataKey, profileData);
+				/* CachedObjectBean.getInstance().addObjectToCache(profileDataKey, profileData);
+				 * System.out.println("CachedObjectBean.getInstance()" +
+				 * CachedObjectBean.getInstance()); */
 				return new ResponseEntity<AccountProfileDataBean>(profileData, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -199,6 +217,8 @@ public class GatewayController
 	 */
 	@HystrixCommand(fallbackMethod = "getAccountDataFallback")
 	@RequestMapping(value = "/accounts/{userId}", method = RequestMethod.GET)
+	//redis cache changes
+	@Cacheable(key = "#userId", value = "getAccountData")
 	public ResponseEntity<AccountDataBean> getAccountData(@PathVariable("userId") String userId) 
 	{
 		Log.traceEnter("GatewayController.getAccountData()");
@@ -211,8 +231,11 @@ public class GatewayController
 			if (accountData != null) 
 			{
 				Log.traceExit("GatewayController.getAccountData()");
-				CachedObjectBean.getInstance().addObjectToCache(DataKey, accountData);
-				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
+				//redis cache changes
+				hashOperations.put("accountData", DataKey, accountData);
+				/* CachedObjectBean.getInstance().addObjectToCache(DataKey, accountData);
+				 * System.out.println("CachedObjectBean.getInstance()" +
+				 * CachedObjectBean.getInstance());	 */
 				return new ResponseEntity<AccountDataBean>(accountData, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -405,6 +428,8 @@ public class GatewayController
 	 */
 	@HystrixCommand(fallbackMethod = "getHoldingsFallback")
 	@RequestMapping(value = "/portfolios/{userId}/holdings", method = RequestMethod.GET)
+	//redis cache changes
+	@Cacheable(cacheNames = "getHoldings", key = "#userId")
 	public ResponseEntity<Collection<HoldingDataBean>> getHoldings(@PathVariable("userId") String userId)
 	{
 		Log.traceEnter("GatewayController.getHoldings()");
@@ -418,7 +443,9 @@ public class GatewayController
 			if ( holdings != null)
 			{
 				Log.traceExit("GatewayController.getHoldings()");
-				CachedObjectBean.getInstance().addObjectToCache(userKey, holdings);
+				//redis cache changes
+				hashOperations.put("getHolidins", userId, holdings);
+				//CachedObjectBean.getInstance().addObjectToCache(userKey, holdings);
 				return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -440,6 +467,8 @@ public class GatewayController
 	 */
 	@HystrixCommand(fallbackMethod = "getOrdersFallback")
 	@RequestMapping(value = "/portfolios/{userId}/orders", method = RequestMethod.GET)
+	//redis cache changes
+    @Cacheable(cacheNames = "getOrders", key = "#userId")
 	public ResponseEntity<Collection<OrderDataBean>> getOrders(@PathVariable("userId") String userId)
 	{
 		Log.traceEnter("GatewayController.getOrders()");
@@ -452,9 +481,12 @@ public class GatewayController
 			if ( orders != null)
 			{
 				Log.traceExit("GatewayController.getOrders()");
-				CachedObjectBean.getInstance().addObjectToCache(userId, orders);
-				System.out.println("orders data from get orders:" + orders);
-				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
+				//redis cache changes
+				hashOperations.put("getOrders", userId, orders);
+				/* CachedObjectBean.getInstance().addObjectToCache(userId, orders);
+				 * System.out.println("orders data from get orders:" + orders);
+				 * System.out.println("CachedObjectBean.getInstance()" +
+				 * CachedObjectBean.getInstance());	 */
 				return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 			}
 			else
@@ -480,6 +512,7 @@ public class GatewayController
 	 */
 	@HystrixCommand(fallbackMethod = "getOrdersByStatusFallback")
 	@RequestMapping(value = "/portfolios/{userId}/orders", method = RequestMethod.PATCH)
+	 @Cacheable(cacheNames = "getOrdersByStatus", key = "#userId")
 	public ResponseEntity<Collection<OrderDataBean>>getOrdersByStatus(
 			@PathVariable("userId") String userId, @RequestParam(value = "status") String status)
 	{
@@ -495,8 +528,10 @@ public class GatewayController
 				if (orders != null)
 				{
 					Log.traceExit("GatewayController.getOrdersByStatus()");
-					CachedObjectBean.getInstance().addObjectToCache(OrdersByStatus, orders);
-					System.out.println("orders from getOrdersByStatus" + orders);
+					//redis cache changes
+					hashOperations.put("getOrdersByStatus", userId, orders);
+					/* CachedObjectBean.getInstance().addObjectToCache(OrdersByStatus, orders);
+					 * System.out.println("orders from getOrdersByStatus" + orders);					 */
 					return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 				}
 				else
@@ -598,6 +633,8 @@ public class GatewayController
 	 */
 	@HystrixCommand(fallbackMethod = "getQuoteFallback")
 	@RequestMapping(value = "/quotes/{symbol}", method = RequestMethod.GET)
+	//redis cache changes
+	 @Cacheable(cacheNames = "getQuote", key = "#userId")
 	public ResponseEntity<QuoteDataBean> getQuote(@PathVariable("symbol") String symbol) 
 	{
 		Log.traceEnter("GatewayController.getQuote()");
@@ -611,7 +648,10 @@ public class GatewayController
 			if (quoteData != null)
 			{
 				Log.traceExit("GatewayController.getQuote()");
-				CachedObjectBean.getInstance().addObjectToCache(quotekey, quoteData);
+				//redis cache changes
+				hashOperations.put("getQuote", quotekey, quoteData);
+				/* CachedObjectsClass.getInstance().addObjectToCache(quotekey, quoteData);
+				 * CachedObjectBean.getInstance().addObjectToCache(quotekey, quoteData); */
 				System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
 				return new ResponseEntity<QuoteDataBean>(quoteData, getNoCacheHeaders(), HttpStatus.OK);
 			} else {
@@ -739,6 +779,8 @@ public class GatewayController
 	//
 	@HystrixCommand(fallbackMethod = "getMarketSummaryFallback")
 	@RequestMapping(value = "/markets/{exchange}", method = RequestMethod.GET)
+	//redis cache changes
+    @Cacheable(cacheNames = "getMarketSummary", key = "#exchange")
 	public ResponseEntity<MarketSummaryDataBean> getMarketSummary(@PathVariable("exchange") String exchange) 
 	{	
 		Log.traceEnter("GatewayController.getMarketSummary()");
@@ -749,9 +791,11 @@ public class GatewayController
 		{
 			marketSummary = gatewayService.getMarketSummary();
 			Log.traceExit("GatewayController.getMarketSummary()");
-			CachedObjectBean.getInstance().addObjectToCache(exchange, marketSummary);
-			System.out.println("CachedObjectBean.getInstance()" + CachedObjectBean.getInstance());
-
+			//redis cache changes
+			hashOperations.put("getMarketSummary", exchange, marketSummary);
+			/* CachedObjectBean.getInstance().addObjectToCache(exchange, marketSummary);
+			 * System.out.println("CachedObjectBean.getInstance()" +
+			 * CachedObjectBean.getInstance());			 */
 			return new ResponseEntity<MarketSummaryDataBean>(marketSummary, getNoCacheHeaders(), HttpStatus.OK);
 		}
 		catch (NotFoundException nfe)
@@ -775,10 +819,13 @@ public class GatewayController
 		BigDecimal openTSIA = new BigDecimal(120);
 		double volume = 7.0;
 
-		if (CachedObjectBean.getInstance().getCacheObject(exchange) != null) {
-			System.out.println("data is displayed from cache");
-			MarketSummaryDataBean marketSummaryData = (MarketSummaryDataBean) CachedObjectBean.getInstance()
-					.getCacheObject(exchange);
+		/* if (CachedObjectBean.getInstance().getCacheObject(exchange) != null) //redis
+		 * cache changes System.out.println("data is displayed from cache");
+		 * MarketSummaryDataBean marketSummaryData = (MarketSummaryDataBean)
+		 * CachedObjectBean.getInstance() .getCacheObject(exchange);	 */
+				//redis cache 
+			if (hashOperations.get("getMarketSummary", exchange)!=null) {
+			MarketSummaryDataBean marketSummaryData = (MarketSummaryDataBean)hashOperations.get("getMarketSummary", exchange);
 			return new ResponseEntity<MarketSummaryDataBean>(marketSummaryData, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
@@ -819,10 +866,16 @@ public class GatewayController
 		Collection<HoldingDataBean> holdings = new ArrayList<HoldingDataBean>();
 		String userKey = "holdings_" + userId;
 
-		if (CachedObjectBean.getInstance().getCacheObject(userKey) != null) {
-			
-			holdings = (Collection<HoldingDataBean>) CachedObjectBean.getInstance().getCacheObject(userKey);
-			//holdings.add(holdingDataBean);
+		/*
+		 * if (CachedObjectBean.getInstance().getCacheObject(userKey) != null) {
+		 * holdings = (Collection<HoldingDataBean>)
+		 * CachedObjectBean.getInstance().getCacheObject(userKey);
+		 * //holdings.add(holdingDataBean);
+		 */			
+		//redis cache
+		if (hashOperations.get("getHolidins",userKey)!=null) {
+				
+			HoldingDataBean holdingDataBean = (HoldingDataBean)hashOperations.get("getHolidins", userKey);
 			return new ResponseEntity<Collection<HoldingDataBean>>(holdings, getNoCacheHeaders(), HttpStatus.OK);
 
 
@@ -838,10 +891,14 @@ public class GatewayController
 	public ResponseEntity<QuoteDataBean> getQuoteFallback(@PathVariable("symbol") String symbol) {
 		String quotekey = "getQuote_" + symbol;
 
-		if (CachedObjectBean.getInstance().getCacheObject(quotekey) != null) {
-			System.out.println("data is displayed from cache");
-			QuoteDataBean quoteDataBean = (QuoteDataBean) CachedObjectBean.getInstance()
-					.getCacheObject(quotekey);
+		/* if (CachedObjectBean.getInstance().getCacheObject(quotekey) != null) {
+		 * System.out.println("data is displayed from cache"); QuoteDataBean
+		 * quoteDataBean = (QuoteDataBean) CachedObjectBean.getInstance()
+		 * .getCacheObject(quotekey);		 */
+			//redis cache changes
+			if (hashOperations.get("getQuote", quotekey)!=null) {
+				
+				QuoteDataBean quoteDataBean = (QuoteDataBean)hashOperations.get("getQuote", quotekey);
 			return new ResponseEntity<QuoteDataBean>(quoteDataBean, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
@@ -854,9 +911,14 @@ public class GatewayController
 
 	public ResponseEntity<Collection<OrderDataBean>> getOrdersFallback(@PathVariable("userId") String userId) {
 		Collection<OrderDataBean> orders = null;
-		if (CachedObjectBean.getInstance().getCacheObject(userId) != null) {
-			System.out.println("data is displayed from cache");
-			QuoteDataBean quoteDataBean = (QuoteDataBean) CachedObjectBean.getInstance().getCacheObject(userId);
+		/*
+		 * if (CachedObjectBean.getInstance().getCacheObject(userId) != null) {
+		 * System.out.println("data is displayed from cache"); QuoteDataBean
+		 * quoteDataBean = (QuoteDataBean)
+		 * CachedObjectBean.getInstance().getCacheObject(userId);		 */
+			//redis cache changes
+			if (hashOperations.get("getOrders", userId) !=null) {
+				QuoteDataBean quoteDataBean =(QuoteDataBean) hashOperations.get("getOrders", userId);
 			return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 
 		} else {
@@ -869,9 +931,14 @@ public class GatewayController
 	public ResponseEntity<AccountDataBean> getAccountDataFallback(@PathVariable("userId") String userId) {
 		String DataKey = "AccountData" + userId;
 		AccountDataBean accountData = new AccountDataBean();
-		if (CachedObjectBean.getInstance().getCacheObject(DataKey) != null) {
-			System.out.println("data is displayed from cache");
-			accountData = (AccountDataBean) CachedObjectBean.getInstance().getCacheObject(DataKey);
+		/*
+		 * if (CachedObjectBean.getInstance().getCacheObject(DataKey) != null) {
+		 * System.out.println("data is displayed from cache"); accountData =
+		 * (AccountDataBean) CachedObjectBean.getInstance().getCacheObject(DataKey);
+		 * //redis cache changes
+		 */			
+		if (hashOperations.get("accountData", DataKey)!= null) {
+			accountData=(AccountDataBean) hashOperations.get("accountData", DataKey);
 		}
 		else
 		{
@@ -888,9 +955,16 @@ public class GatewayController
 		String profileDataKey = "AccountProfileData" + userId;
 
 		AccountProfileDataBean accountProfileData = new AccountProfileDataBean();
-		if (CachedObjectBean.getInstance().getCacheObject(profileDataKey) != null) {
-			System.out.println("data is displayed from cache");
-			accountProfileData = (AccountProfileDataBean) CachedObjectBean.getInstance().getCacheObject(profileDataKey);
+		/*
+		 * if (CachedObjectBean.getInstance().getCacheObject(profileDataKey) != null) {
+		 * System.out.println("data is displayed from cache"); accountProfileData =
+		 * (AccountProfileDataBean)
+		 * CachedObjectBean.getInstance().getCacheObject(profileDataKey);
+		 */
+			// redis cache changes
+			if (hashOperations.get("ProfileData", profileDataKey) != null) {
+				System.out.println("data is displayed from cache");
+				accountProfileData =(AccountProfileDataBean) hashOperations.get("ProfileData", profileDataKey);
 		} 
 		else
 		{
@@ -913,12 +987,13 @@ public class GatewayController
 		String OrdersByStatus = "OrdersByStatus_" + userId;
 		Collection<OrderDataBean> orders = new ArrayList<OrderDataBean>();
 		System.out.println("data is displayed from cache in getOrdersByStatusFallback method");
-		if (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus) != null) {
+		/*if (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus) != null) {
 			System.out.println("data is displayed from cache");
-			orders = (Collection<OrderDataBean>) (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus));
-		
-		//return new ResponseEntity<Collection<OrderDataBean>>(orderDataBean, getNoCacheHeaders(), HttpStatus.OK);
+			orders = (Collection<OrderDataBean>) (CachedObjectBean.getInstance().getCacheObject(OrdersByStatus));*/
+		if (hashOperations.get("getOrdersByStatus", userId)!=null) {
+			orders=(Collection<OrderDataBean>) hashOperations.get("OrdersByStatus", userId);
 		}
+		//return new ResponseEntity<Collection<OrderDataBean>>(orderDataBean, getNoCacheHeaders(), HttpStatus.OK);
 		return new ResponseEntity<Collection<OrderDataBean>>(orders, getNoCacheHeaders(), HttpStatus.OK);
 		
 	}
