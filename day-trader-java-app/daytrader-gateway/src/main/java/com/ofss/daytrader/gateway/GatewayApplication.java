@@ -20,9 +20,11 @@ package com.ofss.daytrader.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 //@ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@ComponentScan(basePackages={"com.ofss.daytrader.core.jwt"})
 public class GatewayApplication /*extends SpringBootServletInitializer*/ {
 	
 	//	- Each microservice has their own private database (datasource)
