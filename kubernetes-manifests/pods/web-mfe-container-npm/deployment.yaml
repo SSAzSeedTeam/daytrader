@@ -43,27 +43,27 @@ spec:
         - name: CI
           value: "true"
         #----micro-frontend - start ------------
-          - name: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
+        - name: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
           valueFrom:
             configMapKeyRef:
               name: daytrader-accounts-db-config-map
               key: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
-          - name: REACT_APP_DAYTRADER_QUOTES_MFE_URL
+        - name: REACT_APP_DAYTRADER_QUOTES_MFE_URL
           valueFrom:
             configMapKeyRef:
               name: daytrader-accounts-db-config-map
               key: REACT_APP_DAYTRADER_QUOTES_MFE_URL
-          - name: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
+        - name: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
           valueFrom:
             configMapKeyRef:
               name: daytrader-accounts-db-config-map
               key: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
-          - name: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
+        - name: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
           valueFrom:
             configMapKeyRef:
               name: daytrader-accounts-db-config-map
               key: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
-          - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+        - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
           valueFrom:
             configMapKeyRef:
               name: daytrader-accounts-db-config-map
