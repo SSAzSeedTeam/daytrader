@@ -85,9 +85,9 @@ services:
       - daytrader-quotes
 
   daytrader-container-mfe:
-    image: singhavinash857/static-react-container-mfe:0
+    image: azseed/daytrader-web-mfe-container-static:0
     ports:
-      - "3001:3001"
+      - "3001:80"
     restart: always  
     environment:
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
@@ -96,28 +96,27 @@ services:
       - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:3004 
 
   daytrader-account-mfe:
-    image: singhavinash857/static-react-account-mfe:0
+    image: azseed/daytrader-web-mfe-accounts-static:0
     ports:
-      - "3002:3002"
+      - "3002:80"
     restart: always
     environment:
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
 
   daytrader-portfolio-mfe:
-    image: singhavinash857/static-react-portfolio-mfe:0
+    image: azseed/daytrader-web-mfe-portfolios-static:0
     ports:
-      - "3003:3003"
+      - "3003:80"
     restart: always
     environment:
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
 
   
   daytrader-quotes-mfe:
-    image: singhavinash857/static-react-quotes-mfe:0
+    image: azseed/daytrader-web-mfe-quotes-static:0
     ports:
-      - "3004:3004"
+      - "3004:80"
     restart: always
     environment:
       - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-      
