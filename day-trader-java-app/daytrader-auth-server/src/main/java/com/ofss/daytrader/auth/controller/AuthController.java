@@ -44,6 +44,7 @@ public class AuthController {
 		if (userDetails.getPassword().equals(jwtRequest.getPassword())) {
 			System.out.println("in if condition");
 			String jwt = jwtTokenUtil.generateToken(userDetails);
+			System.out.println("Generated token is - " + jwt);
 			return ResponseEntity.ok(new JwtResponse(jwt));
 		}
 		else {

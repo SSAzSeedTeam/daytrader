@@ -17,6 +17,8 @@
 
 package com.ofss.daytrader.web.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
@@ -37,6 +39,9 @@ import javax.ws.rs.core.Response;
 import org.apache.http.HttpHeaders;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 //
 //Don't do any logging from the base remote call service unless you send it to its own logger;
@@ -128,6 +133,18 @@ public class BaseRemoteCallService {
         
         WebTarget target = client.target(url);
        // Response response = target.request().method(method, Entity.json(body));
+        
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest httprequest = attributes.getRequest();
+        HttpSession httpSession = httprequest.getSession(true);
+        System.out.println("session - " + httpSession);
+        accessToken = (String) httpSession.getAttribute("token");
+        System.out.println("URL - " + url);
+        System.out.println("accesstoken value in sendRequest() - " + accessToken);
+        
+        
         if(accessToken!=null)  {
         	System.out.println("with token" + accessToken);
         	String bearertoken = "Bearer " + accessToken;

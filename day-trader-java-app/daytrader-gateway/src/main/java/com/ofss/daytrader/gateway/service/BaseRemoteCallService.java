@@ -17,6 +17,8 @@
 
 package com.ofss.daytrader.gateway.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
@@ -34,8 +36,12 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.HttpHeaders;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 //
 //Don't do any logging from the base remote call service unless you send it to its own logger;
@@ -43,6 +49,7 @@ import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 //will cause server messages to be lost. For debugging, you will need the server log messages.
 
 public class BaseRemoteCallService {
+	
 	
     public static String invokeEndpoint(String url, String method, String body) throws Exception
     {
@@ -115,8 +122,21 @@ public class BaseRemoteCallService {
 
     public static Response sendRequest(String url, String method, String body, int connTimeOut) 
     {
+    	
+    	Response response = null;
+    	//
+    	RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession httpSession = request.getSession(true);
+        String accessToken = (String) httpSession.getAttribute("token");
+        System.out.println("accesstoken value in sendRequest() - " + accessToken);
+        
+    	//
+    	
     	// Jersey client doesn't support the Http PATCH method without this workaround
-        Client client = ClientBuilder.newClient()
+        Client client = ClientBuilder.newClient()	
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
         
         if (connTimeOut > 0)
@@ -125,7 +145,18 @@ public class BaseRemoteCallService {
         }
         
         WebTarget target = client.target(url);
-        Response response = target.request().method(method, Entity.json(body));
+        //Response response = target.request().method(method, Entity.json(body));
+        if(accessToken!=null)  {
+        	String bearertoken = "Bearer " + accessToken;
+        	System.out.println("bearer token value is - " + bearertoken);
+        	response = target.request().header(HttpHeaders.AUTHORIZATION, bearertoken).method(method, Entity.json(body));
+        	//response = target.request().method(method, Entity.json(body));
+        }
+        else {
+        	System.out.println("no token");
+        	response = target.request().method(method, Entity.json(body));
+        }
+        
         return response;
     }
 }

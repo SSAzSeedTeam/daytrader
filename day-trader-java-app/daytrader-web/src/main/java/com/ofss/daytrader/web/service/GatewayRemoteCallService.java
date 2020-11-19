@@ -27,6 +27,9 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,6 +42,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 // spring
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -190,53 +196,50 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		*
 		*/
 	    public AccountDataBean login(String userID, String password) throws Exception 
-	    {    
-	    	System.out.println("inside we ui gate way remote call login : "+daytraderAuthService);
+		{
+			System.out.println("inside we ui gate way remote call login : " + daytraderAuthService);
 			String authUrl = "http://localhost:8080/authenticate";
-					//"http://localhost:8080/oauth/token";
-			
+
 			HttpPost post = new HttpPost(authUrl);
-	        // add request parameter, form parameters
-	        /*List<NameValuePair> urlParameters = new ArrayList<>();
-	        	urlParameters.add(new BasicNameValuePair("username", userID));
-	        	urlParameters.add(new BasicNameValuePair("password", password));
-	        	urlParameters.add(new BasicNameValuePair("grant_type", "password"));
-	        	
-	        	//String encoding = Base64.getEncoder().encodeToString(("devglan-client:devglan-secret").getBytes(‌));
-	        	String encoding = Base64.getEncoder().encodeToString(("devglan-client:devglan-secret").getBytes());
-	        	post.setHeader("Authorization", "Basic " + encoding);
-	       		post.setEntity(new UrlEncodedFormEntity(urlParameters));*/
-	       		JwtRequest request = new JwtRequest();
-	       		request.setUsername(userID);
-	       		request.setPassword(password);
-	       		Gson gson = new Gson();
-	       		String jwtRequest = gson.toJson(request, JwtRequest.class);
-	       		//post.setHeader("content-type", "application/json");
-	       		//post.setEntity(new StringEntity(jwtRequest));
-	       		post.setEntity(new StringEntity(jwtRequest, ContentType.APPLICATION_JSON));
-	       		HttpClient httpClient = HttpClientBuilder.create().build();
-	       		
-	       		HttpResponse response = null;
-	       		String result = null;
-	       		try {
-	       			response = httpClient.execute(post);
-	       			result = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
-	       		} catch (IOException e) {
-	       			e.printStackTrace();
-	       		}
-	       		System.out.println("result:---- "+result);
-	       		
-	       		JwtResponse jwtResponse = gson.fromJson(result, JwtResponse.class);
-	       		
-	       		String accessToken = jwtResponse.getToken();
-	       		System.out.println("accessToken--: "+ accessToken);
-	       		//httpClient.execute(post);
-	    	String url = gatewayServiceRoute + "/login/" + userID;
+			// add request parameter, form parameters
+			JwtRequest request = new JwtRequest();
+			request.setUsername(userID);
+			request.setPassword(password);
+			Gson gson = new Gson();
+			String jwtRequest = gson.toJson(request, JwtRequest.class);
+			post.setEntity(new StringEntity(jwtRequest, ContentType.APPLICATION_JSON));
+			HttpClient httpClient = HttpClientBuilder.create().build();
+
+			HttpResponse response = null;
+			String result = null;
+			try {
+				response = httpClient.execute(post);
+				result = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("result:---- " + result);
+
+			JwtResponse jwtResponse = gson.fromJson(result, JwtResponse.class);
+
+			String accessToken = jwtResponse.getToken();
+			System.out.println("accessToken--: " + accessToken);
+			String url = gatewayServiceRoute + "/login/" + userID;
 			Log.debug("GatewayRemoteCallService.login() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "PATCH", password,accessToken);
-	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);
-	    	return accountData;
-	    }
+			
+			RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+	    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+	        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+	        HttpServletRequest httprequest = attributes.getRequest();
+	        HttpSession httpSession = httprequest.getSession(true);
+	        System.out.println("session - " + httpSession);
+	        httpSession.setAttribute("token",accessToken);
+	        System.out.println("accesstoken value in login() - " + accessToken);
+	        
+			String responseEntity = invokeEndpoint(url, "PATCH", password, accessToken);
+			AccountDataBean accountData = mapper.readValue(responseEntity, AccountDataBean.class);
+			return accountData;
+		}
 
 	   /**
 		*

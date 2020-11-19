@@ -31,6 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -181,7 +182,7 @@ public class AccountsController
 	 * 
 	 */
 	@RequestMapping(value = "/accounts/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<AccountDataBean> getAccountData(@PathVariable("userId") String userId) 
+	public ResponseEntity<AccountDataBean> getAccountData(@PathVariable("userId") String userId)
 	{
 		Log.traceEnter("AccountsController.getAccountData()");
 		AccountDataBean accountData = null;

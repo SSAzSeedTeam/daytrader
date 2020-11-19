@@ -6,6 +6,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,11 +40,19 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		System.out.println("autherization value - " + autherization);
 		String username = null;
 		String jwt = null;
-		
+		Boolean zflg = false;
 		
 		String path = request.getRequestURI();
+		String methodname = request.getMethod();
 		System.out.println(path);
-	    if (path.equals("/accounts")) {
+		System.out.println(methodname);
+		
+		if ((path.equals("/accounts")) && (methodname.equals("POST"))) {
+	    	filterChain.doFilter(request, response);
+	    	return;
+	    }
+	
+		if ((path.contains("/profiles")) && (methodname.equals("GET"))) {
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
@@ -86,6 +95,8 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				// that the current user is authenticated. So it passes the
 				// Spring Security Configurations successfully.
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				 HttpSession httpsession = request.getSession();
+				 httpsession.setAttribute("token", jwt);
 				filterChain.doFilter(request, response);
 				return;
 			}

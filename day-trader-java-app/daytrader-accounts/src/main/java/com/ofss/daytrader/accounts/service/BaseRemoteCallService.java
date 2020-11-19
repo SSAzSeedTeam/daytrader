@@ -17,6 +17,8 @@
 
 package com.ofss.daytrader.accounts.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
@@ -36,6 +38,9 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 //Don't do any logging from the base remote call service unless you send it to its own logger;
 //otherwise the log messages will be written to the integration test and to the server log and
@@ -124,6 +129,14 @@ public class BaseRemoteCallService {
         }
         
         WebTarget target = client.target(url);
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession httpSession = request.getSession(true);
+        String accessToken = (String) httpSession.getAttribute("token");
+        System.out.println("accesstoken value in sendRequest() - " + accessToken);
+        
         Response response = target.request().method(method, Entity.json(body));
         return response;
     }
