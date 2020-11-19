@@ -38,30 +38,35 @@
     var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
     var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
     var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
-    
+
     if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
       accounturl = 'http://localhost:3002'
-      const el = document.createElement('script')
-      script.type = 'type/javascript'
-      script.src = `${accounturl}/page.min.js`
-      document.head.appendChild(el)
     }
+    const el = document.createElement('script')
+    script.type = 'type/javascript'
+    script.src = `${accounturl}/page.min.js`
+    document.head.appendChild(el)
+
+    console.log(accounturl);
 
     if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
       portfoliourl = 'http://localhost:3003'
-      const el = document.createElement('script')
-      script.type = 'type/javascript'
-      script.src = `${portfoliourl}/page.min.js`
-      document.head.appendChild(el)
     }
+    const el = document.createElement('script')
+    script.type = 'type/javascript'
+    script.src = `${portfoliourl}/page.min.js`
+    document.head.appendChild(el)
+    console.log(portfoliourl);
 
     if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
       quotesurl = 'http://localhost:3004'
-      const el = document.createElement('script')
-      script.type = 'type/javascript'
-      script.src = `${quotesurl}/page.min.js`
-      document.head.appendChild(el)
     }
+    const el = document.createElement('script')
+    script.type = 'type/javascript'
+    script.src = `${quotesurl}/page.min.js`
+    document.head.appendChild(el)
+    console.log(quotesurl);
+
     singleSpa.registerApplication(
       "quotes",
       () => import(`${quotesurl}/page.min.js`),
