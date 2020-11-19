@@ -17,43 +17,13 @@
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
+
       Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>DayTrader</title>
   <script src="/single-spa.js"></script>
-
-  <script type="text/javascript" src="%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"></script>
-  <script type="text/javascript" src="%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"></script>
-  <script type="text/javascript" src="%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"></script>
-
-  <script>
-    var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
-    (function () { // Scoping function to avoid globals
-      if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
-        accounturl = 'http://localhost:3002'
-      }
-      document.write('<script   type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
-    })();
-
-    var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
-    (function () { 
-      if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
-        portfoliourl = 'http://localhost:3003'
-      }
-      document.write('<script   type="text/javascript"   src="' + portfoliourl + '/pages.min.js"><\/script>');
-    })();
-
-    var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
-    (function () {
-      if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
-        quotesurl = 'http://localhost:3004'
-      }
-      document.write('<script   type="text/javascript"   src="' + quotesurl + '/pages.min.js"><\/script>');
-    })();
-  </script>
-
 </head>
 
 <body>
@@ -64,24 +34,64 @@
   <div id="accounts"></div>
   <div id="end-point-url" data-end-point="GATEWAY_END_POINT_URL"></div>
 
-  <script type="module">
-    singleSpa.registerApplication(
-      "quotes",
-    
-      () => import("%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"),
-      ({ pathname }) => pathname === "/trading/quotes"
-    );
-    singleSpa.registerApplication(
-      "accounts",
-      () => import("%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"),
-      ({ pathname }) => pathname === "/trading/accounts"
-    );
-    singleSpa.registerApplication(
-      "portfolio",
-      () => import("%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"),
-      ({ pathname }) => pathname === "/trading/portfolio"
-    );
-    singleSpa.start();
+  <script>
+    var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
+    var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
+    var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
+
+    if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
+      accounturl = 'http://localhost:3002'
+    }
+    const el1 = document.createElement('script')
+    el1.type = 'type/javascript'
+    el1.src = `${accounturl}/page.min.js`
+    document.head.appendChild(el1)
+
+    console.log(accounturl);
+
+    if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
+      portfoliourl = 'http://localhost:3003'
+    }
+    const el2 = document.createElement('script')
+    el2.type = 'type/javascript'
+    el2.src = `${portfoliourl}/page.min.js`
+    document.head.appendChild(el2)
+    console.log(portfoliourl);
+
+    if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
+      quotesurl = 'http://localhost:3004'
+    }
+    const el3 = document.createElement('script')
+    el3.type = 'type/javascript'
+    el3.src = `${quotesurl}/page.min.js`
+    var quotestesturl = `${quotesurl}/page.min.js`
+    document.head.appendChild(el3)
+    console.log(quotesurl);
+    console.log(quotestesturl);
+
+
+    const singleSpaScript = document.createElement('script')
+    singleSpaScript.type = 'module'
+    const code = `
+  singleSpa.registerApplication(
+    "quotes",
+    () => import('${quotesurl}/page.min.js'),
+    ({ pathname }) => pathname === "/trading/quotes"
+  );
+  singleSpa.registerApplication(
+    "accounts",
+    () => import('${accounturl}/page.min.js'),
+    ({ pathname }) => pathname === "/trading/accounts"
+  );
+  singleSpa.registerApplication(
+    "portfolio",
+    () => import('${portfoliourl}/page.min.js'),
+    ({ pathname }) => pathname === "/trading/portfolio"
+  );
+  singleSpa.start();`;
+
+    singleSpaScript.appendChild(document.createTextNode(code));
+    document.body.appendChild(singleSpaScript);
   </script>
 </body>
 
