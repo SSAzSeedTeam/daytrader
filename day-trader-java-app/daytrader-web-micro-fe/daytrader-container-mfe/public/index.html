@@ -42,29 +42,29 @@
     if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
       accounturl = 'http://localhost:3002'
     }
-    const el = document.createElement('script')
+    const el1 = document.createElement('script')
     script.type = 'type/javascript'
     script.src = `${accounturl}/page.min.js`
-    document.head.appendChild(el)
+    document.head.appendChild(el1)
 
     console.log(accounturl);
 
     if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
       portfoliourl = 'http://localhost:3003'
     }
-    const el = document.createElement('script')
+    const el2 = document.createElement('script')
     script.type = 'type/javascript'
     script.src = `${portfoliourl}/page.min.js`
-    document.head.appendChild(el)
+    document.head.appendChild(el2)
     console.log(portfoliourl);
 
     if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
       quotesurl = 'http://localhost:3004'
     }
-    const el = document.createElement('script')
+    const el3 = document.createElement('script')
     script.type = 'type/javascript'
     script.src = `${quotesurl}/page.min.js`
-    document.head.appendChild(el)
+    document.head.appendChild(el3)
     console.log(quotesurl);
 
     singleSpa.registerApplication(
