@@ -32,13 +32,15 @@
   <script>
     (function () { // Scoping function to avoid globals
       var url = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
-      // if(url === 'REACT_APP_DAYTRADER'+'_ACCOUNT_MFE_URL'){
       if (url.startsWith('REACT_APP_DAYTRADER') && url.endsWith('ACCOUNT_MFE_URL')) {
         url = 'http://localhost:3002'
       }
       document.write('<script   type="text/javascript"   src="' + url + '/pages.min.js"><\/script>');
     })();
   </script>
+
+
+
 </head>
 
 <body>
