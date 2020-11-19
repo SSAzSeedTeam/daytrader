@@ -72,23 +72,23 @@
 
     const singleSpaScript = document.createElement('script')
 singleSpaScript.type = 'module'
-singleSpaScript.innerHTML = `
+singleSpaScript.innerHTML = 
   singleSpa.registerApplication(
     "quotes",
-    () => import(${quotesurl}/page.min.js),
+    () => import(`${quotesurl}/page.min.js`),
     ({ pathname }) => pathname === "/trading/quotes"
   );
   singleSpa.registerApplication(
     "accounts",
-    () => import(${accounturl}/page.min.js),
+    () => import(`${accounturl}/page.min.js`),
     ({ pathname }) => pathname === "/trading/accounts"
   );
   singleSpa.registerApplication(
     "portfolio",
-    () => import(${portfoliourl}/page.min.js),
+    () => import(`${portfoliourl}/page.min.js`),
     ({ pathname }) => pathname === "/trading/portfolio"
   );
-  singleSpa.start();`;
+  singleSpa.start();
 document.body.appendChild(singleSpaScript)
   </script>
 </body>
