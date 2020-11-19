@@ -69,11 +69,10 @@
     console.log(quotesurl);
     console.log(quotestesturl);
 
-    document.body.innerHTML  = document.body.innerHTML.replace("quotestesturlspa", "Hi"); 
 
     singleSpa.registerApplication(
       "quotes",
-      () => import(quotestesturlspa),
+      () => import(${quotestesturl}),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
