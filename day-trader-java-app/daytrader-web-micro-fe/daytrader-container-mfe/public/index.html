@@ -72,7 +72,7 @@
 
     const singleSpaScript = document.createElement('script')
 singleSpaScript.type = 'module'
-singleSpaScript.innerText = `
+singleSpaScript.innerHTML = `
   singleSpa.registerApplication(
     "quotes",
     () => import(${quotesurl}/page.min.js),
