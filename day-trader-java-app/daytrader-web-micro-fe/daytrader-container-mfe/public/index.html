@@ -69,7 +69,7 @@
 
     singleSpa.registerApplication(
       "quotes",
-      () => import(`${quotesurl}/page.min.js`),
+      () => import(quotesurl.concat("/page.min.js")),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
