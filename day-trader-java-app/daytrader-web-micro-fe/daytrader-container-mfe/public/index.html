@@ -31,15 +31,29 @@
 
   <script>
     (function () { // Scoping function to avoid globals
-      var url = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
-      if (url.startsWith('REACT_APP_DAYTRADER') && url.endsWith('ACCOUNT_MFE_URL')) {
-        url = 'http://localhost:3002'
+      var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
+      if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
+        accounturl = 'http://localhost:3002'
       }
-      document.write('<script   type="text/javascript"   src="' + url + '/pages.min.js"><\/script>');
+      document.write('<script   type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
+    })();
+
+    (function () { 
+      var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
+      if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
+        portfoliourl = 'http://localhost:3003'
+      }
+      document.write('<script   type="text/javascript"   src="' + portfoliourl + '/pages.min.js"><\/script>');
+    })();
+
+    (function () {
+      var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
+      if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
+        quotesurl = 'http://localhost:3004'
+      }
+      document.write('<script   type="text/javascript"   src="' + quotesurl + '/pages.min.js"><\/script>');
     })();
   </script>
-
-
 
 </head>
 
