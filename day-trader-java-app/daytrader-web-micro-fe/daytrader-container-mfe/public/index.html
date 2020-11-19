@@ -64,12 +64,13 @@
     const el3 = document.createElement('script')
     el3.type = 'type/javascript'
     el3.src = `${quotesurl}/page.min.js`
+    var quotestesturl = `${quotesurl}/page.min.js`
     document.head.appendChild(el3)
     console.log(quotesurl);
 
     singleSpa.registerApplication(
       "quotes",
-      () => import(quotesurl.concat("/page.min.js")),
+      () => import(quotestesturl),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
