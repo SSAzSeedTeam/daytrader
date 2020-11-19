@@ -72,7 +72,7 @@
 
     singleSpa.registerApplication(
       "quotes",
-      () => import(${quotestesturl}),
+      () => import(`${quotestesturl}`),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
