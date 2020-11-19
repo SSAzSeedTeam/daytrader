@@ -25,9 +25,9 @@
   <title>DayTrader</title>
   <script src="/single-spa.js"></script>
 
-  <!-- <script type="text/javascript" src="%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"></script> -->
-  <script type="text/javascript" src="%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"></script>
-  <script type="text/javascript" src="%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"></script>
 
   <script>
     var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
@@ -68,17 +68,18 @@
   <script type="module">
     singleSpa.registerApplication(
       "quotes",
-      () => import("%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"),
+    
+      () => import("REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
       "accounts",
-      () => import("%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"),
+      () => import("REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"),
       ({ pathname }) => pathname === "/trading/accounts"
     );
     singleSpa.registerApplication(
       "portfolio",
-      () => import("%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"),
+      () => import("REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"),
       ({ pathname }) => pathname === "/trading/portfolio"
     );
     singleSpa.start();
