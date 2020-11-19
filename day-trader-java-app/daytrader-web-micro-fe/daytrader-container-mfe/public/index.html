@@ -34,7 +34,7 @@
   <div id="accounts"></div>
   <div id="end-point-url" data-end-point="GATEWAY_END_POINT_URL"></div>
 
-  <script type="module">
+  <script>
     var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
     var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
     var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
@@ -43,8 +43,8 @@
       accounturl = 'http://localhost:3002'
     }
     const el1 = document.createElement('script')
-    script.type = 'type/javascript'
-    script.src = `${accounturl}/page.min.js`
+    el1.type = 'type/javascript'
+    el1.src = `${accounturl}/page.min.js`
     document.head.appendChild(el1)
 
     console.log(accounturl);
@@ -53,8 +53,8 @@
       portfoliourl = 'http://localhost:3003'
     }
     const el2 = document.createElement('script')
-    script.type = 'type/javascript'
-    script.src = `${portfoliourl}/page.min.js`
+    el2.type = 'type/javascript'
+    el2.src = `${portfoliourl}/page.min.js`
     document.head.appendChild(el2)
     console.log(portfoliourl);
 
@@ -62,8 +62,8 @@
       quotesurl = 'http://localhost:3004'
     }
     const el3 = document.createElement('script')
-    script.type = 'type/javascript'
-    script.src = `${quotesurl}/page.min.js`
+    el3.type = 'type/javascript'
+    el3.src = `${quotesurl}/page.min.js`
     document.head.appendChild(el3)
     console.log(quotesurl);
 
