@@ -70,22 +70,26 @@
     console.log(quotestesturl);
 
 
-    singleSpa.registerApplication(
-      "quotes",
-      () => import(`${quotestesturl}`),
-      ({ pathname }) => pathname === "/trading/quotes"
-    );
-    singleSpa.registerApplication(
-      "accounts",
-      () => import(`${accounturl}/page.min.js`),
-      ({ pathname }) => pathname === "/trading/accounts"
-    );
-    singleSpa.registerApplication(
-      "portfolio",
-      () => import(`${portfoliourl}/page.min.js`),
-      ({ pathname }) => pathname === "/trading/portfolio"
-    );
-    singleSpa.start();
+    const singleSpaScript = document.createElement('script')
+singleSpaScript.type = 'module'
+singleSpaScript.innerText = `
+  singleSpa.registerApplication(
+    "quotes",
+    () => import(${quotesurl}/page.min.js),
+    ({ pathname }) => pathname === "/trading/quotes"
+  );
+  singleSpa.registerApplication(
+    "accounts",
+    () => import(${accounturl}/page.min.js),
+    ({ pathname }) => pathname === "/trading/accounts"
+  );
+  singleSpa.registerApplication(
+    "portfolio",
+    () => import(${portfoliourl}/page.min.js),
+    ({ pathname }) => pathname === "/trading/portfolio"
+  );
+  singleSpa.start();`;
+document.body.appendChild(singleSpaScript)
   </script>
 </body>
 
