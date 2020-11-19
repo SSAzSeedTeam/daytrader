@@ -25,9 +25,9 @@
   <title>DayTrader</title>
   <script src="/single-spa.js"></script>
 
-  <script type="text/javascript" src="REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"></script>
+  <!-- <script type="text/javascript" src="REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"></script>
   <script type="text/javascript" src="REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"></script>
-  <script type="text/javascript" src="REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"></script> -->
 
   <script>
     var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
@@ -35,7 +35,11 @@
       if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
         accounturl = 'http://localhost:3002'
       }
-      document.write('<script   type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
+      const el = document.createElement('script')
+      script.type = 'type/javascript'
+      script.src = `${accounturl}/page.min.js`
+      document.head.appendChild(el)
+      // document.write('<script   type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
     })();
 
     var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
@@ -43,7 +47,11 @@
       if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
         portfoliourl = 'http://localhost:3003'
       }
-      document.write('<script   type="text/javascript"   src="' + portfoliourl + '/pages.min.js"><\/script>');
+      const el = document.createElement('script')
+      script.type = 'type/javascript'
+      script.src = `${portfoliourl}/page.min.js`
+      document.head.appendChild(el)
+      // document.write('<script   type="text/javascript"   src="' + portfoliourl + '/pages.min.js"><\/script>');
     })();
 
     var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
@@ -51,7 +59,11 @@
       if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
         quotesurl = 'http://localhost:3004'
       }
-      document.write('<script   type="text/javascript"   src="' + quotesurl + '/pages.min.js"><\/script>');
+      const el = document.createElement('script')
+      script.type = 'type/javascript'
+      script.src = `${quotesurl}/page.min.js`
+      document.head.appendChild(el)
+      // document.write('<script   type="text/javascript"   src="' + quotesurl + '/pages.min.js"><\/script>');
     })();
   </script>
 
@@ -66,23 +78,43 @@
   <div id="end-point-url" data-end-point="GATEWAY_END_POINT_URL"></div>
 
   <script type="module">
+    // if (accounturl === "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL") {
+    //   const el = document.createElement('script')
+    //   script.type = 'type/javascript'
+    //   script.src = `${accounturl}/page.min.js`
+    //   document.head.appendChild(el)
+    // }
+
+    // if (portfoliourl === "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL") {
+    //   const el = document.createElement('script')
+    //   script.type = 'type/javascript'
+    //   script.src = `${portfoliourl}/page.min.js`
+    //   document.head.appendChild(el)
+    // }
+
+    // if (quotesurl === "REACT_APP_DAYTRADER_QUOTES_MFE_URL") {
+    //   const el = document.createElement('script')
+    //   script.type = 'type/javascript'
+    //   script.src = `${quotesurl}/page.min.js`
+    //   document.head.appendChild(el)
+    // }
     singleSpa.registerApplication(
       "quotes",
-    
-      () => import("REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"),
+      () => import(`${quotesurl}/page.min.js`),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
       "accounts",
-      () => import("REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"),
+      () => import(`${accounturl}/page.min.js`),
       ({ pathname }) => pathname === "/trading/accounts"
     );
     singleSpa.registerApplication(
       "portfolio",
-      () => import("REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"),
+      () => import(`${portfoliourl}/page.min.js`),
       ({ pathname }) => pathname === "/trading/portfolio"
     );
     singleSpa.start();
+
   </script>
 </body>
 
