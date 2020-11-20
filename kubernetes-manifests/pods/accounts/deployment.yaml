@@ -40,6 +40,7 @@ spec:
 #          timeoutSeconds: 11
 #          failureThreshold: 4
         env:
+        #----service urls - start --------------
         - name: DAYTRADER_ACCOUNTS_SERVICE
           valueFrom:
             configMapKeyRef:
@@ -60,9 +61,8 @@ spec:
             configMapKeyRef:
               name: daytrader-service-urls-config-map
               key: DAYTRADER_QUOTES_SERVICE
-        - name: GET_HOSTS_FROM
-          value: dns
-#       DATABASE related config
+        #----service urls - end ----------------
+        #----DATABASE related - start ----------
         - name: DAYTRADER_DATABASE_DRIVER
           valueFrom:
             configMapKeyRef:
@@ -88,3 +88,13 @@ spec:
             configMapKeyRef:
               name: daytrader-accounts-db-config-map
               key: DAYTRADER_DATABASE_DIALECT
+        #----DATABASE related - end ------------
+        #----application config - started ------
+        - name: GET_HOSTS_FROM
+          value: dns
+        - name: SERVER_SSL_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-application-properties
+              key: SERVER_SSL_ENABLED
+        #----application config - end ----------
