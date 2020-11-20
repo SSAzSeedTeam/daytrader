@@ -35,10 +35,10 @@ set SERVER_PORT_HTTPS=5443
 
 @ECHO OFF
 echo set service routes
-set DAYTRADER_ACCOUNTS_SERVICE=https://localhost:1443
-set DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
-set DAYTRADER_PORTFOLIOS_SERVICE=https://localhost:3443
-set DAYTRADER_QUOTES_SERVICE=https://localhost:4443
+set DAYTRADER_ACCOUNTS_SERVICE=http://localhost:1443
+set DAYTRADER_GATEWAY_SERVICE=http://localhost:2443
+set DAYTRADER_PORTFOLIOS_SERVICE=http://localhost:3443
+set DAYTRADER_QUOTES_SERVICE=http://localhost:4443
 
 @ECHO OFF
 echo set logging variables

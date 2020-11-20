@@ -37,6 +37,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.http.HttpHeaders;
 
 import com.ofss.daytrader.core.beans.SessionHolder;
 import com.ofss.daytrader.core.beans.SpringContext;
@@ -120,6 +121,7 @@ public class BaseRemoteCallService {
     public static Response sendRequest(String url, String method, String body, int connTimeOut) 
     {
         System.out.println("Web.sendRequest():url="+url);
+        Response response = null;
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
@@ -137,13 +139,15 @@ public class BaseRemoteCallService {
 			String accessToken = sh.getJwtToken();
 	        sh.setJwtToken(accessToken);
 	        System.out.println("In BaseRemoteCallService.sendrequest() : accessToken="+accessToken);
+	    	String finalToken = "Bearer "+accessToken;
+	    	System.out.println("finaltoken: "+finalToken);
+	        WebTarget target = client.target(url);
+	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-        
-        WebTarget target = client.target(url);
-        Response response = target.request().method(method, Entity.json(body));
+	
         return response;
     }
 }

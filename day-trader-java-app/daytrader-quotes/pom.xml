@@ -298,10 +298,10 @@
                 <daytraderLogLevel>TRACE</daytraderLogLevel>
                 <daytraderLogFilename>/var/log/daytrader/${daytraderAppArtifactId}-${daytraderAppVersion}.log</daytraderLogFilename>
                 <daytraderLogAppender>ConsoleAppender</daytraderLogAppender>
-                <accountsServiceRoute>https://localhost:1443</accountsServiceRoute>
-                <gatewayServiceRoute>https://localhost:2443</gatewayServiceRoute>
-                <portfoliosServiceRoute>https://localhost:3443</portfoliosServiceRoute>
-                <quotesServiceRoute>https://localhost:4443</quotesServiceRoute>
+                <accountsServiceRoute>http://localhost:1443</accountsServiceRoute>
+                <gatewayServiceRoute>http://localhost:2443</gatewayServiceRoute>
+                <portfoliosServiceRoute>http://localhost:3443</portfoliosServiceRoute>
+                <quotesServiceRoute>http://localhost:4443</quotesServiceRoute>
                 <daytraderTruststoreLocation>${daytraderKeystoreFolder}/truststore.jks</daytraderTruststoreLocation>
                 <daytraderTruststorePassword>password</daytraderTruststorePassword>     
             </properties>

@@ -32,23 +32,30 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 //import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @EnableHystrix
 @ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
 @SpringBootApplication
-public class GatewayApplication extends SpringBootServletInitializer {
+public class GatewayApplication {
 	
 	//	- Each microservice has their own private database (datasource)
 
-	@Override
+	/*@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(GatewayApplication.class);
-	}
+	}*/
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
+	
+
+	@Bean
+	 RestTemplate restTemplate() {
+	        return new RestTemplate();
+	    }
 
 	/*@Bean
 	public TomcatEmbeddedServletContainerFactory tomcatFactory() 
