@@ -82,8 +82,10 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	private static String gatewayServiceRoute = System.getenv("DAYTRADER_GATEWAY_SERVICE");
-	private static String daytraderAuthService = System.getenv("DAYTRADER_AUTH_SERVICE");
+	// private static String gatewayServiceRoute = System.getenv("DAYTRADER_GATEWAY_SERVICE");
+	// private static String daytraderAuthService = System.getenv("DAYTRADER_AUTH_SERVICE");
+	private static String gatewayServiceRoute="http://localhost:2443";
+	private static String daytraderAuthService="http://localhost:8080";
 	   
 	   
 	   /**

@@ -54,8 +54,8 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	private static String quotesServiceRoute = System.getenv("DAYTRADER_QUOTES_SERVICE");	
-
+	//private static String quotesServiceRoute = System.getenv("DAYTRADER_QUOTES_SERVICE");	
+	private static String quotesServiceRoute = "http://daytrader-quotes";
 	
 	   /**
 		*
