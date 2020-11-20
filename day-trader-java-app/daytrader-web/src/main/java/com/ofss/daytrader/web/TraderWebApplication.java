@@ -46,8 +46,10 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 @ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
+@ComponentScan(basePackages={"com.ofss.daytrader.core.beans"})
 @SpringBootApplication
 public class TraderWebApplication extends SpringBootServletInitializer {
 	

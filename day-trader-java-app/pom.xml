@@ -42,6 +42,7 @@
 	</properties>
 
 	<modules>
+		<module>daytrader-auth-server</module>
 		<module>daytrader-accounts</module>
 		<module>daytrader-gateway</module>
 		<module>daytrader-portfolios</module>
@@ -49,6 +50,7 @@
 		<module>daytrader-web</module>
 		<module>daytrader-entities</module>
 		<module>daytrader-utilities</module>
+		<!--
 		<module>daytrader-onprem-exchange-rate</module>
 		<module>daytrader-report-generator</module>
 		<module>daytrader-trade-common</module>
@@ -58,7 +60,6 @@
 		<module>daytrader-scdf-trade-processor</module>
 		<module>daytrader-scdf-trade-validation</module>
 
-		<!--
 		-->
 
 	</modules>

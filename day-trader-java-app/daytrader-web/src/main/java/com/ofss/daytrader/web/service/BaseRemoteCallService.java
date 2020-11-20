@@ -17,6 +17,7 @@
 
 package com.ofss.daytrader.web.service;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
@@ -36,6 +37,9 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+
+import com.ofss.daytrader.core.beans.SessionHolder;
+import com.ofss.daytrader.core.beans.SpringContext;
 
 //
 //Don't do any logging from the base remote call service unless you send it to its own logger;
@@ -124,6 +128,19 @@ public class BaseRemoteCallService {
         {
         	client.property(ClientProperties.CONNECT_TIMEOUT, connTimeOut);
         }
+        
+        
+		try {
+			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+			HttpSession httpSession = sh.getHttpSession();
+	        System.out.println("In BaseRemoteCallService.sendrequest() : session="+httpSession);
+			String accessToken = sh.getJwtToken();
+	        sh.setJwtToken(accessToken);
+	        System.out.println("In BaseRemoteCallService.sendrequest() : accessToken="+accessToken);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
         
         WebTarget target = client.target(url);
         Response response = target.request().method(method, Entity.json(body));

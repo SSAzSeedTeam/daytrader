@@ -20,6 +20,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 
+import com.ofss.daytrader.core.beans.SessionHolder;
+import com.ofss.daytrader.core.beans.SpringContext;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.utils.*;
 
@@ -121,6 +123,13 @@ public class TradeAppServlet extends HttpServlet {
        
         ServletContext ctx = getServletConfig().getServletContext();
        
+        //Shibu - start
+        HttpSession session = req.getSession(true);
+        SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+        sh.setHttpSession(session);
+        System.out.println("In TradeAppServlet.performTask() : session="+session);
+        //Shibu - end
+        
         if (action == null) 
         {
             tsAction.doWelcome(ctx, req, resp, "");
