@@ -51,7 +51,10 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	  private static String accountsServiceRoute = System.getenv("DAYTRADER_ACCOUNTS_SERVICE");	
+	  //bala - start 
+	  //private static String accountsServiceRoute = System.getenv("DAYTRADER_ACCOUNTS_SERVICE");	
+	  private static String accountsServiceRoute = "http://localhost:1443";
+	  // bala - end
 
 	   /**
 		*
