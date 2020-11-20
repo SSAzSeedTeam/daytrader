@@ -13,5 +13,5 @@ spec:
   selector:
     app: daytrader-web-mfe-container-npm
   sessionAffinity: ClientIP
-  type: NodePort
-#  type: LoadBalancer
+#  type: NodePort
+  type: LoadBalancer

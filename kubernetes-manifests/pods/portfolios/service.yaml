@@ -7,10 +7,10 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 443
+  - port: 80
     protocol: TCP
     targetPort: 3443
   selector:
     app: daytrader-portfolios
   sessionAffinity: ClientIP
-#  type: LoadBalancer 
+  type: LoadBalancer 

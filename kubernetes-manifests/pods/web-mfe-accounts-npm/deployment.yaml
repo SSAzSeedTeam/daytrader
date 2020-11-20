@@ -42,20 +42,30 @@ spec:
         env:
         - name: CI
           value: "true"
-        - name: ACCOUNTS_SERVICE_ROUTE
-          value: http://daytrader-accounts
-        - name: GATEWAY_SERVICE_ROUTE
-          value: http://daytrader-gateway
-        - name: PORTFOLIOS_SERVICE_ROUTE
-          value: http://daytrader-portfolios
-        - name: QUOTES_SERVICE_ROUTE
-          value: http://daytrader-quotes
-#        - name: GET_HOSTS_FROM
-#          value: dns
+        #----micro-frontend - start ------------
+        - name: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-accounts-db-config-map
+              key: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
+        - name: REACT_APP_DAYTRADER_QUOTES_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-accounts-db-config-map
+              key: REACT_APP_DAYTRADER_QUOTES_MFE_URL
+        - name: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-accounts-db-config-map
+              key: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
+        - name: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-accounts-db-config-map
+              key: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
         - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
-          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
-          value: https://20.54.182.253
-        - name: DAYTRADER_GATEWAY_SERVICE
-          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
-          value: https://20.54.182.253
-          
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-accounts-db-config-map
+              key: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+        #----micro-frontend - end --------------

@@ -7,11 +7,11 @@ metadata:
   namespace: default
 spec:
   ports:
-  - port: 443
+  - port: 80
     protocol: TCP
     targetPort: 5443
   selector:
     app: daytrader-web
   sessionAffinity: ClientIP
-  type: NodePort
-#  type: LoadBalancer
+#  type: NodePort
+  type: LoadBalancer

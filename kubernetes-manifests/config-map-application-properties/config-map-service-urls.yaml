@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: daytrader-service-urls-config-map
+data:
+  DAYTRADER_ACCOUNTS_SERVICE  : http://daytrader-accounts
+  DAYTRADER_GATEWAY_SERVICE   : http://daytrader-gateway
+  DAYTRADER_PORTFOLIOS_SERVICE: http://daytrader-portfolios
+  DAYTRADER_QUOTES_SERVICE    : http://daytrader-quotes
+
+  REACT_APP_DAYTRADER_ACCOUNT_MFE_URL     : abc
+  REACT_APP_DAYTRADER_QUOTES_MFE_URL      : abc
+  REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL   : abc
+  REACT_APP_DAYTRADER_GATEWAY_SERVICE     : abc
+
+
+  #DAYTRADER_ACCOUNTS_SERVICE  : https://daytrader-accounts:1443
+  #DAYTRADER_GATEWAY_SERVICE   : https://daytrader-gateway:2443
+  #DAYTRADER_PORTFOLIOS_SERVICE: https://daytrader-portfolios:3443
+  #DAYTRADER_QUOTES_SERVICE    : https://daytrader-quotes:4443
