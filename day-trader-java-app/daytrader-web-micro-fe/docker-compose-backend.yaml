@@ -1,0 +1,129 @@
+version: '3.4'
+
+services:
+  daytrader-accounts:
+    image: azseed/daytrader-accounts:0
+    ports:
+      - "1443:1443"
+    restart: always
+    depends_on:
+      - daytrader-portfolios
+      - daytrader-quotes
+      
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy      
+
+  daytrader-gateway:
+    image: azseed/daytrader-gateway:0
+    ports:
+      - "2443:2443"
+    restart: always
+    depends_on:
+      - daytrader-accounts
+      - daytrader-portfolios
+      - daytrader-quotes
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+
+  daytrader-portfolios:
+    image: azseed/daytrader-portfolios:0
+    ports:
+      - "3443:3443"
+    restart: always
+    depends_on:
+       - daytrader-quotes
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy      
+  daytrader-quotes:
+    image: azseed/daytrader-quotes:0
+    ports:
+      - "4443:4443"
+    restart: always
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy      
+      
+  daytrader-web:
+    image: azseed/daytrader-web:0
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
+      - DAYTRADER_PORTFOLIOS_SERVICE=https://daytrader-portfolios:3443
+      - DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes:4443
+      
+    ports:
+      - "5443:5443"
+    restart: always
+
+    depends_on:
+      - daytrader-accounts
+      - daytrader-gateway
+      - daytrader-portfolios
+      - daytrader-quotes
+
+  daytrader-container-mfe:
+    # image: azseed/daytrader-web-mfe-container-static:2.0
+    image: daytrader-web-mfe-container-static:0
+
+    ports:
+      - "3001:80"
+    restart: always  
+    environment:
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+      - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http:\/\/40.91.203.79:3002
+      - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http:\/\/40.91.203.79:3003  
+      - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http:\/\/40.91.203.79:3004 
+
+  daytrader-account-mfe:
+    # image: azseed/daytrader-web-mfe-accounts-static:2.0
+    image: daytrader-web-mfe-accounts-static:0
+
+    ports:
+      - "3002:80"
+    restart: always
+    environment:
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+
+  daytrader-portfolio-mfe:
+    # image: azseed/daytrader-web-mfe-portfolios-static:2.0
+    image: daytrader-web-mfe-portfolios-static:0
+
+    ports:
+      - "3003:80"
+    restart: always
+    environment:
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+
+  
+  daytrader-quotes-mfe:
+    # image: azseed/daytrader-web-mfe-quotes-static:2.0
+    image: daytrader-web-mfe-quotes-static:0
+
+    ports:
+      - "3004:80"
+    restart: always
+    environment:
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
