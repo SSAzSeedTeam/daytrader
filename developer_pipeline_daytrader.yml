@@ -203,7 +203,7 @@ stages:
         containerRegistry: 'DockerHub'
         repository: 'azseed / daytrader-web-mfe-portfolios-npm'
         command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-portfolios-mfe/Dockerfile'
+        Dockerfile: 'day-trader-java-app/daytrader-web-micro-fe/daytrader-portfolio-mfe/Dockerfile'
         tags: '${{variables.docker_tag}}'
 
     - task: Docker@2
