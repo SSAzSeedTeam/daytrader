@@ -14,7 +14,7 @@ class Quotes extends React.Component {
       quotesData: [],
       quotesinfo: {},
       curTime : new Date(),
-      apiUrl: 'https://localhost:2443'
+      apiUrl: 'https://40.91.203.79:2443'
     }
   }
 
@@ -39,11 +39,12 @@ class Quotes extends React.Component {
   }
 
   componentDidMount() {
+    console.log("wotes component called!!!!!!!")
     const el = document.getElementById('end-point-url')
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'https://40.91.203.79:2443'
       }
       this.setState({
         apiUrl: endPointUrl

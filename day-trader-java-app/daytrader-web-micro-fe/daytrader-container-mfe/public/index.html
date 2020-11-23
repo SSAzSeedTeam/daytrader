@@ -25,32 +25,61 @@
   <title>DayTrader</title>
   <script src="/single-spa.js"></script>
 
-  <script type="text/javascript" src="REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"></script>
+  <!-- <script type="text/javascript" src="REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"></script>
   <script type="text/javascript" src="REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"></script>
-  <script type="text/javascript" src="REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"></script> -->
 
   <script>
-    var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL"
+    var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL" //ip:8090
+    var envAccountUrl = "%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%"
+    console.log(envAccountUrl);
+
     (function () { // Scoping function to avoid globals
       if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
-        accounturl = 'http://localhost:3002'
+        if(envAccountUrl.startsWith('%REACT_APP_DAYTRADER')){
+          accounturl = 'http://localhost:3002'
+        }else{
+          accounturl = envAccountUrl
+        }
       }
-      document.write('<script   type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
+      console.log(accounturl);
+
+      document.write('<script type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
     })();
 
     var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
+    var envPortfolioUrl = "%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%"
+    console.log(envPortfolioUrl);
+
     (function () { 
       if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
-        portfoliourl = 'http://localhost:3003'
+        if(envPortfolioUrl.startsWith('%REACT_APP_DAYTRADER')){
+          portfoliourl = 'http://localhost:3003'
+        }else{
+          portfoliourl = envPortfolioUrl
+        }
       }
-      document.write('<script   type="text/javascript"   src="' + portfoliourl + '/pages.min.js"><\/script>');
+
+      console.log(accounturl);
+      console.log(envPortfolioUrl);
+
+      document.write('<script type="text/javascript" src="' + portfoliourl + '/pages.min.js"><\/script>');
     })();
 
     var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
+    var envQuotesUrl = "%REACT_APP_DAYTRADER_QUOTES_MFE_URL%"
+    console.log(envQuotesUrl);
+
     (function () {
       if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
-        quotesurl = 'http://localhost:3004'
+        if(envQuotesUrl.startsWith('%REACT_APP_DAYTRADER')){
+          quotesurl = 'http://localhost:3004'
+        }else{
+          quotesurl = envQuotesUrl
+        }
       }
+      console.log(quotesurl);
+      console.log(envQuotesUrl);
       document.write('<script   type="text/javascript"   src="' + quotesurl + '/pages.min.js"><\/script>');
     })();
   </script>
@@ -68,18 +97,17 @@
   <script type="module">
     singleSpa.registerApplication(
       "quotes",
-    
-      () => import("REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"),
+      () => import(quotesurl+"/pages.min.js"),
       ({ pathname }) => pathname === "/trading/quotes"
     );
     singleSpa.registerApplication(
       "accounts",
-      () => import("REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"),
+      () => import(accounturl+"/pages.min.js"),
       ({ pathname }) => pathname === "/trading/accounts"
     );
     singleSpa.registerApplication(
       "portfolio",
-      () => import("REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"),
+      () => import(portfoliourl+"/pages.min.js"),
       ({ pathname }) => pathname === "/trading/portfolio"
     );
     singleSpa.start();

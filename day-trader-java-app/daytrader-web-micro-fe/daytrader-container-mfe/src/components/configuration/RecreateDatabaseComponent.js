@@ -16,12 +16,12 @@ const RecreateDatabaseComponent = () => {
   };
 
   const onClickUpdateConfig = async (updateConfigFormValue) => {
-    let endPointUrl = 'https://localhost:2443'
+    let endPointUrl = 'https://40.91.203.79:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'https://40.91.203.79:2443'
       }
     }
   return await axios.post(
