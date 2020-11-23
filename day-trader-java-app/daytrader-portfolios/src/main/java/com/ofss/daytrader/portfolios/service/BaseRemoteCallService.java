@@ -17,6 +17,7 @@
 
 package com.ofss.daytrader.portfolios.service;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
@@ -36,6 +37,11 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.http.HttpHeaders;
+
+import com.ofss.daytrader.portfolios.utils.SessionHolder;
+import com.ofss.daytrader.portfolios.utils.SpringContext;
+
 
 //
 //Don't do any logging from the base remote call service unless you send it to its own logger;
@@ -115,6 +121,7 @@ public class BaseRemoteCallService {
 
     public static Response sendRequest(String url, String method, String body, int connTimeOut) 
     {
+    	Response response = null;
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
@@ -124,8 +131,21 @@ public class BaseRemoteCallService {
         	client.property(ClientProperties.CONNECT_TIMEOUT, connTimeOut);
         }
         
-        WebTarget target = client.target(url);
-        Response response = target.request().method(method, Entity.json(body));
+        try {
+			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+			HttpSession httpSession = sh.getHttpSession();
+	        System.out.println("In BaseRemoteCallService.sendrequest() of Accounts : session="+httpSession);
+			String accessToken = sh.getJwtToken();
+	        sh.setJwtToken(accessToken);
+	        System.out.println("In BaseRemoteCallService.sendrequest() of Accounts : accessToken="+accessToken);
+	    	String finalToken = "Bearer "+accessToken;
+	    	System.out.println("finaltoken: "+finalToken);
+	    	WebTarget target = client.target(url);
+	        response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+        
         return response;
     }
 }

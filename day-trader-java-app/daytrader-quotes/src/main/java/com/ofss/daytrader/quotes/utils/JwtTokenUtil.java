@@ -1,4 +1,4 @@
-package com.ofss.daytrader.gateway.utils;
+package com.ofss.daytrader.quotes.utils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	}
 	    //for retrieveing any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
-		System.out.println("inside getAllClaimsFromToken: ");
+		System.out.println("inside getAllClaimsFromToken: "+ secret);
 	return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();/**/
 	}
 	//check if the token has expired

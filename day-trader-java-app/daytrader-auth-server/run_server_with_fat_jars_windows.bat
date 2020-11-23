@@ -1,1 +1,1 @@
-java -jar target\daytrader-auth-server-0.0.1-SNAPSHOT.war
+java -jar target\daytrader-auth-server-1.0.war

@@ -1,4 +1,4 @@
-package com.ofss.daytrader.gateway.utils;
+package com.ofss.daytrader.quotes.utils;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ofss.daytrader.gateway.service.MyUserDetailsService;
+import com.ofss.daytrader.quotes.service.MyUserDetailsService;
 
 import io.jsonwebtoken.SignatureException;
 
@@ -55,6 +55,7 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		String username = null;
 		String jwt = null;
 		
+		
 		String path = request.getRequestURI();
 		System.out.println(path);
 		String methodname = request.getMethod();
@@ -64,10 +65,11 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
-		if ((path.equals("/admin/quotesBuildDB")) && (methodname.equals("POST"))) {
+		if ((path.equals("/admin/tradeBuildDB")) && (methodname.equals("POST"))) {
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
+		
 		if ((path.equals("/profiles")) && (methodname.equals("GET"))) {
 	    	filterChain.doFilter(request, response);
 	    	return;
@@ -83,19 +85,14 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 			System.out.println("if authorization");
 			jwt = autherization.substring(7);
 			System.out.println("jwt:"+jwt);
-			if (jwt=="") {
-				System.out.println("invalid token ");
-				response.sendError(HttpServletResponse.SC_FORBIDDEN);
-				return ;
-			}
 			try {
 				if(!jwt.isEmpty()) {
 					System.out.println("username");
-					username = jwtTokenUtil.getUsernameFromToken(jwt);
+				username = jwtTokenUtil.getUsernameFromToken(jwt);
 				}
 				
-				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
-				sh.setJwtToken(jwt);
+				//SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+				//sh.setJwtToken(jwt);
 			}
 			catch(SignatureException exc) {
 				System.out.println("invalid token ");
@@ -121,9 +118,9 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				// that the current user is authenticated. So it passes the
 				// Spring Security Configurations successfully.
 				 //ThreadLocal<HttpSession> instance = new ThreadLocal<>(); 
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
-				sh.setJwtToken(jwt);
+				//SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				//SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+				//sh.setJwtToken(jwt);
 			/*	request.setAttribute("token", jwt);
 				HttpSession session = request.getSession(true);
             	session.setAttribute("token", jwt);
@@ -135,10 +132,9 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 			}
 		}
 		System.out.println("end of do filter");
-		//filterChain.doFilter(request, response);
-		response.sendError(HttpServletResponse.SC_FORBIDDEN);
-		System.out.println("after error  ");
-		return ;
+		filterChain.doFilter(request, response);
+		//response.sendError(HttpServletResponse.SC_FORBIDDEN);
+		//return ;
 		//if (username == null) filterChain.doFilter(request, response);
 	}
 

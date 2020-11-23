@@ -122,6 +122,7 @@ public class BaseRemoteCallService {
     {
         System.out.println("Web.sendRequest():url="+url);
         Response response = null;
+        String finalToken = "";
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
@@ -139,7 +140,10 @@ public class BaseRemoteCallService {
 			String accessToken = sh.getJwtToken();
 	        sh.setJwtToken(accessToken);
 	        System.out.println("In BaseRemoteCallService.sendrequest() : accessToken="+accessToken);
-	    	String finalToken = "Bearer "+accessToken;
+	    	if (accessToken != null) {
+	    		finalToken = "Bearer "+accessToken;
+	    	}
+	    	else finalToken = "Bearer ";
 	    	System.out.println("finaltoken: "+finalToken);
 	        WebTarget target = client.target(url);
 	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
