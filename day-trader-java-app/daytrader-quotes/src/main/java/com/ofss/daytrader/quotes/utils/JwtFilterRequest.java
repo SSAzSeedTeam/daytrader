@@ -65,11 +65,14 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
-		if ((path.equals("/admin/tradeBuildDB")) && (methodname.equals("POST"))) {
+		/*
+		 * if ((path.equals("/admin/tradeBuildDB")) && (methodname.equals("POST"))) {
+		 * filterChain.doFilter(request, response); return; }
+		 */
+		if ((path.contains("/admin")) && (methodname.equals("POST"))) {
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
-		
 		if ((path.equals("/profiles")) && (methodname.equals("GET"))) {
 	    	filterChain.doFilter(request, response);
 	    	return;
