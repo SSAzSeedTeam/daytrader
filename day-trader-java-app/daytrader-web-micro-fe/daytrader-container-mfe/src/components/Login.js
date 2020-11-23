@@ -12,7 +12,7 @@ class Login extends Component {
       uid: '',
       passwd: '',
       errorFlag:false,
-      apiUrl: 'https://40.91.203.79:2443'
+      apiUrl: 'https://localhost:2443'
     }
   }
 
@@ -21,7 +21,7 @@ class Login extends Component {
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://40.91.203.79:2443'
+        endPointUrl = 'https://localhost:2443'
       }
       this.setState({
         apiUrl: endPointUrl
