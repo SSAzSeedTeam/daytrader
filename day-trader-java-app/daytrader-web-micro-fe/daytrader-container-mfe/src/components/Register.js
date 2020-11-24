@@ -28,6 +28,7 @@ class Registerpage extends Component {
       let endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
         endPointUrl = 'https://localhost:2443'
+      
       }
       this.setState({
         apiUrl: endPointUrl

@@ -39,6 +39,7 @@ class Quotes extends React.Component {
   }
 
   componentDidMount() {
+    console.log("wotes component called!!!!!!!")
     const el = document.getElementById('end-point-url')
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
