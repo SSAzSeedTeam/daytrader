@@ -9,21 +9,21 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "userdatatable")
+@Table(name = "userdata")
 public class UserDataBean {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer userID; /* Id number */
+	private Integer userID;
 	
-	@Column(name="userName")
-	private String userName; /* Username string */
-	@Column(name="password")
-	private String password; /* Password string */
-	@Column(name="saltValue	")
-	private String saltValue; /* Salt string */
-	@Column(name="hashValue")
-	private String hashValue; /* Hash string */
+//	@Column(name="userName")
+	private String userName;
+//	@Column(name="password")
+	private String password;
+//	@Column(name="saltValue	")
+	private String saltValue;
+//	@Column(name="hashValue")
+	private String hashValue;
 
 	
 	public UserDataBean() {

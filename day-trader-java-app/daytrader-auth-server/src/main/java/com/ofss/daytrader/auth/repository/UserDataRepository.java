@@ -12,7 +12,9 @@ public interface UserDataRepository extends JpaRepository<UserDataBean, Integer>
 	@SuppressWarnings("unchecked")
 	public UserDataBean save(UserDataBean userdata); 
 	
-	@Query(value="select password from userdatatable where user_name = ?1", nativeQuery=true)
-	public String getPwdByUserid(String userName);
+//	@Query(value="select password from userdatatable where user_name = ?1", nativeQuery=true)
+//	public String getPwdByUserid(String userName);
+
+	public UserDataBean findByUserName(String userName);
 
 }

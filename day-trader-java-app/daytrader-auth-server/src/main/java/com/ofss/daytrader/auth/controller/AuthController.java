@@ -1,6 +1,10 @@
 package com.ofss.daytrader.auth.controller;
 
+import java.security.PrivateKey;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +26,8 @@ import com.ofss.daytrader.auth.model.MyUserDetailsService;
 import com.ofss.daytrader.auth.model.UserDataBean;
 import com.ofss.daytrader.auth.repository.UserDataRepository;
 import com.ofss.daytrader.auth.util.JwtTokenUtil;
+import com.ofss.daytrader.auth.util.RSAUtil;
+import com.ofss.daytrader.auth.util.Utils;
 
 
 @RestController
@@ -38,45 +44,52 @@ public class AuthController {
 	private MyUserDetailsService userDetailsService;
 	@Autowired
 	UserDataRepository userdatarepo;
+	@Value("${DAYTRADER_AUTH_PRIVATE_KEY_BASE64}")
+	private String privateKeyBase64;
 	
+
 	@PostMapping("/authenticate")
-	public ResponseEntity<JwtResponse> getAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception {
+	public ResponseEntity<JwtResponse> getAuthentication(
+			@RequestParam String username,
+			@RequestParam String password) throws Exception {
+
 		System.out.println("inside getAuthentication");
-		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword()));
-		UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-		
-		System.out.println("jwtRequest.getPassword() is " + jwtRequest.getPassword());
-		System.out.println("userDetails.getPassword() is " + userDetails.getPassword());
-		System.out.println("equal or not - " + userDetails.getPassword().equals(jwtRequest.getPassword()));
-		if (userDetails.getPassword().equals(jwtRequest.getPassword())) {
+		UserDataBean db = userdatarepo.findByUserName(username);
+
+		if (db.getPassword().equals(password)) {
 			System.out.println("in if condition");
-			String jwt = jwtTokenUtil.generateToken(userDetails);
-			System.out.println("Generated token is - " + jwt);
-			return ResponseEntity.ok(new JwtResponse(jwt));
-		}
-		else {
+			String jwtRaw = username+":"+(new Date()).getTime() + ":"+"60000";
+			System.out.println("Generated token is - " + jwtRaw);
+			
+			
+	        byte[] privateByteArray = Utils.decodeBase64(privateKeyBase64);
+	        PrivateKey privateKey = RSAUtil.convertByteArrayToPrivateKey(privateByteArray);
+	        
+	        byte[] signedJwtBytes = RSAUtil.rsaSignWithPrivateKey(privateKey, jwtRaw.getBytes());
+	        String signedJwtBytesAsc = Utils.encodeBase64(signedJwtBytes);
+	        
+			String jwtFinal = signedJwtBytesAsc + ":"+jwtRaw;
+			return ResponseEntity.ok(new JwtResponse(jwtFinal));
+		} else {
 			throw new Exception("User not found");
 		}
-		
-		
 	}
 	
-	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
-	public void regsiterUser(@RequestParam String userName, @RequestParam String password) {
-		
-		System.out.println(userName + "   " + password);
+	@PostMapping("/registeruser")
+	public ResponseEntity<String> registerUser(@RequestParam String userName, @RequestParam String password) {
+		System.out.println(userName + ":" + password);
 		UserDataBean userdatabean = new UserDataBean();
 		userdatabean.setUserName(userName);
 		userdatabean.setPassword(password);
 		userdatabean = userdatarepo.save(userdatabean);
-		
+		return ResponseEntity.ok("OK");
 	}
 	
-	@GetMapping("/userdetails/{userName}")
-	public String getUserDetails(@PathVariable("userName") String userName) {
-		System.out.println("printing");
-		return userdatarepo.getPwdByUserid(userName);
-		
-	}
+//	@GetMapping("/userdetails/{userName}")
+//	public String getUserDetails(@PathVariable("userName") String userName) {
+//		System.out.println("printing");
+//		return userdatarepo.getPwdByUserid(userName);
+//		
+//	}
 
 }
