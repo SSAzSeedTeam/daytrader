@@ -15,6 +15,6 @@ public interface UserDataRepository extends JpaRepository<UserDataBean, Integer>
 //	@Query(value="select password from userdatatable where user_name = ?1", nativeQuery=true)
 //	public String getPwdByUserid(String userName);
 
-	public UserDataBean findByUserName(String userName);
+	public UserDataBean findByUsername(String userName);
 
 }

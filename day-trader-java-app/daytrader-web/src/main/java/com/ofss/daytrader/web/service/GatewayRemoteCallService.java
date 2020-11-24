@@ -89,7 +89,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	//@Value("${DAYTRADER_GATEWAY_SERVICE}")
 	private static String gatewayServiceRoute="http://localhost:2443";
 	//@Value("${DAYTRADER_AUTH_SERVICE}")
-	private static String daytraderAuthService="http://localhost:8080";
+	private static String daytraderAuthService="http://localhost:1555";
 	   
 	   /**
 		*
@@ -201,25 +201,24 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			System.out.println("inside we ui gate way remote call login : " + daytraderAuthService);
 			String authUrl = daytraderAuthService + "/authenticate";
 
-			HttpPost post = new HttpPost(authUrl);
-			// add request parameter, form parameters
-			JwtRequest request = new JwtRequest();
-			request.setUsername(userID);
-			request.setPassword(password);
-			Gson gson = new Gson();
-			String jwtRequest = gson.toJson(request, JwtRequest.class);
-			post.setEntity(new StringEntity(jwtRequest, ContentType.APPLICATION_JSON));
-			HttpClient httpClient = HttpClientBuilder.create().build();
-
+			 HttpPost post = new HttpPost(authUrl);
+     		 // add request parameter, form parameters
+			 HttpClient httpclient = HttpClients.createDefault();
+			 List<NameValuePair> params = new ArrayList<NameValuePair>();
+			 params.add(new BasicNameValuePair("username", userID));
+			 params.add(new BasicNameValuePair("password", password));
+			 post.setEntity(new UrlEncodedFormEntity(params));
+			
 			HttpResponse response = null;
 			String result = null;
 			try {
-				response = httpClient.execute(post);
+				response = httpclient.execute(post);
 				result = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			System.out.println("result:---- " + result);
+			Gson gson = new Gson();
 
 			JwtResponse jwtResponse = gson.fromJson(result, JwtResponse.class);
 
@@ -276,6 +275,25 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    public AccountDataBean register(String userID, String password, String fullname, 
 	    		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
 	    {
+
+	    	
+	    	//first register in auth server
+			 String userurl = "http://localhost:1555/registeruser";
+			 
+			 System.out.println("Calling auth servers url while register - " + userurl);
+			 HttpClient httpclient = HttpClients.createDefault();
+			 HttpPost post = new HttpPost(userurl);
+			 List<NameValuePair> params = new ArrayList<NameValuePair>();
+			 params.add(new BasicNameValuePair("username", userID));
+			 params.add(new BasicNameValuePair("password", password));
+			 post.setEntity(new UrlEncodedFormEntity(params));
+			 
+			 
+			 httpclient.execute(post);
+			 System.out.println("Completed - Calling auth servers url while register");
+			 // Bala - End
+	    	
+	    	
 	    	String url = gatewayServiceRoute + "/accounts";
 			Log.debug("GatewayRemoteCallService.register() - " + url);
 
@@ -295,15 +313,6 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString);
 	    	accountData = mapper.readValue(responseEntity,AccountDataBean.class);
 	    	
-	    	// Bala - Start
-	    	
-	    				String userurl = "http://localhost:8080/registeruser?userName=" + userID + "&password="+password;
-	    				 System.out.println(userurl);
-	    				 HttpClient httpclient = HttpClients.createDefault();
-	    				 HttpPost post = new HttpPost(userurl);
-	    				 httpclient.execute(post);
-	    				 System.out.println("Calling auth servers url while register - " + userurl);
-	    				 // Bala - End
 	    	return accountData;
 	    }
 	

@@ -36,12 +36,12 @@ import com.ofss.daytrader.auth.util.Utils;
 @EntityScan(basePackages = "com.ofss.daytrader.auth.repository")
 public class AuthController {
 	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
-	@Autowired
-	private MyUserDetailsService userDetailsService;
+//	@Autowired
+//	private AuthenticationManager authenticationManager;
+//	@Autowired
+//	private JwtTokenUtil jwtTokenUtil;
+//	@Autowired
+//	private MyUserDetailsService userDetailsService;
 	@Autowired
 	UserDataRepository userdatarepo;
 	@Value("${DAYTRADER_AUTH_PRIVATE_KEY_BASE64}")
@@ -54,7 +54,7 @@ public class AuthController {
 			@RequestParam String password) throws Exception {
 
 		System.out.println("inside getAuthentication");
-		UserDataBean db = userdatarepo.findByUserName(username);
+		UserDataBean db = userdatarepo.findByUsername(username);
 
 		if (db.getPassword().equals(password)) {
 			System.out.println("in if condition");
@@ -76,12 +76,13 @@ public class AuthController {
 	}
 	
 	@PostMapping("/registeruser")
-	public ResponseEntity<String> registerUser(@RequestParam String userName, @RequestParam String password) {
-		System.out.println(userName + ":" + password);
+	public ResponseEntity<String> registerUser(@RequestParam String username, @RequestParam String password) {
+		System.out.println(username + ":" + password);
 		UserDataBean userdatabean = new UserDataBean();
-		userdatabean.setUserName(userName);
+		userdatabean.setUsername(username);
 		userdatabean.setPassword(password);
 		userdatabean = userdatarepo.save(userdatabean);
+		System.out.println(username + ":" + password +" saved to database");
 		return ResponseEntity.ok("OK");
 	}
 	

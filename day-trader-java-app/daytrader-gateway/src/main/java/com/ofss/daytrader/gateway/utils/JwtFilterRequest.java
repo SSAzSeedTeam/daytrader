@@ -102,15 +102,8 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				response.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return ;
 			}
-			try {
-				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
-				sh.setJwtToken(jwtHeader);
-			}
-			catch(Exception e) {
-				System.out.println("inside exception");
-				System.out.println(e.getMessage());
-			}
-			
+//			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+//			sh.setJwtToken(jwtHeader);
 		}
 		
 		// Once we get the token validate it.

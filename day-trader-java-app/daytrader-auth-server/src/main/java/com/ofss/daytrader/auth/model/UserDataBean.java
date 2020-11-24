@@ -16,24 +16,19 @@ public class UserDataBean {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userID;
 	
-//	@Column(name="userName")
-	private String userName;
-//	@Column(name="password")
+	private String username;
 	private String password;
-//	@Column(name="saltValue	")
 	private String saltValue;
-//	@Column(name="hashValue")
 	private String hashValue;
 
 	
 	public UserDataBean() {
-		
 	}
 	
-	public UserDataBean(Integer userID, String userName, String password, String saltValue, String hashValue) {
+	public UserDataBean(Integer userID, String username, String password, String saltValue, String hashValue) {
 		super();
 		this.userID = userID;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.saltValue = saltValue;
 		this.hashValue = hashValue;
@@ -47,12 +42,12 @@ public class UserDataBean {
 		this.userID = userID;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
