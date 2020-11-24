@@ -1,27 +1,33 @@
 package com.ofss.daytrader.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ofss.daytrader.auth.model.JwtRequest;
 import com.ofss.daytrader.auth.model.JwtResponse;
 import com.ofss.daytrader.auth.model.MyUserDetailsService;
+import com.ofss.daytrader.auth.model.UserDataBean;
+import com.ofss.daytrader.auth.repository.UserDataRepository;
 import com.ofss.daytrader.auth.util.JwtTokenUtil;
 
-/*import com.example.auth.model.JwtRequest;
-import com.example.auth.model.JwtResponse;
-import com.example.auth.model.MyUserDetailsService;
-import com.example.auth.util.JwtTokenUtil;*/
 
 @RestController
 @CrossOrigin
+
+@EntityScan(basePackages = "com.ofss.daytrader.auth.repository")
 public class AuthController {
 	
 	@Autowired
@@ -30,7 +36,8 @@ public class AuthController {
 	private JwtTokenUtil jwtTokenUtil;
 	@Autowired
 	private MyUserDetailsService userDetailsService;
-	
+	@Autowired
+	UserDataRepository userdatarepo;
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<JwtResponse> getAuthentication(@RequestBody JwtRequest jwtRequest) throws Exception {
@@ -52,9 +59,23 @@ public class AuthController {
 		}
 		
 		
+	}
+	
+	@RequestMapping(value = "/registeruser", method = RequestMethod.POST)
+	public void regsiterUser(@RequestParam String userName, @RequestParam String password) {
 		
+		System.out.println(userName + "   " + password);
+		UserDataBean userdatabean = new UserDataBean();
+		userdatabean.setUserName(userName);
+		userdatabean.setPassword(password);
+		userdatabean = userdatarepo.save(userdatabean);
 		
-		
+	}
+	
+	@GetMapping("/userdetails/{userName}")
+	public String getUserDetails(@PathVariable("userName") String userName) {
+		System.out.println("printing");
+		return userdatarepo.getPwdByUserid(userName);
 		
 	}
 

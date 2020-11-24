@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  
 		  System.out.println("in configure(HttpSecurity http) method");
 	  http.csrf().disable().authorizeRequests().antMatchers("/authenticate").
-	  permitAll()/*.antMatchers("/check_token").permitAll()*/
+	  permitAll().antMatchers("/registeruser","/userdetails/*").permitAll()
 	  .anyRequest().authenticated()
 	  .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.
 	  STATELESS);

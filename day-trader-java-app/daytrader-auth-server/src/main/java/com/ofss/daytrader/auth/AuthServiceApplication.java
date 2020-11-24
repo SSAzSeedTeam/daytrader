@@ -12,12 +12,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
-
-//@EnableResourceServer 
 @SpringBootApplication
-//@ComponentScan(basePackages={"com.*"})
-@EntityScan(basePackages={"com.ofss.daytrader.entities"})
-@EnableJpaRepositories(basePackages={"com.ofss.daytrader.auth.repository"})
+@ComponentScan(basePackages={"com.ofss.daytrader.auth"})
+@EntityScan(basePackages={"com.ofss.daytrader.auth.model"})
+//@EnableJpaRepositories(basePackages={"com.ofss.daytrader.auth.repository"})
 @EnableTransactionManagement
 public class AuthServiceApplication {
 

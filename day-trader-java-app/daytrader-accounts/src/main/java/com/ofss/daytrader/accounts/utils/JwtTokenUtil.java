@@ -1,5 +1,6 @@
 package com.ofss.daytrader.accounts.utils;
 
+import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +36,20 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	}
 	    //for retrieveing any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
-		System.out.println("inside getAllClaimsFromToken: "+ secret);
-	return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();/**/
+		System.out.println("inside getAllClaimsFromToken: ");
+		//Load keys - start
+	    String publicAsc = null;
+	    byte[] publicByteArray = null;
+	    PublicKey publicKey = null;
+		try {
+			publicAsc = FileUtil.readFromFile("src/main/resources/rsaPublic.asc");
+			publicByteArray = Utils.decodeBase64(publicAsc);
+		    publicKey = RSAUtil.convertByteArrayToPublicKey(publicByteArray);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();/**/
 	}
 	//check if the token has expired
 	public Boolean isTokenExpired(String token) {

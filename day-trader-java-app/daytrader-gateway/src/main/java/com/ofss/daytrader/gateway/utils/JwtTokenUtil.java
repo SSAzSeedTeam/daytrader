@@ -1,5 +1,6 @@
 package com.ofss.daytrader.gateway.utils;
 
+import java.security.PublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,24 +23,36 @@ public class JwtTokenUtil {
 
 public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	//retrieve username from jwt token
-	public String getUsernameFromToken(String token) {
+	public String getUsernameFromToken(String token) throws Exception {
 	return getClaimFromToken(token, Claims::getSubject);
 	}
 	//retrieve expiration date from jwt token
-	public Date getExpirationDateFromToken(String token) {
+	public Date getExpirationDateFromToken(String token) throws Exception {
 	return getClaimFromToken(token, Claims::getExpiration);
 	}
-	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) throws Exception {
 	final Claims claims = getAllClaimsFromToken(token);
 	return claimsResolver.apply(claims);
 	}
 	    //for retrieveing any information from token we will need the secret key
-	private Claims getAllClaimsFromToken(String token) {
+	private Claims getAllClaimsFromToken(String token) throws Exception {
 		System.out.println("inside getAllClaimsFromToken: ");
-	return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();/**/
+		//Load keys - start
+	    String publicAsc = null;
+	    byte[] publicByteArray = null;
+	    PublicKey publicKey = null;
+		try {
+			publicAsc = FileUtil.readFromFile("src/main/resources/rsaPublic.asc");
+			publicByteArray = Utils.decodeBase64(publicAsc);
+		    publicKey = RSAUtil.convertByteArrayToPublicKey(publicByteArray);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
 	}
 	//check if the token has expired
-	public Boolean isTokenExpired(String token) {
+	public Boolean isTokenExpired(String token) throws Exception {
 	final Date expiration = getExpirationDateFromToken(token);
 	return expiration.before(new Date());
 	}
@@ -54,14 +67,16 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
 	//   compaction of the JWT to a URL-safe string 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
+		    PublicKey publicKey = null;
 	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 	.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-	.signWith(SignatureAlgorithm.HS512, secret).compact();
+	.signWith(SignatureAlgorithm.HS512, publicKey.toString()).compact();
 	}
 	//validate token
-	public Boolean validateToken(String token, UserDetails userDetails) {
+	public Boolean validateToken(String token, UserDetails userDetails) throws Exception {
 	final String username = getUsernameFromToken(token);
+	
+	
 	return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
-
 }

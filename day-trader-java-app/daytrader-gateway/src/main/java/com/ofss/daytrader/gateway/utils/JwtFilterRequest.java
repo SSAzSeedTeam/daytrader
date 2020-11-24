@@ -98,7 +98,6 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 			}
 			try {
 				if(!jwt.isEmpty()) {
-					System.out.println("username");
 					username = jwtTokenUtil.getUsernameFromToken(jwt);
 				}
 				
@@ -110,6 +109,10 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				response.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return ;
 			}
+			catch(Exception e) {
+				System.out.println("inside exception");
+				System.out.println(e.getMessage());
+			}
 			
 		}
 		// Once we get the token validate it.
@@ -119,27 +122,32 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 			System.out.println("userDetails - " + userDetails);
 			// if token is valid configure Spring Security to manually set
 			// authentication
-			if (jwtTokenUtil.validateToken(jwt, userDetails)) {
-				System.out.println("if validate Token");
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-				userDetails, null, userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken
-				.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				// After setting the Authentication in the context, we specify
-				// that the current user is authenticated. So it passes the
-				// Spring Security Configurations successfully.
-				 //ThreadLocal<HttpSession> instance = new ThreadLocal<>(); 
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
-				sh.setJwtToken(jwt);
-			/*	request.setAttribute("token", jwt);
-				HttpSession session = request.getSession(true);
-            	session.setAttribute("token", jwt);
-            	holder.setHttpSession(session);*/
-            	//instance.set(session);
-            	
-				filterChain.doFilter(request, response);
-				return;
+			try {
+				if (jwtTokenUtil.validateToken(jwt, userDetails)) {
+					System.out.println("if validate Token");
+					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+					userDetails, null, userDetails.getAuthorities());
+					usernamePasswordAuthenticationToken
+					.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					// After setting the Authentication in the context, we specify
+					// that the current user is authenticated. So it passes the
+					// Spring Security Configurations successfully.
+					 //ThreadLocal<HttpSession> instance = new ThreadLocal<>(); 
+					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+					SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+					sh.setJwtToken(jwt);
+				/*	request.setAttribute("token", jwt);
+					HttpSession session = request.getSession(true);
+					session.setAttribute("token", jwt);
+					holder.setHttpSession(session);*/
+					//instance.set(session);
+					
+					filterChain.doFilter(request, response);
+					return;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		System.out.println("end of do filter");
@@ -147,7 +155,6 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		response.sendError(HttpServletResponse.SC_FORBIDDEN);
 		System.out.println("after error  ");
 		return ;
-		//if (username == null) filterChain.doFilter(request, response);
 	}
 
 }

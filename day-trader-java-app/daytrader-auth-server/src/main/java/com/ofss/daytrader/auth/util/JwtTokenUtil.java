@@ -1,5 +1,6 @@
 package com.ofss.daytrader.auth.util;
 
+import java.security.PrivateKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class JwtTokenUtil {
 	
 
 public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	//retrieve username from jwt token
 	public String getUsernameFromToken(String token) {
 	return getClaimFromToken(token, Claims::getSubject);
@@ -44,7 +46,7 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	return expiration.before(new Date());
 	}
 	//generate token for user
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(UserDetails userDetails) throws Exception {
 	Map<String, Object> claims = new HashMap<>();
 	return doGenerateToken(claims, userDetails.getUsername());
 	}
@@ -53,10 +55,15 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	//2. Sign the JWT using the HS512 algorithm and secret key.
 	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
 	//   compaction of the JWT to a URL-safe string 
-	private String doGenerateToken(Map<String, Object> claims, String subject) {
+	private String doGenerateToken(Map<String, Object> claims, String subject) throws Exception {
+		//start PKI Changes
+		String privateAsc = FileUtil.readFromFile("src/main/resources/rsaPrivate.asc");
+		byte[] privateByteArray = Utils.decodeBase64(privateAsc);
+        PrivateKey privateKey = RSAUtil.convertByteArrayToPrivateKey(privateByteArray);
 	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 	.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-	.signWith(SignatureAlgorithm.HS512, secret).compact();
+	.signWith(SignatureAlgorithm.RS256, privateKey).compact();
+	/*.signWith(SignatureAlgorithm.HS512, secret).compact();*/
 	}
 	//validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
