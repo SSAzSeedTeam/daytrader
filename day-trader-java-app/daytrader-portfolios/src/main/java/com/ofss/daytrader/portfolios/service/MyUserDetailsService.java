@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.core.userdetails.User;
-
+import org.apache.commons.io.IOUtils;
 @Service
 @Transactional
 public class MyUserDetailsService implements UserDetailsService{
@@ -44,18 +44,32 @@ public class MyUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		AccountProfileDataBean result = null;
-		String url = "http://localhost:1443/accounts/"+username+"/profiles";
-		 System.out.println(url);
-		 try {
-			 result = restTemplate.getForObject(url, AccountProfileDataBean.class);
+		//UserDataBean result = null;
+		String result = "";
+		String url = "http://localhost:8080/userdetails/"+username;
+		 System.out.println("calling auth servers url - " + url);
+		 /*try {
+			 result = restTemplate.getForObject(url, UserDataBean.class);
 		 }
 		 catch(Exception e) {
 			 e.printStackTrace();
-		 }
-	    System.out.println("password is " + result.getPassword());
+		 }*/
+		 System.out.println(url);
+		 HttpResponse res = null;
+		 HttpClient httpclient = HttpClients.createDefault();
+		 HttpGet get = new HttpGet(url);
+		 try {
+			res   = httpclient.execute(get);
+			result = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 // Bala - End
+		 
+	    System.out.println("password is " + result);
 		//HttpEntity entity = (HttpEntity) response.getEntity();
-		return new User(username,result.getPassword(),new ArrayList<>());
+		return new User(username,result,new ArrayList<>());
 		//return new User(username,pwd,new ArrayList<>());
 	}
 

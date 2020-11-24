@@ -42,6 +42,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 // spring
 import org.springframework.stereotype.Service;
@@ -227,16 +228,6 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String url = gatewayServiceRoute + "/login/" + userID;
 			Log.debug("GatewayRemoteCallService.login() - " + url);
 
-//			RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-//	    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-//	        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-//	        HttpServletRequest httprequest = attributes.getRequest();
-//	        HttpSession httpSession = httprequest.getSession(true);
-//	        System.out.println("session - " + httpSession);
-//	        httpSession.setAttribute("token",accessToken);
-//	        System.out.println("accesstoken value in login() - " + accessToken);
-//	        
-
 			try {
 				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
 				HttpSession httpSession = sh.getHttpSession();
@@ -293,7 +284,18 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String accountDataInString = mapper.writeValueAsString(accountData);
 	    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString);
 	    	accountData = mapper.readValue(responseEntity,AccountDataBean.class);
+	    	
+	    	// Bala - Start
+	    	
+			String userurl = "http://localhost:8080/registeruser?userName=" + userID + "&password="+password;
+			 System.out.println(userurl);
+			 HttpClient httpclient = HttpClients.createDefault();
+			 HttpPost post = new HttpPost(userurl);
+			 httpclient.execute(post);
+			 System.out.println("Calling auth servers url while register - " + userurl);
+			 // Bala - End
 	    	return accountData;
+	    	
 	    }
 	
 		/**

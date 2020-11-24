@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  protected void configure(HttpSecurity http) throws Exception {
 		  
 		  System.out.println("in configure(HttpSecurity http) method");
-	  http.csrf().disable().authorizeRequests().antMatchers("/authenticate").
-	  permitAll()/*.antMatchers("/check_token").permitAll()*/
+	  http.csrf().disable().authorizeRequests().antMatchers("/authenticate").	
+	  permitAll().antMatchers("/registeruser","/userdetails/*").permitAll()
 	  .anyRequest().authenticated()
 	  .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.
 	  STATELESS);

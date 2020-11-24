@@ -33,11 +33,9 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		// TODO Auto-generated method stub
 		System.out.println("inside doFilterInternal");
 		String autherization = request.getHeader("Authorization");
-		
 		String username = null;
 		String jwt = null;
-		
-		if(null!=autherization && autherization.startsWith("Bearer ")) {
+				if(null!=autherization && autherization.startsWith("Bearer ")) {
 			System.out.println("if authorization");
 			jwt = autherization.substring(7);
 			System.out.println("jwt:"+jwt);
