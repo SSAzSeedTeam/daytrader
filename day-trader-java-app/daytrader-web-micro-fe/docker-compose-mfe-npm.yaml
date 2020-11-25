@@ -9,7 +9,7 @@ services:
       - "3001:3001"
     restart: always  
     environment:
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://40.91.203.79:2443
       - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http://40.91.203.79:3002
       - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http://40.91.203.79:3003  
       - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://40.91.203.79:3004 
@@ -22,7 +22,7 @@ services:
       - "3002:3002"
     restart: always
     environment:
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://40.91.203.79:2443
 
 
   daytrader-portfolio-mfe:
@@ -33,7 +33,7 @@ services:
       - "3003:3003"
     restart: always
     environment:
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://40.91.203.79:2443
 
   
   daytrader-quotes-mfe:
@@ -44,5 +44,5 @@ services:
       - "3004:3004"
     restart: always
     environment: 
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://40.91.203.79:2443
 
