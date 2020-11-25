@@ -22,10 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ofss.daytrader.auth.model.JwtRequest;
 import com.ofss.daytrader.auth.model.JwtResponse;
-import com.ofss.daytrader.auth.model.MyUserDetailsService;
 import com.ofss.daytrader.auth.model.UserDataBean;
 import com.ofss.daytrader.auth.repository.UserDataRepository;
-import com.ofss.daytrader.auth.util.JwtTokenUtil;
 import com.ofss.daytrader.auth.util.RSAUtil;
 import com.ofss.daytrader.auth.util.Utils;
 
@@ -58,7 +56,7 @@ public class AuthController {
 
 		if (db.getPassword().equals(password)) {
 			System.out.println("in if condition");
-			String jwtRaw = username+":"+(new Date()).getTime() + ":"+"60000";
+			String jwtRaw = username+":"+(new Date()).getTime() + ":"+"6000000";
 			System.out.println("Generated token is - " + jwtRaw);
 			
 			
@@ -69,6 +67,7 @@ public class AuthController {
 	        String signedJwtBytesAsc = Utils.encodeBase64(signedJwtBytes);
 	        
 			String jwtFinal = signedJwtBytesAsc + ":"+jwtRaw;
+			System.out.println("jwtfinal: "+jwtFinal);
 			return ResponseEntity.ok(new JwtResponse(jwtFinal));
 		} else {
 			throw new Exception("User not found");
@@ -77,12 +76,12 @@ public class AuthController {
 	
 	@PostMapping("/registeruser")
 	public ResponseEntity<String> registerUser(@RequestParam String username, @RequestParam String password) {
-		System.out.println(username + ":" + password);
+		System.out.println("inside register user: "+username + ":" + password);
 		UserDataBean userdatabean = new UserDataBean();
 		userdatabean.setUsername(username);
 		userdatabean.setPassword(password);
 		userdatabean = userdatarepo.save(userdatabean);
-		System.out.println(username + ":" + password +" saved to database");
+		System.out.println(username +" saved to database");
 		return ResponseEntity.ok("OK");
 	}
 	

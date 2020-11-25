@@ -37,10 +37,8 @@ public class MyUserDetailsService implements UserDetailsService{
 	private final CloseableHttpClient httpClient = HttpClients.createDefault();
 	@Autowired
 	protected RestTemplate restTemplate; 
-	/*
-	 * PasswordEncoder encoder =
-	 * PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	 */
+
+	 
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

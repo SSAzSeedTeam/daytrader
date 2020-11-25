@@ -240,6 +240,7 @@ public class GatewayController
 	@RequestMapping(value = "/login/{userId}", method = RequestMethod.PATCH)
 	public ResponseEntity<AccountDataBean> login (@PathVariable("userId") String userId, @RequestBody String password)
 	{
+		System.out.println("inside login in gateway controller");
 		Log.traceEnter("GatewayController.login()");			
 		AccountDataBean accountData = null;
 		try

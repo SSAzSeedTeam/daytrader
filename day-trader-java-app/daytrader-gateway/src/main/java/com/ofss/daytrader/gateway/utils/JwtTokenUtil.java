@@ -1,4 +1,4 @@
-package com.ofss.daytrader.gateway.utils;
+/*package com.ofss.daytrader.gateway.utils;
 
 import java.security.PublicKey;
 import java.util.Date;
@@ -16,9 +16,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtil {
-	
-	@Value("${jwt.secret}")
-	private String secret;
 	
 
 public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
@@ -80,3 +77,4 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package com.ofss.daytrader.accounts.utils;
+/*package com.ofss.daytrader.accounts.utils;
 
 import java.security.PublicKey;
 import java.util.Date;
@@ -49,7 +49,7 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();/**/
+		return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
 	}
 	//check if the token has expired
 	public Boolean isTokenExpired(String token) {
@@ -78,3 +78,4 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	}
 
 }
+*/

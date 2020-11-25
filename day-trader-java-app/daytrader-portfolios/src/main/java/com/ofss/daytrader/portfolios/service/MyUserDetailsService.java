@@ -1,4 +1,4 @@
-package com.ofss.daytrader.portfolios.service;
+/*package com.ofss.daytrader.portfolios.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,10 +37,10 @@ public class MyUserDetailsService implements UserDetailsService{
 	private final CloseableHttpClient httpClient = HttpClients.createDefault();
 	@Autowired
 	protected RestTemplate restTemplate; 
-	/*
+	
 	 * PasswordEncoder encoder =
 	 * PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	 */
+	 
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -48,12 +48,12 @@ public class MyUserDetailsService implements UserDetailsService{
 		String result = "";
 		String url = "http://localhost:8080/userdetails/"+username;
 		 System.out.println("calling auth servers url - " + url);
-		 /*try {
+		 try {
 			 result = restTemplate.getForObject(url, UserDataBean.class);
 		 }
 		 catch(Exception e) {
 			 e.printStackTrace();
-		 }*/
+		 }
 		 System.out.println(url);
 		 HttpResponse res = null;
 		 HttpClient httpclient = HttpClients.createDefault();
@@ -74,3 +74,4 @@ public class MyUserDetailsService implements UserDetailsService{
 	}
 
 }
+*/

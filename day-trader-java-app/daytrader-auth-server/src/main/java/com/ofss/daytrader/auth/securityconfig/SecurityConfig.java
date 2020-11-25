@@ -17,9 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-/*import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;*/
 
-import com.ofss.daytrader.auth.filter.JwtFilterRequest;
 import com.ofss.daytrader.auth.model.MyUserDetailsService;
 
 @EnableWebSecurity
@@ -50,10 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
-	@Autowired
+	/*@Autowired
 	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService (myUserDetailsService);
-	}
+	}*/
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

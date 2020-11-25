@@ -1,39 +1,30 @@
 package com.ofss.daytrader.quotes.utils;
 
 import java.io.IOException;
+import java.security.PublicKey;
+import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.http.protocol.HttpContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ofss.daytrader.quotes.service.MyUserDetailsService;
-
-import io.jsonwebtoken.SignatureException;
 
 
 @Component
 public class JwtFilterRequest extends OncePerRequestFilter{
-
-	@Autowired
-	private MyUserDetailsService myUserDetailsService;
 	
-	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	/*@Autowired
+	private JwtTokenUtil jwtTokenUtil;*/
 	
 	@Value("${DAYTRADER_OAUTH_ENABLE}")
 	private boolean oauthEnabled;
+	
+	@Value("${DAYTRADER_AUTH_PUBLIC_KEY_BASE64}")
+	private String  publicKeyBase64;
 	
 	@SuppressWarnings("unused")
 	@Override
@@ -41,20 +32,20 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 			throws ServletException, IOException {
 		
 		if (oauthEnabled==false) {
+			System.out.println("oauth is disabled");
 			filterChain.doFilter(request, response);
 			return;
 		}
 		// TODO Auto-generated method stub
 		System.out.println("inside doFilterInternal-gateway");
-		String autherization = request.getHeader("Authorization");
-		System.out.println("autherization value - " + autherization);
-		if((null!= autherization) && (!autherization.contains(" ")) ) {
+		String authorization = request.getHeader("Authorization");
+		System.out.println("authorization value - " + authorization);
+		if((null!= authorization) && (!authorization.contains(" ")) ) {
 			System.out.println("inside if");
-			autherization = autherization +" ";
+			authorization = authorization +" ";
 		}
 		String username = null;
-		String jwt = null;
-		
+		String jwtHeader = null;
 		
 		String path = request.getRequestURI();
 		System.out.println(path);
@@ -65,10 +56,6 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
-		/*
-		 * if ((path.equals("/admin/tradeBuildDB")) && (methodname.equals("POST"))) {
-		 * filterChain.doFilter(request, response); return; }
-		 */
 		if ((path.contains("/admin")) && (methodname.equals("POST"))) {
 	    	filterChain.doFilter(request, response);
 	    	return;
@@ -77,68 +64,78 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 	    	filterChain.doFilter(request, response);
 	    	return;
 	    }
-		if (autherization == null) {
+		if ((path.contains("/holdings")) && (methodname.equals("GET"))) {
+	    	filterChain.doFilter(request, response);
+	    	return;
+	    }
+		if (authorization == null) {
+			System.out.println("authorization header missing");
 			System.out.println("response value - " + HttpServletResponse.SC_FORBIDDEN);
 			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 			//filterChain.doFilter(request, response);
 			return ;
 		}
 		
-		if(null!=autherization && autherization.startsWith("Bearer ")) {
+		if(null!=authorization && authorization.startsWith("Bearer ")) {
 			System.out.println("if authorization");
-			jwt = autherization.substring(7);
-			System.out.println("jwt:"+jwt);
-			try {
-				if(!jwt.isEmpty()) {
-					System.out.println("username");
-				username = jwtTokenUtil.getUsernameFromToken(jwt);
-				}
-				
-				//SessionHolder sh = SpringContext.getBean(SessionHolder.class);
-				//sh.setJwtToken(jwt);
-			}
-			catch(SignatureException exc) {
-				System.out.println("invalid token ");
+			jwtHeader = authorization.substring(7);
+			System.out.println("jwtHeader:"+jwtHeader);
+			if (jwtHeader=="") {
+				System.out.println("jwtHeader is empty");
 				response.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return ;
 			}
-			
+//			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+//			sh.setJwtToken(jwtHeader);
 		}
+		
 		// Once we get the token validate it.
-		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = this.myUserDetailsService.loadUserByUsername(username);
-			
-			System.out.println("userDetails - " + userDetails);
-			// if token is valid configure Spring Security to manually set
-			// authentication
-			if (jwtTokenUtil.validateToken(jwt, userDetails)) {
-				System.out.println("if validate Token");
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-				userDetails, null, userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken
-				.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				// After setting the Authentication in the context, we specify
-				// that the current user is authenticated. So it passes the
-				// Spring Security Configurations successfully.
-				 //ThreadLocal<HttpSession> instance = new ThreadLocal<>(); 
-				//SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-				//SessionHolder sh = SpringContext.getBean(SessionHolder.class);
-				//sh.setJwtToken(jwt);
-			/*	request.setAttribute("token", jwt);
-				HttpSession session = request.getSession(true);
-            	session.setAttribute("token", jwt);
-            	holder.setHttpSession(session);*/
-            	//instance.set(session);
-            	
+		if (jwtHeader != null) {
+			try {
+				int index = jwtHeader.indexOf(":");
+				String signatureAsc = jwtHeader.substring(0,index);
+				String jwtRaw = jwtHeader.substring(index+1);
+				
+				
+		        byte[] publicKeyByteArray = Utils.decodeBase64(publicKeyBase64);
+		        PublicKey publicKey = RSAUtil.convertByteArrayToPublicKey(publicKeyByteArray);
+				
+		        byte[] signedDataByteArray = Utils.decodeBase64(signatureAsc);
+		        boolean signatureVerifySuccessFlag = RSAUtil.rsaVerifySignWithPublicKey(publicKey, jwtRaw.getBytes(), signedDataByteArray);
+		        System.out.println("signatureVerifySuccessFlag:" + signatureVerifySuccessFlag);
+				
+		        if(signatureVerifySuccessFlag == false) {
+		    		System.out.println("Signature mismatch");
+		    		response.sendError(HttpServletResponse.SC_FORBIDDEN);
+		    		return ;
+		        }
+		        String[] splitArray = jwtRaw.split(":");
+		        String userName = splitArray[0];
+		        String loginTimeStr = splitArray[1];
+		        String durationStr = splitArray[2];
+
+		        long now = (new Date()).getTime();
+		        long loginTime = Long.parseLong(loginTimeStr);
+		        long duration = Long.parseLong(durationStr);
+		        if(now > loginTime + duration ) {
+		    		System.out.println("Token time exceeded!");
+		    		response.sendError(HttpServletResponse.SC_FORBIDDEN);
+		    		return ;
+		        }
+		        
+				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+				sh.setJwtToken(jwtHeader);
 				filterChain.doFilter(request, response);
 				return;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		System.out.println("end of do filter");
-		filterChain.doFilter(request, response);
-		//response.sendError(HttpServletResponse.SC_FORBIDDEN);
-		//return ;
-		//if (username == null) filterChain.doFilter(request, response);
+		//filterChain.doFilter(request, response);
+		response.sendError(HttpServletResponse.SC_FORBIDDEN);
+		System.out.println("after error  ");
+		return ;
 	}
-
 }

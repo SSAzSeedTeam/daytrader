@@ -1,4 +1,4 @@
-package com.ofss.daytrader.auth.util;
+/*package com.ofss.daytrader.auth.util;
 
 import java.security.PrivateKey;
 import java.util.Date;
@@ -16,9 +16,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtil {
-	
-	@Value("${jwt.secret}")
-	private String secret;
 	
 
 public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
@@ -38,7 +35,7 @@ private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	    //for retrieveing any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
 		System.out.println("inside getAllClaimsFromToken");
-	return Jwts.parser()/*setSigningKey(secret)*/.parseClaimsJws(token).getBody();
+	return Jwts.parser()setSigningKey(secret).parseClaimsJws(token).getBody();
 	}
 	//check if the token has expired
 	private Boolean isTokenExpired(String token) {
@@ -63,7 +60,7 @@ private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 	.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 	.signWith(SignatureAlgorithm.RS256, privateKey).compact();
-	/*.signWith(SignatureAlgorithm.HS512, secret).compact();*/
+	.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 	//validate token
 	public Boolean validateToken(String token, UserDetails userDetails) {
@@ -72,3 +69,4 @@ private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	}
 
 }
+*/

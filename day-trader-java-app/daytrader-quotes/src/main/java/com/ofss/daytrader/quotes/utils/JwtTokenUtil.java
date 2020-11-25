@@ -1,4 +1,4 @@
-package com.ofss.daytrader.quotes.utils;
+/*package com.ofss.daytrader.quotes.utils;
 
 import java.security.PublicKey;
 import java.util.Date;
@@ -79,3 +79,4 @@ public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	}
 
 }
+*/

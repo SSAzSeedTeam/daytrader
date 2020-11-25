@@ -24,16 +24,9 @@ import com.ofss.daytrader.gateway.utils.JwtFilterRequest;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-	
-	  /*@Autowired
-	  private MyUserDetailsService myUserDetailsService;*/
 	  
 	  @Autowired
 	  private JwtFilterRequest jwtFilterRequest;
-	
-	  @Value("${jwt.secret}")
-		private String secret;
 		
 		
 		@Override
@@ -42,11 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        http
 	        .csrf().disable()
 	            .authorizeRequests()
-	            .antMatchers("/login/*").authenticated()
+	            /*.antMatchers("/login/*").authenticated()*/
 	            .anyRequest().permitAll()
 	            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	        
-	        http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
+	       // http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
+	        
 	    }
 	 
 
@@ -58,12 +52,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	/*@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(myUserDetailsService);
+		auth.getDefaultUserDetailsService();
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
 				//new BCryptPasswordEncoder();//
-*/	//}
-}
+	//}
+*/}
+

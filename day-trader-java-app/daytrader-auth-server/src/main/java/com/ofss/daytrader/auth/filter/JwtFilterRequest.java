@@ -1,4 +1,4 @@
-package com.ofss.daytrader.auth.filter;
+/*package com.ofss.daytrader.auth.filter;
 
 import java.io.IOException;
 
@@ -15,14 +15,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ofss.daytrader.auth.model.MyUserDetailsService;
 import com.ofss.daytrader.auth.util.JwtTokenUtil;
 
 @Component
 public class JwtFilterRequest extends OncePerRequestFilter{
-
-	@Autowired
-	private MyUserDetailsService myUserDetailsService;
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -65,3 +61,4 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 	}
 
 }
+*/

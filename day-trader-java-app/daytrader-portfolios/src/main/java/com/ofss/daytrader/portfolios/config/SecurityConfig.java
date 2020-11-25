@@ -32,9 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  
 	  @Autowired
 	  private JwtFilterRequest jwtFilterRequest;
-	
-	  @Value("${jwt.secret}")
-		private String secret;
 		
 		
 		@Override
@@ -43,11 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        http
 	        .csrf().disable()
 	            .authorizeRequests()
-	            .antMatchers("/login/*").authenticated()
+	           /* .antMatchers("/login/*").authenticated()*/
 	            .anyRequest().permitAll()
 	            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	        
-	        http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
+	       // http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
 	    }
 	 
 
