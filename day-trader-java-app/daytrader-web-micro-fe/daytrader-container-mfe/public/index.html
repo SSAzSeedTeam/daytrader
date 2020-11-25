@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,39 +22,94 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>DayTrader</title>
-    <script src="/single-spa.js"></script>
+  <title>DayTrader</title>
+  <script src="/single-spa.js"></script>
 
-    <script type="text/javascript" src="%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"></script>
-    <script type="text/javascript" src="%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"></script>
-    <script type="text/javascript" src="%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"></script>
+  <!-- <script type="text/javascript" src="REACT_APP_DAYTRADER_ACCOUNT_MFE_URL/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL/pages.min.js"></script>
+  <script type="text/javascript" src="REACT_APP_DAYTRADER_QUOTES_MFE_URL/pages.min.js"></script> -->
 
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <div id="quotes"></div>
-    <div id="portfolio"></div>
-    <div id="accounts"></div>
-    <div id="end-point-url" data-end-point="GATEWAY_END_POINT_URL"></div>
+  <script>
+    var accounturl = "REACT_APP_DAYTRADER_ACCOUNT_MFE_URL" //ip:8090
+    var envAccountUrl = "%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%"
+    console.log(envAccountUrl);
 
-    <script type="module">
-      singleSpa.registerApplication(
-        "quotes",
-        () => import("%REACT_APP_DAYTRADER_QUOTES_MFE_URL%/pages.min.js"),
-        ({ pathname }) => pathname === "/trading/quotes"
-      );
-      singleSpa.registerApplication(
-        "accounts",
-        () => import("%REACT_APP_DAYTRADER_ACCOUNT_MFE_URL%/pages.min.js"),
-        ({ pathname }) => pathname === "/trading/accounts"
-      );
-      singleSpa.registerApplication(
-        "portfolio",
-        () => import("%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%/pages.min.js"),
-        ({ pathname }) => pathname === "/trading/portfolio"
-      );
-      singleSpa.start();
-    </script>
-  </body>
+    (function () { // Scoping function to avoid globals
+      if (accounturl.startsWith('REACT_APP_DAYTRADER') && accounturl.endsWith('ACCOUNT_MFE_URL')) {
+        if(envAccountUrl.startsWith('%REACT_APP_DAYTRADER')){
+          accounturl = 'http://localhost:3002'
+        }else{
+          accounturl = envAccountUrl
+        }
+      }
+      console.log(accounturl);
+
+      document.write('<script type="text/javascript"   src="' + accounturl + '/pages.min.js"><\/script>');
+    })();
+
+    var portfoliourl = "REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL"
+    var envPortfolioUrl = "%REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL%"
+    console.log(envPortfolioUrl);
+
+    (function () { 
+      if (portfoliourl.startsWith('REACT_APP_DAYTRADER') && portfoliourl.endsWith('PORTFOLIO_MFE_URL')) {
+        if(envPortfolioUrl.startsWith('%REACT_APP_DAYTRADER')){
+          portfoliourl = 'http://localhost:3003'
+        }else{
+          portfoliourl = envPortfolioUrl
+        }
+      }
+
+      console.log(portfoliourl);
+
+      document.write('<script type="text/javascript" src="' + portfoliourl + '/pages.min.js"><\/script>');
+    })();
+
+    var quotesurl = "REACT_APP_DAYTRADER_QUOTES_MFE_URL"
+    var envQuotesUrl = "%REACT_APP_DAYTRADER_QUOTES_MFE_URL%"
+    console.log(envQuotesUrl);
+
+    (function () {
+      if (quotesurl.startsWith('REACT_APP_DAYTRADER') && quotesurl.endsWith('QUOTES_MFE_URL')) {
+        if(envQuotesUrl.startsWith('%REACT_APP_DAYTRADER')){
+          quotesurl = 'http://localhost:3004'
+        }else{
+          quotesurl = envQuotesUrl
+        }
+      }
+      console.log(quotesurl);
+      document.write('<script   type="text/javascript"   src="' + quotesurl + '/pages.min.js"><\/script>');
+    })();
+  </script>
+
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <div id="quotes"></div>
+  <div id="portfolio"></div>
+  <div id="accounts"></div>
+  <div id="end-point-url" data-end-point="GATEWAY_END_POINT_URL"></div>
+
+  <script type="module">
+    singleSpa.registerApplication(
+      "quotes",
+      () => import(quotesurl+"/pages.min.js"),
+      ({ pathname }) => pathname === "/trading/quotes"
+    );
+    singleSpa.registerApplication(
+      "accounts",
+      () => import(accounturl+"/pages.min.js"),
+      ({ pathname }) => pathname === "/trading/accounts"
+    );
+    singleSpa.registerApplication(
+      "portfolio",
+      () => import(portfoliourl+"/pages.min.js"),
+      ({ pathname }) => pathname === "/trading/portfolio"
+    );
+    singleSpa.start();
+  </script>
+</body>
+
 </html>

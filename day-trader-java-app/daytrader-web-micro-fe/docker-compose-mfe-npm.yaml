@@ -2,36 +2,47 @@ version: '3.4'
 
 services:
   daytrader-container-mfe:
-    image: azseed/daytrader-web-mfe-container-npm:0
+    # image: azseed/daytrader-web-mfe-container-npm:0
+    image: daytrader-web-mfe-container-npm:0
+
     ports:
       - "3001:3001"
     restart: always  
     environment:
-      - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http://localhost:3002
-      - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http://localhost:3003  
-      - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:3004 
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+      - REACT_APP_DAYTRADER_ACCOUNT_MFE_URL=http://40.91.203.79:3002
+      - REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL=http://40.91.203.79:3003  
+      - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://40.91.203.79:3004 
 
   daytrader-account-mfe:
-    image: azseed/daytrader-web-mfe-accounts-npm:0
+    # image: azseed/daytrader-web-mfe-accounts-npm:0
+    image: daytrader-web-mfe-accounts-npm:0
+
     ports:
       - "3002:3002"
     restart: always
     environment:
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
 
 
   daytrader-portfolio-mfe:
-    image: azseed/daytrader-web-mfe-portfolios-npm:0
+    # image: azseed/daytrader-web-mfe-portfolios-npm:0
+    image: daytrader-web-mfe-portfolios-npm:0
+
     ports:
       - "3003:3003"
     restart: always
     environment:
-      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://localhost:2443
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
 
   
   daytrader-quotes-mfe:
-    image: azseed/daytrader-web-mfe-quotes-npm:0
+    # image: azseed/daytrader-web-mfe-quotes-npm:0
+    image: daytrader-web-mfe-quotes-npm:0
+
     ports:
       - "3004:3004"
     restart: always
-    environment:
+    environment: 
+      - REACT_APP_DAYTRADER_GATEWAY_SERVICE=https:\/\/40.91.203.79:2443
+
