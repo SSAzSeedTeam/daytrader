@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.math.BigDecimal;
 
+import com.ofss.daytrader.core.beans.SessionHolder;
+import com.ofss.daytrader.core.beans.SpringContext;
 
 
 /**
@@ -394,7 +396,13 @@ public class TradeServletAction {
             { 	
             	// Login was successful
             	Log.trace("TradeServletAction#doLogin() - login was successful");
-
+				
+				//Shibu - start				
+				SessionHolder sh = SpringContext.getBean(SessionHolder.class);				
+				String token = (String) sh.getJwtToken();
+				System.out.println("In TradeServletAction.doLogin() - old token : token="+token);
+				//Shibu - end
+				
             	// Invalidate the old session; if there is one
        			HttpSession oldSession = req.getSession(false);
        			if (oldSession != null) 
@@ -422,6 +430,15 @@ public class TradeServletAction {
             	// Now you can generate the new session               
             	HttpSession session = req.getSession(true);
             	session.setMaxInactiveInterval(5*60);
+				
+				//Shibu - start
+				//HttpSession session = req.getSession(true);
+				SessionHolder seh = SpringContext.getBean(SessionHolder.class);
+				seh.setHttpSession(session);
+				seh.setJwtToken(token);
+				System.out.println("In TradeServletAction.doLogin() : session="+session);
+				System.out.println("In TradeServletAction.doLogin() : token="+token);
+				//Shibu - end
             	
             	// And add the new UserID cookie
 				resp.addCookie(CookieUtils.newCookie("uidBean",userID));

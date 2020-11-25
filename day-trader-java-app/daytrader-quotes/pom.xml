@@ -229,6 +229,58 @@
     <version>1.0.0.Alpha1</version>
 </dependency> -->
 
+	<!-- JWT Dependencies -->
+		<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-jwt</artifactId>
+    <version>1.0.9.RELEASE</version>
+</dependency>
+
+	<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.10</version>
+        </dependency>
+        
+        <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>5.4.0</version>
+</dependency>
+    
+    <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>5.4.0</version>
+</dependency>
+	
+	
+    <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+     <version>5.4.0</version>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+<dependency>
+    <groupId>com.nimbusds</groupId>
+    <artifactId>nimbus-jose-jwt</artifactId>
+    <version>8.19</version>
+</dependency>
+		
+		<!-- End -->
+	
+	 <dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>1.3.2</version>
+</dependency>
     </dependencies>
 
     <build>
@@ -298,10 +350,10 @@
                 <daytraderLogLevel>TRACE</daytraderLogLevel>
                 <daytraderLogFilename>/var/log/daytrader/${daytraderAppArtifactId}-${daytraderAppVersion}.log</daytraderLogFilename>
                 <daytraderLogAppender>ConsoleAppender</daytraderLogAppender>
-                <accountsServiceRoute>https://localhost:1443</accountsServiceRoute>
-                <gatewayServiceRoute>https://localhost:2443</gatewayServiceRoute>
-                <portfoliosServiceRoute>https://localhost:3443</portfoliosServiceRoute>
-                <quotesServiceRoute>https://localhost:4443</quotesServiceRoute>
+                <accountsServiceRoute>http://localhost:1443</accountsServiceRoute>
+                <gatewayServiceRoute>http://localhost:2443</gatewayServiceRoute>
+                <portfoliosServiceRoute>http://localhost:3443</portfoliosServiceRoute>
+                <quotesServiceRoute>http://localhost:4443</quotesServiceRoute>
                 <daytraderTruststoreLocation>${daytraderKeystoreFolder}/truststore.jks</daytraderTruststoreLocation>
                 <daytraderTruststorePassword>password</daytraderTruststorePassword>     
             </properties>

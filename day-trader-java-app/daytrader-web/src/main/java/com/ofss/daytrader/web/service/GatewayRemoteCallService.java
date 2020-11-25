@@ -18,18 +18,42 @@
 
 package com.ofss.daytrader.web.service;
 
+import java.io.IOException;
 // java
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 // spring
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.ofss.daytrader.core.api.*;
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.entities.*;
@@ -62,8 +86,10 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	private static String gatewayServiceRoute = System.getenv("DAYTRADER_GATEWAY_SERVICE");
-	   
+	//@Value("${DAYTRADER_GATEWAY_SERVICE}")
+	private static String gatewayServiceRoute="http://localhost:2443";
+	//@Value("${DAYTRADER_AUTH_SERVICE}")
+	private static String daytraderAuthService="http://localhost:1555";
 	   
 	   /**
 		*
@@ -172,8 +198,57 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 		*/
 	    public AccountDataBean login(String userID, String password) throws Exception 
 	    {    
+			System.out.println("inside we ui gate way remote call login : " + daytraderAuthService);
+			String authUrl = daytraderAuthService + "/authenticate";
+
+			 HttpPost post = new HttpPost(authUrl);
+     		 // add request parameter, form parameters
+			 HttpClient httpclient = HttpClients.createDefault();
+			 List<NameValuePair> params = new ArrayList<NameValuePair>();
+			 params.add(new BasicNameValuePair("username", userID));
+			 params.add(new BasicNameValuePair("password", password));
+			 post.setEntity(new UrlEncodedFormEntity(params));
+			
+			HttpResponse response = null;
+			String result = null;
+			try {
+				response = httpclient.execute(post);
+				result = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("result:---- " + result);
+			Gson gson = new Gson();
+
+			JwtResponse jwtResponse = gson.fromJson(result, JwtResponse.class);
+
+			String accessToken = jwtResponse.getToken();
+			System.out.println("accessToken--: " + accessToken);
 	    	String url = gatewayServiceRoute + "/login/" + userID;
 			Log.debug("GatewayRemoteCallService.login() - " + url);
+
+//			RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+//	    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+//	        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+//	        HttpServletRequest httprequest = attributes.getRequest();
+//	        HttpSession httpSession = httprequest.getSession(true);
+//	        System.out.println("session - " + httpSession);
+//	        httpSession.setAttribute("token",accessToken);
+//	        System.out.println("accesstoken value in login() - " + accessToken);
+//	        
+
+			try {
+				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+				HttpSession httpSession = sh.getHttpSession();
+		        System.out.println("In GatewayRemoteCallService.login() : session="+httpSession);
+		        sh.setJwtToken(accessToken);
+		        System.out.println("In GatewayRemoteCallService.login() : accessToken="+accessToken);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			
 	    	String responseEntity = invokeEndpoint(url, "PATCH", password);
 	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);	    
 	    	return accountData;
@@ -200,6 +275,25 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    public AccountDataBean register(String userID, String password, String fullname, 
 	    		String address, String email, String creditCard, BigDecimal openBalance) throws Exception 
 	    {
+
+	    	
+	    	//first register in auth server
+			 String userurl = "http://localhost:1555/registeruser";
+			 
+			 System.out.println("Calling auth servers url while register - " + userurl);
+			 HttpClient httpclient = HttpClients.createDefault();
+			 HttpPost post = new HttpPost(userurl);
+			 List<NameValuePair> params = new ArrayList<NameValuePair>();
+			 params.add(new BasicNameValuePair("username", userID));
+			 params.add(new BasicNameValuePair("password", password));
+			 post.setEntity(new UrlEncodedFormEntity(params));
+			 
+			 
+			 httpclient.execute(post);
+			 System.out.println("Completed - Calling auth servers url while register");
+			 // Bala - End
+	    	
+	    	
 	    	String url = gatewayServiceRoute + "/accounts";
 			Log.debug("GatewayRemoteCallService.register() - " + url);
 
@@ -218,6 +312,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    	String accountDataInString = mapper.writeValueAsString(accountData);
 	    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString);
 	    	accountData = mapper.readValue(responseEntity,AccountDataBean.class);
+	    	
 	    	return accountData;
 	    }
 	

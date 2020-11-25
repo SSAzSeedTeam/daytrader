@@ -51,7 +51,10 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	  private static String accountsServiceRoute = System.getenv("DAYTRADER_ACCOUNTS_SERVICE");	
+	  //bala - start 
+	  //private static String accountsServiceRoute = System.getenv("DAYTRADER_ACCOUNTS_SERVICE");	
+	  private static String accountsServiceRoute = "http://localhost:1443";
+	  // bala - end
 
 	   /**
 		*
@@ -139,7 +142,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 	*
 	*/
     public AccountDataBean login(String userID, String password) throws Exception 
-    {    
+    {    System.out.println("inside login in accountsremotecallservice");
     	String url = accountsServiceRoute + "/login/" + userID;
 		Log.debug("AccountsRemoteCallService.login() - " + url);
     	String responseEntity = invokeEndpoint(url, "PATCH", password);

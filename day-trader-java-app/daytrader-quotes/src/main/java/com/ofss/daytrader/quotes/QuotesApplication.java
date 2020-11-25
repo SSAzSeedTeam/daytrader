@@ -37,6 +37,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
 //
 // Defining Application class
@@ -58,5 +59,11 @@ public class QuotesApplication {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(QuotesApplication.class, args);
 	}
+	
+
+	@Bean
+	 RestTemplate restTemplate() {
+	        return new RestTemplate();
+	    }
 }
 

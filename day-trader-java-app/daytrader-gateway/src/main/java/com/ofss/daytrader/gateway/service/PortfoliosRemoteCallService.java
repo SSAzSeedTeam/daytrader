@@ -55,7 +55,10 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	private static String portfoliosServiceRoute = System.getenv("DAYTRADER_PORTFOLIOS_SERVICE");
+	//bala - start 
+	//private static String portfoliosServiceRoute = System.getenv("DAYTRADER_PORTFOLIOS_SERVICE");
+	private static String portfoliosServiceRoute = "http://localhost:3443";
+	//bala - end 
 	
 	   /**
 		*
