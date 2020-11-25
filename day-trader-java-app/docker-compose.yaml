@@ -84,8 +84,8 @@ services:
       - daytrader-portfolios
       - daytrader-quotes
 
-  daytrader-web-react:
-    image: azseed/daytrader-web-react:1.9
+  daytrader-web-react-npm:
+    image: azseed/daytrader-web-react-npm:1.9
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
       - DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway:2443
