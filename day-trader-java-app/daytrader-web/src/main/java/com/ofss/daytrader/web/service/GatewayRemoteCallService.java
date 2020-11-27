@@ -86,10 +86,10 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 //
 //  - Naming convention based service discovery 
-	//@Value("${DAYTRADER_GATEWAY_SERVICE}")
-	private static String gatewayServiceRoute="http://localhost:2443";
-	//@Value("${DAYTRADER_AUTH_SERVICE}")
-	private static String daytraderAuthService="http://localhost:1555";
+	@Value("${DAYTRADER_GATEWAY_SERVICE}")
+	private String gatewayServiceRoute;
+	@Value("${DAYTRADER_AUTH_SERVICE}")
+	private String daytraderAuthService;
 	   
 	   /**
 		*
@@ -278,7 +278,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 	    	
 	    	//first register in auth server
-			 String userurl = "http://localhost:1555/registeruser";
+			 String userurl = daytraderAuthService + "/registeruser";
 			 
 			 System.out.println("Calling auth servers url while register - " + userurl);
 			 HttpClient httpclient = HttpClients.createDefault();

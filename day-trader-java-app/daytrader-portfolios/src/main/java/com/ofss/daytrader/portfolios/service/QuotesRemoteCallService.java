@@ -27,6 +27,7 @@ import com.ofss.daytrader.entities.*;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * The remote call service to the quotes microservice.
@@ -50,7 +51,9 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 
 	//
 //  - Naming convention based service discovery 
-	private static String quotesServiceRoute = System.getenv("DAYTRADER_QUOTES_SERVICE");
+    @Value("${DAYTRADER_QUOTES_SERVICE}")
+	private String quotesServiceRoute;
+	//private static String quotesServiceRoute = System.getenv("DAYTRADER_QUOTES_SERVICE");
 
 	/**
 	 * 

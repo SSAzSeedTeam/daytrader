@@ -27,6 +27,8 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * The TradeJDBCDirect class is a session facade that simplifies the interaction between
@@ -36,10 +38,13 @@ import java.util.Collection;
  * include login, logout, buy, sell, getQuote, etc. 
  */
 
+@Component
 public class TradeJDBCDirect implements TradeServices, TradeDBServices 
 {
 
-	private static GatewayRemoteCallService tradesGateway = new GatewayRemoteCallService();	
+    @Autowired
+	private GatewayRemoteCallService tradesGateway;
+	//private static GatewayRemoteCallService tradesGateway = new GatewayRemoteCallService();	
 	
 	/**
      * Zero arg constructor for TradeJDBCDirect

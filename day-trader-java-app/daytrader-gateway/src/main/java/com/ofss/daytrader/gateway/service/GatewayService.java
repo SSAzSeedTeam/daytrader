@@ -24,6 +24,7 @@ import java.util.Collection;
 import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.entities.*;
@@ -39,9 +40,16 @@ import com.ofss.daytrader.entities.*;
 public class GatewayService {
 	
 	// TODO: Inject these services to switch between local and remote call implementations
-	private static AccountsRemoteCallService accountsService = new AccountsRemoteCallService();
-	private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
-	private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
+	@Autowired
+	private AccountsRemoteCallService accountsService;
+	@Autowired
+	private PortfoliosRemoteCallService portfoliosService;
+	@Autowired
+	private QuotesRemoteCallService quotesService;
+	
+	//private static AccountsRemoteCallService accountsService = new AccountsRemoteCallService();
+	//private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
+	//private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
 	
     /**
      * @see TradeBuildDB#TradeBuildDB(PrintWriter, String)

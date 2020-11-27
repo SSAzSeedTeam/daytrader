@@ -31,6 +31,7 @@ import com.ofss.daytrader.entities.OrderDataBean;
 import com.ofss.daytrader.entities.QuoteDataBean;
 import com.ofss.daytrader.utils.Log;
 import com.ofss.daytrader.utils.TradeConfig;
+import com.ofss.daytrader.core.beans.SpringContext;
 
 
 /**
@@ -70,7 +71,8 @@ public class TradeAction implements TradeServices {
 
         if (TradeConfig.runTimeMode == TradeConfig.EJB3) {
             try {
-                trade = new TradeJDBCDirect();
+                //trade = new TradeJDBCDirect();
+                trade = SpringContext.getBean(TradeJDBCDirect.class);
             }
             catch (Exception e) {
                 Log.error("TradeAction:TradeAction() Creation of Trade EJB 3 failed\n" + e);
@@ -78,7 +80,8 @@ public class TradeAction implements TradeServices {
             }
         } else if (TradeConfig.runTimeMode == TradeConfig.SESSION3) {
             try {
-                trade = new TradeJDBCDirect();
+                //trade = new TradeJDBCDirect();
+                trade = SpringContext.getBean(TradeJDBCDirect.class);
             }
             catch (Exception e) {
                 Log.error("TradeAction:TradeAction() Creation of Trade SESSION3 failed\n" + e);
@@ -86,7 +89,8 @@ public class TradeAction implements TradeServices {
             }
         } else if (TradeConfig.runTimeMode == TradeConfig.DIRECT) {
             try {
-                  trade = new TradeJDBCDirect();
+                //trade = new TradeJDBCDirect();
+                trade = SpringContext.getBean(TradeJDBCDirect.class);
             }
             catch (Exception e) {
                 Log.error("TradeAction:TradeAction() Creation of Trade JDBC Direct failed\n" + e);
@@ -94,7 +98,8 @@ public class TradeAction implements TradeServices {
             }
         } else if (TradeConfig.runTimeMode == TradeConfig.JDBC) {
             try {
-                trade = new TradeJDBCDirect();
+                //trade = new TradeJDBCDirect();
+                trade = SpringContext.getBean(TradeJDBCDirect.class);
             }
             catch (Exception e) {
                 Log.error("TradeAction:TradeAction() Creation of TradeJDBCDirect failed\n" + e);
@@ -102,7 +107,8 @@ public class TradeAction implements TradeServices {
             }
         } else if (TradeConfig.runTimeMode == TradeConfig.JPA) {
             try {
-                trade = new TradeJDBCDirect();
+                //trade = new TradeJDBCDirect();
+                trade = SpringContext.getBean(TradeJDBCDirect.class);
             }
             catch (Exception e) {
                 Log.error("TradeAction:TradeAction() Creation of TradeJPADirect failed\n" + e);

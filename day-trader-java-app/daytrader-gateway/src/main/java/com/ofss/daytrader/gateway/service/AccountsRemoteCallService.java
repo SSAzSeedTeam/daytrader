@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 // Spring
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * The remote call service to the accounts microservice.
@@ -50,11 +51,8 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 	}
 
 //
-//  - Naming convention based service discovery 
-	  //bala - start 
-	  //private static String accountsServiceRoute = System.getenv("DAYTRADER_ACCOUNTS_SERVICE");	
-	  private static String accountsServiceRoute = "http://localhost:1443";
-	  // bala - end
+    @Value("${DAYTRADER_ACCOUNTS_SERVICE}")
+    private String accountsServiceRoute;
 
 	   /**
 		*

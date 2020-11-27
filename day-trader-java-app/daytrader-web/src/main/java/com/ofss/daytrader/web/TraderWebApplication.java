@@ -48,8 +48,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-@ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
-@ComponentScan(basePackages={"com.ofss.daytrader.core.beans"})
+@ServletComponentScan(basePackages={"com.ofss.daytrader"})
+@ComponentScan(basePackages={"com.ofss.daytrader"})
 @SpringBootApplication
 public class TraderWebApplication extends SpringBootServletInitializer {
 	

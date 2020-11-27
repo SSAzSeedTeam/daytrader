@@ -34,6 +34,7 @@ import java.util.Collection;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 //Spring
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
 * The remote call service to the accounts microservice.
@@ -54,11 +55,9 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 	}
 
 //
-//  - Naming convention based service discovery 
-	//bala - start 
 	//private static String portfoliosServiceRoute = System.getenv("DAYTRADER_PORTFOLIOS_SERVICE");
-	private static String portfoliosServiceRoute = "http://localhost:3443";
-	//bala - end 
+    @Value("${DAYTRADER_PORTFOLIOS_SERVICE}")
+	private String portfoliosServiceRoute;
 	
 	   /**
 		*

@@ -25,6 +25,7 @@ import com.ofss.daytrader.entities.AccountDataBean;
 
 // Spring Framework
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 
 
@@ -49,9 +50,8 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		mapper = new ObjectMapper(); // create once, reuse
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // ignore properties that are not declared
 	}
-
-//  - Naming convention based service discovery 
-	  private static String portfoliosServiceRoute = System.getenv("DAYTRADER_PORTFOLIOS_SERVICE");	
+    @Value("${DAYTRADER_PORTFOLIOS_SERVICE}")
+    private String portfoliosServiceRoute;// = System.getenv("DAYTRADER_PORTFOLIOS_SERVICE");	
 		
    /**
 	*

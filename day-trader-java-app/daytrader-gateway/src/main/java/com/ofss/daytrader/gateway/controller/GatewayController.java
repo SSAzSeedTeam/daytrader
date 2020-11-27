@@ -53,6 +53,7 @@ import com.ofss.daytrader.entities.QuoteDataBean;
 import com.ofss.daytrader.gateway.cache.CachedObjectBean;
 import com.ofss.daytrader.gateway.service.GatewayService;
 import com.ofss.daytrader.gateway.utils.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -87,7 +88,9 @@ import com.ofss.daytrader.gateway.utils.Log;
 @RestController
 public class GatewayController
 {
-	private static GatewayService gatewayService = new GatewayService();
+	@Autowired
+	private GatewayService gatewayService;
+//	private static GatewayService gatewayService = new GatewayService();
 
 	//
 	// Account Related Endpoints

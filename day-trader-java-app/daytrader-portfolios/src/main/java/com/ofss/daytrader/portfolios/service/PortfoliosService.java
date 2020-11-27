@@ -101,7 +101,9 @@ public class PortfoliosService
 	private KeygenRepository keygenRepository;
     
     //	- Enables portfolios microservice to consume accounts and quotes microservices
-    private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
+    @Autowired
+    private QuotesRemoteCallService quotesService;
+    //private static QuotesRemoteCallService quotesService = new QuotesRemoteCallService();
 
     /**
      * Zero arg constructor for PortfoliosService
