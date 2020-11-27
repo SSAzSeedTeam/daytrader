@@ -120,6 +120,7 @@ public class BaseRemoteCallService {
 
     public static Response sendRequest(String url, String method, String body, int connTimeOut) 
     {
+        System.out.println("In BaseRemoteCallService.sendrequest() of Accounts : url="+url);
     	Response response = null;
     	String finalToken = "";
     	// Jersey client doesn't support the Http PATCH method without this workaround

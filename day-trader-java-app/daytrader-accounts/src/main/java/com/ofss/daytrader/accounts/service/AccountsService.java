@@ -85,8 +85,9 @@ public class AccountsService
 	// moved to the Portfolios Service.
 	
 	
-	
-    private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
+	@Autowired
+    PortfoliosRemoteCallService portfoliosService;
+    //private static PortfoliosRemoteCallService portfoliosService = new PortfoliosRemoteCallService();
 
 	
 	//	- Each microservice has their own private database (datasource)
