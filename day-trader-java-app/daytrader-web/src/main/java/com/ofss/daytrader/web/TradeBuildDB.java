@@ -33,6 +33,7 @@ import com.ofss.daytrader.entities.AccountProfileDataBean;
 import com.ofss.daytrader.entities.OrderDataBean;
 import com.ofss.daytrader.entities.QuoteDataBean;
 import com.ofss.daytrader.utils.*;
+import com.ofss.daytrader.core.beans.SpringContext;
 
 /**
  * TradeBuildDB uses operations provided by the TradeApplication to 
@@ -59,7 +60,8 @@ public class TradeBuildDB {
 
         if (warPath != null) 
         {
-            TradeDBServices tradeDB = new TradeJDBCDirect();
+            //TradeDBServices tradeDB = new TradeJDBCDirect();
+            TradeDBServices tradeDB = SpringContext.getBean(TradeJDBCDirect.class);
 
             boolean success = false;
             Object[] sqlBuffer = null;
@@ -90,7 +92,8 @@ public class TradeBuildDB {
 
         boolean success = false;
         
-        TradeJDBCDirect tradesService = new TradeJDBCDirect();
+        //TradeJDBCDirect tradesService = new TradeJDBCDirect();
+        TradeJDBCDirect tradesService = SpringContext.getBean(TradeJDBCDirect.class);
         
         // Re-populate the quotes
         out.println("<BR>TradeBuildDB: **** Creating " + TradeConfig.getMAX_QUOTES() + " Quotes ****</BR>");
