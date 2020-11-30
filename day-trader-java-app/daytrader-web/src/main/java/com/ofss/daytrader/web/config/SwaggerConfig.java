@@ -18,6 +18,8 @@
 package com.ofss.daytrader.web.config;
 
 import com.google.common.base.Predicates;
+import brave.sampler.Sampler;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,4 +41,11 @@ public class SwaggerConfig {
           .paths(Predicates.not(PathSelectors.regex("/error"))) // exclude Spring error controller
           .build();                                           
     }
+	  @Bean 
+	  public Sampler defaultSampler() {
+		//	public AlwaysSampler alwaysSampler() {
+				//return new AlwaysSampler();
+		 return  Sampler.ALWAYS_SAMPLE;
+			}
+    
 }

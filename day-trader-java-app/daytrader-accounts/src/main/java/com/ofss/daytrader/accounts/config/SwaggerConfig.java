@@ -19,6 +19,7 @@ package com.ofss.daytrader.accounts.config;
 
 import com.google.common.base.Predicates;
 
+//import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,6 +28,9 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import brave.sampler.Sampler;
+//import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
+
 
 @Configuration
 @EnableSwagger2
@@ -39,4 +43,13 @@ public class SwaggerConfig {
           .paths(Predicates.not(PathSelectors.regex("/error"))) // exclude Spring error controller
           .build();                                           
     }
+
+	
+	  @Bean public Sampler defaultSampler() { 
+	   return Sampler.ALWAYS_SAMPLE;
+	  }
+	/*	@Bean
+		public AlwaysSampler defaultSampler() {
+			return new AlwaysSampler();
+		}*/
 }
