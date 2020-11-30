@@ -1,1 +1,1 @@
-call .\env\external\springboot\bin\start_server.bat
+java -jar target/daytrader-portfolios-1.0.war

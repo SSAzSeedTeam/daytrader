@@ -1,19 +1,23 @@
-cd daytrader-accounts
-call .\env\external\springboot\bin\start_server.bat
-cd ..\..\..
+REM  DO NOT USE this script
+REM  Go to individual project and run application start script from there
 
-cd daytrader-gateway
-call .\env\external\springboot\bin\start_server.bat
-cd ..\..\..
-
-cd daytrader-portfolios
-call .\env\external\springboot\bin\start_server.bat
-cd ..\..\..
-
-cd daytrader-quotes
-call .\env\external\springboot\bin\start_server.bat
-cd ..\..\..
-
-cd daytrader-web
-call .\env\external\springboot\bin\start_server.bat
-cd ..\..\..
+REM cd daytrader-accounts
+REM call .\env\external\springboot\bin\start_server.bat
+REM cd ..\..\..
+REM 
+REM cd daytrader-gateway
+REM call .\env\external\springboot\bin\start_server.bat
+REM cd ..\..\..
+REM 
+REM cd daytrader-portfolios
+REM call .\env\external\springboot\bin\start_server.bat
+REM cd ..\..\..
+REM 
+REM cd daytrader-quotes
+REM call .\env\external\springboot\bin\start_server.bat
+REM cd ..\..\..
+REM 
+REM cd daytrader-web
+REM call .\env\external\springboot\bin\start_server.bat
+REM cd ..\..\..
+REM 

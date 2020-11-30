@@ -1,1 +1,1 @@
-call .\env\external\springboot\bin\start_server.bat
+java -jar target/daytrader-web-1.0.war
