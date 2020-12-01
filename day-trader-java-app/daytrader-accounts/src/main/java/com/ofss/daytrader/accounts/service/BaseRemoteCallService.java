@@ -17,6 +17,7 @@
 
 package com.ofss.daytrader.accounts.service;
 
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
@@ -38,7 +39,12 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.springframework.http.HttpHeaders;
-
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpMethod;
+import java.util.Collections;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.ofss.daytrader.accounts.utils.SessionHolder;
 import com.ofss.daytrader.accounts.utils.SpringContext;
 
@@ -48,6 +54,9 @@ import com.ofss.daytrader.accounts.utils.SpringContext;
 //will cause server messages to be lost. For debugging, you will need the server log messages.
 
 public class BaseRemoteCallService {
+	
+	  @Autowired private RestTemplate template;
+	 
 	
     public static String invokeEndpoint(String url, String method, String body) throws Exception
     {
@@ -118,7 +127,7 @@ public class BaseRemoteCallService {
         return responseEntity;
     }
 
-    public static Response sendRequest(String url, String method, String body, int connTimeOut) 
+    public static ResponseEntity<Response> sendRequest(String url, String method, String body, int connTimeOut) 
     {
         System.out.println("In BaseRemoteCallService.sendrequest() of Accounts : url="+url);
     	Response response = null;
@@ -145,8 +154,17 @@ public class BaseRemoteCallService {
 	    	else finalToken = "Bearer ";
 	    	System.out.println("finaltoken: "+finalToken);
 	    	WebTarget target = client.target(url);
-	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
-		} catch(Exception e) {
+	       //  response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+	         HttpHeaders headers = new HttpHeaders();
+			  headers.set(HttpHeaders.AUTHORIZATION, finalToken);
+			  headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			  
+			  HttpEntity<String> entity = new HttpEntity<>("body", headers);
+			 
+
+	       response=template.exchange(url, HttpMethod.GET, entity, Object[].class);
+
+        } catch(Exception e) {
 			e.printStackTrace();
 		}
         

@@ -28,6 +28,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import brave.sampler.Sampler;
+import org.springframework.web.client.RestTemplate;
+
 
 
 @Configuration
@@ -47,4 +49,8 @@ public class SwaggerConfig {
 				//return new AlwaysSampler();
 		 return  Sampler.ALWAYS_SAMPLE;
 			}
+		@Bean
+		public RestTemplate getRestTemplate() {
+			return new RestTemplate();
+		}
 }

@@ -18,6 +18,12 @@
 package com.ofss.daytrader.gateway.service;
 
 import javax.servlet.http.HttpSession;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpMethod;
+import java.util.Collections;
+
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ClientErrorException;
@@ -41,6 +47,8 @@ import org.springframework.http.HttpHeaders;
 
 import com.ofss.daytrader.gateway.utils.SessionHolder;
 import com.ofss.daytrader.gateway.utils.SpringContext;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 
@@ -51,6 +59,11 @@ import com.ofss.daytrader.gateway.utils.SpringContext;
 
 public class BaseRemoteCallService {
 	
+	
+	  @Autowired private static RestTemplate template;
+	 
+	 
+
     public static String invokeEndpoint(String url, String method, String body) throws Exception
     {
     	return invokeEndpoint(url, method, body, -1);
@@ -126,6 +139,7 @@ public class BaseRemoteCallService {
     	String finalToken = "";
     	Response response = null;
         System.out.println("Gateway.sendRequest():url="+url);
+        System.out.println("Method is ="+method);
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
         		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
@@ -147,10 +161,21 @@ public class BaseRemoteCallService {
 	    	else finalToken = "Bearer ";
 	    	System.out.println("finaltoken: "+finalToken);
 	        WebTarget target = client.target(url);
-	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
-		} catch(Exception e) {
+	        
+			
+			  HttpHeaders headers = new HttpHeaders();
+			  headers.set(HttpHeaders.AUTHORIZATION, finalToken);
+			  headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			  
+			  HttpEntity<String> entity = new HttpEntity<>("body", headers);
+			 
+
+	       response=template.exchange(url, HttpMethod.GET, entity, Object[].class);
+	        // response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+	 	
+        } catch(Exception e) {
 			e.printStackTrace();
-		}
+		}                   
 		
         return response;
     }
