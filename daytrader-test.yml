@@ -45,14 +45,17 @@ steps:
     workingDirectory: 'postman-testing/'
     failOnStderr: true
 
-
-- task: PublishTestResults@2
-  #continueOnError: true
+- task: UploadPostmanHtmlReport@1
   inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'postman-testing/postman_results/**.xml'
-    mergeTestResults: true
-    failTaskOnFailedTests: true
+    cwd: 'postman-testing/postman_results/**.html'
+
+#- task: PublishTestResults@2
+#  #continueOnError: true
+#  inputs:
+#    testResultsFormat: 'JUnit'
+#    testResultsFiles: 'postman-testing/postman_results/**.xml'
+#    mergeTestResults: true
+#    failTaskOnFailedTests: true
 
 - task: JMeterInstaller@0
   inputs:
