@@ -56,7 +56,7 @@ steps:
   #continueOnError: true
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'postman-testing/postman_results/**.xml'
+    testResultsFiles: 'postman-testing/postman_results/'
     mergeTestResults: true
     failTaskOnFailedTests: true
 
