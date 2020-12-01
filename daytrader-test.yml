@@ -52,13 +52,13 @@ steps:
   inputs:
     cwd: 'postman-testing/postman_results/'
 
-#- task: PublishTestResults@2
-#  #continueOnError: true
-#  inputs:
-#    testResultsFormat: 'JUnit'
-#    testResultsFiles: 'postman-testing/postman_results/**.xml'
-#    mergeTestResults: true
-#    failTaskOnFailedTests: true
+- task: PublishTestResults@2
+  #continueOnError: true
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'postman-testing/postman_results/**.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
 
 - task: JMeterInstaller@0
   inputs:
