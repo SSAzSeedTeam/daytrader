@@ -16,4 +16,4 @@ newman run accounts.postman_collection.json         --insecure --reporters cli,j
 newman run portfolio.postman_collection.json        --insecure --reporters cli,junit --reporter-junit-export postman_results/portfolioResult.xml
 newman run quotes.postman_collection.json           --insecure --reporters cli,junit --reporter-junit-export postman_results/quotesResult.xml
 
-newman run daytrader_automation_suite.postman_collection.json -e localhost_testing_env.postman_environment.json --insecure  --reporters cli,junit --reporter-junit-export postman_results/daytrader_automationResult.xml
+newman run daytrader_automation_suite.postman_collection.json -e localhost_testing_env.postman_environment.json --insecure  --reporters cli,htmlextra --reporter-htmlextra-export postman_results/daytrader_automationResult.html
