@@ -29,6 +29,9 @@ steps:
 #- task: SonarCloudPublish@1
 #  inputs:
 #    pollingTimeoutSec: '300'
+- task: CmdLine@2
+  inputs:
+    script: 'npm install -g newman-reporter-htmlextra'
 
 - task: DockerCompose@0
   inputs:
