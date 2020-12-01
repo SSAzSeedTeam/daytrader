@@ -50,7 +50,7 @@ steps:
 
 - task: UploadPostmanHtmlReport@1
   inputs:
-    cwd: 'postman-testing/postman_results/**.html'
+    cwd: '$(System.DefaultWorkingDirectory)'
 
 #- task: PublishTestResults@2
 #  #continueOnError: true
