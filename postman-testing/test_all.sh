@@ -1,5 +1,5 @@
 #installing newman htmlextra repoter
-npm install -g newman-reporter-htmlextra
+#npm install -g newman-reporter-htmlextra
 
 #sleep for sometime to allow docker compose to start all servers....
 
