@@ -17,6 +17,8 @@
 
 package com.ofss.daytrader.web.service;
 
+import java.util.Collections;
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
@@ -37,7 +39,13 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.ofss.daytrader.core.beans.SessionHolder;
 import com.ofss.daytrader.core.beans.SpringContext;
@@ -49,6 +57,9 @@ import com.ofss.daytrader.core.beans.SpringContext;
 
 public class BaseRemoteCallService {
 
+	@Autowired
+	private static RestTemplate template;
+
     public static String invokeEndpoint(String url, String method, String body) throws Exception
     {
     	return invokeEndpoint(url, method, body, -1);
@@ -56,8 +67,8 @@ public class BaseRemoteCallService {
     
     public static String invokeEndpoint(String url, String method, String body, int connTimeOut) throws Exception
     {       	
-   		Response  response = sendRequest(url, method, body, connTimeOut);
-   		int responseCode = response.getStatus();
+   		ResponseEntity  response = sendRequest(url, method, body, connTimeOut);
+   		int responseCode = response.getStatusCodeValue();
    		
    		// switch statement 
    		switch(responseCode)
@@ -113,15 +124,16 @@ public class BaseRemoteCallService {
        			}
    		}
    		
-   		String responseEntity = response.readEntity(String.class);
-   		response.close();
+   		String responseEntity = (String) response.getBody();
         return responseEntity;
     }
 
-    public static Response sendRequest(String url, String method, String body, int connTimeOut) 
+    public static ResponseEntity sendRequest(String url, String method, String body, int connTimeOut) 
     {
         System.out.println("Web.sendRequest():url="+url);
         Response response = null;
+		ResponseEntity responseEntity=null;
+
         String finalToken = "";
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
@@ -147,11 +159,21 @@ public class BaseRemoteCallService {
 	    	System.out.println("finaltoken: "+finalToken);
 	        WebTarget target = client.target(url);
 	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+				System.out.println("response from web" + response);
+
+				
+	      	HttpHeaders headers = new HttpHeaders();
+			headers.set(HttpHeaders.AUTHORIZATION, finalToken);
+			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			HttpEntity<String> entity = new HttpEntity<String>(headers);
+			responseEntity = template.exchange(url, HttpMethod.GET, entity, ResponseEntity.class);
+			System.out.println("responseEntity from account" + responseEntity);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
 	
-        return response;
+        return responseEntity;
     }
 }

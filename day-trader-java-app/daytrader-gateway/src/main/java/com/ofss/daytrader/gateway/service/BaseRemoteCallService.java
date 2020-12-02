@@ -22,6 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Collections;
 
 import javax.transaction.NotSupportedException;
@@ -50,133 +52,119 @@ import com.ofss.daytrader.gateway.utils.SpringContext;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-
 //
 //Don't do any logging from the base remote call service unless you send it to its own logger;
 //otherwise the log messages will be written to the integration test and to the server log and
 //will cause server messages to be lost. For debugging, you will need the server log messages.
 
 public class BaseRemoteCallService {
-	
-	
-	  @Autowired private static RestTemplate template;
-	 
-	 
 
-    public static String invokeEndpoint(String url, String method, String body) throws Exception
-    {
-    	return invokeEndpoint(url, method, body, -1);
-    }
-    
-    public static String invokeEndpoint(String url, String method, String body, int connTimeOut) throws Exception
-    {       	
-   		Response  response = sendRequest(url, method, body, connTimeOut);
-   		int responseCode = response.getStatus();
-   		
-   		// switch statement 
-   		switch(responseCode)
-   		{
-   		   	case 400 :
-   	   		   	// Malformed message 
-   	   			throw new BadRequestException("Malformed message from : " + url);
-   		   
-   		   	case 401 :
-   		   		// Authentication failure
-   	   			throw new NotAuthorizedException("Authentication failure from : " + url);
+	@Autowired
+	private static RestTemplate template;
 
-      	   case 403 :
-      		   // Not permitted to access
-  	   			throw new ForbiddenException("Not permitted to access from : " + url);
-      		   
-   		  	case 404 :
-   		  		// Couldn't find resource
-   	   			throw new NotFoundException("Couldn't find resource from : " + url);
-   		  		
-   		  	case 405 :
-       		    // HTTP method not supported
-   		  		throw new NotAllowedException("HTTP method not supported from : " + url);
+	public static String invokeEndpoint(String url, String method, String body) throws Exception {
+		return invokeEndpoint(url, method, body, -1);
+	}
 
-   		  	case 406 :
-     		      // Client media type requested not supported
-   	   			throw new NotAcceptableException("Client accepts media type not supported from : " + url);
-     		      
-   		  	case 415:
-   		  		// Client posted media type not supported
-   	   			throw new NotSupportedException("Client produces media type not supported from : " + url);
-     		      
-       		case 500 :
-       		      // General server error
-   	   			throw new InternalServerErrorException("General server error from : " + url);
+	public static String invokeEndpoint(String url, String method, String body, int connTimeOut) throws Exception {
+		ResponseEntity response = sendRequest(url, method, body, connTimeOut);
+		int responseCode = response.getStatusCodeValue();
 
-       		case 503 :
-     		      // Server is temporarily unavailable or busy
-   	   			throw new NotAuthorizedException("Server is temporarily unavailable or busy from : " + url);
-       		      
-       		default :
-       			if ( responseCode >= 300 && responseCode <= 399 )
-       			{
-       				throw new RedirectionException("A request redirection from : " + url, responseCode, null);
-       			}
-       			if ( responseCode >= 400 && responseCode <= 499 )
-       			{
-       				throw new ClientErrorException("A client request error from : " + url, responseCode);
-       			}
-       			if ( responseCode >=500 && responseCode <= 599 )
-       			{
-       				throw new ServerErrorException("A server error from : " + url, responseCode);
-       			}
-   		}
-   		
-   		String responseEntity = response.readEntity(String.class);
-   		response.close();
-        return responseEntity;
-    }
+		// switch statement
+		switch (responseCode) {
+		case 400:
+			// Malformed message
+			throw new BadRequestException("Malformed message from : " + url);
 
-    public static Response sendRequest(String url, String method, String body, int connTimeOut) 
-    {
-    	
-    	String finalToken = "";
-    	Response response = null;
-        System.out.println("Gateway.sendRequest():url="+url);
-        System.out.println("Method is ="+method);
-    	// Jersey client doesn't support the Http PATCH method without this workaround
-        Client client = ClientBuilder.newClient()
-        		.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
-        
-        if (connTimeOut > 0)
-        {
-        	client.property(ClientProperties.CONNECT_TIMEOUT, connTimeOut);
-        }
-        try {
+		case 401:
+			// Authentication failure
+			throw new NotAuthorizedException("Authentication failure from : " + url);
+
+		case 403:
+			// Not permitted to access
+			throw new ForbiddenException("Not permitted to access from : " + url);
+
+		case 404:
+			// Couldn't find resource
+			throw new NotFoundException("Couldn't find resource from : " + url);
+
+		case 405:
+			// HTTP method not supported
+			throw new NotAllowedException("HTTP method not supported from : " + url);
+
+		case 406:
+			// Client media type requested not supported
+			throw new NotAcceptableException("Client accepts media type not supported from : " + url);
+
+		case 415:
+			// Client posted media type not supported
+			throw new NotSupportedException("Client produces media type not supported from : " + url);
+
+		case 500:
+			// General server error
+			throw new InternalServerErrorException("General server error from : " + url);
+
+		case 503:
+			// Server is temporarily unavailable or busy
+			throw new NotAuthorizedException("Server is temporarily unavailable or busy from : " + url);
+
+		default:
+			if (responseCode >= 300 && responseCode <= 399) {
+				throw new RedirectionException("A request redirection from : " + url, responseCode, null);
+			}
+			if (responseCode >= 400 && responseCode <= 499) {
+				throw new ClientErrorException("A client request error from : " + url, responseCode);
+			}
+			if (responseCode >= 500 && responseCode <= 599) {
+				throw new ServerErrorException("A server error from : " + url, responseCode);
+			}
+		}
+
+		String responseEntity = (String) response.getBody();
+		return 	 responseEntity;
+		}
+
+	public static ResponseEntity sendRequest(String url, String method, String body, int connTimeOut) {
+		
+		ResponseEntity responseEntity = null;
+
+		String finalToken = "";
+		Response response = null;
+		System.out.println("Gateway.sendRequest():url=" + url);
+		System.out.println("Method is =" + method);
+		// Jersey client doesn't support the Http PATCH method without this workaround
+		Client client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
+
+		if (connTimeOut > 0) {
+			client.property(ClientProperties.CONNECT_TIMEOUT, connTimeOut);
+		}
+		try {
 			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
 			HttpSession httpSession = sh.getHttpSession();
-	        System.out.println("In BaseRemoteCallService.sendrequest() : session="+httpSession);
+			System.out.println("In BaseRemoteCallService.sendrequest() : session=" + httpSession);
 			String accessToken = sh.getJwtToken();
-	        sh.setJwtToken(accessToken);
-	        System.out.println("In BaseRemoteCallService.sendrequest() : accessToken="+accessToken);
-	    	if (accessToken != null) {
-	    		finalToken = "Bearer "+accessToken;
-	    	}
-	    	else finalToken = "Bearer ";
-	    	System.out.println("finaltoken: "+finalToken);
-	        WebTarget target = client.target(url);
-	        
-			
-			  HttpHeaders headers = new HttpHeaders();
-			  headers.set(HttpHeaders.AUTHORIZATION, finalToken);
-			  headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-			  
-			  HttpEntity<String> entity = new HttpEntity<>("body", headers);
-			 
+			sh.setJwtToken(accessToken);
+			System.out.println("In BaseRemoteCallService.sendrequest() : accessToken=" + accessToken);
+			if (accessToken != null) {
+				finalToken = "Bearer " + accessToken;
+			} else
+				finalToken = "Bearer ";
+			System.out.println("finaltoken: " + finalToken);
+			WebTarget target = client.target(url);
 
-	       response=template.exchange(url, HttpMethod.GET, entity, Object[].class);
-	        // response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
-	 	
-        } catch(Exception e) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.set(HttpHeaders.AUTHORIZATION, finalToken);
+			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			HttpEntity<String> entity = new HttpEntity<String>(headers);
+			responseEntity = template.exchange(url, HttpMethod.GET, entity, ResponseEntity.class);
+			System.out.println("responseEntity from gateway" + responseEntity);
+			response = target.request().header(HttpHeaders.AUTHORIZATION,finalToken).method(method, Entity.json(body));
+	        System.out.println("response from gateway"+response);
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}                   
-		
-        return response;
-    }
+		}
+
+		return responseEntity;
+	}
 }
