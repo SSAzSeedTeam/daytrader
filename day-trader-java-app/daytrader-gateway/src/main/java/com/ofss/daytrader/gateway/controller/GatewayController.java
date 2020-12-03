@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -88,6 +89,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class GatewayController
 {
+	@Autowired
+	RestTemplate restTemplate;
+	@Autowired
+	private static RestTemplate template;
 	@Autowired
 	private GatewayService gatewayService;
 //	private static GatewayService gatewayService = new GatewayService();

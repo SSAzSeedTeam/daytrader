@@ -17,6 +17,8 @@
 
 package com.ofss.daytrader.accounts.service;
 
+import java.util.Collections;
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
@@ -37,7 +39,13 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.ofss.daytrader.accounts.utils.SessionHolder;
 import com.ofss.daytrader.accounts.utils.SpringContext;
@@ -49,15 +57,15 @@ import com.ofss.daytrader.accounts.utils.SpringContext;
 
 public class BaseRemoteCallService {
 	
-    public static String invokeEndpoint(String url, String method, String body) throws Exception
+    public static String invokeEndpoint(String url, String method, String body,RestTemplate template) throws Exception
     {
-    	return invokeEndpoint(url, method, body, -1);
+    	return invokeEndpoint(url, method, body, -1,template);
     }
     
-    public static String invokeEndpoint(String url, String method, String body, int connTimeOut) throws Exception
+    public static String invokeEndpoint(String url, String method, String body, int connTimeOut,RestTemplate template) throws Exception
     {       	
-   		Response  response = sendRequest(url, method, body, connTimeOut);
-   		int responseCode = response.getStatus();
+   		ResponseEntity  response = sendRequest(url, method, body, connTimeOut,template);
+   		int responseCode = response.getStatusCodeValue();
    		
    		// switch statement 
    		switch(responseCode)
@@ -113,13 +121,13 @@ public class BaseRemoteCallService {
        			}
    		}
    		
-   		String responseEntity = response.readEntity(String.class);
-   		response.close();
+   		String responseEntity = (String) response.getBody();
         return responseEntity;
     }
 
-    public static Response sendRequest(String url, String method, String body, int connTimeOut) 
+    public static ResponseEntity sendRequest(String url, String method, String body, int connTimeOut,RestTemplate template) 
     {
+    	ResponseEntity 	responseEntity=null;
         System.out.println("In BaseRemoteCallService.sendrequest() of Accounts : url="+url);
     	Response response = null;
     	String finalToken = "";
@@ -145,11 +153,20 @@ public class BaseRemoteCallService {
 	    	else finalToken = "Bearer ";
 	    	System.out.println("finaltoken: "+finalToken);
 	    	WebTarget target = client.target(url);
-	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+	       //  response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+	         
+	     	HttpHeaders headers = new HttpHeaders();
+			headers.set(HttpHeaders.AUTHORIZATION, finalToken);
+			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			HttpEntity<String> entity = new HttpEntity<String>(body,headers);
+			
+			responseEntity = template.exchange(url, HttpMethod.GET, entity, ResponseEntity.class);
+			System.out.println("responseEntity from account" + responseEntity);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
         
-        return response;
+        return responseEntity;
     }
 }

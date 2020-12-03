@@ -19,8 +19,11 @@ package com.ofss.daytrader.quotes.config;
 
 import com.google.common.base.Predicates;
 
+import brave.sampler.Sampler;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -39,4 +42,12 @@ public class SwaggerConfig {
           .paths(Predicates.not(PathSelectors.regex("/error"))) // exclude Spring error controller
           .build();                                           
     }
+    @Bean 
+  public Sampler defaultSampler() {
+		 return  Sampler.ALWAYS_SAMPLE;
+		}
+@Bean
+public RestTemplate getRestTemplate() {
+	return new RestTemplate();
+}
 }

@@ -17,6 +17,9 @@
 
 package com.ofss.daytrader.gateway.service;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
 import javax.ws.rs.BadRequestException;
@@ -37,7 +40,12 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.ofss.daytrader.gateway.utils.SessionHolder;
 import com.ofss.daytrader.gateway.utils.SpringContext;
@@ -51,15 +59,15 @@ import com.ofss.daytrader.gateway.utils.SpringContext;
 
 public class BaseRemoteCallService {
 	
-    public static String invokeEndpoint(String url, String method, String body) throws Exception
+    public static String invokeEndpoint(String url, String method, String body,RestTemplate restTemplate) throws Exception
     {
-    	return invokeEndpoint(url, method, body, -1);
+    	return invokeEndpoint(url, method, body, -1,restTemplate);
     }
     
-    public static String invokeEndpoint(String url, String method, String body, int connTimeOut) throws Exception
+    public static String invokeEndpoint(String url, String method, String body, int connTimeOut,RestTemplate restTemplate) throws Exception
     {       	
-   		Response  response = sendRequest(url, method, body, connTimeOut);
-   		int responseCode = response.getStatus();
+   		ResponseEntity  response = sendRequest(url, method, body, connTimeOut,restTemplate);
+   		int responseCode = response.getStatusCodeValue();
    		
    		// switch statement 
    		switch(responseCode)
@@ -115,16 +123,16 @@ public class BaseRemoteCallService {
        			}
    		}
    		
-   		String responseEntity = response.readEntity(String.class);
-   		response.close();
+   		String responseEntity = (String) response.getBody();
         return responseEntity;
     }
 
-    public static Response sendRequest(String url, String method, String body, int connTimeOut) 
+    public static ResponseEntity sendRequest(String url, String method, String body, int connTimeOut,RestTemplate restTemplate) 
     {
     	
     	String finalToken = "";
     	Response response = null;
+    	ResponseEntity responseEntity=null;
         System.out.println("Gateway.sendRequest():url="+url);
     	// Jersey client doesn't support the Http PATCH method without this workaround
         Client client = ClientBuilder.newClient()
@@ -147,11 +155,35 @@ public class BaseRemoteCallService {
 	    	else finalToken = "Bearer ";
 	    	System.out.println("finaltoken: "+finalToken);
 	        WebTarget target = client.target(url);
-	         response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+	        // response = target.request().header(HttpHeaders.AUTHORIZATION, finalToken).method(method, Entity.json(body));
+	         
+	     	HttpHeaders headers = new HttpHeaders();
+			headers.set(HttpHeaders.AUTHORIZATION, finalToken);
+			headers.set(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			// List<MediaType> accept =  Collections.singletonList(MediaType.APPLICATION_JSON);
+			//headers.setAccept(accept);
+			HttpEntity<String> entity = new HttpEntity<String>(body,headers);
+			if(HttpMethod.GET.matches(method)) {
+				responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, ResponseEntity.class);
+				System.out.println(HttpMethod.GET.toString()+"get toString");
+			} 
+			else if(HttpMethod.POST.matches(method)) {
+				responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, ResponseEntity.class);
+			}
+			else if(HttpMethod.PUT.matches(method)) {
+				responseEntity = restTemplate.exchange(url, HttpMethod.PUT, entity, ResponseEntity.class);
+			}
+			else if(HttpMethod.PATCH.matches(method)) {
+				responseEntity = restTemplate.exchange(url, HttpMethod.PATCH, entity, ResponseEntity.class);
+			}
+			else if(HttpMethod.DELETE.matches(method)) {
+				responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, ResponseEntity.class);
+			}
+			System.out.println("responseEntity from account" + responseEntity);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-        return response;
+        return responseEntity;
     }
 }
