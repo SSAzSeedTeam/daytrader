@@ -17,8 +17,8 @@
 
 package com.ofss.daytrader.gateway.service;
 
-import java.util.Collections;
-import java.util.List;
+
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.NotSupportedException;
@@ -45,6 +45,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.ofss.daytrader.gateway.utils.SessionHolder;
@@ -122,8 +123,10 @@ public class BaseRemoteCallService {
        				throw new ServerErrorException("A server error from : " + url, responseCode);
        			}
    		}
-   		
-   		String responseEntity = (String) response.getBody();
+   		System.out.println(response.getBody().toString()+"response.getBody");
+   		String responseEntity = new String((byte[]) response.getBody(), StandardCharsets.UTF_8);
+   		System.out.println(responseEntity+"responseEntity1");
+   		//String responseEntity = (String) response.getBody();
         return responseEntity;
     }
 
@@ -160,24 +163,23 @@ public class BaseRemoteCallService {
 	     	HttpHeaders headers = new HttpHeaders();
 			headers.set(HttpHeaders.AUTHORIZATION, finalToken);
 			headers.set(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
-			// List<MediaType> accept =  Collections.singletonList(MediaType.APPLICATION_JSON);
-			//headers.setAccept(accept);
 			HttpEntity<String> entity = new HttpEntity<String>(body,headers);
 			if(HttpMethod.GET.matches(method)) {
-				responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, ResponseEntity.class);
+				responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class);
 				System.out.println(HttpMethod.GET.toString()+"get toString");
 			} 
 			else if(HttpMethod.POST.matches(method)) {
-				responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, ResponseEntity.class);
+				responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, byte[].class);
 			}
 			else if(HttpMethod.PUT.matches(method)) {
-				responseEntity = restTemplate.exchange(url, HttpMethod.PUT, entity, ResponseEntity.class);
+				responseEntity = restTemplate.exchange(url, HttpMethod.PUT, entity, byte[].class);
 			}
 			else if(HttpMethod.PATCH.matches(method)) {
-				responseEntity = restTemplate.exchange(url, HttpMethod.PATCH, entity, ResponseEntity.class);
+				restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+				responseEntity = restTemplate.exchange(url, HttpMethod.PATCH, entity, byte[].class);
 			}
 			else if(HttpMethod.DELETE.matches(method)) {
-				responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, ResponseEntity.class);
+				responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, byte[].class);
 			}
 			System.out.println("responseEntity from account" + responseEntity);
 		} catch(Exception e) {

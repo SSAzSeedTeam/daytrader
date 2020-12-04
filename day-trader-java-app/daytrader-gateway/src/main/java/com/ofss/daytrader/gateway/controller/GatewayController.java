@@ -89,10 +89,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class GatewayController
 {
-	@Autowired
-	RestTemplate restTemplate;
-	@Autowired
-	private static RestTemplate template;
+
+
 	@Autowired
 	private GatewayService gatewayService;
 //	private static GatewayService gatewayService = new GatewayService();

@@ -17,6 +17,7 @@
 
 package com.ofss.daytrader.accounts.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
@@ -64,7 +65,7 @@ public class BaseRemoteCallService {
     
     public static String invokeEndpoint(String url, String method, String body, int connTimeOut,RestTemplate template) throws Exception
     {       	
-   		ResponseEntity  response = sendRequest(url, method, body, connTimeOut,template);
+   		ResponseEntity<byte[]>  response = sendRequest(url, method, body, connTimeOut,template);
    		int responseCode = response.getStatusCodeValue();
    		
    		// switch statement 
@@ -121,13 +122,15 @@ public class BaseRemoteCallService {
        			}
    		}
    		
-   		String responseEntity = (String) response.getBody();
+   		//String responseEntity = (String) response.getBody();
+   		String responseEntity = new String((byte[]) response.getBody(), StandardCharsets.UTF_8);
+
         return responseEntity;
     }
 
-    public static ResponseEntity sendRequest(String url, String method, String body, int connTimeOut,RestTemplate template) 
+    public static ResponseEntity<byte[]> sendRequest(String url, String method, String body, int connTimeOut,RestTemplate template) 
     {
-    	ResponseEntity 	responseEntity=null;
+    	ResponseEntity<byte[]> 	responseEntity=null;
         System.out.println("In BaseRemoteCallService.sendrequest() of Accounts : url="+url);
     	Response response = null;
     	String finalToken = "";
@@ -157,10 +160,23 @@ public class BaseRemoteCallService {
 	         
 	     	HttpHeaders headers = new HttpHeaders();
 			headers.set(HttpHeaders.AUTHORIZATION, finalToken);
-			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			headers.set(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			//headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 			HttpEntity<String> entity = new HttpEntity<String>(body,headers);
-			
-			responseEntity = template.exchange(url, HttpMethod.GET, entity, ResponseEntity.class);
+			if(HttpMethod.GET.matches(method)) {
+				responseEntity = template.exchange(url, HttpMethod.GET, entity, byte[].class);
+				System.out.println(HttpMethod.GET.toString()+"get toString");
+			} 
+			else if(HttpMethod.POST.matches(method)) {
+				responseEntity = template.exchange(url, HttpMethod.POST, entity, byte[].class);
+			}
+			else if(HttpMethod.PUT.matches(method)) {
+				responseEntity = template.exchange(url, HttpMethod.PUT, entity, byte[].class);
+			}
+			else if(HttpMethod.PATCH.matches(method)) {
+				responseEntity = template.exchange(url, HttpMethod.PATCH, entity, byte[].class);
+			}
+			//responseEntity = template.exchange(url, HttpMethod.GET, entity, byte[].class);
 			System.out.println("responseEntity from account" + responseEntity);
 			
 		} catch(Exception e) {
