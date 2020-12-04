@@ -27,7 +27,7 @@ ENV DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes
 ##  1. SSL Variables
 ENV DAYTRADER_KEYSTORE_FILENAME=/target/classes/external/ssl/keystore.jks
 ENV DAYTRADER_KEYSTORE_PASSWORD=password
-ENV DAYTRADER_TRUSTSTORE_LOCATION=/var/ssl/daytrader/truststore.jks
+ENV DAYTRADER_TRUSTSTORE_LOCATION=/target/classes/external/ssl/truststore.jks
 ENV DAYTRADER_TRUSTSTORE_PASSWORD=password
 
 ##  3.  Tomcat Variables
