@@ -45,7 +45,7 @@ RUN mkdir -p -m 0777 /var/dat/daytrader
 #RUN chmod 666 $DAYTRADER_LOG_FILENAME
 ##  3.  Create SSL Folder, Add Truststore, & Set Permissions
 RUN mkdir -p -m 0777 /var/ssl/daytrader
-ARG JKS_FILE=target/classes/truststore.jks
+ARG JKS_FILE=target/classes/external/ssl/truststore.jks
 ADD ${JKS_FILE} $DAYTRADER_TRUSTSTORE_LOCATION
 RUN chmod 666 $DAYTRADER_TRUSTSTORE_LOCATION
 ##  4.  Inform Docker that the container listens on the specified port
