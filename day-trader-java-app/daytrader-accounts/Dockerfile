@@ -25,7 +25,7 @@ ENV DAYTRADER_QUOTES_SERVICE=https://daytrader-quotes
 ##  Set Docker ENV Values that are not only available when building the image, but also to the running container
 ##
 ##  1. SSL Variables
-ENV DAYTRADER_KEYSTORE_FILENAME=/var/ssl/daytrader/keystore.jks
+ENV DAYTRADER_KEYSTORE_FILENAME=/target/classes/external/ssl/keystore.jks
 ENV DAYTRADER_KEYSTORE_PASSWORD=password
 ENV DAYTRADER_TRUSTSTORE_LOCATION=/var/ssl/daytrader/truststore.jks
 ENV DAYTRADER_TRUSTSTORE_PASSWORD=password
