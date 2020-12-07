@@ -13,4 +13,4 @@ FROM nginx:1.17.1-alpine
 COPY --from=build-step /app/build /usr/share/nginx/html
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-CMD  "/usr/share/nginx/html/set_env_and_start_static.sh" "$REACT_APP_DAYTRADER_GATEWAY_SERVICE" 
+CMD chmod +x "/usr/share/nginx/html/set_env_and_start_static.sh" "$REACT_APP_DAYTRADER_GATEWAY_SERVICE" 
