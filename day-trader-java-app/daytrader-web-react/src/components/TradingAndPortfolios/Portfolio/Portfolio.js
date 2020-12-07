@@ -53,7 +53,8 @@ class Portfoliopage extends Component {
               })
           }
           this.setState({
-            holdingsinfo
+            holdingsinfo,
+            apiUrl: endPointUrl
           })
         }
         console.log('holdingsInfo', holdingsinfo)
