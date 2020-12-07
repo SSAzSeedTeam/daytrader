@@ -6,8 +6,11 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 RUN npm run build
+COPY ./set_env_and_start_static.sh /app/build/
 
 # Stage 2
-
 FROM nginx:1.17.1-alpine
 COPY --from=build-step /app/build /usr/share/nginx/html
+
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+CMD  "/usr/share/nginx/html/set_env_and_start_static.sh" "$REACT_APP_DAYTRADER_GATEWAY_SERVICE" 

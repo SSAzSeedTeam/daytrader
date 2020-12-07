@@ -1,7 +1,7 @@
 
 FROM node:alpine
 ENV CI=true
-ENV REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://daytrader-gateway
+ENV REACT_APP_DAYTRADER_GATEWAY_SERVICE=https://20.71.31.212:5443/
 
 WORKDIR /usr/app
 
