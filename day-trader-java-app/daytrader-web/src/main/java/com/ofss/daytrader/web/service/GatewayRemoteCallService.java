@@ -283,6 +283,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 	    	
 	    	//first register in auth server
+	    	if (oauthEnabled==true) {
 			 String userurl = daytraderAuthService + "/registeruser";
 			 
 			 System.out.println("Calling auth servers url while register - " + userurl);
@@ -297,7 +298,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			 httpclient.execute(post);
 			 System.out.println("Completed - Calling auth servers url while register");
 			 // Bala - End
-	    	
+	    	}
 	    	
 	    	String url = gatewayServiceRoute + "/accounts";
 			Log.debug("GatewayRemoteCallService.register() - " + url);
