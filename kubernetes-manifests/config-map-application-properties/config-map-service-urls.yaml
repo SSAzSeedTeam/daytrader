@@ -7,6 +7,7 @@ data:
   DAYTRADER_GATEWAY_SERVICE   : http://daytrader-gateway
   DAYTRADER_PORTFOLIOS_SERVICE: http://daytrader-portfolios
   DAYTRADER_QUOTES_SERVICE    : http://daytrader-quotes
+  DAYTRADER_AUTH_SERVICE      : http://daytrader-auth-server
 
   REACT_APP_DAYTRADER_ACCOUNT_MFE_URL     : abc
   REACT_APP_DAYTRADER_QUOTES_MFE_URL      : abc
