@@ -15,6 +15,7 @@ cd daytrader-report-generator        ; sudo ./docker-build.sh ; cd ..
 cd daytrader-onprem-exchange-rate    ; sudo ./docker-build.sh ; cd ..
 cd daytrader-trade-consumer          ; sudo ./docker-build.sh ; cd ..
 cd daytrader-trade-producer          ; sudo ./docker-build.sh ; cd ..
+cd daytrader-auth-server			 ; sudo ./docker-build.sh ; cd ..
 
 #After testing your new changes, you can re-tag them appropriately and push to dockerhub with below commands
 #
