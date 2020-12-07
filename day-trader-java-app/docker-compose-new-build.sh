@@ -3,6 +3,7 @@ cd daytrader-gateway                                    ; sudo ./docker-build.sh
 cd daytrader-portfolios                                 ; sudo ./docker-build.sh ; cd ..
 cd daytrader-quotes                                     ; sudo ./docker-build.sh ; cd ..
 cd daytrader-web                                        ; sudo ./docker-build.sh ; cd ..
+cd daytrader-auth-server								; sudo ./docker-build.sh ; cd ..
 
 cd daytrader-web-micro-fe/daytrader-account-mfe         ; sudo ./docker-build.sh ; cd ../..
 cd daytrader-web-micro-fe/daytrader-container-mfe       ; sudo ./docker-build.sh ; cd ../..
