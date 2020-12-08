@@ -1,13 +1,12 @@
 package com.ofss.daytrader.accounts.utils;
 
 import java.io.IOException;
-import java.security.PublicKey;
-import java.util.Date;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,8 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtFilterRequest extends OncePerRequestFilter{
 	
-	/*@Autowired
-	private JwtTokenUtil jwtTokenUtil;*/
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
 	@Value("${DAYTRADER_OAUTH_ENABLE}")
 	private boolean oauthEnabled;
@@ -90,41 +89,14 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		}
 		
 		// Once we get the token validate it.
-		if (jwtHeader != null) {
+		
+		if (jwtHeader != null && jwtTokenUtil.validateJwtToken(jwtHeader)) {
 			try {
-				int index = jwtHeader.indexOf(":");
-				String signatureAsc = jwtHeader.substring(0,index);
-				String jwtRaw = jwtHeader.substring(index+1);
-				
-				
-		        byte[] publicKeyByteArray = Utils.decodeBase64(publicKeyBase64);
-		        PublicKey publicKey = RSAUtil.convertByteArrayToPublicKey(publicKeyByteArray);
-				
-		        byte[] signedDataByteArray = Utils.decodeBase64(signatureAsc);
-		        boolean signatureVerifySuccessFlag = RSAUtil.rsaVerifySignWithPublicKey(publicKey, jwtRaw.getBytes(), signedDataByteArray);
-		        System.out.println("signatureVerifySuccessFlag:" + signatureVerifySuccessFlag);
-				
-		        if(signatureVerifySuccessFlag == false) {
-		    		System.out.println("Signature mismatch");
-		    		response.sendError(HttpServletResponse.SC_FORBIDDEN);
-		    		return ;
-		        }
-		        String[] splitArray = jwtRaw.split(":");
-		        String userName = splitArray[0];
-		        String loginTimeStr = splitArray[1];
-		        String durationStr = splitArray[2];
-
-		        long now = (new Date()).getTime();
-		        long loginTime = Long.parseLong(loginTimeStr);
-		        long duration = Long.parseLong(durationStr);
-		        if(now > loginTime + duration ) {
-		    		System.out.println("Token time exceeded!");
-		    		response.sendError(HttpServletResponse.SC_FORBIDDEN);
-		    		return ;
-		        }
-		        
+				username = jwtTokenUtil.getUsernameFromToken(jwtHeader);
+				System.out.println("username after validation token: "+username);
 				SessionHolder sh = SpringContext.getBean(SessionHolder.class);
 				sh.setJwtToken(jwtHeader);
+				System.out.println("before the filter chain");
 				filterChain.doFilter(request, response);
 				return;
 			} catch (Exception e) {
@@ -132,6 +104,7 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				e.printStackTrace();
 			}
 		}
+		
 		System.out.println("end of do filter");
 		//filterChain.doFilter(request, response);
 		response.sendError(HttpServletResponse.SC_FORBIDDEN);
