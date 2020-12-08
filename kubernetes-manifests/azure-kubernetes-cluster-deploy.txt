@@ -1,0 +1,107 @@
+r------------------------------------------------------------------------------------
+Step 1. Create a resource Group
+az group create --name shibu_azure_aks_res_grp --location westeurope
+
+------------------------------------------------------------------------------------
+Step 2: Create service principal
+az ad sp create-for-rbac --skip-assignment --name kubernetes-cluster-service-principal
+sample output :-
+{
+  "appId": "ed48a0d2-0b46-4634-b459-567d2083ca13",
+  "displayName": "kubernetes-cluster-service-principal",
+  "name": "http://kubernetes-cluster-service-principal",
+  "password": "Y5vl-gSzVP4rnUSCiQW~lPhkA13gdz3I7h",
+  "tenant": "95c2db94-2a7c-4c55-876b-e53268d3fb83"
+}
+#Note down the appid & password which you need in the next command where we actually create a cluster
+appid will be used for ----->service-principal (in the next command)
+password will be used for -->client-secret (in the next command)
+------------------------------------------------------------------------------------
+Step3: create a cluster (replace service-principal and client-secret from above step)
+
+set EMAIL=shibu@shibu.com
+for /f "tokens=2-8 delims=.:/ " %a in ("%date% %time%") do set DATETIME=%c-%a-%b:%d-%e-%f.%g
+az aks create --name daytrader-cluster  --node-count 1 --enable-addons monitoring --resource-group shibu_azure_aks_res_grp --vm-set-type VirtualMachineScaleSets --load-balancer-sku standard --enable-cluster-autoscaler  --min-count 1 --max-count 2 --generate-ssh-keys --service-principal "ed48a0d2-0b46-4634-b459-567d2083ca13"  --client-secret  "Y5vl-gSzVP4rnUSCiQW~lPhkA13gdz3I7h"  --tags email=%EMAIL% created=%DATETIME%
+
+------------------------------------------------------------------------------------
+Step4: Connect to the cluster created in step 3
+az aks get-credentials --resource-group shibu_azure_aks_res_grp --name daytrader-cluster --overwrite-existing
+
+------------------------------------------------------------------------------------
+#create pods and services
+
+cd D:\Projects\daytrader\kubernetes-manifests\
+
+kubectl apply -f configmaps-mysql\
+kubectl apply -f config-map-application-properties\
+
+kubectl apply -f pods\accounts
+kubectl apply -f pods\gateway
+kubectl apply -f pods\portfolios
+kubectl apply -f pods\quotes
+kubectl apply -f pods\web
+
+#wait for 2 minutes for the load balancer to get set up.
+#check if the IP addresses are alloted
+kubecl get svc
+
+#copy the IP address of daytrader-gateway into config-map-application-properties\config-map-service-urls.yaml
+SET GATEWAY_URL=1.2.3.4
+BatchSubstitute.bat GATEWAY_SERVICE_URL_REPLACE %GATEWAY_URL% config-map-application-properties\config-map-service-urls.yaml > config-map-application-properties\config-map-service-urls.yaml.temp
+
+kubectl apply -f config-map-application-properties\config-map-service-urls.yaml.temp
+kubectl apply -f pods\web-mfe-static\web-mfe-accounts-static
+kubectl apply -f pods\web-mfe-static\web-mfe-portfolios-static
+kubectl apply -f pods\web-mfe-static\web-mfe-quotes-static
+
+#copy the IP address of account-mfe, porfolio-mfe, quotes-mfe into config-map-application-properties\config-map-service-urls.yaml
+SET ACCOUNT_MFE_URL=1.2.3.4
+SET PORTFOLIO_MFE_URL=2.3.4.5
+SET QUOTES_MFE_URL=3.4.5.6
+
+BatchSubstitute.bat ACCOUNT_MFE_URL_REPLACE     %ACCOUNT_MFE_URL%      config-map-application-properties\config-map-service-urls.yaml        > config-map-application-properties\config-map-service-urls.yaml.temp.1
+BatchSubstitute.bat PORTFOLIO_MFE_URL_REPLACE   %PORTFOLIO_MFE_URL%    config-map-application-properties\config-map-service-urls.yaml.temp.1 > config-map-application-properties\config-map-service-urls.yaml.temp.2
+BatchSubstitute.bat QUOTES_MFE_URL_REPLACE      %QUOTES_MFE_URL%       config-map-application-properties\config-map-service-urls.yaml.temp.2 > config-map-application-properties\config-map-service-urls.yaml.temp.3
+
+kubectl apply -f config-map-application-properties\config-map-service-urls.yaml.temp.3
+kubectl apply -f web-mfe-static\web-mfe-container-static
+
+after this, take the daytrader-web-mfe-container-static IP address and use that in the browser
+kubecl get svc
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+#frequently used commands
+kubectl get all
+kubectl get pods
+kubectl get svc
+kubectl describe pod POD_NAME
+kubectl logs -f  POD_NAME
+
+------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+#uncomment and run below commands to delete all cluster and mysql resources
+
+#delete cluster
+#az aks delete --name daytrader-cluster  --resource-group shibu_azure_aks_res_grp --yes
+
+#delete mysql
+#az group delete --name shibu_azure_mysql_res_grp --yes
+------------------------------------------------------------------------------------
+
+
+
+for /f "tokens=3" %a in ('dir') do echo %a
+for /f "tokens=3" %a in ('netstat -n -o') do echo %a
+for /f "tokens=3" %a in ('netstat -n -o ^| findstr /v "Active Proto"') do echo %a
+
+
+for /f "tokens=3" %a in ('kubectl get svc ^| findstr /v "daytrader-gateway"') do echo %a
+for /f "tokens=3" %a in ('kubectl get svc ^| findstr /v "daytrader-gateway"') do set GATEWAY_URL=%a
+
+for /f "tokens=3" %a in ('kubectl get svc ^| findstr /v "daytrader-web-mfe-accounts-static"')   do echo %a
+for /f "tokens=3" %a in ('kubectl get svc ^| findstr /v "daytrader-web-mfe-portfolios-static"') do echo %a
+for /f "tokens=3" %a in ('kubectl get svc ^| findstr /v "daytrader-web-mfe-quotes-static"')     do echo %a
+
+for /f "tokens=3" %a in ('kubectl get svc ^| findstr /v "daytrader-web-mfe-container-static"')  do echo %a

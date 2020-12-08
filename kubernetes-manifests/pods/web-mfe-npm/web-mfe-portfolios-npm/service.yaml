@@ -9,7 +9,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 3000
+    targetPort: 3003
   selector:
     app: daytrader-web-mfe-portfolios-npm
   sessionAffinity: ClientIP

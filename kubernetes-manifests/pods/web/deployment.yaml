@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-web
-        image: azseed/daytrader-web:1.8
+        image: azseed/daytrader-web:2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 5443
@@ -61,6 +61,11 @@ spec:
             configMapKeyRef:
               name: daytrader-service-urls-config-map
               key: DAYTRADER_QUOTES_SERVICE
+        - name: DAYTRADER_AUTH_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: DAYTRADER_AUTH_SERVICE
         #----service urls - end ----------------
         #----application config - started ------
         - name: GET_HOSTS_FROM
@@ -70,4 +75,9 @@ spec:
             configMapKeyRef:
               name: config-map-application-properties
               key: SERVER_SSL_ENABLED
+        - name: DAYTRADER_OAUTH_ENABLE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-application-properties
+              key: DAYTRADER_OAUTH_ENABLE
         #----application config - end ----------

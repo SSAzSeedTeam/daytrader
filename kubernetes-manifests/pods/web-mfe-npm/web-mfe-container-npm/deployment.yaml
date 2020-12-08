@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: daytrader-web-mfe-portfolios-npm
-  name: daytrader-web-mfe-portfolios-npm
+    app: daytrader-web-mfe-container-npm
+  name: daytrader-web-mfe-container-npm
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: daytrader-web-mfe-portfolios-npm
+      app: daytrader-web-mfe-container-npm
   template:
     metadata:
       labels:
-        app: daytrader-web-mfe-portfolios-npm
+        app: daytrader-web-mfe-container-npm
     spec:
       containers:
-      - name: daytrader-web-mfe-portfolios-npm
-        image: azseed/daytrader-web-mfe-portfolios-npm:1.8
+      - name: daytrader-web-mfe-container-npm
+        image: azseed/daytrader-web-mfe-container-npm:2.0
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 3001
           protocol: TCP
 #        readinessProbe:  
 #          httpGet:
@@ -46,26 +46,21 @@ spec:
         - name: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
           valueFrom:
             configMapKeyRef:
-              name: daytrader-accounts-db-config-map
+              name: daytrader-service-urls-config-map
               key: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
         - name: REACT_APP_DAYTRADER_QUOTES_MFE_URL
           valueFrom:
             configMapKeyRef:
-              name: daytrader-accounts-db-config-map
+              name: daytrader-service-urls-config-map
               key: REACT_APP_DAYTRADER_QUOTES_MFE_URL
         - name: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
           valueFrom:
             configMapKeyRef:
-              name: daytrader-accounts-db-config-map
+              name: daytrader-service-urls-config-map
               key: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
-        - name: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-accounts-db-config-map
-              key: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
         - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
           valueFrom:
             configMapKeyRef:
-              name: daytrader-accounts-db-config-map
+              name: daytrader-service-urls-config-map
               key: REACT_APP_DAYTRADER_GATEWAY_SERVICE
         #----micro-frontend - end --------------

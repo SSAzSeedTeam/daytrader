@@ -4,3 +4,4 @@ metadata:
   name: config-map-application-properties
 data:
   SERVER_SSL_ENABLED          : "false"
+  DAYTRADER_OAUTH_ENABLE      : "false"

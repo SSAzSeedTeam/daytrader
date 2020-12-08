@@ -17,10 +17,10 @@ spec:
     spec:
       containers:
       - name: daytrader-web-mfe-quotes-npm
-        image: azseed/daytrader-web-mfe-quotes-npm:1.8
+        image: azseed/daytrader-web-mfe-quotes-npm:2.0
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 3004
           protocol: TCP
 #        readinessProbe:  
 #          httpGet:
@@ -43,29 +43,9 @@ spec:
         - name: CI
           value: "true"
         #----micro-frontend - start ------------
-        - name: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-accounts-db-config-map
-              key: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
-        - name: REACT_APP_DAYTRADER_QUOTES_MFE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-accounts-db-config-map
-              key: REACT_APP_DAYTRADER_QUOTES_MFE_URL
-        - name: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-accounts-db-config-map
-              key: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
-        - name: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-accounts-db-config-map
-              key: REACT_APP_DAYTRADER_GATEWAY_MFE_URL
         - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
           valueFrom:
             configMapKeyRef:
-              name: daytrader-accounts-db-config-map
+              name: daytrader-service-urls-config-map
               key: REACT_APP_DAYTRADER_GATEWAY_SERVICE
         #----micro-frontend - end --------------

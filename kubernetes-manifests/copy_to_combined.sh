@@ -7,6 +7,8 @@ cp "pods/portfolios/deployment.yaml"                      "all_combined/portfoli
 cp "pods/portfolios/service.yaml"                         "all_combined/portfolios_service.yaml"
 cp "pods/quotes/deployment.yaml"                          "all_combined/quotes_deployment.yaml"
 cp "pods/quotes/service.yaml"                             "all_combined/quotes_service.yaml"
+cp "pods/web/deployment.yaml"                             "all_combined/web_deployment.yaml"
+cp "pods/web/service.yaml"                                "all_combined/web_service.yaml"
 #cp "pods/report-generator/deployment.yaml"                "all_combined/report-generator_deployment.yaml"
 #cp "pods/scdf-trade-generator/deployment.yaml"            "all_combined/scdf-trade-generator_deployment.yaml"
 #cp "pods/scdf-trade-generator/service.yaml"               "all_combined/scdf-trade-generator_service.yaml"
@@ -18,8 +20,7 @@ cp "pods/quotes/service.yaml"                             "all_combined/quotes_s
 #cp "pods/trade-consumer/service.yaml"                     "all_combined/trade-consumer_service.yaml"
 #cp "pods/trade-producer/deployment.yaml"                  "all_combined/trade-producer_deployment.yaml"
 #cp "pods/trade-producer/service.yaml"                     "all_combined/trade-producer_service.yaml"
-cp "pods/web/deployment.yaml"                             "all_combined/web_deployment.yaml"
-cp "pods/web/service.yaml"                                "all_combined/web_service.yaml"
+
 cp "pods/web-react-npm/deployment.yaml"                   "all_combined/web-react-npm_deployment.yaml"
 cp "pods/web-react-npm/service.yaml"                      "all_combined/web-react-npm_service.yaml"
 cp "pods/web-react-static/deployment.yaml"                "all_combined/web-react-static_deployment.yaml"
@@ -32,6 +33,16 @@ cp "pods/web-mfe-portfolios-npm/deployment.yaml"          "all_combined/web-mfe-
 cp "pods/web-mfe-portfolios-npm/service.yaml"             "all_combined/web-mfe-portfolios-npm_service.yaml"
 cp "pods/web-mfe-quotes-npm/deployment.yaml"              "all_combined/web-mfe-quotes-npm_deployment.yaml"
 cp "pods/web-mfe-quotes-npm/service.yaml"                 "all_combined/web-mfe-quotes-npm_service.yaml"
+
+#cp "pods/web-mfe-accounts-static/deployment.yaml"            "all_combined/web-mfe-accounts-static_deployment.yaml"
+#cp "pods/web-mfe-accounts-static/service.yaml"               "all_combined/web-mfe-accounts-static_service.yaml"
+#cp "pods/web-mfe-container-static/deployment.yaml"           "all_combined/web-mfe-container-static_deployment.yaml"
+#cp "pods/web-mfe-container-static/service.yaml"              "all_combined/web-mfe-container-static_service.yaml"
+#cp "pods/web-mfe-portfolios-static/deployment.yaml"          "all_combined/web-mfe-portfolios-static_deployment.yaml"
+#cp "pods/web-mfe-portfolios-static/service.yaml"             "all_combined/web-mfe-portfolios-static_service.yaml"
+#cp "pods/web-mfe-quotes-static/deployment.yaml"              "all_combined/web-mfe-quotes-static_deployment.yaml"
+#cp "pods/web-mfe-quotes-static/service.yaml"                 "all_combined/web-mfe-quotes-static_service.yaml"
+
 
 
 #cp "configmaps-mysql/config-map-accounts-db-mysql.yaml"   "all_combined/config-map-accounts-db-mysql.yaml"

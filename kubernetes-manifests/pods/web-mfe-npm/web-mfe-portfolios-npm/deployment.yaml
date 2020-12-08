@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: daytrader-web-react-npm
-  name: daytrader-web-react-npm
+    app: daytrader-web-mfe-portfolios-npm
+  name: daytrader-web-mfe-portfolios-npm
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: daytrader-web-react-npm
+      app: daytrader-web-mfe-portfolios-npm
   template:
     metadata:
       labels:
-        app: daytrader-web-react-npm
+        app: daytrader-web-mfe-portfolios-npm
     spec:
       containers:
-      - name: daytrader-web-react-npm
-        image: azseed/daytrader-web-react-npm:2.0
+      - name: daytrader-web-mfe-portfolios-npm
+        image: azseed/daytrader-web-mfe-portfolios-npm:2.0
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 3003
           protocol: TCP
 #        readinessProbe:  
 #          httpGet:
@@ -42,16 +42,10 @@ spec:
         env:
         - name: CI
           value: "true"
-        - name: ACCOUNTS_SERVICE_ROUTE
-          value: http://daytrader-accounts
-        - name: GATEWAY_SERVICE_ROUTE
-          value: http://daytrader-gateway
-        - name: PORTFOLIOS_SERVICE_ROUTE
-          value: http://daytrader-portfolios
-        - name: QUOTES_SERVICE_ROUTE
-          value: http://daytrader-quotes
-#        - name: GET_HOSTS_FROM
-#          value: dns
+        #----micro-frontend - start ------------
         - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
-          value: https:\\/\\/20.73.130.180
-          
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+        #----micro-frontend - end --------------

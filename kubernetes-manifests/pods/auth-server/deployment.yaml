@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-auth-server
-        image: azseed/daytrader-auth-server:1.8
+        image: azseed/daytrader-auth-server:2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 1555
@@ -40,34 +40,6 @@ spec:
 #          timeoutSeconds: 11
 #          failureThreshold: 4
         env:
-        #----service urls - start --------------
-        
-        - name: DAYTRADER_AUTH_SERVICE
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-service-urls-config-map
-              key: DAYTRADER_AUTH_SERVICE
-        - name: DAYTRADER_ACCOUNTS_SERVICE
-          valueFrom:
-            configMapKeyRef:
-              name: daytrader-service-urls-config-map
-              key: DAYTRADER_ACCOUNTS_SERVICE
-#        - name: DAYTRADER_GATEWAY_SERVICE
-#          valueFrom:
-#            configMapKeyRef:
-#              name: daytrader-service-urls-config-map
-#              key: DAYTRADER_GATEWAY_SERVICE
-#        - name: DAYTRADER_PORTFOLIOS_SERVICE
-#          valueFrom:
-#            configMapKeyRef:
-#              name: daytrader-service-urls-config-map
-#              key: DAYTRADER_PORTFOLIOS_SERVICE
-#        - name: DAYTRADER_QUOTES_SERVICE
-#          valueFrom:
-#            configMapKeyRef:
-#              name: daytrader-service-urls-config-map
-#              key: DAYTRADER_QUOTES_SERVICE
-        #----service urls - end ----------------
         #----DATABASE related - start ----------
         - name: DAYTRADER_DATABASE_DRIVER
           valueFrom:
@@ -103,4 +75,9 @@ spec:
             configMapKeyRef:
               name: config-map-application-properties
               key: SERVER_SSL_ENABLED
+        - name: DAYTRADER_OAUTH_ENABLE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-application-properties
+              key: DAYTRADER_OAUTH_ENABLE
         #----application config - end ----------
