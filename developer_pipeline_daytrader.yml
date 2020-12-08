@@ -54,6 +54,15 @@ stages:
         TargetFolder: '$(system.defaultworkingdirectory)'
     
     - task: Docker@2
+      displayName: 'daytrader-auth-server'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-auth-server'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-auth-server/Dockerfile'
+        tags: '${{variables.docker_tag}}'
+    
+    - task: Docker@2
       displayName: 'daytrader-accounts'
       inputs:
         containerRegistry: 'DockerHub'
