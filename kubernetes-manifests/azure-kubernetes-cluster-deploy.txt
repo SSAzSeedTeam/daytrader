@@ -66,8 +66,10 @@ BatchSubstitute.bat QUOTES_MFE_URL_REPLACE      %QUOTES_MFE_URL%       config-ma
 kubectl apply -f config-map-application-properties\config-map-service-urls.yaml.temp.3
 kubectl apply -f web-mfe-static\web-mfe-container-static
 
-after this, take the daytrader-web-mfe-container-static IP address and use that in the browser
+#take the daytrader-web-mfe-container-static IP address and use that in the browser
 kubecl get svc
+
+#the day trader application is now ready
 ------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------
