@@ -45,11 +45,9 @@ private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class)
 	private Claims getAllClaimsFromToken(String token) {
 		System.out.println("inside getAllClaimsFromToken: ");
 		//Load keys - start
-	   // String publicAsc = null;
 	    byte[] publicByteArray = null;
 	    PublicKey publicKey = null;
 		try {
-			//publicAsc = FileUtil.readFromFile("src/main/resources/rsaPublic.asc");
 			publicByteArray = Utils.decodeBase64(publicKeyBase64);
 		    publicKey = RSAUtil.convertByteArrayToPublicKey(publicByteArray);
 		} catch (Exception e) {
@@ -63,21 +61,6 @@ private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class)
 	final Date expiration = getExpirationDateFromToken(token);
 	return expiration.before(new Date());
 	}
-	//generate token for user
-	/*public String generateToken(UserDetails userDetails) {
-	Map<String, Object> claims = new HashMap<>();
-	return doGenerateToken(claims, userDetails.getUsername());
-	}*/
-	//while creating the token -
-	//1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
-	//2. Sign the JWT using the HS512 algorithm and secret key.
-	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-	//   compaction of the JWT to a URL-safe string 
-	/*private String doGenerateToken(Map<String, Object> claims, String subject) {
-	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-	.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-	.signWith(SignatureAlgorithm.HS512, secret).compact();
-	}*/
 	//validate token
 	public boolean validateJwtToken(String authToken) {
 		try {
@@ -87,15 +70,15 @@ private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class)
 			Jwts.parser().setSigningKey(publicKey).parseClaimsJws(authToken);
 			return true;
 		} catch (SignatureException e) {
-			logger.error("Invalid JWT signature: {}", e.getMessage());
+			System.out.println("Invalid JWT signature: {}"+ e.getMessage());
 		} catch (MalformedJwtException e) {
-			logger.error("Invalid JWT token: {}", e.getMessage());
+			System.out.println("Invalid JWT token: {}"+ e.getMessage());
 		} catch (ExpiredJwtException e) {
-			logger.error("JWT token is expired: {}", e.getMessage());
+			System.out.println("JWT token is expired: {}"+ e.getMessage());
 		} catch (UnsupportedJwtException e) {
-			logger.error("JWT token is unsupported: {}", e.getMessage());
+			System.out.println("JWT token is unsupported: {}"+ e.getMessage());
 		} catch (IllegalArgumentException e) {
-			logger.error("JWT claims string is empty: {}", e.getMessage());
+			System.out.println("JWT claims string is empty: {}"+ e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -27,27 +27,27 @@ public class JwtTokenUtil {
 	private long tokenValidity;
 	
 	//retrieve username from jwt token
-	public String getUsernameFromToken(String token) {
-	return getClaimFromToken(token, Claims::getSubject);
-	}
-	//retrieve expiration date from jwt token
-	public Date getExpirationDateFromToken(String token) {
-	return getClaimFromToken(token, Claims::getExpiration);
-	}
-	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-	final Claims claims = getAllClaimsFromToken(token);
-	return claimsResolver.apply(claims);
-	}
-	    //for retrieveing any information from token we will need the secret key
-	private Claims getAllClaimsFromToken(String token) {
-		System.out.println("inside getAllClaimsFromToken");
-	return Jwts.parser()/*setSigningKey(secret)*/.parseClaimsJws(token).getBody();
-	}
-	//check if the token has expired
-	private Boolean isTokenExpired(String token) {
-	final Date expiration = getExpirationDateFromToken(token);
-	return expiration.before(new Date());
-	}
+		public String getUsernameFromToken(String token) {
+		return getClaimFromToken(token, Claims::getSubject);
+		}
+		//retrieve expiration date from jwt token
+		public Date getExpirationDateFromToken(String token) {
+		return getClaimFromToken(token, Claims::getExpiration);
+		}
+		public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+		final Claims claims = getAllClaimsFromToken(token);
+		return claimsResolver.apply(claims);
+		}
+		    //for retrieveing any information from token we will need the secret key
+		private Claims getAllClaimsFromToken(String token) {
+			System.out.println("inside getAllClaimsFromToken");
+		return Jwts.parser()/*setSigningKey(secret)*/.parseClaimsJws(token).getBody();
+		}
+		//check if the token has expired
+		private Boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		return expiration.before(new Date());
+		}
 	//generate token for user
 	public String generateToken(UserDetails userDetails) throws Exception {
 	Map<String, Object> claims = new HashMap<>();
@@ -64,7 +64,6 @@ public class JwtTokenUtil {
 		byte[] privateByteArray = Utils.decodeBase64(privateKeyBase64);
         PrivateKey privateKey = RSAUtil.convertByteArrayToPrivateKey(privateByteArray);
         if(tokenValidity<=0) {
-        	System.out.println("token validity is not mentioned in properties file");
         	tokenValidity = 1 * 60 * 60;
         }
 	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
