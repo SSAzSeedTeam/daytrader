@@ -8,6 +8,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,8 +19,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtFilterRequest extends OncePerRequestFilter{
 	
-	/*@Autowired
-	private JwtTokenUtil jwtTokenUtil;*/
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
 	@Value("${DAYTRADER_OAUTH_ENABLE}")
 	private boolean oauthEnabled;
@@ -90,7 +92,32 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		}
 		
 		// Once we get the token validate it.
-		if (jwtHeader != null) {
+		if (jwtHeader != null && jwtTokenUtil.validateJwtToken(jwtHeader)) {
+			try {
+				username = jwtTokenUtil.getUsernameFromToken(jwtHeader);
+				System.out.println("username after validation token: "+username);
+			
+
+			/*UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+					userDetails, null, userDetails.getAuthorities());
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);*/
+			
+			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+			sh.setJwtToken(jwtHeader);
+			System.out.println("before the filter chain");
+			filterChain.doFilter(request, response);
+			return;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		/*if (jwtHeader != null) {
 			try {
 				int index = jwtHeader.indexOf(":");
 				String signatureAsc = jwtHeader.substring(0,index);
@@ -131,7 +158,7 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		System.out.println("end of do filter");
 		//filterChain.doFilter(request, response);
 		response.sendError(HttpServletResponse.SC_FORBIDDEN);

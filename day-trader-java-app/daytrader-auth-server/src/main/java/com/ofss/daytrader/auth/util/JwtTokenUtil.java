@@ -1,4 +1,4 @@
-/*package com.ofss.daytrader.auth.util;
+package com.ofss.daytrader.auth.util;
 
 import java.security.PrivateKey;
 import java.util.Date;
@@ -18,8 +18,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenUtil {
 	
 
-public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
+	//public static final long JWT_TOKEN_VALIDITY = 1 * 60 * 60;
+
+	@Value("${DAYTRADER_AUTH_PRIVATE_KEY_BASE64}")
+	private String privateKeyBase64;
+	
+	@Value("${JWT_TOKEN_VALIDITY}")
+	private long tokenValidity;
+	
 	//retrieve username from jwt token
 	public String getUsernameFromToken(String token) {
 	return getClaimFromToken(token, Claims::getSubject);
@@ -35,7 +41,7 @@ private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	    //for retrieveing any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
 		System.out.println("inside getAllClaimsFromToken");
-	return Jwts.parser()setSigningKey(secret).parseClaimsJws(token).getBody();
+	return Jwts.parser()/*setSigningKey(secret)*/.parseClaimsJws(token).getBody();
 	}
 	//check if the token has expired
 	private Boolean isTokenExpired(String token) {
@@ -54,19 +60,16 @@ private static final String RSA_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	//   compaction of the JWT to a URL-safe string 
 	private String doGenerateToken(Map<String, Object> claims, String subject) throws Exception {
 		//start PKI Changes
-		String privateAsc = FileUtil.readFromFile("src/main/resources/rsaPrivate.asc");
-		byte[] privateByteArray = Utils.decodeBase64(privateAsc);
+		System.out.println("private key: "+ privateKeyBase64);
+		byte[] privateByteArray = Utils.decodeBase64(privateKeyBase64);
         PrivateKey privateKey = RSAUtil.convertByteArrayToPrivateKey(privateByteArray);
+        if(tokenValidity<=0) {
+        	System.out.println("token validity is not mentioned in properties file");
+        	tokenValidity = 1 * 60 * 60;
+        }
 	return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-	.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+	.setExpiration(new Date(System.currentTimeMillis() + tokenValidity * 1000))
 	.signWith(SignatureAlgorithm.RS256, privateKey).compact();
-	.signWith(SignatureAlgorithm.HS512, secret).compact();
-	}
-	//validate token
-	public Boolean validateToken(String token, UserDetails userDetails) {
-	final String username = getUsernameFromToken(token);
-	return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 
 }
-*/

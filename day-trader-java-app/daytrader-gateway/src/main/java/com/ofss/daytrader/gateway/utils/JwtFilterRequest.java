@@ -9,8 +9,11 @@ import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,8 +26,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtFilterRequest extends OncePerRequestFilter{
 	
-	/*@Autowired
-	private JwtTokenUtil jwtTokenUtil;*/
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
 	@Value("${DAYTRADER_OAUTH_ENABLE}")
 	private boolean oauthEnabled;
@@ -100,7 +103,32 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		}
 		
 		// Once we get the token validate it.
-		if (jwtHeader != null) {
+		
+		if (jwtHeader != null && jwtTokenUtil.validateJwtToken(jwtHeader)) {
+			try {
+				username = jwtTokenUtil.getUsernameFromToken(jwtHeader);
+				System.out.println("username after validation token: "+username);
+			
+
+			/*UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+					userDetails, null, userDetails.getAuthorities());
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);*/
+			
+			SessionHolder sh = SpringContext.getBean(SessionHolder.class);
+			sh.setJwtToken(jwtHeader);
+			System.out.println("before the filter chain");
+			filterChain.doFilter(request, response);
+			return;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		/*if (jwtHeader != null) {
 			try {
 				int index = jwtHeader.indexOf(":");
 				String signatureAsc = jwtHeader.substring(0,index);
@@ -142,7 +170,7 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		System.out.println("end of do filter");
 		//filterChain.doFilter(request, response);
 		((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -150,5 +178,26 @@ public class JwtFilterRequest extends OncePerRequestFilter{
 		return ;
 	}
 
+
+	/*String getCookieValue( Cookie[] cookies, String name ) 
+	{
+		String value = null;
+		if (cookies != null)
+		{System.out.println("inside cookie: ");
+			for(Cookie cookie : cookies)
+			{	System.out.println("inside cookie: "+cookie.getName());
+				if (name.equals(cookie.getName()))
+				{   
+					value = cookie.getValue();
+					System.out.println("value in cookie: "+value);
+					break;
+				}
+    		}
+    	}
+		else {
+			System.out.println("cookie is null");
+		}
+		return value;
+    }*/
 	
 }

@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ofss.daytrader.auth.model.JwtRequest;
 import com.ofss.daytrader.auth.model.JwtResponse;
+import com.ofss.daytrader.auth.model.MyUserDetailsService;
 import com.ofss.daytrader.auth.model.UserDataBean;
 import com.ofss.daytrader.auth.repository.UserDataRepository;
+import com.ofss.daytrader.auth.util.JwtTokenUtil;
 import com.ofss.daytrader.auth.util.RSAUtil;
 import com.ofss.daytrader.auth.util.Utils;
 
@@ -36,10 +38,10 @@ public class AuthController {
 	
 //	@Autowired
 //	private AuthenticationManager authenticationManager;
-//	@Autowired
-//	private JwtTokenUtil jwtTokenUtil;
-//	@Autowired
-//	private MyUserDetailsService userDetailsService;
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private MyUserDetailsService userDetailsService;
 	@Autowired
 	UserDataRepository userdatarepo;
 	@Value("${DAYTRADER_AUTH_PRIVATE_KEY_BASE64}")
@@ -52,11 +54,11 @@ public class AuthController {
 			@RequestParam String password) throws Exception {
 
 		System.out.println("inside getAuthentication");
-		UserDataBean db = userdatarepo.findByUsername(username);
-
-		if (db.getPassword().equals(password)) {
+		//UserDataBean db = userdatarepo.findByUsername(username);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		if (userDetails.getPassword().equals(password)) {
 			System.out.println("in if condition");
-			String jwtRaw = username+":"+(new Date()).getTime() + ":"+"6000000";
+/*			String jwtRaw = username+":"+(new Date()).getTime() + ":"+"6000000";
 			System.out.println("Generated token is - " + jwtRaw);
 			
 			
@@ -66,7 +68,8 @@ public class AuthController {
 	        byte[] signedJwtBytes = RSAUtil.rsaSignWithPrivateKey(privateKey, jwtRaw.getBytes());
 	        String signedJwtBytesAsc = Utils.encodeBase64(signedJwtBytes);
 	        
-			String jwtFinal = signedJwtBytesAsc + ":"+jwtRaw;
+			String jwtFinal = signedJwtBytesAsc + ":"+jwtRaw;*/
+			String jwtFinal = jwtTokenUtil.generateToken(userDetails);
 			System.out.println("jwtfinal: "+jwtFinal);
 			return ResponseEntity.ok(new JwtResponse(jwtFinal));
 		} else {
