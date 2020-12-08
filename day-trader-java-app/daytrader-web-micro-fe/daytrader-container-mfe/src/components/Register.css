@@ -60,7 +60,7 @@
 }
 
 .ar-register-box .form-container .form-group input {
-    width: calc(100% - 190px);
+    /* width: calc(100% - 190px); */
     height: 35px;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -75,7 +75,7 @@
     font-size: 14px;
     border: 2px solid #cc3f3f;;
     border-radius: 5px;
-    width: 150px;
+    /* width: 150px; */
     height: 35px;
     font-family: 'Cabin', sans-serif;
 }
