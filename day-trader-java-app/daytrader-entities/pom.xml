@@ -31,15 +31,15 @@
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.apache.geronimo.daytrader</groupId>
+    <groupId>com.ofss.daytrader</groupId>
 	<artifactId>daytrader-entities</artifactId>
 	<packaging>jar</packaging>
     <version>1.0</version>
-  
+
     <!-- Module dependencies -->
 	<dependencies>
         <dependency>
-            <groupId>org.apache.geronimo.daytrader</groupId>
+            <groupId>com.ofss.daytrader</groupId>
             <artifactId>daytrader-utilities</artifactId>
             <version>1.0</version>
         </dependency> 

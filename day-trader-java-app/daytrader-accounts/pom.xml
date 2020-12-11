@@ -46,14 +46,14 @@
 		<!-- Module Dependencies -->
 
 		<dependency>
-            <groupId>org.apache.geronimo.daytrader</groupId>
+            <groupId>com.ofss.daytrader</groupId>
             <artifactId>daytrader-entities</artifactId>            
             <scope>compile</scope>    
             <version>1.0</version>
         </dependency>
         
 	    <dependency>
-            <groupId>org.apache.geronimo.daytrader</groupId>
+            <groupId>com.ofss.daytrader</groupId>
             <artifactId>daytrader-utilities</artifactId>            
             <scope>compile</scope>         
             <version>1.0</version>
