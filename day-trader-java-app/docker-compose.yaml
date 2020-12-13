@@ -1,11 +1,17 @@
 version: '3.4'
 
 services:
-  daytrader-auth:
-    image: azseed/daytrader-auth:2.0
+      
+  daytrader-auth-server:
+    image: azseed/daytrader-auth-server:2.0
     ports:
       - "1555:1555"
     restart: always
+    environment:
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:authdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy
 
   daytrader-accounts:
     image: azseed/daytrader-accounts:2.0
@@ -13,7 +19,7 @@ services:
       - "1443:1443"
     restart: always
     depends_on:
-      - daytrader-auth
+      - daytrader-auth-server
       - daytrader-portfolios
       - daytrader-quotes
       
@@ -33,7 +39,7 @@ services:
       - "2443:2443"
     restart: always
     depends_on:
-      - daytrader-auth
+      - daytrader-auth-server
       - daytrader-accounts
       - daytrader-portfolios
       - daytrader-quotes
@@ -49,7 +55,7 @@ services:
       - "3443:3443"
     restart: always
     depends_on:
-      - daytrader-auth
+      - daytrader-auth-server
       - daytrader-quotes
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=http://daytrader-accounts:1443
@@ -66,7 +72,7 @@ services:
       - "4443:4443"
     restart: always
     depends_on:
-      - daytrader-auth
+      - daytrader-auth-server
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=http://daytrader-accounts:1443
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
@@ -90,27 +96,11 @@ services:
     restart: always
 
     depends_on:
-      - daytrader-auth
       - daytrader-accounts
       - daytrader-gateway
       - daytrader-portfolios
       - daytrader-quotes
       - daytrader-auth-server
-      
-  daytrader-auth-server:
-    image: azseed/daytrader-auth-server:2.0
-    ports:
-      - "1555:1555"
-    restart: always
-    depends_on:
-      - daytrader-accounts
-      
-    environment:
-      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
-      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-      - DAYTRADER_DATABASE_URL=jdbc:derby:authdb;create=true
-      - DAYTRADER_DATABASE_USERNAME=dummy
-      - DAYTRADER_DATABASE_PASSWORD=dummy
 
 #-------------- ReactJS - start -------------------------------------------------
 #  daytrader-web-react-npm:
