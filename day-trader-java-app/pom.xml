@@ -109,29 +109,29 @@
 	</build>
 	
 	<repositories>
-<repository>
-  <id>daytrader2</id>
-  <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/daytrader2/maven/v1</url>
-  <releases>
-    <enabled>true</enabled>
-  </releases>
-  <snapshots>
-    <enabled>true</enabled>
-  </snapshots>
-</repository>
+        <repository>
+          <id>daytrader2</id>
+          <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/daytrader2/maven/v1</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
 	</repositories>
 
 	<distributionManagement>
-<repository>
-  <id>daytrader2</id>
-  <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/daytrader2/maven/v1</url>
-  <releases>
-    <enabled>true</enabled>
-  </releases>
-  <snapshots>
-    <enabled>true</enabled>
-  </snapshots>
-</repository>
+        <repository>
+          <id>daytrader2</id>
+          <url>https://pkgs.dev.azure.com/AlphaGX/GXEnablement/_packaging/daytrader2/maven/v1</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
 	</distributionManagement>
 
 

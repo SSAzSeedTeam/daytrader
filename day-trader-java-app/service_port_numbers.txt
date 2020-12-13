@@ -4,7 +4,8 @@ daytrader-portfolios------------- 3443
 daytrader-quotes----------------- 4443
 
 daytrader-web-------------------- 5443
-daytrader-web-react-------------- 5453
+daytrader-web-react-npm---------- 
+daytrader-web-react-static------- 
 
 daytrader-report-generator------- No Port
 
