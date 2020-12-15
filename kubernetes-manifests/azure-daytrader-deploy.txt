@@ -1,39 +1,10 @@
-#------------------------------------------------------------------------------------
-#Step 1. Create a resource Group
-az group create --name shibu_azure_aks_res_grp --location westeurope
+These instructions are applicable for both AWS and Azure cloud.
+Please read the instructions carefully and make sure that you 
+run commands applicable for your environment only
+Special note:- look out for MySQL database config map creation script.
+               There are two separate version for AWS and Azure.
+-----------------------------------------------------
 
-#------------------------------------------------------------------------------------
-#Step 2: Create service principal
-az ad sp create-for-rbac --skip-assignment --name kubernetes-cluster-service-principal
-
-#sample output :-
-#{
-#  "appId": "ed48a0d2-0b46-4634-b459-567d2083ca13",
-#  "displayName": "kubernetes-cluster-service-principal",
-#  "name": "http://kubernetes-cluster-service-principal",
-#  "password": "Y5vl-gSzVP4rnUSCiQW~lPhkA13gdz3I7h",
-#  "tenant": "95c2db94-2a7c-4c55-876b-e53268d3fb83"
-#}
-
-#------------------------------------------------------------------------------------
-#Note down the appid & password which you need in the next command where we actually create a cluster
-#appid will be used for ----->service-principal (in the next command)
-#password will be used for -->client-secret (in the next command)
-
-#the above is achieved with below command
-
-for /f "tokens=1,3" %a in ('az ad sp credential reset --name kubernetes-cluster-service-principal --output tsv')  do set APP_ID=%a & set PASSWORD=%b
-
-#------------------------------------------------------------------------------------
-#Step3: create a cluster (replace service-principal and client-secret from above step)
-
-set EMAIL=shibu@shibu.com
-for /f "tokens=2-8 delims=.:/ " %a in ("%date% %time%") do set DATETIME=%c-%a-%b:%d-%e-%f.%g
-az aks create --name daytrader-cluster  --node-count 1 --enable-addons monitoring --resource-group shibu_azure_aks_res_grp --vm-set-type VirtualMachineScaleSets --load-balancer-sku standard --enable-cluster-autoscaler  --min-count 1 --max-count 2 --generate-ssh-keys --service-principal %APP_ID%  --client-secret  %PASSWORD%  --tags email=%EMAIL% created=%DATETIME%
-
-#------------------------------------------------------------------------------------
-#Step4: Connect to the cluster created in step 3
-az aks get-credentials --resource-group shibu_azure_aks_res_grp --name daytrader-cluster --overwrite-existing
 
 #------------------------------------------------------------------------------------
 #create pods and services
@@ -41,7 +12,11 @@ az aks get-credentials --resource-group shibu_azure_aks_res_grp --name daytrader
 #change directory to the kubernetes-manifests folder in your project source code cloned folder 
 cd D:\Projects\daytrader\kubernetes-manifests\
 
+#If running on Azure, run below command
 kubectl apply -f configmaps-azure-mysql
+#else If running on AWS, run below command
+kubectl apply -f configmaps-aws-mysql
+
 kubectl apply -f config-map-application-properties
 
 kubectl apply -f pods/accounts
@@ -106,19 +81,3 @@ kubectl describe pod POD_NAME
 kubectl logs -f  POD_NAME
 
 #------------------------------------------------------------------------------------
-
-#------------------------------------------------------------------------------------
-#uncomment and run below commands to delete all cluster and mysql resources
-
-#delete cluster
-#az aks delete --name daytrader-cluster  --resource-group shibu_azure_aks_res_grp --yes
-
-#delete mysql
-#az group delete --name shibu_azure_mysql_res_grp --yes
-
-#delete cluster resource group
-#az group delete --resource-group shibu_azure_aks_res_grp   --yes
-#az group delete --resource-group DefaultResourceGroup-WEU  --yes
-#az group delete --resource-group NetworkWatcherRG          --yes
-#------------------------------------------------------------------------------------
-

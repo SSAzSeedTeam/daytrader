@@ -1,3 +1,6 @@
+These instructions are to be run on a Windows machine
+-----------------------------------------------------
+
 #----------------------------------------------------------------------------------------------------------------
 #Install extension (may be not required)
 #az extension add --name db-up
