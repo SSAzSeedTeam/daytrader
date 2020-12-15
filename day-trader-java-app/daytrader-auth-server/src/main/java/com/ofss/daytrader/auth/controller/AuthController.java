@@ -15,7 +15,7 @@ import com.ofss.daytrader.auth.model.MyUserDetailsService;
 import com.ofss.daytrader.auth.model.UserDataBean;
 import com.ofss.daytrader.auth.repository.UserDataRepository;
 import com.ofss.daytrader.auth.util.JwtTokenUtil;
-
+import com.ofss.daytrader.auth.util.Log;
 
 @RestController
 @CrossOrigin
@@ -38,7 +38,7 @@ public class AuthController {
 			@RequestParam String username,
 			@RequestParam String password) throws Exception {
 
-		System.out.println("inside getAuthentication");
+		Log.debug("inside getAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		if (userDetails.getPassword().equals(password)) {
 			System.out.println("in if condition");
