@@ -28,15 +28,18 @@
     
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+			<JsonLayout complete="false"  compact="true" eventEol="true"></JsonLayout>
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
+		<!--
 		 <File name="FileAppender" fileName="${LOG_FILENAME}" immediateFlush="true" append="false">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
+		 -->
     </Appenders>
 
     <Loggers>
-        <Root level="DEBUG" additivity="false">
+        <Root level="info" additivity="false">
         	<AppenderRef level="DEBUG" ref="${LOG_APPENDER}" />
      	</Root>
 		<!--  Each microservice has their own logger -->
