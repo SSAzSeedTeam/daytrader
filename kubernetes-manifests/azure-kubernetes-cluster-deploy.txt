@@ -41,14 +41,14 @@ az aks get-credentials --resource-group shibu_azure_aks_res_grp --name daytrader
 #change directory to the kubernetes-manifests folder in your project source code cloned folder 
 cd D:\Projects\daytrader\kubernetes-manifests\
 
-kubectl apply -f configmaps-azure-mysql\
-kubectl apply -f config-map-application-properties\
+kubectl apply -f configmaps-azure-mysql
+kubectl apply -f config-map-application-properties
 
-kubectl apply -f pods\accounts
-kubectl apply -f pods\gateway
-kubectl apply -f pods\portfolios
-kubectl apply -f pods\quotes
-kubectl apply -f pods\web
+kubectl apply -f pods/accounts
+kubectl apply -f pods/gateway
+kubectl apply -f pods/portfolios
+kubectl apply -f pods/quotes
+kubectl apply -f pods/web
 
 #-------------------------
 #wait for 2 minutes for the load balancer to get set up.
