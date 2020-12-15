@@ -3,7 +3,7 @@ version: '3.4'
 services:
       
   daytrader-auth-server:
-    image: azseed/daytrader-auth-server:2.0
+    image: azseed/daytrader-auth-server:2.1
     ports:
       - "1555:1555"
     restart: always
@@ -14,7 +14,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy
 
   daytrader-accounts:
-    image: azseed/daytrader-accounts:2.0
+    image: azseed/daytrader-accounts:2.1
     ports:
       - "1443:1443"
     restart: always
@@ -34,7 +34,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy      
 
   daytrader-gateway:
-    image: azseed/daytrader-gateway:2.0
+    image: azseed/daytrader-gateway:2.1
     ports:
       - "2443:2443"
     restart: always
@@ -50,7 +50,7 @@ services:
       - DAYTRADER_QUOTES_SERVICE=http://daytrader-quotes:4443
 
   daytrader-portfolios:
-    image: azseed/daytrader-portfolios:2.0
+    image: azseed/daytrader-portfolios:2.1
     ports:
       - "3443:3443"
     restart: always
@@ -67,7 +67,7 @@ services:
       - DAYTRADER_DATABASE_USERNAME=dummy
       - DAYTRADER_DATABASE_PASSWORD=dummy      
   daytrader-quotes:
-    image: azseed/daytrader-quotes:2.0
+    image: azseed/daytrader-quotes:2.1
     ports:
       - "4443:4443"
     restart: always
@@ -84,7 +84,7 @@ services:
       - DAYTRADER_DATABASE_PASSWORD=dummy      
       
   daytrader-web:
-    image: azseed/daytrader-web:2.0
+    image: azseed/daytrader-web:2.1
     environment:
       - DAYTRADER_ACCOUNTS_SERVICE=http://daytrader-accounts:1443
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
@@ -104,7 +104,7 @@ services:
 
 #-------------- ReactJS - start -------------------------------------------------
 #  daytrader-web-react-npm:
-#    image: azseed/daytrader-web-react-npm:2.0
+#    image: azseed/daytrader-web-react-npm:2.1
 #    environment:
 #      - DAYTRADER_ACCOUNTS_SERVICE=http://daytrader-accounts:1443
 #      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
@@ -122,7 +122,7 @@ services:
 #      - daytrader-quotes
 #      
 #  daytrader-web-react-static:
-#    image: azseed/daytrader-web-react-static:2.0
+#    image: azseed/daytrader-web-react-static:2.1
 #    environment:
 #      - DAYTRADER_ACCOUNTS_SERVICE=http://daytrader-accounts:1443
 #      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
@@ -142,7 +142,7 @@ services:
       
 #-------------- Kafka - start -------------------------------------------------
 #  daytrader-trade-consumer:
-#    image: azseed/daytrader-trade-consumer:2.0
+#    image: azseed/daytrader-trade-consumer:2.1
 #    environment:
 #      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
 #      
@@ -154,7 +154,7 @@ services:
 #      - daytrader-gateway
 #      
 #  daytrader-trade-producer:
-#    image: azseed/daytrader-trade-producer:2.0
+#    image: azseed/daytrader-trade-producer:2.1
 #    environment:
 #      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
 #      
@@ -168,7 +168,7 @@ services:
 
 #-------------- SCDF - start -------------------------------------------------
 #  daytrader-scdf-trade-generator:
-#    image: azseed/daytrader-scdf-trade-generator:2.0
+#    image: azseed/daytrader-scdf-trade-generator:2.1
 #    deploy:
 #      replicas: 1
 #    environment:
@@ -178,7 +178,7 @@ services:
 #    restart: always
 #
 #  daytrader-scdf-trade-processor:
-#    image: azseed/daytrader-scdf-trade-processor:2.0
+#    image: azseed/daytrader-scdf-trade-processor:2.1
 #    deploy:
 #      replicas: 1
 #    environment:
@@ -188,7 +188,7 @@ services:
 #    restart: always
 #
 #  daytrader-scdf-trade-validation:
-#    image: azseed/daytrader-scdf-trade-validation:2.0
+#    image: azseed/daytrader-scdf-trade-validation:2.1
 #    deploy:
 #      replicas: 1
 #    environment:
@@ -200,7 +200,7 @@ services:
     
 #-------------- reactJS - micro-frontend - npm - start --------------------------------------------------
 #  daytrader-web-mfe-container-npm:
-#    image: azseed/daytrader-web-mfe-container-npm:2.0
+#    image: azseed/daytrader-web-mfe-container-npm:2.1
 #    ports:
 #      - "3001:3001"
 #    restart: always  
@@ -211,7 +211,7 @@ services:
 #      - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:3004 
 #
 #  daytrader-web-mfe-accounts-npm:
-#    image: azseed/daytrader-web-mfe-accounts-npm:2.0
+#    image: azseed/daytrader-web-mfe-accounts-npm:2.1
 #    ports:
 #      - "3002:3002"
 #    restart: always
@@ -220,7 +220,7 @@ services:
 #
 #
 #  daytrader-web-mfe-portfolios-npm:
-#    image: azseed/daytrader-web-mfe-portfolios-npm:2.0
+#    image: azseed/daytrader-web-mfe-portfolios-npm:2.1
 #    ports:
 #      - "3003:3003"
 #    restart: always
@@ -229,7 +229,7 @@ services:
 #
 #  
 #  daytrader-web-mfe-quotes-npm:
-#    image: azseed/daytrader-web-mfe-quotes-npm:2.0
+#    image: azseed/daytrader-web-mfe-quotes-npm:2.1
 #    ports:
 #      - "3004:3004"
 #    restart: always
@@ -239,7 +239,7 @@ services:
     
 #-------------- reactJS - micro-frontend - static - start -----------------------------------------------
   daytrader-web-mfe-container-static:
-    image: azseed/daytrader-web-mfe-container-static:2.0
+    image: azseed/daytrader-web-mfe-container-static:2.1
     ports:
       - "4001:3001"
     restart: always  
@@ -250,7 +250,7 @@ services:
       - REACT_APP_DAYTRADER_QUOTES_MFE_URL=http://localhost:4004 
 
   daytrader-web-mfe-accounts-static:
-    image: azseed/daytrader-web-mfe-accounts-static:2.0
+    image: azseed/daytrader-web-mfe-accounts-static:2.1
     ports:
       - "4002:3002"
     restart: always
@@ -259,7 +259,7 @@ services:
 
 
   daytrader-web-mfe-portfolios-static:
-    image: azseed/daytrader-web-mfe-portfolios-static:2.0
+    image: azseed/daytrader-web-mfe-portfolios-static:2.1
     ports:
       - "4003:3003"
     restart: always
@@ -268,7 +268,7 @@ services:
 
   
   daytrader-web-mfe-quotes-static:
-    image: azseed/daytrader-web-mfe-quotes-static:2.0
+    image: azseed/daytrader-web-mfe-quotes-static:2.1
     ports:
       - "4004:3004"
     restart: always

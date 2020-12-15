@@ -20,23 +20,23 @@ cd daytrader-auth-server			 ; sudo ./docker-build.sh ; cd ..
 #After testing your new changes, you can re-tag them appropriately and push to dockerhub with below commands
 #
 #
-#sudo docker tag daytrader-accounts:0                tnshibu/daytrader-accounts:1.7
-#sudo docker tag daytrader-gateway:0                 tnshibu/daytrader-gateway:1.7
-#sudo docker tag daytrader-portfolios:0              tnshibu/daytrader-portfolios:1.7
-#sudo docker tag daytrader-quotes:0                  tnshibu/daytrader-quotes:1.7
-#sudo docker tag daytrader-web:0                     tnshibu/daytrader-web:1.7
-#sudo docker tag daytrader-report-generator:0        tnshibu/daytrader-report-generator:1.7
-#sudo docker tag daytrader-onprem-exchange-rate:0    tnshibu/daytrader-onprem-exchange-rate:1.7
-#sudo docker tag daytrader-trade-consumer:0          tnshibu/daytrader-trade-consumer:1.7
-#sudo docker tag daytrader-trade-producer:0          tnshibu/daytrader-trade-producer:1.7
+#sudo docker tag daytrader-accounts:0                tnshibu/daytrader-accounts:2.1
+#sudo docker tag daytrader-gateway:0                 tnshibu/daytrader-gateway:2.1
+#sudo docker tag daytrader-portfolios:0              tnshibu/daytrader-portfolios:2.1
+#sudo docker tag daytrader-quotes:0                  tnshibu/daytrader-quotes:2.1
+#sudo docker tag daytrader-web:0                     tnshibu/daytrader-web:2.1
+#sudo docker tag daytrader-report-generator:0        tnshibu/daytrader-report-generator:2.1
+#sudo docker tag daytrader-onprem-exchange-rate:0    tnshibu/daytrader-onprem-exchange-rate:2.1
+#sudo docker tag daytrader-trade-consumer:0          tnshibu/daytrader-trade-consumer:2.1
+#sudo docker tag daytrader-trade-producer:0          tnshibu/daytrader-trade-producer:2.1
 #
-#sudo docker push tnshibu/daytrader-accounts:1.7
-#sudo docker push tnshibu/daytrader-gateway:1.7
-#sudo docker push tnshibu/daytrader-portfolios:1.7
-#sudo docker push tnshibu/daytrader-quotes:1.7
-#sudo docker push tnshibu/daytrader-web:1.7
-#sudo docker push tnshibu/daytrader-report-generator:1.7
-#sudo docker push tnshibu/daytrader-onprem-exchange-rate:1.7
-#sudo docker push tnshibu/daytrader-trade-consumer:1.7
-#sudo docker push tnshibu/daytrader-trade-producer:1.7
+#sudo docker push tnshibu/daytrader-accounts:2.1
+#sudo docker push tnshibu/daytrader-gateway:2.1
+#sudo docker push tnshibu/daytrader-portfolios:2.1
+#sudo docker push tnshibu/daytrader-quotes:2.1
+#sudo docker push tnshibu/daytrader-web:2.1
+#sudo docker push tnshibu/daytrader-report-generator:2.1
+#sudo docker push tnshibu/daytrader-onprem-exchange-rate:2.1
+#sudo docker push tnshibu/daytrader-trade-consumer:2.1
+#sudo docker push tnshibu/daytrader-trade-producer:2.1
 #
