@@ -41,7 +41,7 @@ az aks get-credentials --resource-group shibu_azure_aks_res_grp --name daytrader
 #change directory to the kubernetes-manifests folder in your project source code cloned folder 
 cd D:\Projects\daytrader\kubernetes-manifests\
 
-kubectl apply -f configmaps-mysql\
+kubectl apply -f configmaps-azure-mysql\
 kubectl apply -f config-map-application-properties\
 
 kubectl apply -f pods\accounts
