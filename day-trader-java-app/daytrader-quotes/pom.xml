@@ -60,8 +60,15 @@
 		<!-- Database Dependencies -->
 		
 	    <dependency>
+            <!-- for embedded driver -->
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derby</artifactId>
+		    <version>10.14.1.0</version>
+	    </dependency>
+	    <dependency>
+            <!-- for network driver -->
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derbyclient</artifactId>
 		    <version>10.14.1.0</version>
 	    </dependency>
         <dependency>

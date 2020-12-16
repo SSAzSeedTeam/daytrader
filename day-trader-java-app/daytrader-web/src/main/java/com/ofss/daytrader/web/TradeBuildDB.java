@@ -103,7 +103,8 @@ public class TradeBuildDB {
         	for (int offset = 0; offset < TradeConfig.getMAX_QUOTES(); offset+=limit) 
         	{
         		tradesService.quotesBuildDB(limit,offset);
-        		out.print("....." + "s:" + offset);
+        		//out.print("....." + "s:" + offset);
+        		out.print("....." + offset);
         		if (offset % 100 == 0) 
         		{
         			out.println(" -<BR>");

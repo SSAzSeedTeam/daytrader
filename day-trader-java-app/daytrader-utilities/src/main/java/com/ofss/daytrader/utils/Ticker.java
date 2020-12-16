@@ -1,4 +1,4 @@
-package com.ofss.daytrader.quotes.utils;
+package com.ofss.daytrader.utils;
 
 public class Ticker {
 	public String symbol;

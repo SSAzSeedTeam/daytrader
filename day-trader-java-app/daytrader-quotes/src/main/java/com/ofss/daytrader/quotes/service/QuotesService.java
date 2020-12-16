@@ -53,9 +53,9 @@ import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
 import com.ofss.daytrader.quotes.repository.QuotesRepository;
-import com.ofss.daytrader.quotes.utils.CSVLoader;
 import com.ofss.daytrader.quotes.utils.Log;
-import com.ofss.daytrader.quotes.utils.Ticker;
+import com.ofss.daytrader.utils.CSVLoader;
+import com.ofss.daytrader.utils.Ticker;
 import com.ofss.daytrader.utils.TradeConfig;
 
 /**
@@ -103,7 +103,7 @@ public class QuotesService
         if (index==0) resetTrade(true); // delete any rows from db prior to repopulating
      
         //Connection conn = null;
-        List<Ticker> tickers = CSVLoader.getTickerListCopy();
+        List<Ticker> tickers = CSVLoader.getTickerListCopy("NASDAQ.txt");
         try 
         {
            // conn = getConn();
@@ -787,16 +787,16 @@ public class QuotesService
     private static final String getQuoteForUpdateSQL = "select * from quoteejb q where q.symbol=? For Update";
 
     private static final String getTSIAQuotesOrderByChangeSQL =
-        "select * from quoteejb q " + "where q.symbol like 's:1__' order by q.change1";
+        "select * from quoteejb q " + "where q.symbol like '%' order by q.change1";
 
     private static final String getTSIASQL =
-        "select SUM(price)/count(*) as TSIA from quoteejb q " + "where q.symbol like 's:1__'";
+        "select SUM(price)/count(*) as TSIA from quoteejb q " + "where q.symbol like '%'";
 
     private static final String getOpenTSIASQL =
-        "select SUM(open1)/count(*) as openTSIA from quoteejb q " + "where q.symbol like 's:1__'";
+        "select SUM(open1)/count(*) as openTSIA from quoteejb q " + "where q.symbol like '%'";
 
     private static final String getTSIATotalVolumeSQL =
-        "select SUM(volume) as totalVolume from quoteejb q " + "where q.symbol like 's:1__'";
+        "select SUM(volume) as totalVolume from quoteejb q " + "where q.symbol like '%'";
  
     //	- The value of the field is never used 
     //    private static final String updateQuoteVolumeSQL =

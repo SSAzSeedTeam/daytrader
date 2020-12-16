@@ -17,6 +17,7 @@
 package com.ofss.daytrader.utils;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -429,15 +430,28 @@ public class TradeConfig {
     }
 
     public static String rndSymbol() {
-        return "s:" + rndInt(MAX_QUOTES - 1);
+        //return "s:" + rndInt(MAX_QUOTES - 1);
+        List<Ticker> list = CSVLoader.getTickerListCopy("NASDAQ.txt");
+        int size = list.size();
+        int index = rndInt(size);
+        String symbol = list.get(index).symbol;
+        list.remove(index);
+        return symbol;
     }
     public static String rndSymbols() {
 
         String symbols = "";
         int num_symbols = rndInt(QUOTES_PER_PAGE);
 
+        List<Ticker> list = CSVLoader.getTickerListCopy("NASDAQ.txt");
+
         for (int i = 0; i <= num_symbols; i++) {
-            symbols += "s:" + rndInt(MAX_QUOTES - 1);
+            //symbols += "s:" + rndInt(MAX_QUOTES - 1);
+            int size = list.size();
+            int index = rndInt(size);
+            String symbol = list.get(index).symbol;
+            list.remove(index);
+            symbols += symbol;
             if (i < num_symbols)
                 symbols += ",";
         }

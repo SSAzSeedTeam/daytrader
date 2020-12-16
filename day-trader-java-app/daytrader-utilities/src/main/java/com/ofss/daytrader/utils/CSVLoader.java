@@ -1,4 +1,4 @@
-package com.ofss.daytrader.quotes.utils;
+package com.ofss.daytrader.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,9 +11,9 @@ public class CSVLoader {
 	public static List<Ticker> tickerFull = null;
 
     // ********************************************************************************
-    public static void loadCsvFile() throws Exception {
+    public static void loadCsvFile(String fileName) throws Exception {
     	tickerFull = new ArrayList<Ticker>();
-        InputStream is = CSVLoader.class.getClassLoader().getResourceAsStream("NASDAQ.txt");
+        InputStream is = CSVLoader.class.getClassLoader().getResourceAsStream(fileName);
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             String line = br.readLine();
             while (line != null) {
@@ -28,13 +28,18 @@ public class CSVLoader {
     }
 
     // ********************************************************************************
-    public static List<Ticker> getTickerListCopy() throws Exception {
-    	if(tickerFull == null) {
-    		loadCsvFile();
-    	}
-    	List<Ticker> copy = new ArrayList<Ticker>();
-        copy.addAll(tickerFull);
-        return copy;
+    public static List<Ticker> getTickerListCopy(String fileName) {
+        try {
+            if(tickerFull == null) {
+                loadCsvFile(fileName);
+            }
+            List<Ticker> copy = new ArrayList<Ticker>();
+            copy.addAll(tickerFull);
+            return copy;
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

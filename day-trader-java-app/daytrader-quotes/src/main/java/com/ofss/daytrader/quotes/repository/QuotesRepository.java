@@ -15,22 +15,22 @@ import com.ofss.daytrader.entities.QuoteDataBean;
 public interface QuotesRepository extends JpaRepository<QuoteDataBean, String>{
 	
 	
-	@Query(value="select * from quoteejb q where q.symbol like 's:1__' order by q.change1", nativeQuery = true)
+	@Query(value="select * from quoteejb q where q.symbol like '%' order by q.change1", nativeQuery = true)
 	public Collection<QuoteDataBean> fetchQuotesBySymbol();
 	
-	@Query(value="select * from quoteejb q where q.symbol like 's:1__' order by q.change1 DESC", nativeQuery = true)
+	@Query(value="select * from quoteejb q where q.symbol like '%' order by q.change1 DESC", nativeQuery = true)
 	public Collection<QuoteDataBean> fetchQuotesBySymbolDESC();
 	
-	@Query(value="select SUM(price)/count(*) as TSIA from quoteejb q where q.symbol like 's:1__'", nativeQuery = true)
+	@Query(value="select SUM(price)/count(*) as TSIA from quoteejb q where q.symbol like '%'", nativeQuery = true)
 	public BigDecimal getTSIA();
 	
-	@Query(value="select SUM(open1)/count(*) as openTSIA from quoteejb q where q.symbol like 's:1__'", nativeQuery = true)
+	@Query(value="select SUM(open1)/count(*) as openTSIA from quoteejb q where q.symbol like '%'", nativeQuery = true)
 	public BigDecimal getOpenTSIA();
 	
-	@Query(value="select SUM(volume) as totalVolume from quoteejb q where q.symbol like 's:1__'", nativeQuery = true)
+	@Query(value="select SUM(volume) as totalVolume from quoteejb q where q.symbol like '%'", nativeQuery = true)
 	public double getTSIATotalVolume();
 	
-	@Query(value="select count(symbol) as tradeStockCount from quoteejb a where a.symbol like 's:%'", nativeQuery = true)
+	@Query(value="select count(symbol) as tradeStockCount from quoteejb a where a.symbol like '%'", nativeQuery = true)
 	public int countSymbol();
 	
 	@Query(value ="select * from quoteejb q where q.symbol=?1 For Update", nativeQuery = true)
