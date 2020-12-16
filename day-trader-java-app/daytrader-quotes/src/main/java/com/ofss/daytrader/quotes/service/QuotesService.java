@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.ArrayList;
 
 import javax.naming.InitialContext;
@@ -52,7 +53,9 @@ import com.ofss.daytrader.core.beans.*;
 import com.ofss.daytrader.core.direct.*;
 import com.ofss.daytrader.entities.*;
 import com.ofss.daytrader.quotes.repository.QuotesRepository;
+import com.ofss.daytrader.quotes.utils.CSVLoader;
 import com.ofss.daytrader.quotes.utils.Log;
+import com.ofss.daytrader.quotes.utils.Ticker;
 import com.ofss.daytrader.utils.TradeConfig;
 
 /**
@@ -100,13 +103,16 @@ public class QuotesService
         if (index==0) resetTrade(true); // delete any rows from db prior to repopulating
      
         //Connection conn = null;
+        List<Ticker> tickers = CSVLoader.getTickerListCopy();
         try 
         {
            // conn = getConn();
         	for (int i = 0; i < limit; i++) 
         	{
-        	   String symbol = "s:" + index;
-        	   String companyName = "S" + index + " Incorporated";
+//         	   String symbol = "s:" + index;
+//         	   String companyName = "S" + index + " Incorporated";
+        	   String symbol = tickers.get(index).symbol;
+        	   String companyName = tickers.get(index).companyName;
        	       createQuote(symbol, companyName, new java.math.BigDecimal(TradeConfig.rndPrice()));
        	       index++;
         	}
