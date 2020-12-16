@@ -43,7 +43,7 @@
             <TD><B><A href="app?action=home">Home</A></B><B> </B></TD>
             <TD><B><A href="app?action=account">Account</A></B><B> </B></TD>
             <TD><B><A href="app?action=portfolio">Portfolio</A></B><B> </B></TD>
-            <TD><B><A href="app?action=quotes&amp;symbols=s:0,s:1,s:2,s:3,s:4">Quotes/Trade</A></B></TD>
+            <TD><B><A href="app?action=quotes&amp;symbols=ACGL,ALPN,BKSC,ATRC,BBIG">Quotes/Trade</A></B></TD>
             <TD><B><A href="app?action=logout">Logoff</A></B></TD>
             <TD></TD>
         </TR>
@@ -205,7 +205,7 @@ if ( (closedOrders != null) && (closedOrders.size()>0) )
                         <TD align="right">
                         <FORM action=""><INPUT type="submit" name="action" value="quotes">
                         <INPUT size="20" type="text" name="symbols"
-                            value="s:0, s:1, s:2, s:3, s:4"></FORM>
+                            value="ACGL,ALPN,BKSC,ATRC,BBIG"></FORM>
                         </TD>
                     </TR>
                 </TBODY>
