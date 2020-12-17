@@ -12,6 +12,6 @@ spec:
     targetPort: 5443
   selector:
     app: daytrader-web
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: NodePort
   type: LoadBalancer

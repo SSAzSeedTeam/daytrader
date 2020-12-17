@@ -12,5 +12,5 @@ spec:
     targetPort: 7453
   selector:
     app: daytrader-trade-producer
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: LoadBalancer 

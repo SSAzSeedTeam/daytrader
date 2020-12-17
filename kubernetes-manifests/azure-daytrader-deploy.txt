@@ -12,13 +12,21 @@ Special note:- look out for MySQL database config map creation script.
 #change directory to the kubernetes-manifests folder in your project source code cloned folder 
 cd D:\Projects\daytrader\kubernetes-manifests\
 
-#If running on Azure, run below command
+#-------------------------------------------------
+# if you want to run derby embedded database(in any cloud)
+kubectl apply -f configmaps-derby
+
+#else If running on Azure, run below command
 kubectl apply -f configmaps-azure-mysql
+
 #else If running on AWS, run below command
 kubectl apply -f configmaps-aws-mysql
 
+#-------------------------------------------------
+
 kubectl apply -f config-map-application-properties
 
+kubectl apply -f pods/auth-server
 kubectl apply -f pods/accounts
 kubectl apply -f pods/gateway
 kubectl apply -f pods/portfolios
@@ -28,21 +36,25 @@ kubectl apply -f pods/web
 #-------------------------
 #wait for 2 minutes for the load balancer to get set up.
 #check if the IP addresses are alloted
-kubecl get svc
+kubectl get svc
 
 #-------------------------
 #copy the IP address of daytrader-gateway into config-map-application-properties\config-map-service-urls.yaml
+On Windows
 for /f "tokens=4" %a in ('kubectl get svc ^| findstr  "daytrader-gateway"') do set GATEWAY_URL=%a
+
+On Linux
+kubectl get svc | grep daytrader-gateway | awk '{ print $4}'
 
 #If the above command return "<pending>", then we need to wait and keep re running the above command until it prints an IP Address
 #-------------------------
 
 BatchSubstitute.bat GATEWAY_SERVICE_URL_REPLACE %GATEWAY_URL% config-map-application-properties\config-map-service-urls.yaml > config-map-application-properties\config-map-service-urls.yaml.temp
 
-kubectl apply -f config-map-application-properties\config-map-service-urls.yaml.temp
-kubectl apply -f pods\web-mfe-static\web-mfe-accounts-static
-kubectl apply -f pods\web-mfe-static\web-mfe-portfolios-static
-kubectl apply -f pods\web-mfe-static\web-mfe-quotes-static
+kubectl apply -f config-map-application-properties/config-map-service-urls.yaml.temp
+kubectl apply -f pods/web-mfe-static/web-mfe-accounts-static
+kubectl apply -f pods/web-mfe-static/web-mfe-portfolios-static
+kubectl apply -f pods/web-mfe-static/web-mfe-quotes-static
 
 #-------------------------
 #copy the IP address of account-mfe, porfolio-mfe, quotes-mfe into config-map-application-properties\config-map-service-urls.yaml

@@ -12,5 +12,5 @@ spec:
     targetPort: 2443
   selector:
     app: daytrader-gateway
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
   type: LoadBalancer

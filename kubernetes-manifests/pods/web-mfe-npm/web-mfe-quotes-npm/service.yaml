@@ -12,6 +12,6 @@ spec:
     targetPort: 3004
   selector:
     app: daytrader-web-mfe-quotes-npm
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: NodePort
   type: LoadBalancer

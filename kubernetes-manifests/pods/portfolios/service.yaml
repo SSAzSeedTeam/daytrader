@@ -12,5 +12,5 @@ spec:
     targetPort: 3443
   selector:
     app: daytrader-portfolios
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
   type: LoadBalancer 
