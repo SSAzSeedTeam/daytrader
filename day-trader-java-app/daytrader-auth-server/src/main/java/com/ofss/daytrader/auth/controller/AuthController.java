@@ -41,9 +41,9 @@ public class AuthController {
 		Log.debug("inside getAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		if (userDetails.getPassword().equals(password)) {
-			System.out.println("in if condition");
+			//System.out.println("in if condition");
 			String jwtFinal = jwtTokenUtil.generateToken(userDetails);
-			System.out.println("jwtfinal: "+jwtFinal);
+			//System.out.println("jwtfinal: "+jwtFinal);
 			return ResponseEntity.ok(new JwtResponse(jwtFinal));
 		} else {
 			throw new Exception("User not found");

@@ -12,5 +12,5 @@ spec:
     targetPort: 4443
   selector:
     app: daytrader-quotes
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
   type: LoadBalancer 

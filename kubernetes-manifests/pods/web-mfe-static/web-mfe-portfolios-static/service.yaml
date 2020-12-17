@@ -12,6 +12,6 @@ spec:
     targetPort: 80
   selector:
     app: daytrader-web-mfe-portfolios-static
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: NodePort
   type: LoadBalancer
