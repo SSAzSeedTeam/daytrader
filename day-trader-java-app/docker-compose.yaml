@@ -28,6 +28,7 @@ services:
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
       - DAYTRADER_PORTFOLIOS_SERVICE=http://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=http://daytrader-quotes:4443
+      - DAYTRADER_AUTH_SERVICE=http://daytrader-auth-server:1555
       - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
       - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
       - DAYTRADER_DATABASE_USERNAME=dummy
@@ -48,6 +49,7 @@ services:
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
       - DAYTRADER_PORTFOLIOS_SERVICE=http://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=http://daytrader-quotes:4443
+      - DAYTRADER_AUTH_SERVICE=http://daytrader-auth-server:1555
 
   daytrader-portfolios:
     image: azseed/daytrader-portfolios:2.1
@@ -62,6 +64,7 @@ services:
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
       - DAYTRADER_PORTFOLIOS_SERVICE=http://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=http://daytrader-quotes:4443
+      - DAYTRADER_AUTH_SERVICE=http://daytrader-auth-server:1555
       - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
       - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
       - DAYTRADER_DATABASE_USERNAME=dummy
@@ -78,6 +81,7 @@ services:
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
       - DAYTRADER_PORTFOLIOS_SERVICE=http://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=http://daytrader-quotes:4443
+      - DAYTRADER_AUTH_SERVICE=http://daytrader-auth-server:1555
       - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
       - DAYTRADER_DATABASE_URL=jdbc:derby:tradesdb;create=true
       - DAYTRADER_DATABASE_USERNAME=dummy
@@ -90,6 +94,7 @@ services:
       - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
       - DAYTRADER_PORTFOLIOS_SERVICE=http://daytrader-portfolios:3443
       - DAYTRADER_QUOTES_SERVICE=http://daytrader-quotes:4443
+      - DAYTRADER_AUTH_SERVICE=http://daytrader-auth-server:1555
       
     ports:
       - "5443:5443"
