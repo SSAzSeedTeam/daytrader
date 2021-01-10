@@ -4,6 +4,7 @@ import axios from 'axios'
 import './login.css'
 import Navbar from './shared/Navbar/Navbar'
 import Footer from './shared/Footer/Footer'
+import { axiosClient } from '../authentication'
 
 class Login extends Component {
   constructor() {
@@ -11,17 +12,18 @@ class Login extends Component {
     this.state = {
       uid: '',
       passwd: '',
-      errorFlag:false,
-      apiUrl: 'https://localhost:2443'
+      errorFlag: false,
+      apiUrl: 'http://localhost:2443',
+      authUrl: 'http://localhost:1555'
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const el = document.getElementById('end-point-url')
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
       this.setState({
         apiUrl: endPointUrl
@@ -37,31 +39,34 @@ class Login extends Component {
     })
   }
 
-  handleLogin = (e) => {
-    e.preventDefault()
-    const { uid, passwd, apiUrl } = this.state
+  handleLogin = async (e) => {
+    e.preventDefault();
+    const { uid, passwd, apiUrl, authUrl } = this.state;
+    const { data } = await axios.post(`${authUrl}/authenticate?username=${uid}&password=${passwd}`);
+    data ? localStorage.setItem('authToken', data.token) : localStorage.setItem('authToken', '')
     if (uid && passwd) {
-      axios.patch(`${apiUrl}/login/${uid}`, passwd, {
-          headers: {
+      axiosClient.patch(`${apiUrl}/login/${uid}`, passwd, {
+        headers: {
           'Content-Type': 'text/plain',
-        }}
+        }
+      }
       ).then(res => {
         console.log('res', res)
         if (res.status === 200) {
           localStorage.setItem('userId', res.data.profileID)
           this.props.history.push('/trading');
         }
-      }).catch(err=>{
+      }).catch(err => {
         this.setState({
-          errorFlag:true
-         })
+          errorFlag: true
+        })
       })
     }
   }
 
-  render () {
-    const {errorFlag}=this.state
-    console.log('aaaa',errorFlag)
+  render() {
+    const { errorFlag } = this.state
+    console.log('aaaa', errorFlag)
     return (
       <div className='app-login-container'>
         <Navbar />
@@ -89,7 +94,7 @@ class Login extends Component {
                     onChange={this.handleOnChange}
                   />
                 </div>
-                <div className='error-message'>{errorFlag?<p>UnAuthorized User </p>:''}</div>
+                <div className='error-message'>{errorFlag ? <p>UnAuthorized User </p> : ''}</div>
                 <div className='form-group'>
                   <button className='app-login-button'>Login</button>
                 </div>

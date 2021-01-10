@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import './accounts.css';
 import { LOCAL_GATEWAY_URL } from '../constants';
+import { axiosClient } from '../authentication';
 
 class AccountsPage extends Component {
   constructor() {
@@ -16,38 +17,38 @@ class AccountsPage extends Component {
       updateFlag: false,
       showAllOrdersinfo: [],
       showLoader: true,
-      apiUrl: 'https://localhost:2443',
+      apiUrl: 'http://localhost:2443',
     }
   }
 
   componentDidMount() {
-    let endPointUrl = 'https://localhost:2443'
+    let endPointUrl = 'http://localhost:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
     }
-  const userId = localStorage.getItem('userId')
-  axios.get(`${endPointUrl}/accounts/${userId}`)
+    const userId = localStorage.getItem('userId')
+    axiosClient.get(`${endPointUrl}/accounts/${userId}`)
       .then(res => {
         console.log('res', res)
         this.setState({
-          accountsummary: res.data,
+          accountsummary: res ? res.data : {},
         })
       })
-    axios.get(`${endPointUrl}/accounts/${userId}/profiles`)
+    axiosClient.get(`${endPointUrl}/accounts/${userId}/profiles`)
       .then(res => {
         console.log('res', res)
         this.setState({
-          userinfo: res.data,
+          userinfo: res ? res.data : {},
           showLoader: false
         })
       })
-      this.setState({
-        apiUrl:endPointUrl
-      })
+    this.setState({
+      apiUrl: endPointUrl
+    })
   }
 
   handleOnInputChange = (e) => {
@@ -62,7 +63,7 @@ class AccountsPage extends Component {
   }
 
   handleUpdateProfile = () => {
-    const { userinfo,apiUrl } = this.state
+    const { userinfo, apiUrl } = this.state
     const dataToSend = {
       address: userinfo.address,
       creditCard: userinfo.creditCard,
@@ -72,7 +73,7 @@ class AccountsPage extends Component {
       userID: userinfo.userID
     }
     const userId = localStorage.getItem('userId')
-    axios.put(`${apiUrl}/accounts/${userId}/profiles`, dataToSend)
+    axiosClient.put(`${apiUrl}/accounts/${userId}/profiles`, dataToSend)
       .then(res => {
         console.log('res', res);
         this.setState({
@@ -81,9 +82,9 @@ class AccountsPage extends Component {
       })
   }
   showAllOrders = () => {
-  const {apiUrl} = this.state
-  const userId = localStorage.getItem('userId')
-    axios.get(`${apiUrl}/portfolios/${userId}/orders`)
+    const { apiUrl } = this.state
+    const userId = localStorage.getItem('userId')
+    axiosClient.get(`${apiUrl}/portfolios/${userId}/orders`)
       .then(res => {
         console.log('res', res)
         this.setState({
@@ -107,7 +108,7 @@ class AccountsPage extends Component {
         <div className='account-page-table-container'>
           <table className='account-page-table' cellPadding="0" cellSpacing="0">
             <tr className='table-header'>
-              <td colSpan="6">Account Information</td>
+              <td colSpan="6">Accounts Information</td>
             </tr>
             <tr className='table-row'>
               <td>Account Created: <span>{moment(creationDate).format('llll')}</span></td>

@@ -4,6 +4,7 @@ import './portfolio.css';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import CompletedOrderPage from '../order/completed-order';
+import { axiosClient } from '../authentication';
 
 
 const TXN_FEE = 24.95;
@@ -17,31 +18,31 @@ class Portfolios extends React.Component {
       ordersinfo: {},
       holdingsinfo: [],
       quotes: {},
-      curTime : new Date(),
-      tableinfo:{},
-      apiUrl: 'https://localhost:2443',
+      curTime: new Date(),
+      tableinfo: {},
+      apiUrl: 'http://localhost:2443',
     }
   }
 
   componentDidMount() {
-    let endPointUrl = 'https://localhost:2443'
+    let endPointUrl = 'http://localhost:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
     }
     const userId = localStorage.getItem('userId')
     let holdingsinfo = [];
-    axios.get(`${endPointUrl}/portfolios/${userId}/holdings`).
+    axiosClient.get(`${endPointUrl}/portfolios/${userId}/holdings`).
       then(async (res) => {
         console.log('res', res);
-        if (res.data && res.data.length > 0) {
+        if (res && res.data && res.data.length > 0) {
           holdingsinfo = [...res.data];
           for (let i = 0; i < res.data.length; i += 1) {
             let symbol = res.data[i].quoteID;
-            await axios.get(`${endPointUrl}/quotes/${symbol}`)
+            await axiosClient.get(`${endPointUrl}/quotes/${symbol}`)
               .then(res => {
                 console.log('res inner', res)
                 const { price } = res.data;
@@ -79,7 +80,7 @@ class Portfolios extends React.Component {
 
   handleSellOrder = (holdingID, symbol, price, quantity) => {
     const userID = localStorage.getItem('userId');
-  //  const cDate = new Date();
+    //  const cDate = new Date();
     const dataToSend = {
       accountID: 0,
       buy: true,
@@ -98,13 +99,13 @@ class Portfolios extends React.Component {
       sell: true,
       symbol,
     }
-    const {apiUrl}=this.state
+    const { apiUrl } = this.state
     console.log('dataToSend', dataToSend);
-    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axiosClient.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
-          this.props.history.push({pathname: '/trading/new-order', state: res.data})
+          this.props.history.push({ pathname: '/trading/new-order', state: res.data })
         }
       })
   }
@@ -115,7 +116,7 @@ class Portfolios extends React.Component {
     let obj = {};
     for (let i = 0; i < quotes.length; i += 1) {
       const symbol = quotes[i];
-      await axios.get(`${apiUrl}/quotes/${symbol}`)
+      await axiosClient.get(`${apiUrl}/quotes/${symbol}`)
 
         .then(res => {
           console.log('res', res)
@@ -164,7 +165,7 @@ class Portfolios extends React.Component {
       sell: true,
       symbol,
     }
-    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axiosClient.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
@@ -174,21 +175,21 @@ class Portfolios extends React.Component {
   }
 
   render() {
-    const { ordersinfo, holdingsinfo, quotes,curTime } = this.state
+    const { ordersinfo, holdingsinfo, quotes, curTime } = this.state
     const SumOfPurchaseBasis = this.getSumOfPurchaseBasis();
-    const SumOfMarketValue=this.getSumOfMarketValue();
+    const SumOfMarketValue = this.getSumOfMarketValue();
     const totalProfit = (SumOfMarketValue - SumOfPurchaseBasis).toFixed(2)
     return (
       <div className='portfolio-page-container'>
-        <div className='app-current-date-time-section' style={{maxWidth: '85%', margin: 'auto'}}>
-          <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
+        <div className='app-current-date-time-section' style={{ maxWidth: '85%', margin: 'auto' }}>
+          <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY')}</p>
         </div>
         <div><CompletedOrderPage /></div>
         <div className='portfolio-page-table-container'>
           <table width="100%" cellSpacing="0" cellPadding="0" className='portfolio-table'>
             <tr className='table-header'>
               <td colSpan='6'>Portfolio</td>
-              <td colSpan='4' style={{textAlign: "right"}}>Number of Holdings: {holdingsinfo.length}</td>
+              <td colSpan='4' style={{ textAlign: "right" }}>Number of Holdings: {holdingsinfo.length}</td>
             </tr>
             <tr className='table-row'>
               <th><Link to='/Terms'>Holding ID</Link></th>
@@ -206,7 +207,7 @@ class Portfolios extends React.Component {
               const { holdingID, quantity, purchasePrice, purchaseDate, quoteID, currentPrice } = item;
               const purchasebasis = (quantity * purchasePrice);
               const marketvalue = (quantity * currentPrice);
-              const GainOrLoss= (purchasebasis-marketvalue);
+              const GainOrLoss = (purchasebasis - marketvalue);
               return (
                 <tr className='table-row' key={`top-holdings-data-row-${index}`}>
                   <td>{holdingID}</td>
@@ -217,7 +218,7 @@ class Portfolios extends React.Component {
                   <td>{currentPrice ? currentPrice.toFixed(2) : 0.0}</td>
                   <td>{purchasebasis ? purchasebasis.toFixed(2) : 0.0}</td>
                   <td>{marketvalue ? marketvalue.toFixed(2) : 0.0}</td>
-                  <td style={{color: GainOrLoss > 0 ? 'green' : 'red'}}>{GainOrLoss ? GainOrLoss.toFixed(2) : 0.0}<span>{GainOrLoss >= 0 ? '+' : '-'}</span></td>
+                  <td style={{ color: GainOrLoss > 0 ? 'green' : 'red' }}>{GainOrLoss ? GainOrLoss.toFixed(2) : 0.0}<span>{GainOrLoss >= 0 ? '+' : '-'}</span></td>
                   <td onClick={() => this.handleSellOrder(holdingID, quoteID, currentPrice, quantity)}><Link>{trade}</Link></td>
                 </tr>
 
@@ -232,7 +233,7 @@ class Portfolios extends React.Component {
               <td>Total</td>
               <td>${SumOfPurchaseBasis}</td>
               <td>${SumOfMarketValue}</td>
-              <td colSpan="2" style={{color: totalProfit > 0 ? 'green' : 'red'}}>
+              <td colSpan="2" style={{ color: totalProfit > 0 ? 'green' : 'red' }}>
                 ${totalProfit}
                 <span>{totalProfit >= 0 ? '+' : '-'}</span>
                 ({totalProfit > 0 ? '+' : '-'}{Math.ceil(totalProfit * 100 / SumOfPurchaseBasis).toFixed(2)}%)
