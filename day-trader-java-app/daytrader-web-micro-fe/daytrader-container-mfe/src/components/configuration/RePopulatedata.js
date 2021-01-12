@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from '../shared/Navbar/Navbar';
 import Footer from '../shared/Footer/Footer';
-import {LOCAL_GATEWAY_URL} from '../../constants';
+import { LOCAL_GATEWAY_URL } from '../../constants';
 
 
 const quotesBuildlimit = 10;
@@ -20,13 +20,13 @@ class RePopulatePage extends Component {
     }
   }
 
-  async componentDidMount () {
-    let endPointUrl = 'https://localhost:2443'
+  async componentDidMount() {
+    let endPointUrl = 'http://localhost:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
     }
     let content = '';
@@ -64,15 +64,15 @@ class RePopulatePage extends Component {
 
   }
   render() {
-    const {quotesBuildDB, TradeBuildDB, messageTwo, message} = this.state;
+    const { quotesBuildDB, TradeBuildDB, messageTwo, message } = this.state;
     return (
       <div>
         <Navbar />
-        <div className='config-content-container'>{quotesBuildDB ? <div className='content' dangerouslySetInnerHTML={{__html: message}} /> : ''}</div>
+        <div className='config-content-container'>{quotesBuildDB ? <div className='content' dangerouslySetInnerHTML={{ __html: message }} /> : ''}</div>
         <div className='config-content-container'>{TradeBuildDB ? <div>
           <div>TradeBuildDB: **** Registering 200 Users ****</div>
-          <div className='content' dangerouslySetInnerHTML={{__html: messageTwo}} />
-          </div> : ''}</div>
+          <div className='content' dangerouslySetInnerHTML={{ __html: messageTwo }} />
+        </div> : ''}</div>
         <Footer />
       </div>
     )

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './new-order.css'
 import moment from 'moment';
-import {LOCAL_GATEWAY_URL} from '../../constants';
+import { LOCAL_GATEWAY_URL } from '../../constants';
 
 
 const status = 'closed'
@@ -18,12 +18,12 @@ class CompletedOrderPage extends Component {
 
   componentDidMount() {
     const userId = localStorage.getItem('userId')
-    let endPointUrl = 'https://localhost:2443'
+    let endPointUrl = 'http://localhost:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
     }
     axios.patch(`${endPointUrl}/portfolios/${userId}/orders?status=${status}`)
@@ -39,9 +39,9 @@ class CompletedOrderPage extends Component {
     return (
       <div>
         {completedorderinfo && completedorderinfo.length > 0 && (
-          <table className='completed-order-table quotes-table' cellSpacing="0" cellPadding="0" width="100%" style={{marginBottom: 15}}>
+          <table className='completed-order-table quotes-table' cellSpacing="0" cellPadding="0" width="100%" style={{ marginBottom: 15 }}>
             <tr className='table-header'>
-              <td colSpan="8" style={{backgroundColor: '#cc3f3f', color: '#fff'}}>Alert: the following order(s) have completed.</td>
+              <td colSpan="8" style={{ backgroundColor: '#cc3f3f', color: '#fff' }}>Alert: the following order(s) have completed.</td>
             </tr>
             <tr className='table-header-row'>
               <th><Link to='/Terms'>Order ID</Link></th>
