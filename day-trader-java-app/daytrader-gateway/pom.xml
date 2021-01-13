@@ -173,7 +173,16 @@
             <artifactId>commons-collections</artifactId>
             <scope>compile</scope>
             <version>3.2.2</version>
-        </dependency>       
+        </dependency>     
+        <!-- redis Dependencies -->
+         <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>  
 
 		<!-- REST Client Dependencies -->
 		
