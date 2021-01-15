@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+      
+#-------------- SCDF - start -------------------------------------------------
+  daytrader-scdf-trade-generator:
+    image: azseed/daytrader-scdf-trade-generator:2.1
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
+    ports:
+      - "7601:8086"
+    restart: always
+
+  daytrader-scdf-trade-processor:
+    image: azseed/daytrader-scdf-trade-processor:2.1
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
+    ports:
+      - "7602:8086"
+    restart: always
+
+  daytrader-scdf-trade-validation:
+    image: azseed/daytrader-scdf-trade-validation:2.1
+    deploy:
+      replicas: 1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
+    ports:
+      - "7603:8086"
+    restart: always
+#-------------- SCDF - end ---------------------------------------------------

@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+
+#-------------- Kafka - start -------------------------------------------------
+  daytrader-trade-consumer:
+    image: azseed/daytrader-trade-consumer:2.1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
+      
+    ports:
+      - "7443:7443"
+    restart: always
+
+    depends_on:
+      - daytrader-gateway
+      
+  daytrader-trade-producer:
+    image: azseed/daytrader-trade-producer:2.1
+    environment:
+      - DAYTRADER_GATEWAY_SERVICE=http://daytrader-gateway:2443
+      
+    ports:
+      - "7444:8443"
+    restart: always
+
+    depends_on:
+      - daytrader-gateway
+#-------------- Kafka - end ---------------------------------------------------
