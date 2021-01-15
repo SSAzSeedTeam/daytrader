@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daytrader-web-mfe-container-npm
+  name: daytrader-web-mfe-container-npm
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daytrader-web-mfe-container-npm
+  template:
+    metadata:
+      labels:
+        app: daytrader-web-mfe-container-npm
+    spec:
+      containers:
+      - name: daytrader-web-mfe-container-npm
+        image: azseed/daytrader-web-mfe-container-npm:2.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3001
+          protocol: TCP
+#        readinessProbe:  
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 3000
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#        livenessProbe:  
+#          httpGet:
+#            path: /
+#            scheme: HTTP
+#            port: 3000
+#          initialDelaySeconds: 30
+#          periodSeconds: 30
+#          timeoutSeconds: 10
+#          failureThreshold: 4
+        env:
+        - name: CI
+          value: "true"
+        #----micro-frontend - start ------------
+        - name: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: REACT_APP_DAYTRADER_ACCOUNT_MFE_URL
+        - name: REACT_APP_DAYTRADER_QUOTES_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: REACT_APP_DAYTRADER_QUOTES_MFE_URL
+        - name: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: REACT_APP_DAYTRADER_PORTFOLIO_MFE_URL
+        - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: daytrader-service-urls-config-map
+              key: REACT_APP_DAYTRADER_GATEWAY_SERVICE
+        #----micro-frontend - end --------------

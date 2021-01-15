@@ -12,5 +12,5 @@ spec:
     targetPort: 6443
   selector:
     app: daytrader-scdf-trade-generator
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: LoadBalancer 

@@ -30,7 +30,7 @@
     </parent>
 -->	
 	<modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.geronimo.daytrader</groupId>
+    <groupId>com.ofss.daytrader</groupId>
 	<artifactId>daytrader-utilities</artifactId>
     <version>1.0</version>
 	<packaging>jar</packaging>

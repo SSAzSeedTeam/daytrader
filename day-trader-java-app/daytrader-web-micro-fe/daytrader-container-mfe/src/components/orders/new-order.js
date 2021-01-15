@@ -18,9 +18,17 @@ class NewOrderpage extends Component {
     }
   }
   componentDidMount() {
-    const { REACT_APP_DAYTRADER_GATEWAY_SERVICE = LOCAL_GATEWAY_URL } = process.env
 
-    axios.patch(`${REACT_APP_DAYTRADER_GATEWAY_SERVICE}/portfolios/${userId}/orders?status=${status}`)
+    const userId = localStorage.getItem('userId')
+    let endPointUrl = 'https://localhost:2443'
+    const el = document.getElementById('end-point-url')
+    if (el) {
+      endPointUrl = el.getAttribute('data-end-point')
+      if (endPointUrl === 'GATEWAY_END_POINT_URL') {
+        endPointUrl = 'https://localhost:2443'
+      }
+    }
+    axios.patch(`${endPointUrl}/portfolios/${userId}/orders?status=${status}`)
       .then(res => {
         console.log('res ---<', res)
         this.setState({

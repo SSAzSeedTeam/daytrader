@@ -12,5 +12,5 @@ spec:
     targetPort: 6463
   selector:
     app: daytrader-scdf-trade-validation
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: LoadBalancer 

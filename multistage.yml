@@ -6,7 +6,9 @@ variables:
 #  value: 17.2 - Sonali chaos testing - with hysterix
 #  value: 1.8 - micro front ends
 #  value: 1.9 - exchange rate
-  value: 2.0 
+#  value: 2.0 - auth server
+#  value: 2.1 - json logging
+  value: 2.1
 
 
 stages:
@@ -56,6 +58,15 @@ stages:
         SourceFolder: '$(Pipeline.Workspace)/Java_Build_Artifact'
         Contents: '**'
         TargetFolder: '$(system.defaultworkingdirectory)'
+    
+    - task: Docker@2
+      displayName: 'daytrader-auth-server'
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'azseed / daytrader-auth-server'
+        command: 'buildAndPush'
+        Dockerfile: 'day-trader-java-app/daytrader-auth-server/Dockerfile'
+        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-accounts'
@@ -120,50 +131,50 @@ stages:
         Dockerfile: 'day-trader-java-app/daytrader-onprem-exchange-rate/Dockerfile'
         tags: '${{variables.docker_tag}}'
     
-    - task: Docker@2
-      displayName: 'daytrader-trade-consumer'
-      inputs:
-        containerRegistry: 'DockerHub'
-        repository: 'azseed / daytrader-trade-consumer'
-        command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
-        tags: '${{variables.docker_tag}}'
-    
-    - task: Docker@2
-      displayName: 'daytrader-trade-producer'
-      inputs:
-        containerRegistry: 'DockerHub'
-        repository: 'azseed / daytrader-trade-producer'
-        command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
-        tags: '${{variables.docker_tag}}'
-    
-    - task: Docker@2
-      displayName: 'daytrader-scdf-trade-generator'
-      inputs:
-        containerRegistry: 'DockerHub'
-        repository: 'azseed / daytrader-scdf-trade-generator'
-        command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-generator/Dockerfile'
-        tags: '${{variables.docker_tag}}'
-    
-    - task: Docker@2
-      displayName: 'daytrader-scdf-trade-processor'
-      inputs:
-        containerRegistry: 'DockerHub'
-        repository: 'azseed / daytrader-scdf-trade-processor'
-        command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-processor/Dockerfile'
-        tags: '${{variables.docker_tag}}'
-    
-    - task: Docker@2
-      displayName: 'daytrader-scdf-trade-validation'
-      inputs:
-        containerRegistry: 'DockerHub'
-        repository: 'azseed / daytrader-scdf-trade-validation'
-        command: 'buildAndPush'
-        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-validation/Dockerfile'
-        tags: '${{variables.docker_tag}}'
+#    - task: Docker@2
+#      displayName: 'daytrader-trade-consumer'
+#      inputs:
+#        containerRegistry: 'DockerHub'
+#        repository: 'azseed / daytrader-trade-consumer'
+#        command: 'buildAndPush'
+#        Dockerfile: 'day-trader-java-app/daytrader-trade-consumer/Dockerfile'
+#        tags: '${{variables.docker_tag}}'
+#    
+#    - task: Docker@2
+#      displayName: 'daytrader-trade-producer'
+#      inputs:
+#        containerRegistry: 'DockerHub'
+#        repository: 'azseed / daytrader-trade-producer'
+#        command: 'buildAndPush'
+#        Dockerfile: 'day-trader-java-app/daytrader-trade-producer/Dockerfile'
+#        tags: '${{variables.docker_tag}}'
+#    
+#    - task: Docker@2
+#      displayName: 'daytrader-scdf-trade-generator'
+#      inputs:
+#        containerRegistry: 'DockerHub'
+#        repository: 'azseed / daytrader-scdf-trade-generator'
+#        command: 'buildAndPush'
+#        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-generator/Dockerfile'
+#        tags: '${{variables.docker_tag}}'
+#    
+#    - task: Docker@2
+#      displayName: 'daytrader-scdf-trade-processor'
+#      inputs:
+#        containerRegistry: 'DockerHub'
+#        repository: 'azseed / daytrader-scdf-trade-processor'
+#        command: 'buildAndPush'
+#        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-processor/Dockerfile'
+#        tags: '${{variables.docker_tag}}'
+#    
+#    - task: Docker@2
+#      displayName: 'daytrader-scdf-trade-validation'
+#      inputs:
+#        containerRegistry: 'DockerHub'
+#        repository: 'azseed / daytrader-scdf-trade-validation'
+#        command: 'buildAndPush'
+#        Dockerfile: 'day-trader-java-app/daytrader-scdf-trade-validation/Dockerfile'
+#        tags: '${{variables.docker_tag}}'
     
     - task: Docker@2
       displayName: 'daytrader-web-react-npm'
@@ -303,112 +314,112 @@ stages:
         dockerComposeCommand: 'down'
 
 
-- stage: AKS_Deploy
-  jobs:
-    # track deployments on the environment
-  - deployment: AKS_Deploy
-    displayName: AKS_Deploy
-    pool:
-      vmImage: 'Ubuntu-Latest'
-    # creates an environment if it doesn't exist
-    environment: 'AKS_Deploy'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: |
-              git clone https://github.com/SSAzSeedTeam/daytrader.git
-              cd daytrader/kubernetes-manifests ; ./copy_to_combined.sh
-          - task: Kubernetes@1
-            displayName: 'daytrader-accounts-deployment-k8s'
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-              command: 'apply'
-              arguments: '-f daytrader/kubernetes-manifests/all_combined/'
-              secretType: 'dockerRegistry'
-          
-#          #Deploy to AKS
+#- stage: AKS_Deploy
+#  jobs:
+#    # track deployments on the environment
+#  - deployment: AKS_Deploy
+#    displayName: AKS_Deploy
+#    pool:
+#      vmImage: 'Ubuntu-Latest'
+#    # creates an environment if it doesn't exist
+#    environment: 'AKS_Deploy'
+#    strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - script: |
+#              git clone https://github.com/SSAzSeedTeam/daytrader.git
+#              cd daytrader/kubernetes-manifests ; ./copy_to_combined.sh
 #          - task: Kubernetes@1
 #            displayName: 'daytrader-accounts-deployment-k8s'
 #            inputs:
 #              connectionType: 'Kubernetes Service Connection'
 #              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
 #              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/accounts/deployment.yaml'
+#              arguments: '-f daytrader/kubernetes-manifests/all_combined/'
 #              secretType: 'dockerRegistry'
 #          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-accounts-service-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/accounts/service.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-gateway-deployment-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/gateway/deployment.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-gateway-service-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/gateway/service.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-portfolios-deployment-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/portfolios/deployment.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-portfolios-service-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/portfolios/service.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-quotes-deployment-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/quotes/deployment.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-quotes-service-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/quotes/service.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-web-deployment-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/web/deployment.yaml'
-#          
-#          - task: Kubernetes@1
-#            displayName: 'daytrader-web-service-k8s'
-#            inputs:
-#              connectionType: 'Kubernetes Service Connection'
-#              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
-#              command: 'apply'
-#              arguments: '-f daytrader/kubernetes-manifests/web/service.yaml'
+##          #Deploy to AKS
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-accounts-deployment-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/accounts/deployment.yaml'
+##              secretType: 'dockerRegistry'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-accounts-service-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/accounts/service.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-gateway-deployment-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/gateway/deployment.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-gateway-service-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/gateway/service.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-portfolios-deployment-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/portfolios/deployment.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-portfolios-service-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/portfolios/service.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-quotes-deployment-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/quotes/deployment.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-quotes-service-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/quotes/service.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-web-deployment-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/web/deployment.yaml'
+##          
+##          - task: Kubernetes@1
+##            displayName: 'daytrader-web-service-k8s'
+##            inputs:
+##              connectionType: 'Kubernetes Service Connection'
+##              kubernetesServiceEndpoint: 'daytrader-cluster-server-conn'
+##              command: 'apply'
+##              arguments: '-f daytrader/kubernetes-manifests/web/service.yaml'
           
           #- task: Kubernetes@1
           #  inputs:

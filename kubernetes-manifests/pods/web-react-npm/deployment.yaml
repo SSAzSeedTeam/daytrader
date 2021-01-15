@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-web-react-npm
-        image: azseed/daytrader-web-react-npm:1.9
+        image: azseed/daytrader-web-react-npm:2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -53,9 +53,5 @@ spec:
 #        - name: GET_HOSTS_FROM
 #          value: dns
         - name: REACT_APP_DAYTRADER_GATEWAY_SERVICE
-          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
-          value: https://20.54.182.253
-        - name: DAYTRADER_GATEWAY_SERVICE
-          #value: $(DAYTRADER_GATEWAY_SERVICE_HOST):$(DAYTRADER_GATEWAY_SERVICE_PORT)
-          value: https://20.54.182.253
+          value: https:\\/\\/20.73.130.180
           

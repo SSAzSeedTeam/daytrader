@@ -22,13 +22,14 @@
     <Properties>
 		<!-- Each microservice has their own logfile -->
 		<Property name="LOG_FILENAME">${env:DAYTRADER_LOG_FILENAME}</Property>
-		<Property name="LOG_LEVEL">trace</Property>
+		<Property name="LOG_LEVEL">${sys:LOG_LEVEL:-debug}</Property>
         <Property name="LOG_PATTERN">%d{HH:mm:ss.SSS}[%T]: %m%n</Property>
         <Property name="LOG_APPENDER">ConsoleAppender</Property>
     </Properties>
     
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+			<JsonLayout complete="false"  compact="true" eventEol="true"></JsonLayout>
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
         <!--
@@ -39,7 +40,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="DEBUG" additivity="false">
+        <Root level="info" additivity="false">
         	<AppenderRef level="DEBUG" ref="${LOG_APPENDER}" />
      	</Root>
 		<!-- 

@@ -1,16 +1,28 @@
-daytrader-accounts--------------- 1443
-daytrader-gateway---------------- 2443
-daytrader-portfolios------------- 3443
-daytrader-quotes----------------- 4443
+daytrader-accounts--------------------- 1443
+daytrader-gateway---------------------- 2443
+daytrader-portfolios------------------- 3443
+daytrader-quotes----------------------- 4443
 
-daytrader-web-------------------- 5443
-daytrader-web-react-------------- 5453
+daytrader-web-------------------------- 5443
+daytrader-web-react-npm---------------- 
+daytrader-web-react-static------------- 
 
-daytrader-report-generator------- No Port
 
-daytrader-scdf-trade-generator--- 6443
-daytrader-scdf-trade-processor--- 6453
-daytrader-scdf-trade-validation-- 6463
+daytrader-web-mfe-container-npm-------- 3001
+daytrader-web-mfe-account-npm---------- 3002
+daytrader-web-mfe-portfolio-npm-------- 3003
+daytrader-web-mfe-quote-npm------------ 3003
 
-daytrader-trade-consumer--------- 7443
-daytrader-trade-producer--------- 7453
+daytrader-web-mfe-container-static----- 4001
+daytrader-web-mfe-account-static------- 4002
+daytrader-web-mfe-portfolio-static----- 4003
+daytrader-web-mfe-quote-static--------- 4003
+
+daytrader-report-generator------------- No Port
+
+daytrader-scdf-trade-generator--------- 6443
+daytrader-scdf-trade-processor--------- 6453
+daytrader-scdf-trade-validation-------- 6463
+
+daytrader-trade-consumer--------------- 7443
+daytrader-trade-producer--------------- 7453

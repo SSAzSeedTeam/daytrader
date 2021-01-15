@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.core.userdetails.User;
+import com.ofss.daytrader.auth.model.UserDataBean;
+import com.ofss.daytrader.auth.repository.UserDataRepository;
 
 import org.apache.commons.io.IOUtils;
 
@@ -37,30 +39,17 @@ public class MyUserDetailsService implements UserDetailsService{
 	private final CloseableHttpClient httpClient = HttpClients.createDefault();
 	@Autowired
 	protected RestTemplate restTemplate; 
+	@Autowired
+	UserDataRepository userdatarepo;
 
 	 
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-				String result = "";
-				String url = "http://localhost:8080/userdetails/"+username;
-				 System.out.println(url);
-				 
-				 System.out.println("Auth servers url - " + url);
-				 HttpResponse res = null;
-				 HttpClient httpclient = HttpClients.createDefault();
-				 HttpGet get = new HttpGet(url);
-				 try {
-					res   = httpclient.execute(get);
-					result = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				 // Bala - End
-	    System.out.println("password is " + result);
-		return new User(username,result,new ArrayList<>());
+				/**/
+				UserDataBean db = userdatarepo.findByUsername(username);
+	    System.out.println("password is " + db.getPassword());
+		return new User(username,db.getPassword(),new ArrayList<>());
 	}
 
 }

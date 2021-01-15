@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-trade-producer
-        image: azseed/daytrader-trade-producer:1.8
+        image: azseed/daytrader-trade-producer:2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 7453

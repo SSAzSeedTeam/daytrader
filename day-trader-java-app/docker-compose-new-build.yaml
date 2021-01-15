@@ -84,6 +84,21 @@ services:
       - daytrader-portfolios
       - daytrader-quotes
       
+  daytrader-auth-server:
+    image: azseed/daytrader-auth-server:2.0
+    ports:
+      - "1555:1555"
+    restart: always
+    depends_on:
+      - daytrader-accounts
+      
+    environment:
+      - DAYTRADER_ACCOUNTS_SERVICE=https://daytrader-accounts:1443
+      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
+      - DAYTRADER_DATABASE_URL=jdbc:derby:authdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=dummy
+      - DAYTRADER_DATABASE_PASSWORD=dummy
+      
   daytrader-trade-consumer:
     image: azseed/daytrader-trade-consumer:0
     deploy:

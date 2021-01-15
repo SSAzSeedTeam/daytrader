@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-gateway
-        image: azseed/daytrader-gateway:1.8
+        image: azseed/daytrader-gateway:2.0
         imagePullPolicy: Always
         
 #        resources:
@@ -78,4 +78,9 @@ spec:
             configMapKeyRef:
               name: config-map-application-properties
               key: SERVER_SSL_ENABLED
+        - name: DAYTRADER_OAUTH_ENABLE
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-application-properties
+              key: DAYTRADER_OAUTH_ENABLE
         #----application config - end ----------

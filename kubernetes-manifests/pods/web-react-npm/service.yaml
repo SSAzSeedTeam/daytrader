@@ -12,6 +12,6 @@ spec:
     targetPort: 3000
   selector:
     app: daytrader-web-react-npm
-  sessionAffinity: ClientIP
+  #sessionAffinity: ClientIP
 #  type: NodePort
   type: LoadBalancer

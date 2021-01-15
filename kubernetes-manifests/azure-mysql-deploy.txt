@@ -1,0 +1,24 @@
+These instructions are to be run on a Windows machine
+-----------------------------------------------------
+
+#----------------------------------------------------------------------------------------------------------------
+#Install extension (may be not required)
+#az extension add --name db-up
+
+#----------------------------------------------------------------------------------------------------------------
+az group create --name shibu_azure_mysql_res_grp --location westeurope
+
+az mysql server create --resource-group shibu_azure_mysql_res_grp --name daytrader-server --location westeurope --admin-user daytrader_admin --admin-password Mjuh_78wYFfdTRdH --sku-name GP_Gen5_2 
+
+az mysql db create --name daytrader-mysql-accounts-db   --resource-group shibu_azure_mysql_res_grp --server-name daytrader-server
+az mysql db create --name daytrader-mysql-portfolios-db --resource-group shibu_azure_mysql_res_grp --server-name daytrader-server
+az mysql db create --name daytrader-mysql-quotes-db     --resource-group shibu_azure_mysql_res_grp --server-name daytrader-server
+az mysql db create --name daytrader-mysql-auth-db       --resource-group shibu_azure_mysql_res_grp --server-name daytrader-server
+
+#----------------------------------------------------------------------------------------------------------------
+#Allow all IP addresses to access the Mysql database/server
+az mysql server firewall-rule create --resource-group shibu_azure_mysql_res_grp --server daytrader-server --name "AllowAllWindowsAzureIps" --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+#----------------------------------------------------------------------------------------------------------------
+#delete everthing after your work is done for the day....
+#az group delete --name shibu_azure_mysql_res_grp --yes
+#----------------------------------------------------------------------------------------------------------------

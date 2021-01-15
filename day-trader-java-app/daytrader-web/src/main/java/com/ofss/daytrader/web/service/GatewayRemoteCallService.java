@@ -92,6 +92,8 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	private String gatewayServiceRoute;
 	@Value("${DAYTRADER_AUTH_SERVICE}")
 	private String daytraderAuthService;
+	@Value("${DAYTRADER_OAUTH_ENABLE}")
+	private boolean oauthEnabled;
 	   
 	   /**
 		*
@@ -201,6 +203,8 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 	    public AccountDataBean login(String userID, String password) throws Exception 
 	    {    
 			System.out.println("inside we ui gate way remote call login : " + daytraderAuthService);
+			
+			if (oauthEnabled==true) {
 			String authUrl = daytraderAuthService + "/authenticate";
 
 			 HttpPost post = new HttpPost(authUrl);
@@ -226,8 +230,8 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 			String accessToken = jwtResponse.getToken();
 			System.out.println("accessToken--: " + accessToken);
-	    	String url = gatewayServiceRoute + "/login/" + userID;
-			Log.debug("GatewayRemoteCallService.login() - " + url);
+			
+	    	
 
 //			RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 //	    	//RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -249,8 +253,9 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 				e.printStackTrace();
 			}
 			
-			
-			
+			}
+			String url = gatewayServiceRoute + "/login/" + userID;
+			Log.debug("GatewayRemoteCallService.login() - " + url);
 	    	String responseEntity = invokeEndpoint(url, "PATCH", password);
 	    	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);	    
 	    	return accountData;
@@ -280,6 +285,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 
 	    	
 	    	//first register in auth server
+	    	if (oauthEnabled==true) {
 			 String userurl = daytraderAuthService + "/registeruser";
 			 
 			 System.out.println("Calling auth servers url while register - " + userurl);
@@ -294,7 +300,7 @@ public class GatewayRemoteCallService extends BaseRemoteCallService
 			 httpclient.execute(post);
 			 System.out.println("Completed - Calling auth servers url while register");
 			 // Bala - End
-	    	
+	    	}
 	    	
 	    	String url = gatewayServiceRoute + "/accounts";
 			Log.debug("GatewayRemoteCallService.register() - " + url);

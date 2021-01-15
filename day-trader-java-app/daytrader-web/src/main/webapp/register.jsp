@@ -23,7 +23,7 @@
 <%@ page session="false"%>
 <% 
 String blank = "";
-String fakeCC = "123-fake-ccnum-456";
+String fakeCC = "1234-1234-1234-1234";
 String fullname =   request.getParameter ( "Full Name" );
 String snailmail=   request.getParameter ( "snail mail" );
 String email =      request.getParameter ( "email" ); 

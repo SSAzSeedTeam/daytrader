@@ -1,0 +1,95 @@
+These instructions are applicable for both AWS and Azure cloud.
+Please read the instructions carefully and make sure that you 
+run commands applicable for your environment only
+Special note:- look out for MySQL database config map creation script.
+               There are two separate version for AWS and Azure.
+-----------------------------------------------------
+
+
+#------------------------------------------------------------------------------------
+#create pods and services
+
+#change directory to the kubernetes-manifests folder in your project source code cloned folder 
+cd D:\Projects\daytrader\kubernetes-manifests\
+
+#-------------------------------------------------
+# if you want to run derby embedded database(in any cloud)
+kubectl apply -f configmaps-derby
+
+#else If running on Azure, run below command
+kubectl apply -f configmaps-azure-mysql
+
+#else If running on AWS, run below command
+kubectl apply -f configmaps-aws-mysql
+
+#-------------------------------------------------
+
+kubectl apply -f config-map-application-properties
+
+kubectl apply -f pods/auth-server
+kubectl apply -f pods/accounts
+kubectl apply -f pods/gateway
+kubectl apply -f pods/portfolios
+kubectl apply -f pods/quotes
+kubectl apply -f pods/web
+
+#-------------------------
+#wait for 2 minutes for the load balancer to get set up.
+#check if the IP addresses are alloted
+kubectl get svc
+
+#-------------------------
+#copy the IP address of daytrader-gateway into config-map-application-properties\config-map-service-urls.yaml
+On Windows
+for /f "tokens=4" %a in ('kubectl get svc ^| findstr  "daytrader-gateway"') do set GATEWAY_URL=%a
+
+On Linux
+kubectl get svc | grep daytrader-gateway | awk '{ print $4}'
+
+#If the above command return "<pending>", then we need to wait and keep re running the above command until it prints an IP Address
+#-------------------------
+
+BatchSubstitute.bat GATEWAY_SERVICE_URL_REPLACE %GATEWAY_URL% config-map-application-properties\config-map-service-urls.yaml > config-map-application-properties\config-map-service-urls.yaml.temp
+
+kubectl apply -f config-map-application-properties/config-map-service-urls.yaml.temp
+kubectl apply -f pods/web-mfe-static/web-mfe-accounts-static
+kubectl apply -f pods/web-mfe-static/web-mfe-portfolios-static
+kubectl apply -f pods/web-mfe-static/web-mfe-quotes-static
+
+#-------------------------
+#copy the IP address of account-mfe, porfolio-mfe, quotes-mfe into config-map-application-properties\config-map-service-urls.yaml
+#If the below command return "<pending>", then we need to wait and keep re running the same command until it prints an IP Address
+
+for /f "tokens=4" %a in ('kubectl get svc ^| findstr  "daytrader-web-mfe-accounts-static"')   do set ACCOUNT_MFE_URL=%a
+for /f "tokens=4" %a in ('kubectl get svc ^| findstr  "daytrader-web-mfe-portfolios-static"') do set PORTFOLIO_MFE_URL=%a
+for /f "tokens=4" %a in ('kubectl get svc ^| findstr  "daytrader-web-mfe-quotes-static"')     do set QUOTES_MFE_URL=%a
+
+#-------------------------
+#at this stage, the below three environment variables will have IP Address populated
+#ACCOUNT_MFE_URL, PORTFOLIO_MFE_URL, QUOTES_MFE_URL
+
+BatchSubstitute.bat ACCOUNT_MFE_URL_REPLACE     %ACCOUNT_MFE_URL%      config-map-application-properties\config-map-service-urls.yaml.temp   > config-map-application-properties\config-map-service-urls.yaml.temp.1
+BatchSubstitute.bat PORTFOLIO_MFE_URL_REPLACE   %PORTFOLIO_MFE_URL%    config-map-application-properties\config-map-service-urls.yaml.temp.1 > config-map-application-properties\config-map-service-urls.yaml.temp.2
+BatchSubstitute.bat QUOTE_MFE_URL_REPLACE       %QUOTES_MFE_URL%       config-map-application-properties\config-map-service-urls.yaml.temp.2 > config-map-application-properties\config-map-service-urls.yaml.temp.3
+
+kubectl apply -f config-map-application-properties\config-map-service-urls.yaml.temp.3
+kubectl apply -f pods\web-mfe-static\web-mfe-container-static
+#-------------------------
+
+#take the daytrader-web-mfe-container-static IP address and use that in the browser
+kubectl get svc
+or
+for /f "tokens=4" %a in ('kubectl get svc ^| findstr  "daytrader-web-mfe-container-static"')     do echo %a
+
+#the day trader application is now ready
+#------------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------------
+#frequently used commands
+kubectl get all
+kubectl get pods
+kubectl get svc
+kubectl describe pod POD_NAME
+kubectl logs -f  POD_NAME
+
+#------------------------------------------------------------------------------------

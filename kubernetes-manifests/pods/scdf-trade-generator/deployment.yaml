@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: daytrader-scdf-trade-generator
-        image: azseed/daytrader-scdf-trade-generator:1.8
+        image: azseed/daytrader-scdf-trade-generator:2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 3443
