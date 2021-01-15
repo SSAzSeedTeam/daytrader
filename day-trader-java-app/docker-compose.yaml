@@ -8,10 +8,10 @@ services:
       - "1555:1555"
     restart: always
     environment:
-      - DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-      - DAYTRADER_DATABASE_URL=jdbc:derby:authdb;create=true
-      - DAYTRADER_DATABASE_USERNAME=dummy
-      - DAYTRADER_DATABASE_PASSWORD=dummy
+      - DAYTRADER_DATABASE_DRIVER=com.mysql.jdbc.Driver
+      - DAYTRADER_DATABASE_URL=jdbc:mysql:authdb;create=true
+      - DAYTRADER_DATABASE_USERNAME=root
+      - DAYTRADER_DATABASE_PASSWORD=root
 
   daytrader-accounts:
     image: azseed/daytrader-accounts:2.1

@@ -9,8 +9,8 @@ ARG APP_VERSION=1.0
 ARG EXPOSE_PORT=1555
 
 ##  2.  Database Variables
-ENV DAYTRADER_DATABASE_DRIVER=org.apache.derby.jdbc.EmbeddedDriver
-ENV DAYTRADER_DATABASE_URL=jdbc:derby:authdb;create=true
+ENV DAYTRADER_DATABASE_DRIVER=com.mysql.jdbc.Driver
+ENV DAYTRADER_DATABASE_URL=jdbc:mysql:authdb;create=true
 ENV DAYTRADER_DATABASE_USERNAME=
 ENV DAYTRADER_DATABASE_PASSWORD=
 
