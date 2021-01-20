@@ -293,7 +293,7 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'postman-testing/postman_results/**.xml'
         mergeTestResults: true
-        failTaskOnFailedTests: true
+        failTaskOnFailedTests: false
     - task: JMeterInstaller@0
       inputs:
         jmeterVersion: '5.3'
