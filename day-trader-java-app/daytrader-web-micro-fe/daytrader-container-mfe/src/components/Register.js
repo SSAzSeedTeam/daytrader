@@ -6,7 +6,7 @@ import Footer from './shared/Footer/Footer'
 import { LOCAL_GATEWAY_URL } from '../constants'
 
 class Registerpage extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
       address: '',
@@ -18,20 +18,35 @@ class Registerpage extends Component {
       openBalance: '',
       confirmPassword: '',
       showErrorMessage: false,
-      apiUrl: 'https://localhost:2443'
+      apiUrl: 'http://localhost:2443',
+      authFlag: true
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const el = document.getElementById('end-point-url')
+    const el3 = document.getElementById('auth-flag');
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
+      let authenticationFlag = el3.getAttribute('auth-flag')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
-      
+        endPointUrl = 'http://localhost:2443'
+
       }
+
+      if (authenticationFlag === "AUTH_FLAG") {
+        console.log(authenticationFlag)
+        //   // need to be replace from env or constant 
+        //   //REACT_APP_AUTH_FLAG
+        //   //authenticationFlag = true
+        const { REACT_APP_AUTH_FLAG } = process.env;
+        authenticationFlag = REACT_APP_AUTH_FLAG;
+
+      }
+
       this.setState({
-        apiUrl: endPointUrl
+        apiUrl: endPointUrl,
+        authFlag: authenticationFlag
       })
     }
   }
@@ -102,87 +117,87 @@ class Registerpage extends Component {
                   />
                 </div>
                 <div className='form-group'>
-                <label><span>*</span>Address:</label>
-                <input
-                  type="text"
-                  className='app-register-input'
-                  name='address'
-                  onChange={this.handleOnChange}
-                  value={address}
-                />
-              </div>
-              <div className='form-group'>
-                <label><span>*</span>E-mail address:</label>
-                <input
-                  type="text"
-                  className='app-register-input'
-                  name='email'
-                  onChange={this.handleOnChange}
-                  value={email}
-                />
-              </div>
-              <div className='form-group'>
-                <label><span>*</span>User ID:</label>
-                <input
-                  type="text"
-                  className='app-register-input'
-                  name='userID'
-                  onChange={this.handleOnChange}
-                  value={userID}
-                />
-              </div>
-              <div className='form-group'>
-                <label><span>*</span>Password</label>
-                <input
-                  type="password"
-                  className='app-register-input'
-                  name='password'
-                  onChange={this.handleOnChange}
-                  value={password}
-                />
-              </div>
-              <div className='form-group'>
-                <label><span>*</span>Confirm Password</label>
-                <input
-                  type="password"
-                  className='app-register-input'
-                  name='confirmPassword'
-                  onChange={this.handleOnChange}
-                  value={confirmPassword}
-                />
-                {showErrorMessage && password !== confirmPassword && <p style={{color: '#cc3f3f', fontSize: 12, textAlign: 'right', margin: 0}}>Passwords are not matching!</p>}
-              </div>
-              <div className='form-group'>
-                <label><span>*</span>Opening account balance:</label>
-                <input
-                  type="text"
-                  className='app-register-input'
-                  name='openBalance'
-                  onChange={this.handleOnChange}
-                  value={openBalance}
-                />
-              </div>
-              <div className='form-group'>
-                <label><span>*</span>Credit card number:</label>
-                <input
-                  type="text"
-                  className='app-register-input'
-                  name='creditCard'
-                  onChange={this.handleOnChange}
-                  value={creditCard}
-                />
-              </div>
-              {showErrorMessage && <p style={{color: '#cc3f3f', fontSize: 12, textAlign: 'right', margin: 0}}>Please fill out all mandatory fields.</p>}
-              <div className='form-group'>
-                <label></label>
-                <input type="submit" className='app-register-input submit-button' value='Submit Registration' />
-              </div>
-            </form>
+                  <label><span>*</span>Address:</label>
+                  <input
+                    type="text"
+                    className='app-register-input'
+                    name='address'
+                    onChange={this.handleOnChange}
+                    value={address}
+                  />
+                </div>
+                <div className='form-group'>
+                  <label><span>*</span>E-mail address:</label>
+                  <input
+                    type="text"
+                    className='app-register-input'
+                    name='email'
+                    onChange={this.handleOnChange}
+                    value={email}
+                  />
+                </div>
+                <div className='form-group'>
+                  <label><span>*</span>User ID:</label>
+                  <input
+                    type="text"
+                    className='app-register-input'
+                    name='userID'
+                    onChange={this.handleOnChange}
+                    value={userID}
+                  />
+                </div>
+                <div className='form-group'>
+                  <label><span>*</span>Password</label>
+                  <input
+                    type="password"
+                    className='app-register-input'
+                    name='password'
+                    onChange={this.handleOnChange}
+                    value={password}
+                  />
+                </div>
+                <div className='form-group'>
+                  <label><span>*</span>Confirm Password</label>
+                  <input
+                    type="password"
+                    className='app-register-input'
+                    name='confirmPassword'
+                    onChange={this.handleOnChange}
+                    value={confirmPassword}
+                  />
+                  {showErrorMessage && password !== confirmPassword && <p style={{ color: '#cc3f3f', fontSize: 12, textAlign: 'right', margin: 0 }}>Passwords are not matching!</p>}
+                </div>
+                <div className='form-group'>
+                  <label><span>*</span>Opening account balance:</label>
+                  <input
+                    type="text"
+                    className='app-register-input'
+                    name='openBalance'
+                    onChange={this.handleOnChange}
+                    value={openBalance}
+                  />
+                </div>
+                <div className='form-group'>
+                  <label><span>*</span>Credit card number:</label>
+                  <input
+                    type="text"
+                    className='app-register-input'
+                    name='creditCard'
+                    onChange={this.handleOnChange}
+                    value={creditCard}
+                  />
+                </div>
+                {showErrorMessage && <p style={{ color: '#cc3f3f', fontSize: 12, textAlign: 'right', margin: 0 }}>Please fill out all mandatory fields.</p>}
+                <div className='form-group'>
+                  <label></label>
+                  <input type="submit" className='app-register-input submit-button' value='Submit Registration' />
+                </div>
+              </form>
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
     )
   }
 }

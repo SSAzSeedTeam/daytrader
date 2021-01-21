@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import Footer from "../shared/Footer/Footer";
-import {LOCAL_GATEWAY_URL} from '../../constants';
+import { LOCAL_GATEWAY_URL } from '../../constants';
 
 
 const RecreateDatabaseComponent = () => {
@@ -16,15 +16,15 @@ const RecreateDatabaseComponent = () => {
   };
 
   const onClickUpdateConfig = async (updateConfigFormValue) => {
-    let endPointUrl = 'https://localhost:2443'
+    let endPointUrl = 'http://localhost:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
     }
-  return await axios.post(
+    return await axios.post(
       `${endPointUrl}/admin/recreateDBTables`,
       updateConfigFormValue
     );

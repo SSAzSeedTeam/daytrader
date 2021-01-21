@@ -4,7 +4,7 @@ import axios from 'axios'
 import './new-order.css';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import {LOCAL_GATEWAY_URL} from '../../constants';
+import { LOCAL_GATEWAY_URL } from '../../constants';
 
 const mode = 0;
 
@@ -20,12 +20,12 @@ class NewOrderpage extends Component {
   componentDidMount() {
 
     const userId = localStorage.getItem('userId')
-    let endPointUrl = 'https://localhost:2443'
+    let endPointUrl = 'http://localhost:2443'
     const el = document.getElementById('end-point-url')
     if (el) {
       endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
     }
     axios.patch(`${endPointUrl}/portfolios/${userId}/orders?status=${status}`)
@@ -39,8 +39,8 @@ class NewOrderpage extends Component {
 
   render() {
     console.log('prsops', this.props)
-    const {orderInfo} = this.state
-    const {orderID, symbol, quantity} = orderInfo && orderInfo.length ? orderInfo[0]: {orderID: 0, symbol: 's0', quantity: 1}
+    const { orderInfo } = this.state
+    const { orderID, symbol, quantity } = orderInfo && orderInfo.length ? orderInfo[0] : { orderID: 0, symbol: 's0', quantity: 1 }
     return (
       <div>
         <div className='new-order-container'>
@@ -48,8 +48,8 @@ class NewOrderpage extends Component {
             <tr className='table-header'>
               <td colSpan="8">New Order</td>
             </tr>
-            <tr className='table-row'><td style={{textAlign: "left"}} colSpan="8">Order {orderID} to buy {quantity} shares of {symbol} has been submitted for processing.</td></tr>
-            <tr className='table-row'><td style={{textAlign: "left"}} colSpan="8">Order {orderID} details:</td></tr>
+            <tr className='table-row'><td style={{ textAlign: "left" }} colSpan="8">Order {orderID} to buy {quantity} shares of {symbol} has been submitted for processing.</td></tr>
+            <tr className='table-row'><td style={{ textAlign: "left" }} colSpan="8">Order {orderID} details:</td></tr>
             <tr className='table-row'>
               <th>Order ID</th>
               <th>Order Status</th>

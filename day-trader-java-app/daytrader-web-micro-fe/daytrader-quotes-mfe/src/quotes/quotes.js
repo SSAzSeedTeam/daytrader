@@ -1,8 +1,8 @@
 import React from 'react';
-import axios from 'axios'
 import './quotes.css';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { axiosClient } from '../authentication';
 
 const TXN_FEE = 24.95;
 const mode = 0;
@@ -13,24 +13,29 @@ class Quotes extends React.Component {
       quotes: ['s:0', 's:1', 's:2', 's:3', 's:4'],
       quotesData: [],
       quotesinfo: {},
-      curTime : new Date(),
-      apiUrl: 'https://localhost:2443'
+      curTime: new Date(),
+      apiUrl: 'http://localhost:2443'
     }
   }
 
   getQuotesBySymbol = async () => {
-    const {quotes,apiUrl} = this.state
+    const { quotes, apiUrl } = this.state
     let quotesData = [];
     let obj = {};
-    for(let i = 0; i < quotes.length; i += 1) {
+    for (let i = 0; i < quotes.length; i += 1) {
       const symbol = quotes[i];
-       await axios.get(`${apiUrl}/quotes/${symbol}`)
-
-      .then(res => {
-        console.log('res', res)
-        quotesData.push(res.data);
-        obj[`symbol${i}`] = 100;
+      await axiosClient.get(`${apiUrl}/quotes/${symbol}`, {
+        headers: {
+          'authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
       })
+        .then(res => {
+          console.log('res', res)
+          if (res) {
+            quotesData.push(res.data);
+            obj[`symbol${i}`] = 100;
+          }
+        })
     }
     this.setState({
       quotesData,
@@ -39,12 +44,13 @@ class Quotes extends React.Component {
   }
 
   componentDidMount() {
-    console.log("wotes component called!!!!!!!")
+    console.log(localStorage.getItem('authToken'))
+    console.log("quotes component called!!!!!!!")
     const el = document.getElementById('end-point-url')
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
-        endPointUrl = 'https://localhost:2443'
+        endPointUrl = 'http://localhost:2443'
       }
       this.setState({
         apiUrl: endPointUrl
@@ -55,7 +61,7 @@ class Quotes extends React.Component {
   }
 
   handleOnQuoteChange = (e) => {
-    const {value} = e.target;
+    const { value } = e.target;
     this.setState({
       quotes: value.split(',')
     })
@@ -66,14 +72,14 @@ class Quotes extends React.Component {
   }
 
   handleOnQuantityChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     this.setState({
       [name]: value
     })
   }
 
   handleBuyOrder = (symbol, i, price) => {
-    const {apiUrl} = this.state
+    const { apiUrl } = this.state
     const quantity = this.state[`symbol${i}`]
     const userID = localStorage.getItem('userId');
     const cDate = new Date();
@@ -95,23 +101,23 @@ class Quotes extends React.Component {
       sell: true,
       symbol,
     }
-    axios.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
+    axiosClient.post(`${apiUrl}/portfolios/${userID}/orders?mode=${mode}`, dataToSend)
       .then(res => {
         console.log('res', res);
         if (res.status === 201) {
-          this.props.history.push({pathname: '/trading/new-order', state: res.data})
+          this.props.history.push({ pathname: '/trading/new-order', state: res.data })
         }
       })
   }
 
   render() {
-    const {quotesData, quotes,curTime} = this.state
+    const { quotesData, quotes, curTime } = this.state
     return (
       <div className='quotes-app-main-container'>
         {/* <LoginNavbar /> */}
         <div className='quotes-content-container'>
-          <div className='app-current-date-time-section'> 
-           <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY') }</p>
+          <div className='app-current-date-time-section'>
+            <p>{moment(curTime).format('ddd MMM DD hh:mm:ss')} IST {moment(curTime).format('YYYY')}</p>
           </div>
           {/* <div><CompletedOrder /></div> */}
           <table className='quotes-table' cellPadding="0" cellSpacing="0" width="100%">
@@ -129,8 +135,8 @@ class Quotes extends React.Component {
               <th><Link to='Terms'>Trade</Link></th>
             </tr>
             {quotesData && quotesData.map((q, i) => {
-              const {symbol, companyName, volume, price, low, high, open, change} = q;
-              const gOrL= Math.ceil(((price - open) / open) * 100)
+              const { symbol, companyName, volume, price, low, high, open, change } = q;
+              const gOrL = Math.ceil(((price - open) / open) * 100)
               return (
                 <tr className='table-row'>
                   <td><Link to='/Terms'>{symbol}</Link></td>
@@ -139,7 +145,7 @@ class Quotes extends React.Component {
                   <td>${low.toFixed(2)} - ${high.toFixed(2)}</td>
                   <td>${open.toFixed(2)}</td>
                   <td>${price.toFixed(2)}</td>
-                  <td style={{color: gOrL >= 0 ? 'green' : 'red'}}>{(price - open).toFixed(2)}<span>{gOrL >= 0 ? '+' : '-'}</span>
+                  <td style={{ color: gOrL >= 0 ? 'green' : 'red' }}>{(price - open).toFixed(2)}<span>{gOrL >= 0 ? '+' : '-'}</span>
                   ({gOrL.toFixed(2)}%)<span>{gOrL >= 0 ? '+' : '-'}</span>
                   </td>
                   <td className='buy-shares-td'>
