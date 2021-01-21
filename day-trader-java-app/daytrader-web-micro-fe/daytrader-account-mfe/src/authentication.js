@@ -7,7 +7,10 @@ let authToken = localStorage.getItem('authToken');
 export const axiosClient = axios.create();
 
 // Attacting auth token on header with every request
-axiosClient.defaults.headers.common['authorization'] = `Bearer ${authToken}`;
+if (authToken !== null) {
+    console.log('//////')
+    axiosClient.defaults.headers.common['authorization'] = `Bearer ${authToken}`;
+}
 
 // intercepting the api response and when token is got expired we're redirecting to login page
 axiosClient.interceptors.response.use((response) => {

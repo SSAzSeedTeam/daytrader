@@ -18,20 +18,35 @@ class Registerpage extends Component {
       openBalance: '',
       confirmPassword: '',
       showErrorMessage: false,
-      apiUrl: 'http://localhost:2443'
+      apiUrl: 'http://localhost:2443',
+      authFlag: true
     }
   }
 
   componentDidMount() {
     const el = document.getElementById('end-point-url')
+    const el3 = document.getElementById('auth-flag');
     if (el) {
       let endPointUrl = el.getAttribute('data-end-point')
+      let authenticationFlag = el3.getAttribute('auth-flag')
       if (endPointUrl === 'GATEWAY_END_POINT_URL') {
         endPointUrl = 'http://localhost:2443'
 
       }
+
+      if (authenticationFlag === "AUTH_FLAG") {
+        console.log(authenticationFlag)
+        //   // need to be replace from env or constant 
+        //   //REACT_APP_AUTH_FLAG
+        //   //authenticationFlag = true
+        const { REACT_APP_AUTH_FLAG } = process.env;
+        authenticationFlag = REACT_APP_AUTH_FLAG;
+
+      }
+
       this.setState({
-        apiUrl: endPointUrl
+        apiUrl: endPointUrl,
+        authFlag: authenticationFlag
       })
     }
   }
