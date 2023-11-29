@@ -30,6 +30,8 @@ import java.math.BigDecimal;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 // Spring
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -42,6 +44,8 @@ import org.springframework.beans.factory.annotation.Value;
 @Service
 public class AccountsRemoteCallService extends BaseRemoteCallService
 {
+	@Autowired
+	RestTemplate restTemplate;
 	protected static ObjectMapper mapper = null;
 	
 	static 
@@ -63,7 +67,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 		{ 
 	    	String url = accountsServiceRoute + "/admin/tradeBuildDB?limit="+limit+ "&offset=" + offset;
 			Log.debug("AccountsRemoteCallService.tradeBuildDB() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "",restTemplate);
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -77,7 +81,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 	{
     	String url = accountsServiceRoute + "/admin/resetTrade?deleteAll=" + deleteAll;
 		Log.debug("AccountsRemoteCallService.resetTrade() - " + url);
-    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+    	String responseEntity = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
     	RunStatsDataBean runStatsData = mapper.readValue(responseEntity,RunStatsDataBean.class);
     	return runStatsData; 
 	}
@@ -86,7 +90,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 	{
     	String url = accountsServiceRoute + "/admin/recreateDBTables";
 		Log.debug("AccountsRemoteCallService.recreateDBTables() - " + url);
-    	String responseEntity = invokeEndpoint(url, "POST", "");
+    	String responseEntity = invokeEndpoint(url, "POST", "",restTemplate);
     	Boolean success = mapper.readValue(responseEntity,Boolean.class);
     	return success;
 	}
@@ -100,7 +104,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
     {
     	String url = accountsServiceRoute + "/accounts/" + userID;
 		Log.debug("AccountsRemoteCallService.getAccountData() - " + url);
-    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+    	String responseEntity = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
     	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);
     	return accountData;
     }
@@ -114,7 +118,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 	{
     	String url = accountsServiceRoute + "/accounts/" + userID + "/profiles";
 		Log.debug("AccountsRemoteCallService.getAccountProfileData() - " + url);
-    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+    	String responseEntity = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
     	AccountProfileDataBean profileData = mapper.readValue(responseEntity,AccountProfileDataBean.class);
     	return profileData;     	
 	}
@@ -129,7 +133,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 		String url = accountsServiceRoute + "/accounts/" + profileData.getUserID() + "/profiles";
 		Log.debug("AccountsRemoteCallService.updateAccountProfile() - " + url);
 		String profileDataInString = mapper.writeValueAsString(profileData);
-	   	String responseEntity = invokeEndpoint(url, "PUT", profileDataInString);
+	   	String responseEntity = invokeEndpoint(url, "PUT", profileDataInString,restTemplate);
         profileData = mapper.readValue(responseEntity, AccountProfileDataBean.class);
         return profileData;
     }
@@ -143,7 +147,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
     {    System.out.println("inside login in accountsremotecallservice");
     	String url = accountsServiceRoute + "/login/" + userID;
 		Log.debug("AccountsRemoteCallService.login() - " + url);
-    	String responseEntity = invokeEndpoint(url, "PATCH", password);
+    	String responseEntity = invokeEndpoint(url, "PATCH", password,restTemplate);
     	AccountDataBean accountData = mapper.readValue(responseEntity,AccountDataBean.class);
     	return accountData;
     }
@@ -157,7 +161,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
     {
     	String url = accountsServiceRoute + "/logout/" + userID;
 		Log.debug("AccountsRemoteCallService.logout() - " + url);
-    	String responseEntity = invokeEndpoint(url, "PATCH", "");
+    	String responseEntity = invokeEndpoint(url, "PATCH", "",restTemplate);
     	mapper.readValue(responseEntity,Boolean.class);
     }
 	
@@ -185,7 +189,7 @@ public class AccountsRemoteCallService extends BaseRemoteCallService
 		accountData.getProfile().setCreditCard(creditCard);
 		
     	String accountDataInString = mapper.writeValueAsString(accountData);
-    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString);
+    	String responseEntity = invokeEndpoint(url, "POST", accountDataInString,restTemplate);
     	accountData = mapper.readValue(responseEntity,AccountDataBean.class);
     	return accountData;
     }

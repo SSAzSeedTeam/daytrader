@@ -34,6 +34,8 @@ import java.util.Collection;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 //Spring
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -47,7 +49,8 @@ import org.springframework.beans.factory.annotation.Value;
 public class PortfoliosRemoteCallService extends BaseRemoteCallService
 {
 	protected static ObjectMapper mapper = null;
-	
+	@Autowired
+	RestTemplate restTemplate;
 	static 
 	{
 		mapper = new ObjectMapper(); // create once, reuse
@@ -68,7 +71,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		{ 
 	    	String url = portfoliosServiceRoute + "/admin/tradeBuildDB?limit="+limit+ "&offset=" + offset;
 			Log.debug("PortfoliosRemoteCallService.tradeBuildDB() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "",restTemplate);
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -82,7 +85,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = portfoliosServiceRoute + "/admin/resetTrade?deleteAll=" + deleteAll;
 			Log.debug("PortfoliosRemoteCallService.resetTrade() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	    	String responseEntity = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
 	    	RunStatsDataBean runStatsData = mapper.readValue(responseEntity,RunStatsDataBean.class);
 	    	return runStatsData; 
 		}
@@ -96,7 +99,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = portfoliosServiceRoute + "/admin/recreateDBTables";
 			Log.debug("PortfoliosRemoteCallService.recreateDBTables() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "",restTemplate);
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -118,7 +121,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
     	String orderDataInString = mapper.writeValueAsString(orderData);
     	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/orders?mode=" + orderProcessingMode;
 		Log.debug("PortfoliosRemoteCallService.buy() - " + url);
-    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString);
+    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString,restTemplate);
     	orderData = mapper.readValue(responseEntity,OrderDataBean.class);
     	return orderData;
     }
@@ -139,7 +142,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
     	String orderDataInString = mapper.writeValueAsString(orderData);
     	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/orders?mode=" + orderProcessingMode;
 		Log.debug("PortfoliosRemoteCallService.sell() - " + url);
-    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString);
+    	String responseEntity = invokeEndpoint(url, "POST", orderDataInString,restTemplate);
     	orderData = mapper.readValue(responseEntity,OrderDataBean.class);
     	return orderData;
     }
@@ -154,7 +157,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		// Returns the orders for the given user
     	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/orders";
 		Log.debug("PortfoliosRemoteCallService.getOrders() - " + url);
-	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	   	String responseString = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
 	   	Collection<OrderDataBean> orderCollection = mapper.readValue(responseString,new TypeReference<ArrayList<OrderDataBean>>(){ });
         return orderCollection;
     }
@@ -176,7 +179,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		// REST call transitions closed orders to completed state and returns them.
     	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/orders?status=closed";
 		Log.debug("PortfoliosRemoteCallService.getClosedOrders() - " + url);
-	   	String responseString = invokeEndpoint(url, "PATCH", ""); // must pass a request body to the patch method 
+	   	String responseString = invokeEndpoint(url, "PATCH", "",restTemplate); // must pass a request body to the patch method 
 	   	Collection<OrderDataBean> orderCollection = mapper.readValue(responseString,new TypeReference<ArrayList<OrderDataBean>>(){ });
         return orderCollection;
     }
@@ -191,7 +194,7 @@ public class PortfoliosRemoteCallService extends BaseRemoteCallService
 		// Returns the holdings for the give user
     	String url = portfoliosServiceRoute + "/portfolios/" + userID + "/holdings";
 		Log.debug("PortfoliosRemoteCallService.getHoldings() - " + url);
-	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	   	String responseString = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
 	   	Collection<HoldingDataBean> holdings = mapper.readValue(responseString,new TypeReference<ArrayList<HoldingDataBean>>(){ });
 		return holdings;
     }

@@ -33,6 +33,8 @@ import com.ofss.daytrader.core.beans.MarketSummaryDataBean;
 import com.ofss.daytrader.core.beans.RunStatsDataBean;
 // Spring
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -45,6 +47,8 @@ import org.springframework.beans.factory.annotation.Value;
 @Service
 public class QuotesRemoteCallService extends BaseRemoteCallService
 {
+	@Autowired
+	RestTemplate restTemplate;
 	protected static ObjectMapper mapper = null;
 	
 	static 
@@ -66,7 +70,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 		{ 
 	    	String url = quotesServiceRoute + "/admin/tradeBuildDB?limit="+limit+ "&offset=" + offset;
 			Log.debug("QuotesRemoteCallService.quotesBuildDB() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "",restTemplate);
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -80,7 +84,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = quotesServiceRoute + "/admin/resetTrade?deleteAll=" + deleteAll;
 			Log.debug("QuotesRemoteCallService.resetTrade() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	    	String responseEntity = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
 	    	RunStatsDataBean runStatsData = mapper.readValue(responseEntity,RunStatsDataBean.class);
 	    	return runStatsData; 
 		}
@@ -94,7 +98,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 		{
 	    	String url = quotesServiceRoute + "/admin/recreateDBTables";
 			Log.debug("QuotesRemoteCallService.recreateDBTables() - " + url);
-	    	String responseEntity = invokeEndpoint(url, "POST", "");
+	    	String responseEntity = invokeEndpoint(url, "POST", "",restTemplate);
 	    	Boolean success = mapper.readValue(responseEntity,Boolean.class);
 	    	return success;
 		}
@@ -112,7 +116,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
     	String exchange = "TSIA"; /* Trade Stock Index Average */
     	String url = quotesServiceRoute + "/markets/" + exchange;   
 		Log.debug("QuotesRemoteCallService.getMarketSummary() - " + url);
-	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	   	String responseString = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
         MarketSummaryDataBean marketSummaryData = mapper.readValue(responseString,MarketSummaryDataBean.class);
         return marketSummaryData;
     }
@@ -134,7 +138,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
 		quoteData.setPrice(price);
 	
     	String quoteDataInString = mapper.writeValueAsString(quoteData);
-    	String responseEntity = invokeEndpoint(url, "POST", quoteDataInString);
+    	String responseEntity = invokeEndpoint(url, "POST", quoteDataInString,restTemplate);
     	quoteData = mapper.readValue(responseEntity,QuoteDataBean.class);
     	return quoteData;
     }
@@ -148,7 +152,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
     {
     	String url = quotesServiceRoute + "/quotes/" + symbol;  
 		Log.debug("QuotesRemoteCallService.getQuote() - " + url);
-	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	   	String responseString = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
         QuoteDataBean quoteData = mapper.readValue(responseString,QuoteDataBean.class);
         return quoteData;
     }
@@ -166,7 +170,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
     	//    capabilities (limit and offset parameters) of this URI
     	String url = quotesServiceRoute + "/quotes?limit=" + limit + "&offset=" + offset;  
 		Log.debug("QuotesRemoteCallService.getAllQuotes() - " + url);
-	   	String responseString = invokeEndpoint(url, "GET", null); // Entity must be null for http method GET.
+	   	String responseString = invokeEndpoint(url, "GET", null,restTemplate); // Entity must be null for http method GET.
         Collection<QuoteDataBean> quoteCollection = mapper.readValue(responseString,new TypeReference<Collection<QuoteDataBean>>(){ });
         return quoteCollection;
     }
@@ -180,7 +184,7 @@ public class QuotesRemoteCallService extends BaseRemoteCallService
     {
     	String url = quotesServiceRoute + "/quotes/" + symbol + "?price=" + price + "&volume=" + volume;
 		Log.debug("QuotesRemoteCallService.updateQuotePriceVolume() - " + url);
-    	String responseEntity = invokeEndpoint(url, "PATCH", "");
+    	String responseEntity = invokeEndpoint(url, "PATCH", "",restTemplate);
     	QuoteDataBean quoteData = mapper.readValue(responseEntity,QuoteDataBean.class);
     	return quoteData;
     }

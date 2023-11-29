@@ -37,6 +37,8 @@
 	
     <properties>
         <maven.test.skip>true</maven.test.skip>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        
     </properties>	
 
 	<dependencies>
@@ -249,9 +251,26 @@
     <artifactId>jersey-container-servlet-core</artifactId>
     <version>${jersey-2-version}</version>
 </dependency>  -->
-		
+				<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
+		</dependency>
 	</dependencies>
-
+	   <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
     <build>
     
     	<resources>
