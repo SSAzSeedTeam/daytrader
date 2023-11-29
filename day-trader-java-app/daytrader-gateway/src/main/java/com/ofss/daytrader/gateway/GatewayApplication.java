@@ -31,13 +31,20 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.boot.web.servlet.ServletComponentScan;
 //import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.client.RestTemplate;
+
+import com.ofss.daytrader.entities.AccountProfileDataBean;
+
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @EnableHystrix
 @ServletComponentScan(basePackages={"com.ofss.daytrader.web"})
 @SpringBootApplication
+@EnableCaching
 public class GatewayApplication {
 	
 	//	- Each microservice has their own private database (datasource)
@@ -50,7 +57,19 @@ public class GatewayApplication {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
+	@Bean
+	RedisTemplate<String, AccountProfileDataBean> redisTemplate(){
+		 RedisTemplate<String, AccountProfileDataBean> redisTemplate=new
+		  RedisTemplate<>();
+		  redisTemplate.setConnectionFactory(redisConnectionFactory()); return
+		  redisTemplate;
+		  }
 	
+	@Bean
+	JedisConnectionFactory redisConnectionFactory() {
+	
+		return new JedisConnectionFactory();
+	}
 
 	@Bean
 	 RestTemplate restTemplate() {
